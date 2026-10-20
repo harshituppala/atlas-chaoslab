@@ -1,19 +1,11 @@
-# Source publication review
+# Public release scope
 
-The project owner has approved publishing ATLAS and CHAOSLAB as a public GitHub repository. The requested documentation edit is complete, and the source has been published. The previously reviewed snapshot remains unchanged; the editorial candidate is prepared separately.
+[Source](https://github.com/harshituppala/atlas-chaoslab) · [Fictional review lab](https://atlas-review-lab.onrender.com)
 
-## Published source
+The source release includes both tools, their tests, synthetic fixtures, dependency locks, operator guides and measured reports. ATLAS has a public fictional review lab; its full document-review service remains separate. CHAOSLAB's core runner and scorers have their own package, with ATLAS adapters and retrieval probes included in this shared repository.
 
-The review workbench and evaluators, their tests, synthetic examples, measured reports, dependency locks, deployment templates and documentation. The editorial pass updates stale descriptions and removes internal chat coordination from the reader-facing pages. It does not add the newer synthetic lab or change application code, tests, datasets or benchmark results.
+Credentials, local databases, raw provider artifacts, installed runtimes, private workspace material and earlier local Git history are excluded. Exact release inventories and file hashes remain in verification manifests rather than the project overview.
 
-Credentials, local databases, raw provider output, installed runtimes, private workspace material and the earlier local Git history stay excluded. A pattern scan helps identify accidental disclosure, but is not a complete security or licensing audit.
+The corrected GitHub run passed backend and browser checks. Hosted acceptance separately exercised HTTPS, citations, review conflicts, session isolation, cookies, desktop/mobile use and restart reset. Reports identify their own execution scope; a later source release does not rerun earlier database or model experiments automatically.
 
-## What was checked
-
-The reviewed source passed its native Python suite, with the optional database groups skipped. Separate browser, PostgreSQL, container and live-model reports describe their own runs. The editorial candidate preserves the reviewed executable files and measured artifacts byte for byte. All relative links across its Markdown files resolve.
-
-The exact inventory, source revision and file hashes belong in the private release manifest. They support release verification rather than serving as project descriptions.
-
-## Limits
-
-The model tests retain incorrect threshold reasoning, a benign-filter failure and a hostile-source citation. This is a local application with development evaluation data; neither hosted operation nor general contract accuracy is established. The [public repository](https://github.com/harshituppala/atlas-chaoslab) has been checked against the reviewed release. The initial workflow-permission error was resolved through GitHub’s consent screen. Both jobs in the [first CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed. Hosted application acceptance remains unfinished.
+The public lab runs the extractive baseline with temporary fictional data. It does not provide durable customer storage, managed sign-in or live model inference. The model diagnostics still retain threshold reasoning, filtering and hostile-evidence failures. See the [current status](STATUS.md) for unfinished work.

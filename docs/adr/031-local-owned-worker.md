@@ -25,4 +25,4 @@ The latest full native run passed 402 tests and skipped 18 optional PostgreSQL g
 
 The reproducible HTTP recorder launches the actual loopback CLI twice. A real isolated job completes on its first attempt with eight requirements and fourteen publication-validated citations, all pending review; authenticated results survive the SQLite restart. Anonymous access is 401, another tenant's result is 404, and a model submission is 503. Both launches complete lifespan shutdown under SIGTERM. The recorder initially rejected Uvicorn's signal status despite successful shutdown; inspecting the installed handler led to the explicit marker/status check described above.
 
-This is not free-provider execution, managed login, anonymous public sessions, durable cloud storage, a container refresh, PostgreSQL validation or a production recovery target. The frozen publication candidate is unchanged; this work is outside its pending approval payload.
+This is not free-provider execution, managed login, anonymous public sessions, durable cloud storage, a container refresh, PostgreSQL validation or a production recovery target.

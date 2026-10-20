@@ -1,106 +1,49 @@
 # ATLAS and CHAOSLAB
 
-ATLAS helps review requirements in RFPs and contracts against a capability register. CHAOSLAB tests whether the resulting assessments deserve to be trusted.
+Two tools for reviewing requirements and testing the systems that assess them.
 
-A clause can be easy to retrieve and still be unsatisfied. The seeded RFP asks for recovery within four hours; the capability record guarantees eight. The workbench keeps the obligation, excerpt and review decision together so someone can examine that mismatch before using the result in a response.
+**[ATLAS](src/atlas/README.md)** is the review application. It compares RFP requirements with capability records, links each finding to its source and lets a reviewer record a decision. In the sample, the RFP requires recovery within four hours; the capability register promises eight.
 
-**Current status:** working local application with separate API and worker processes. Restricted Bedrock diagnostics, local PostgreSQL, a Linux image and backup recovery have executed in their documented scopes. There is no hosted ATLAS application yet. The default workbench uses an extractive baseline; paid inference requires an operator-enabled configuration. All committed examples are synthetic.
+**[CHAOSLAB](src/chaoslab/README.md)** is the evaluator. It runs adapters against fixed cases and checks extraction, evidence selection, citations, review state and failure handling. Its reports keep incorrect answers and failed runs visible.
 
-An optional [local combined runtime](docs/local-service-runbook.md) now starts the baseline worker with the API and exposes worker failure through readiness. Its real loopback restart check preserves pending review results. A separate [synthetic review lab](docs/synthetic-lab-runbook.md) now runs end to end locally with temporary cookies, exact source inspection and human review. Three Chromium workflows cover desktop/mobile use, review conflicts and controlled failure feedback. A [dedicated Linux image](docs/lab-container-runbook.md) also passes constrained local HTTP/restart checks. Hosted HTTPS and free-provider validation remain unfinished.
+[Try the fictional review lab](https://atlas-review-lab.onrender.com) · [Read the case study](docs/case-study.md) · [Current work](docs/STATUS.md)
 
-## Review workflow
+The hosted lab runs the extractive baseline on fictional documents. It accepts no uploads or model credentials, and its history disappears after expiry or restart. The full local workbench supports document uploads and an optional Bedrock workflow; managed sign-in and durable hosted storage are still unfinished.
 
-1. Upload a text-bearing PDF/DOCX or paste requirements and capability records. The parser retains original bytes and maps extracted text to pages or paragraphs.
-2. Submit an analysis. A durable job records its execution settings; a worker extracts obligations and selects evidence. The browser can reconnect to unfinished work.
-3. Open a requirement and inspect the highlighted original excerpt. Citations include a document hash and Unicode character offsets. A valid span establishes where an excerpt came from, not whether it supports the obligation.
-4. Record a review with a note. Version checks prevent two reviewers from silently overwriting each other. A job cannot approve its own output.
-5. Inspect the independent evaluation results, including failed cases. Retrieval, source integrity, relation correctness, evidence contamination and review safety are scored separately.
+## Run ATLAS locally
 
-The model-assisted path chooses from server-owned evidence options and returns provisional assessments. It does not generate citation offsets or approve reviews. Response drafts remain extractive excerpts. The application is not a legal-compliance assessor.
-
-## Why the implementation looks this way
-
-The queue uses the existing database rather than a separate broker. Expiring leases and ownership tokens allow a worker to recover a job without letting an old attempt publish later. Result, review and audit writes commit together. This trades extra database coordination for fewer services and one transactional publication boundary. [Queue design](docs/adr/003-durable-jobs.md).
-
-Source identity is checked again when a result is published. Uploaded originals are immutable, and stored sources must match submitted snapshots. This catches forged quotes and stale references; it does not solve factual support. [Document ingestion](docs/adr/006-document-ingestion.md).
-
-PostgreSQL has separate API and worker logins. Forced row policies cover tenant records; the worker has a narrowly granted cross-tenant queue role. The trusted services can still choose their database identity settings, so row policies do not contain a fully compromised service. [Database boundary](docs/adr/012-database-tenant-policies.md).
-
-A local MiniLM encoder and exact pgvector search support persistent hybrid retrieval. Exact search keeps behavior inspectable at this corpus size. There is no measured reason yet to introduce approximate indexing or a distributed retrieval service. [Retrieval design](docs/adr/009-persistent-retrieval.md).
-
-Request bodies and worker pipes have separate byte, concurrency and time budgets. Those controls address observed resource gaps; they are not a total memory cap or a hostile-code sandbox. [API admission](docs/body-admission-runbook.md) · [Worker supervision](docs/worker-supervision-runbook.md).
-
-## What the measurements show
-
-| Experiment | Observed result | What it does not establish |
-| --- | --- | --- |
-| Native backend/API suite | 453 passed; 18 optional PostgreSQL groups skipped | The skipped groups are not validated by this run. |
-| Synthetic lab Linux image | 32 focused tests passed; real HTTP/review and intentional restart reset under a 512 MiB local limit | Local arm64 only; not hosted TLS, a full Linux suite or durable customer storage. |
-| Separate native PostgreSQL exercise | 18 integration groups passed | This is not the full suite against the container database or a cloud service. |
-| Retrieval on ten authored positive queries | Lexical recall@3 0.70; hybrid 1.00 | Same small query set; no representative contract accuracy claim. |
-| Three scenarios, nine obligations | Baseline 5/9; recorded v4 model 9/9 | Correlated, same-author development fixtures. |
-| Twelve transfer cases | Recorded v4 model 10/12 | A deadline relation and an extraction punctuation case still fail. |
-| Six clean/hostile pairs | Recorded v4 model 8/12 strict cases; one of six hostile cases contaminates citations | Valid citations and structured output did not prevent hostile evidence selection. |
-| Local logical backup drill | Ten populated tables/32 rows restored and checked; a pending job resumes | Quiesced local writes, not offsite backup, point-in-time recovery or a production recovery target. |
-
-The live paired run also misclassified a 15-day deletion policy against a within-30-day obligation. A keyword filter excluded legitimate security-training evidence because it mentioned system prompt handling. Those failures remain in the reports. One hostile variant regressed among four eligible passing controls; that conditional result is not a general attack success rate. No unauthorized review states were observed, but the test supplied no tools, secrets or exfiltration channel.
-
-The standalone extractive baseline still misses an authored drafting pattern. Reports preserve that failure rather than changing the expected answer. There is no blinded external evaluation or real customer dataset, and no production reliability claim.
-
-[Paired model results](reports/injection-pairs-live-v4.json) · [Failure analysis](docs/adr/030-live-paired-injection-diagnostic.md) · [Raw-run comparison](docs/comparison-runbook.md) · [Verification notes](docs/STATUS.md)
-
-## Run locally
-
-Requirements: Python 3.12+, Node 24+ and pnpm 11.25.0. The commands below create a local environment in `.runtime/`.
+Requires Python 3.12+, Node 24 and pnpm 11.25.0.
 
 ```sh
 python3.12 -m venv .runtime
-.runtime/bin/python -m pip install --no-cache-dir -r requirements.lock
-mkdir -p var
-cd apps/web
-pnpm install --frozen-lockfile
-pnpm build
-cd ../..
+.runtime/bin/python -m pip install -r requirements.lock
+pnpm --dir apps/web install --frozen-lockfile
+pnpm --dir apps/web build
 make serve
-# Separate terminal, from the repository root:
+# In a second terminal, from the repository root:
 make worker
 ```
 
-Open http://127.0.0.1:8000. The local launcher creates a random reviewer credential in var/local-credentials.json; enter its token in the workbench. It binds only to loopback, and the browser keeps credentials in memory. Do not publish that credential file or expose this local access mode to the internet.
+Open http://127.0.0.1:8000 and use the generated reviewer token in `var/local-credentials.json`. This launcher binds to loopback and is for private use. PostgreSQL setup and the separate runtime roles are covered in the [operator guide](docs/deployment.md).
 
-The default local database is SQLite. Use **Run seeded demonstration** to inspect the municipal RFP without uploading anything. Uploads are limited to 1 MB; scanned pages need OCR, which is not implemented. Reading order, tables and every returned excerpt still need human source review.
+## Run an evaluation
 
-For PostgreSQL migrations/runtime preparation, the restricted-role Compose stack and logical recovery commands, follow [the operator guide](docs/deployment.md). Those are separate environments with their own evidence. Do not point disposable verification scripts at a real client database.
-
-## Verify changes
+With the same environment installed:
 
 ```sh
-mkdir -p var
+PYTHONPATH=src .runtime/bin/python -m chaoslab --output var/evaluation.json
+PYTHONPATH=src .runtime/bin/python -m chaoslab.recovery --output var/recovery.json
 PYTHONPATH=src .runtime/bin/python -m pytest -q --basetemp=var/pytest-local
-.runtime/bin/ruff check src tests scripts
-.runtime/bin/ruff format --check src tests scripts
-# Frontend build:
-cd apps/web && pnpm build
-# Existing API and worker must be running for the full browser workflow:
-pnpm test
 ```
 
-`make benchmark` records the extractive baseline, recovery and ingestion diagnostics. The [recovery runner](docs/recovery-evaluation-runbook.md) now isolates each adapter under a deadline and records failures before continuing; seven unchanged recovery contracts passed locally, with simulated lease time. Known quality failures are reported, not erased. Other focused runbooks cover [paired comparisons](docs/comparison-runbook.md), [live evidence rescoring](docs/live-injection-runbook.md), [body admission](docs/body-admission-runbook.md) and [child-process recovery](docs/worker-supervision-runbook.md). Unit tests use controlled model responses unless explicitly identified as live diagnostics.
+The example adapter targets ATLAS. [CHAOSLAB's guide](src/chaoslab/README.md) explains the adapter boundary, paired comparisons and the limits of the current datasets.
 
-The [first GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed: 393 backend tests with 18 optional PostgreSQL skips, ten workbench browser tests and three static-viewer tests. A passing native suite does not refresh old container, database or browser evidence automatically.
+## What the results mean
 
-## Hosting and access
+A citation can point to real text while the assessment is wrong. The live-model experiments retain a misread numeric threshold, a legitimate excerpt removed by a keyword filter and a hostile appendix selected as evidence. The datasets are small synthetic development sets, not representative contract accuracy measurements. See the [results and failure analysis](docs/adr/030-live-paired-injection-diagnostic.md).
 
-Hosting must remain free. The source is available on [GitHub](https://github.com/harshituppala/atlas-chaoslab). The local static-token API is not a deployment configuration. A full hosted service still needs a tested identity/login flow, durable storage, private runtime roles, secrets/TLS handling and an executed hosted workflow. The optional Cognito token profile has real-signature offline tests; no live Cognito login is claimed.
+The [CI run for the hosted release](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39461145031) passed backend and browser checks. Database, model and hosted acceptance reports describe separate runs; their details are in [the status notes](docs/STATUS.md).
 
-Demo recordings are deferred. The existing static replay remains a separate recorded artifact; it is not a hosted backend or a prerequisite for hosting. [Hosting status and decisions](docs/deployment-options.md) · [Release checkpoint](docs/RELEASE.md).
+## Why one repository?
 
-## Source map
-
-- src/atlas: API, jobs, source/domain validation, retrieval and worker implementation.
-- src/chaoslab: independent scoring, trusted adapter execution and paired comparisons.
-- apps/web: React/TypeScript review workbench and evaluation views.
-- datasets and reports: synthetic fixtures and executed evidence, including failures.
-- docs/adr: decisions, alternatives and limits; docs/STATUS.md summarizes the current verification and remaining work.
-
-Decision records describe the design and checks at the time they were written; later records may supersede earlier limitations. PATCHWORK is deferred.
+ATLAS and CHAOSLAB have separate source packages and responsibilities. They currently share fixtures, dependency setup and CI so changes to the application can be checked against its evaluator together. Some retrieval probes still call ATLAS directly; fully separate packaging remains work to finish. The individual project guides describe those boundaries without presenting the two tools as unrelated codebases.

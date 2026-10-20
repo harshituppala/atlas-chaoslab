@@ -31,4 +31,4 @@ The initial TypeScript build caught a source-document variable shadowing the DOM
 
 ## Limits
 
-This is a local Chromium/HTTP exercise, not hosted HTTPS/Secure-cookie, reverse-proxy, cold-start, image or free-provider restart/usage validation. The HTTP loopback cookie is intentionally non-Secure; hosted HTTPS remains a separate gate. Native server expiry and browser display expiry have different evidence scopes. No complete accessibility audit, anonymous abuse resistance, durable storage, managed identity or production readiness is claimed. Source publication and the existing frozen candidate remain separate and unresolved; no upload, resource creation or paid model call occurred.
+This is a local Chromium/HTTP exercise, not hosted HTTPS/Secure-cookie, reverse-proxy, cold-start, image or free-provider restart/usage validation. The HTTP loopback cookie is intentionally non-Secure; hosted HTTPS remains a separate gate. Native server expiry and browser display expiry have different evidence scopes. No complete accessibility audit, anonymous abuse resistance, durable storage, managed identity or production readiness is claimed.

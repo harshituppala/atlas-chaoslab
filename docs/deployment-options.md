@@ -1,6 +1,6 @@
-# Hosting decision — October 19, 2026
+# Hosting decision — October 20, 2026
 
-ATLAS is not hosted yet. Hosting must stay free, and demo recordings are deferred. The source is public; the hosted application remains unfinished. The separate model-test allowance is not an infrastructure budget.
+The fictional ATLAS review lab is hosted at https://atlas-review-lab.onrender.com. The full review service remains local. Hosting must stay free, and demo recordings are deferred. The source and temporary lab are public; durable hosting and managed sign-in remain unfinished. The separate model-test allowance is not an infrastructure budget.
 
 ## What a host must preserve
 
@@ -21,16 +21,16 @@ These constraints rule out copying the current three-service Compose stack uncha
 | Profile | Intended behavior | Current state |
 | --- | --- | --- |
 | Full review service | Managed access, durable originals/reviews/jobs, private database roles, separate worker and tested recovery | Local implementation/evidence; a coherent free deployment combination remains unverified. |
-| Public synthetic lab | A running baseline restricted to seeded fictional inputs, tightly bounded sessions/actions, no real uploads or model credentials, explicit history-reset limits | Dedicated local API and React lab exercised through three Chromium workflows; a dedicated local Linux image also passes constrained HTTP/restart checks; hosted HTTPS/provider behavior remains unverified. The private/local API cannot be exposed as a shortcut. |
+| Public synthetic lab | A running baseline restricted to seeded fictional inputs, tightly bounded sessions/actions, no real uploads or model credentials, explicit history-reset limits | Free Render deployment with targeted real HTTPS, desktop/mobile Chromium and controlled restart evidence. Temporary sessions reset as advertised. Cold starts and usage-limit behavior remain to observe; the private API stays separate. |
 
-A public lab could demonstrate the actual analysis/review workflow without pretending to provide durable customer storage. It would need explicit admission, session/isolation, origin, resource and cleanup rules plus local/browser tests before deployment. It would remain a prototype, not the full service. The separate local API boundary now has seeded-input, session, origin, budget and cleanup tests (ADR 033). A separate React workbench is now connected and checked on loopback HTTP (ADR 034); a pinned dedicated image has separate local Linux evidence (ADR 035). Provider execution and hosted HTTPS are not validated. This document does not approve public deployment.
+The lab demonstrates the actual extractive analysis and review workflow using fictional records. Hosted checks include secure cookies, source spans, human review, stale conflicts, session isolation and restart reset. The Render workspace showed Hobby with no card on file; the selected instance is Free, with manual deployment and no persistent disk or model credentials. Billing and included usage are shared with other services. The [hosting decision](adr/036-hosted-lab-execution-budget.md) records the first timeout, the bounded correction and acceptance limits.
 
 ## Next acceptance steps
 
 The reviewed source is public and its initial CI run passed. Remaining hosting steps:
 
-1. Select and implement the intended hosted runtime profile under the free-only constraint. Verify provider quotas, database/identity privileges, secret delivery, shutdown and teardown before creating resources.
-2. Validate the actual hosted URL: login/session boundary, isolation, queue completion, citation/original access, review conflicts, restart behavior, resource rejection and persistence claims appropriate to that profile.
+1. Observe cold starts and shared usage limits for the running free lab. Check quotas before another build or service.
+2. Prepare a separate durable review-service deployment with real sign-in, private database roles, retained originals/reviews and tested recovery.
 3. Record what actually happened, including failures. Do not label a reachable page as the full deployed application.
 
-Recordings are deferred and are not an acceptance dependency. The already prepared static replay remains explicitly recorded and is not a substitute for a running hosted backend. Earlier paid-host price comparisons remain in Git history; they are not approved alternatives.
+Recordings follow project completion and final checks; they are not a hosting prerequisite. The already prepared static replay remains explicitly recorded and is not a substitute for a running hosted backend. Earlier paid-host price comparisons remain in Git history; they are not approved alternatives.

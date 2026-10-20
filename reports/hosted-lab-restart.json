@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "executed_at": "2026-10-20T17:00:32.097697+00:00",
+  "url": "https://atlas-review-lab.onrender.com",
+  "status": "passed",
+  "old_session_rejected_before_original_expiry": true,
+  "restart_wait_seconds": 108.15652779099764,
+  "new_analysis_requirements": 8,
+  "validated_source_spans": 14,
+  "all_new_reviews_pending": true,
+  "verification_source_sha256": "26ca858e208e7838a0bd39e651f19ff384d2fd36cfb5d5c55f18a55e1d23a642",
+  "limits": [
+    "Operator-triggered free-provider restart; not a crash, durable recovery, cold-start or availability benchmark.",
+    "Old cookie remains in process memory only and is not exported."
+  ]
+}

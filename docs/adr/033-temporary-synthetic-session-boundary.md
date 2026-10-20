@@ -29,6 +29,6 @@ The full native suite passed 444 tests with 18 optional PostgreSQL skips. Ruff a
 
 ## Remaining gates and limits
 
-The existing workbench is not wired to this API yet. Provider boot/storage/headers, actual browser cookies/CSRF/navigation, cold starts, deployed restart behavior and usage settings remain unverified. Publication permission remains separate; the frozen source candidate was not changed or uploaded.
+The existing workbench is not wired to this API yet. Provider boot/storage/headers, actual browser cookies/CSRF/navigation, cold starts, deployed restart behavior and usage settings remain unverified.
 
 Capacity and start counters are per process and reset on restart; replicas multiply them. They do not cap invoices, total RSS, network/proxy/header buffers or all request CPU. Anonymous users can occupy all capacity and deny others service; there is no fair per-user rate limit. SQLite/child/publication allocations add memory beyond body budgets. Children retain host privileges and process-group/host-failure limits from ADR 029. Cookie possession confers access to a temporary fictional exercise, not a verified human identity. No production security, durability or availability claim follows.

@@ -1,6 +1,6 @@
-# Temporary synthetic API — local preparation
+# Synthetic review lab
 
-This separate profile allows only the seeded fictional municipal RFP. It performs real baseline analysis and bounded review practice. It accepts no real uploads, model settings or free-text notes. All history disappears after expiry or restart. A dedicated React workbench now connects to this boundary on one local origin. It is separate from the private workbench and has not been hosted.
+This separate profile allows only the seeded fictional municipal RFP. It performs real baseline analysis and bounded review practice. It accepts no real uploads, model settings or free-text notes. All history disappears after expiry or restart. A dedicated React workbench now connects to this boundary on one local origin. It is separate from the private workbench. The hosted version is at https://atlas-review-lab.onrender.com; its HTTPS, browser and controlled restart checks are recorded separately.
 
 Build and start the local interface, with private ATLAS service settings unset:
 
@@ -60,3 +60,9 @@ PYTHONPATH=src .runtime/bin/python scripts/record_lab_browser.py
 This starts a test-owned server on 127.0.0.1:8134 and stops it afterward; it will not reuse an unrelated listener. On this machine set PLAYWRIGHT_BROWSERS_PATH to the repository's .cache/playwright when using the existing browser installation. Private browser JSON is written under var; the recorder projects only the three authored passing case names and hashes. Source/build hashes are post-execution identities, not signed loaded-code evidence. Desktop/mobile captures are synthetic.
 
 The capacity response and one-second client lifetime are controlled faults. Other analysis/review requests reach the actual baseline backend. The lifetime test explicitly confirms that the real server session is still valid; actual server TTL has native controlled-clock evidence, not ten minutes of browser waiting. The loopback HTTP cookie is HttpOnly/SameSite=Strict and intentionally non-Secure. Hosted TLS/Secure-cookie behavior is unverified. ADR 034 records these limits and the corrected initial test assumptions.
+
+## Hosted acceptance
+
+The free container uses a twenty-second child deadline; the ordinary local launcher keeps five seconds. A first hosted attempt failed at the shorter deadline. Run `PYTHONPATH=src .runtime/bin/python scripts/verify_hosted_lab.py --deployment-source <full-deployed-revision>` to check the actual HTTPS workflow. Use only the provider-confirmed source revision. `scripts/verify_hosted_restart.py` pauses while the operator restarts this fictional service, then checks the old session and a fresh analysis. Cookies stay in memory. Run these checks sequentially: the lab deliberately allows one computation at a time.
+
+The verified deployment uses a free Render web service with no disk or model credentials and manual deploys. Sessions reset after expiry or restart. To stop it, use this lab service’s Suspend control in Render; do not delete or modify other services. A rollback must retain the lab-only entry, origin and free compute plan. Do not roll back to the original five-second container without rechecking its known analysis failure.

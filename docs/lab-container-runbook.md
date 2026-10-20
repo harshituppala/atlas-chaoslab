@@ -18,7 +18,7 @@ The old session cookie crosses the restart only through captured subprocess outp
 
 reports/synthetic-lab-container.json records the latest complete run. Its observed cgroup peak is not process RSS, a production load result or an invoice cap. swap_limit_bytes records Docker's combined memory-plus-swap setting, set equal to the memory limit to allow no additional swap. Image architecture and Python version are explicit; another architecture needs its own execution evidence.
 
-The image is retained as atlas-synthetic-lab:validation for review. Its entry refuses implicit startup: an operator must provide ATLAS_LAB_CONTAINER=1, ATLAS_LAB_ORIGIN and an optional valid PORT. The intended hosted origin must use HTTPS; the existing create_lab validation allows plain HTTP only for loopback tests. No public run command is provided here because source visibility, provider usage/limits and hosted acceptance remain unresolved. Do not mount real documents, cloud credentials, a Docker socket or the private database into this lab.
+The image is retained as atlas-synthetic-lab:validation for review. Its entry refuses implicit startup: an operator must provide ATLAS_LAB_CONTAINER=1, ATLAS_LAB_ORIGIN and an optional valid PORT. The intended hosted origin must use HTTPS; the existing create_lab validation allows plain HTTP only for loopback tests. The separately verified free deployment is documented in the synthetic-lab runbook. Its twenty-second child deadline accommodates the observed host CPU limit; the earlier one-CPU local image report remains historical evidence. Do not mount real documents, cloud credentials, a Docker socket or the private database into this lab.
 
 Repeat the full native gate separately when core code changes:
 

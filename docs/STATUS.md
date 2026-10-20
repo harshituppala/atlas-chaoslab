@@ -1,6 +1,6 @@
 # Project status
 
-Updated October 20, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. Neither has a hosted application URL yet.
+Updated October 20, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
 
 ## ATLAS
 
@@ -10,7 +10,7 @@ The default analysis is an offline extractive baseline. The optional Bedrock pat
 
 SQLite supports the local demonstration. PostgreSQL has separately tested migrations, restricted API/worker roles, tenant row policies and persistent exact pgvector retrieval. Managed-token validation is implemented, but browser sign-in with a real identity provider remains unfinished.
 
-A separate synthetic lab runs the seeded review workflow with temporary sessions. It accepts no uploads or model credentials. Desktop and mobile browser checks cover source inspection, review conflicts and session handling. A dedicated Linux image has also been exercised under a memory limit, with an intentional session reset on restart. Hosted HTTPS and provider behavior still need testing. See the [lab runbook](synthetic-lab-runbook.md) and [container checks](lab-container-runbook.md).
+A separate synthetic lab runs the seeded review workflow with temporary sessions. It accepts no uploads or model credentials. Desktop and mobile browser checks cover source inspection, review conflicts and session handling. A dedicated Linux image has also been exercised under a memory limit, with an intentional session reset on restart. Real hosted HTTPS, Chromium and controlled restart checks now pass. Session history is intentionally temporary; cold-start and usage-limit behavior still need further observation. See the [lab runbook](synthetic-lab-runbook.md) and [container checks](lab-container-runbook.md).
 
 ## CHAOSLAB
 
@@ -24,7 +24,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 453 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 460 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
 | Multi-obligation comparison | Baseline 5/9; recorded model 9/9 | [Comparison runbook](comparison-runbook.md) |
@@ -36,13 +36,15 @@ The extractive baseline still misses one authored requirement pattern. The model
 
 Earlier container, browser and database results apply to the versions they tested. A new native test run does not refresh them. The [decision records](adr/) explain how the implementation and its checks developed.
 
-The [initial GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed the published release’s backend and browser jobs: 393 backend tests, ten workbench browser tests and three static-viewer tests. Eighteen optional database groups were skipped. Newer local implementation has its own verification and is not included in that run.
+The [corrected GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39461145031) passed 460 backend tests, ten private-workbench browser tests, three static-viewer tests and three synthetic-lab browser tests. Eighteen optional database groups were skipped. The earlier formatting failure remains visible in GitHub history.
+
+Hosted acceptance checked eight requirements and fourteen exact source spans, human review and stale conflicts, session isolation, secure cookies and rejection of private API routes. A real Chromium run covered desktop/mobile source inspection, review, reload and logout. A provider restart rejected the old session before its expiry and allowed a fresh analysis. See [HTTP](../reports/hosted-lab.json), [browser](../reports/hosted-lab-browser.json) and [restart](../reports/hosted-lab-restart.json) reports. These checks do not establish durable storage or production reliability.
 
 ## Remaining work
 
-- Deploy and test a free hosted demonstration, including HTTPS, session isolation, cold starts, restart behavior and provider usage limits.
+- Observe free-host cold starts and usage limits; keep the temporary lab separate from a durable service.
 - Complete real managed sign-in and durable hosted storage before offering the full review service.
 - Extend evaluation with independently written cases, realistic document layouts and targeted tests of threshold reasoning and hostile evidence.
 - Finish a practical interview walkthrough that the project owner can explain and demonstrate.
 
-PATCHWORK is deferred. Recordings are also deferred; they are not a prerequisite for hosting.
+PATCHWORK is deferred. Record walkthrough videos after the projects and final checks are complete, then add them to the portfolio.

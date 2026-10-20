@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "url": "https://atlas-review-lab.onrender.com",
+  "viewport_widths": [
+    1440,
+    390
+  ],
+  "requirements": 8,
+  "source_highlight": true,
+  "human_review": true,
+  "reload_restored": true,
+  "secure_httponly_strict_cookie": true,
+  "javascript_storage_empty": true,
+  "logout_cleared": true,
+  "no_horizontal_overflow": true,
+  "runtime_errors": [],
+  "limits": [
+    "Targeted Chromium workflow, not exhaustive accessibility/browser coverage.",
+    "No controlled mocks, paid model calls, load, ten-minute expiry or host restart in this run."
+  ],
+  "recorded_at": "2026-10-20T17:04:04.994322+00:00",
+  "deployment_source": "70ea7afe09b893109f8f4f2ceab9a301017085e1",
+  "verification_source_sha256": "9cf9282740c346104b7f0a50737b057e18d5c7306326beaab9de0bed9f13e83c",
+  "source_hash_scope": "Post-execution file identity, not a runtime attestation.",
+  "screenshots_sha256": {
+    "hosted-lab-desktop.png": "6114a8634f0f4363ed161c9d719b634a1042645819d9e3e8d11d31f0a23935e9",
+    "hosted-lab-mobile.png": "77bd45028bb987af48f00d7ed1b4b3a7533b31d999a7d79fce92b7b84c363d5b"
+  }
+}
