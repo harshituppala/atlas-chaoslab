@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chaoslab-eval"
+version = "0.1.0"
+description = "Evaluation and paired comparisons for requirement-review agents"
+requires-python = ">=3.12"
+dependencies = []
+classifiers = ["Operating System :: POSIX", "Programming Language :: Python :: 3"]
+
+[project.scripts]
+chaoslab-compare = "chaoslab.comparison:main"
+
+[tool.setuptools]
+packages = ["chaoslab"]
+package-dir = {chaoslab = "."}
+include-package-data = false

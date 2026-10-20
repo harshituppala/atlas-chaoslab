@@ -24,6 +24,21 @@ The first command evaluates the extractive contract. The second exercises recove
 
 The runner writes per-case outcomes and the configuration used. A timeout, malformed response or missing case stays distinguishable from an answer with insufficient evidence. Recovery failures are recorded before the command exits unsuccessfully.
 
+## Install the evaluator on its own
+
+From a source checkout, install the evaluator into a separate Python 3.12+ environment:
+
+```sh
+python -m pip install ./src/chaoslab
+chaoslab-compare --help
+```
+
+The `chaoslab-eval` wheel has no third-party runtime dependencies. `chaoslab-compare` takes a dataset and two saved raw runs and rescores them without installing ATLAS. Use `--require-fixture-gate` to return a failing exit code for missing attempts, regressions or candidate failures. The report is written before that exit.
+
+The [package check](../../scripts/verify_chaoslab_package.py) builds a wheel, installs it in a fresh environment and runs from outside the source tree. It checks unchanged output, a corrupt citation and a missing attempt, then invokes a separate trusted adapter. These are controlled installation checks, not agent benchmark results.
+
+ATLAS adapters, database drivers and embedding models still need their integration environment. Execution adapters use POSIX process controls; Windows is not supported by this release.
+
 ## Comparisons
 
 Paired comparisons rescore two saved raw runs against the same dataset and scorer. They report changed obligations, missing attempts and regressions, including regressions inside scenarios that already failed for another reason. Existing aggregate percentages are not enough to reconstruct that comparison.
@@ -32,6 +47,6 @@ The hostile-evidence cases pair an ordinary source with an instruction-bearing v
 
 ## Independence and limits
 
-The core runner and scorers do not import ATLAS's decision logic. The bundled adapter and several retrieval probes do use ATLAS, and both projects currently share dependency setup and CI. Separate installation and a second application adapter are still needed before calling CHAOSLAB a standalone platform.
+The core runner and scorers do not import ATLAS's decision logic. The bundled adapter and several retrieval probes do use ATLAS, and both projects currently share dependency setup and CI. Separate installation is verified for saved-run comparisons and trusted adapter invocation. A second application adapter and broader independent datasets are still needed before calling it a general agent-evaluation platform.
 
 The golden cases are same-author synthetic development data. They catch regressions but do not provide blinded external validation. The recovery scenarios use simulated lease clocks, and process deadlines are not a hostile-code sandbox. Read [the recovery guide](../../docs/recovery-evaluation-runbook.md) for the exact execution boundary.

@@ -56,3 +56,16 @@ jobs:
       - run: python scripts/wait_ready.py
       - run: pnpm test
         working-directory: apps/web
+  standalone-evaluator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install setuptools==84.0.0
+      - run: python scripts/verify_chaoslab_package.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: standalone-evaluator-evidence
+          path: reports/chaoslab-package.json

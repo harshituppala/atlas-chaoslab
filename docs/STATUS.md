@@ -16,6 +16,8 @@ A separate synthetic lab runs the seeded review workflow with temporary sessions
 
 The independent evaluator scores adapter output against synthetic golden cases. It checks extraction, evidence relations, source spans, review state and failure behavior separately. Paired comparisons rescore raw runs under the same dataset and scorer, preserving missing cases and regressions.
 
+A separate `chaoslab-eval` wheel now supports saved-run comparisons without installing ATLAS. A clean-environment check exercised unchanged, corrupt-citation and missing-attempt outcomes, plus an external trusted adapter. See the [installation guide](../src/chaoslab/README.md#install-the-evaluator-on-its-own) and [package decision](adr/037-portable-chaoslab-evaluator.md). Remote CI for this package check is pending.
+
 The datasets are development fixtures written for these projects. They are useful for finding regressions, but do not establish accuracy on customer contracts or constitute an external evaluation.
 
 ## Verification
@@ -24,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 460 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 462 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
 | Multi-obligation comparison | Baseline 5/9; recorded model 9/9 | [Comparison runbook](comparison-runbook.md) |

@@ -46,4 +46,4 @@ The [CI run for the hosted release](https://github.com/harshituppala/atlas-chaos
 
 ## Why one repository?
 
-ATLAS and CHAOSLAB have separate source packages and responsibilities. They currently share fixtures, dependency setup and CI so changes to the application can be checked against its evaluator together. Some retrieval probes still call ATLAS directly; fully separate packaging remains work to finish. The individual project guides describe those boundaries without presenting the two tools as unrelated codebases.
+ATLAS and CHAOSLAB have separate source packages and responsibilities. They currently share fixtures, dependency setup and CI so changes to the application can be checked against its evaluator together. CHAOSLAB also has a separate wheel for saved-run comparisons and trusted adapters. Its retrieval probes still call ATLAS directly and require the full environment. The individual project guides describe those boundaries without presenting the two tools as unrelated codebases.

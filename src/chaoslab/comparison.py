@@ -150,7 +150,7 @@ def compare(dataset, raw, reference, candidate):
 
 def scorer_hashes():
     return {
-        name: hashlib.sha256(Path(name).read_bytes()).hexdigest()
+        name: hashlib.sha256((Path(__file__).parent / Path(name).name).read_bytes()).hexdigest()
         for name in (
             "src/chaoslab/comparison.py",
             "src/chaoslab/scenarios.py",

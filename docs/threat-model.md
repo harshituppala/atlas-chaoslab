@@ -149,3 +149,7 @@ Thirty-two focused Linux tests and real HTTP/review checks passed under those se
 ## Hosted synthetic lab
 
 The free public lab uses the separate synthetic-only container entry, not the private upload API. Real HTTPS checks verified Secure/HttpOnly/SameSite cookies, exact source spans, review conflicts, session isolation and origin/body refusal. Targeted Chromium checks cover desktop/mobile use and logout. A provider-triggered restart rejected the old session before expiry and allowed a fresh analysis. The container deadline is twenty seconds after an observed five-second failure on the free host; one compute slot and the existing start/session/body budgets still apply. Fixed failure logs omit document and exception contents. These checks do not establish durable customer storage, a production identity flow, load resistance, all browser behavior or an invoice cap.
+
+## Separately installed evaluator
+
+The standalone wheel does not install ATLAS or third-party runtime packages. This reduces setup coupling, not adapter privileges: selected trusted adapters retain the user's filesystem and network permissions. Comparisons fingerprint installed scorer files rather than paths in the caller's directory. Installed package digests exclude external adapter code. The controlled checks in ADR 037 do not establish package-signing, supply-chain integrity or isolation from hostile code.

@@ -126,8 +126,14 @@ def evaluate(case, result):
 
 def source_digest():
     digest = hashlib.sha256()
-    for path in sorted(Path("src").rglob("*.py")):
-        digest.update(str(path).encode())
+    package = Path(__file__).resolve().parent
+    # Preserve repository-wide fingerprints in the source checkout. Installed
+    # evaluators bind their own package instead of hashing the caller's cwd.
+    source = package.parent if package.parent.name == "src" else package
+    for path in sorted(source.rglob("*.py")):
+        relative = path.relative_to(source)
+        name = Path("src") / relative if source != package else Path("src/chaoslab") / relative
+        digest.update(name.as_posix().encode())
         digest.update(path.read_bytes())
     return digest.hexdigest()
 
@@ -244,6 +250,7 @@ def main():
         "adapter": args.adapter,
         "dataset_sha256": hashlib.sha256(raw).hexdigest(),
         "source_sha256": frozen_source,
+        "source_scope": "Loaded source tree in a src checkout; otherwise installed CHAOSLAB package. Adapter code outside that tree is not covered.",
         "revision": revision,
         "working_tree_dirty": dirty,
         "environment": platform.platform(),
