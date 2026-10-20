@@ -110,3 +110,38 @@ These are not hostile-code sandboxes, total-RSS controls or complete process-tre
 ## Observed live hostile-evidence limitation
 
 The October 19 unchanged-v4 model run selected a forbidden instruction-bearing appendix in one of six hostile cases even though its citations had valid document hashes/spans and its relation remained the expected contradicted label. Citation integrity and structured output therefore did not prevent evidence contamination. One strict regression occurred among four passing clean controls; that conditional result is not a general instruction-following attack rate. No unauthorized review states were observed, but the fixture grants no tools, credentials or external communication, so exfiltration/tool safety is not established. Benign security-training text is also suppressed by the current keyword filter, while a clean numeric-threshold relation is wrong. These failures remain frozen in reports/injection-pairs-live-v4.json (ADR 030). No production or comprehensive injection-resistance claim follows.
+
+
+## Local lifespan-owned worker boundary
+
+The optional loopback SQLite profile owns one baseline worker thread under API startup/shutdown. Explicit file/principals and refusal of inherited model/managed/database settings reduce accidental configuration crossover. An unexpected queue-loop failure makes readiness 503 with fixed text; liveness stays separate. Model jobs are not claimed, and paid submissions are disabled. Real child publication, tenant checks, SQLite restart and completed lifespan shutdown were exercised locally (ADR 031).
+
+The worker and API share process privileges and are not separate security principals. A non-daemon thread and thirty-second join can fail to stop promptly; storage is deliberately kept open if that happens. Child deadlines do not bound database calls or publication. Liveness/thread state does not establish forward progress, and the existing API can still accept jobs when worker readiness fails. No public sessions, provider persistence, external supervision, hostile-code containment, total RSS cap or cloud recovery guarantee is provided. Never expose the static-token API publicly based on this runtime simplification.
+
+
+## Recovery evaluator adapter boundary
+
+The recovery judge no longer calls adapters in its own process. Each case uses the existing CHAOSLAB disposable-process deadline/artifact boundary; a timeout, crash or malformed observation is a fixed failed outcome and does not prevent later cases from being evaluated. Strict nonempty typed expectations and before/after source/dataset identity checks prevent vacuous passes and silently mixed execution identities. Only known observation keys with bounded counters/booleans/queue states are projected. Raw events, unknown fields and exception details are omitted; source-bearing canary tests verify these refusals (ADR 032).
+
+Adapters remain trusted code with host filesystem/network privileges and can misreport observations. Process-group escape, parent/host failure, total RSS/disk use and external adapter source outside src remain outside the boundary. Authored dataset IDs and scope remain public report content; this is not a general redaction mechanism. Seven local SQLite cases still use simulated lease time and establish neither a cloud recovery target nor a cause for the earlier intermittent queue test failure.
+
+
+## Temporary synthetic-session API boundary
+
+A separate local factory mounts only the seeded lab routes. Pinned synthetic input, literal case IDs, server-owned note choices and private-configuration refusal prevent normal callers from submitting private sources or enabling inference. Session-cookie digests select separate in-memory databases. Exact Origin checks on writes, cross-site Fetch Metadata refusal, a host allowlist, no CORS grants and no-store responses supplement the HTTPS cookie attributes. Existing source/publication/review gates remain authoritative (ADR 033).
+
+Absolute monotonic expiry, periodic/request-release cleanup, active-slot retention, post-computation expiry checks, body limits, one computation slot and per-session/process budgets bound this specific profile's retained operations. They are process-local controls, not fair identity-based rate limiting, a total RSS/CPU/disk/network bound or an invoice cap. An anonymous caller can occupy all available capacity. State and counters reset on process failure/restart; replicas multiply capacity. Browser/TLS/provider behavior is unverified, and cookies identify temporary fictional exercises rather than people. The private token API is not mounted and must not be exposed based on this preparation. No customer-data or durability promise is made.
+
+
+## Dedicated synthetic browser entry
+
+The lab build offers only hardcoded same-origin lab requests with cookie credentials; no bearer-token/API-address/upload/model/free-note controls or browser storage are used. Read-only lifetime metadata does not renew sessions. Client expiry clears the displayed result; the server remains authoritative. A stale review refreshes the result and requires another explicit decision. Only the explicitly marked dist-lab artifact can be mounted through the lab launcher, preserving separation from the private build (ADR 034).
+
+Three real Chromium/loopback HTTP workflows verify source focus/highlights, review conflicts, reload/logout, HTTP cookie attributes, network route separation and mobile overflow. Capacity feedback and shortened client lifetime are controlled faults. They do not establish real hosted Secure-cookie/TLS behavior, provider restarts, comprehensive accessibility, resource/invoice caps or a ten-minute browser expiry. Other tabs can retain already-rendered fictional data after logout until their next request/reload/timer. Static artifact content still needs explicit publication review; the profile marker is not a secret scanner.
+
+
+## Dedicated synthetic image boundary
+
+The lab image builds from an explicit context of Python source/locks, one pinned fictional fixture and the dedicated frontend. It omits repository history, host credentials/caches, reports, user documents and the private frontend. Its container entry requires explicit opt-in/external origin and mounts only the synthetic API. Actual local Linux checks used UID 10001, read-only root, network none/no host ports, dropped capabilities, no-new-privileges, small tmpfs mounts, 512 MiB memory/no extra swap, one CPU and 64 PIDs (ADR 035).
+
+Thirty-two focused Linux tests and real HTTP/review checks passed under those settings. An actual restart invalidated the previous session and permitted a new analysis; it did not preserve review history. Observed cgroup memory peak is a limited-workload measurement, not process RSS or a comprehensive resource/abuse bound. Pinning public base-image digests does not establish vulnerability-free dependencies or signed provenance. Host/engine failure can prevent cleanup; provider TLS/proxy/storage/quotas and other architectures remain unverified. Docker-managed caches are outside the verifier's source context. No credentials, socket or host workspace are required inside the runtime.

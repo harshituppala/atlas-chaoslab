@@ -7,11 +7,13 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -b && vite build",
     "test": "playwright test",
-    "format": "prettier --write src e2e index.html playwright.config.ts package.json replay replay-e2e vite.replay.config.ts playwright.replay.config.ts presentation-e2e playwright.presentation.config.ts",
-    "format:check": "prettier --check src e2e index.html playwright.config.ts package.json replay replay-e2e vite.replay.config.ts playwright.replay.config.ts presentation-e2e playwright.presentation.config.ts",
+    "format": "prettier --write src e2e index.html playwright.config.ts package.json replay replay-e2e vite.replay.config.ts playwright.replay.config.ts presentation-e2e playwright.presentation.config.ts lab lab-e2e vite.lab.config.ts playwright.lab.config.ts",
+    "format:check": "prettier --check src e2e index.html playwright.config.ts package.json replay replay-e2e vite.replay.config.ts playwright.replay.config.ts presentation-e2e playwright.presentation.config.ts lab lab-e2e vite.lab.config.ts playwright.lab.config.ts",
     "build:replay": "tsc -b && vite build --config vite.replay.config.ts",
     "test:replay": "playwright test --config playwright.replay.config.ts",
-    "test:presentation": "playwright test --config playwright.presentation.config.ts"
+    "test:presentation": "playwright test --config playwright.presentation.config.ts",
+    "build:lab": "tsc -b && vite build --config vite.lab.config.ts",
+    "test:lab": "playwright test --config playwright.lab.config.ts"
   },
   "dependencies": {
     "react": "19.2.0",

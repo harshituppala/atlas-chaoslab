@@ -6,6 +6,8 @@ A clause can be easy to retrieve and still be unsatisfied. The seeded RFP asks f
 
 **Current status:** working local application with separate API and worker processes. Restricted Bedrock diagnostics, local PostgreSQL, a Linux image and backup recovery have executed in their documented scopes. There is no hosted ATLAS application yet. The default workbench uses an extractive baseline; paid inference requires an operator-enabled configuration. All committed examples are synthetic.
 
+An optional [local combined runtime](docs/local-service-runbook.md) now starts the baseline worker with the API and exposes worker failure through readiness. Its real loopback restart check preserves pending review results. A separate [synthetic review lab](docs/synthetic-lab-runbook.md) now runs end to end locally with temporary cookies, exact source inspection and human review. Three Chromium workflows cover desktop/mobile use, review conflicts and controlled failure feedback. A [dedicated Linux image](docs/lab-container-runbook.md) also passes constrained local HTTP/restart checks. Hosted HTTPS and free-provider validation remain unfinished.
+
 ## Review workflow
 
 1. Upload a text-bearing PDF/DOCX or paste requirements and capability records. The parser retains original bytes and maps extracted text to pages or paragraphs.
@@ -32,7 +34,8 @@ Request bodies and worker pipes have separate byte, concurrency and time budgets
 
 | Experiment | Observed result | What it does not establish |
 | --- | --- | --- |
-| Native backend/API suite | 393 passed; 18 optional PostgreSQL groups skipped | The skipped groups are not validated by this run. |
+| Native backend/API suite | 453 passed; 18 optional PostgreSQL groups skipped | The skipped groups are not validated by this run. |
+| Synthetic lab Linux image | 32 focused tests passed; real HTTP/review and intentional restart reset under a 512 MiB local limit | Local arm64 only; not hosted TLS, a full Linux suite or durable customer storage. |
 | Separate native PostgreSQL exercise | 18 integration groups passed | This is not the full suite against the container database or a cloud service. |
 | Retrieval on ten authored positive queries | Lexical recall@3 0.70; hybrid 1.00 | Same small query set; no representative contract accuracy claim. |
 | Three scenarios, nine obligations | Baseline 5/9; recorded v4 model 9/9 | Correlated, same-author development fixtures. |
@@ -82,7 +85,7 @@ cd apps/web && pnpm build
 pnpm test
 ```
 
-`make benchmark` records the extractive baseline, recovery and ingestion diagnostics. Known quality failures are reported, not erased. Other focused runbooks cover [paired comparisons](docs/comparison-runbook.md), [live evidence rescoring](docs/live-injection-runbook.md), [body admission](docs/body-admission-runbook.md) and [child-process recovery](docs/worker-supervision-runbook.md). Unit tests use controlled model responses unless explicitly identified as live diagnostics.
+`make benchmark` records the extractive baseline, recovery and ingestion diagnostics. The [recovery runner](docs/recovery-evaluation-runbook.md) now isolates each adapter under a deadline and records failures before continuing; seven unchanged recovery contracts passed locally, with simulated lease time. Known quality failures are reported, not erased. Other focused runbooks cover [paired comparisons](docs/comparison-runbook.md), [live evidence rescoring](docs/live-injection-runbook.md), [body admission](docs/body-admission-runbook.md) and [child-process recovery](docs/worker-supervision-runbook.md). Unit tests use controlled model responses unless explicitly identified as live diagnostics.
 
 The [first GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed: 393 backend tests with 18 optional PostgreSQL skips, ten workbench browser tests and three static-viewer tests. A passing native suite does not refresh old container, database or browser evidence automatically.
 

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T23:49:06.251706+00:00",
+  "scope": "Local ASGI/TestClient requests with a real bounded baseline child and simulated HTTPS origin/expiry clock. Cookie attributes are inspected, not tested in a real browser/TLS session. No socket, hosted provider or durable customer-service claim.",
+  "boundary_tests_passed": 25,
+  "native_suite": {
+    "passed": 446,
+    "skipped": 18
+  },
+  "checks": {
+    "anonymous_read_status": 401,
+    "missing_origin_write_status": 403,
+    "other_session_empty_result_status": 404,
+    "private_api_status": 404,
+    "stale_review_status": 409,
+    "expired_session_status": 401,
+    "publication_validated_requirements": 8,
+    "publication_validated_citations": 14,
+    "all_reviews_initially_pending": true,
+    "repeat_analysis_reuses_result": true,
+    "expired_stores_removed": true,
+    "secure_cookie_attributes_present": true
+  },
+  "source_sha256": "cbd42dc2dfbb09df208ce006db938500f309b93b4222e30a8f7de88fceadaf1c",
+  "source_scope": "On-disk source and dependency-lock identity, not proof of loaded module bytes, installed dependencies or signed execution.",
+  "source_unchanged": true,
+  "recorder_sha256": "2d57962cd4ffdbbd1778410bd6dc7e5ab530d4d29dd5af5ad0631a017003ebd4",
+  "junit_sha256": "6598cfe32c42000c4c1c8791db1f47ad036c9ec45bb9b1f75b9af742aa999013",
+  "test_source_sha256": "ebd81b2114420343fb2ad628eed340613243d1d76b44d036b5499698e5e30e2d",
+  "test_hash_scope": "Test/JUnit identities captured after testing. ASGI exercise source separately checked before/after. Not signed execution attestation.",
+  "provider_calls": 0
+}

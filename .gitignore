@@ -16,3 +16,4 @@ dist/
 var-ci-server.log
 var-ci-worker.log
 dist-replay/
+dist-lab/

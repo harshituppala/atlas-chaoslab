@@ -6,7 +6,9 @@ This source release contains the ATLAS review workbench, CHAOSLAB evaluators, sy
 
 The source release excludes credentials, local databases, raw provider artifacts, installed dependencies and private workspace material. It starts with a fresh Git history. Exact file hashes and the publication inventory are kept in the release manifest; they do not represent additional test evidence.
 
-The latest native suite for this version passed 393 tests, with 18 optional PostgreSQL groups skipped. Database, browser, container and live-model checks have separate reports. Known benchmark failures are included. The [first GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed its backend and browser jobs: 393 backend tests, ten workbench browser tests and three static-viewer tests. Eighteen optional PostgreSQL groups were skipped; their local evidence remains separate.
+The latest native suite for this version passed 453 tests, with 18 optional PostgreSQL groups skipped. Database, browser, container and live-model checks have separate reports. Known benchmark failures are included. The [first GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed its backend and browser jobs: 393 backend tests, ten workbench browser tests and three static-viewer tests. Eighteen optional PostgreSQL groups were skipped; their local evidence remains separate.
+
+The [source repository](https://github.com/harshituppala/atlas-chaoslab) is public. The uploaded file tree was checked against the reviewed release. The initial upload was rejected for missing workflow permission; it succeeded after the owner approved GitHub’s authorization screen.
 
 ## Hosting
 

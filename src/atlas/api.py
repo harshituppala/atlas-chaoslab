@@ -66,7 +66,7 @@ class ReviewRequest(StrictModel):
     note: str = Field(min_length=1, max_length=2000)
 
 
-def create_app(database_url=None, principals=None, token_verifier=None):
+def create_app(database_url=None, principals=None, token_verifier=None, *, readiness_probe=None):
     configure("atlas-api")
     owns_verifier = False
 
@@ -204,6 +204,8 @@ def create_app(database_url=None, principals=None, token_verifier=None):
             raise HTTPException(503, "Database unavailable") from None
         except SchemaNotReady:
             raise HTTPException(503, "Database schema is not ready") from None
+        if readiness_probe is not None and not readiness_probe():
+            raise HTTPException(503, "Local worker is not ready")
         return {"status": "ready", "schema_revision": HEAD}
 
     @app.get("/api/runs")

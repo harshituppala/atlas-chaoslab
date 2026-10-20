@@ -18,6 +18,7 @@ ROOT_FILES = {
     "README.md",
     "Makefile",
     "Dockerfile",
+    "Dockerfile.lab",
     "compose.yaml",
     "pyproject.toml",
     "requirements.lock",
@@ -45,6 +46,7 @@ PRIVATE_PARTS = {
     "node_modules",
     "dist",
     "dist-replay",
+    "dist-lab",
     "__pycache__",
 }
 PRIVATE_FILES = {"docs/interview-practice.md", "docs/portfolio-delivery.md"}

@@ -10,6 +10,8 @@ The default analysis is an offline extractive baseline. The optional Bedrock pat
 
 SQLite supports the local demonstration. PostgreSQL has separately tested migrations, restricted API/worker roles, tenant row policies and persistent exact pgvector retrieval. Managed-token validation is implemented, but browser sign-in with a real identity provider remains unfinished.
 
+A separate synthetic lab runs the seeded review workflow with temporary sessions. It accepts no uploads or model credentials. Desktop and mobile browser checks cover source inspection, review conflicts and session handling. A dedicated Linux image has also been exercised under a memory limit, with an intentional session reset on restart. Hosted HTTPS and provider behavior still need testing. See the [lab runbook](synthetic-lab-runbook.md) and [container checks](lab-container-runbook.md).
+
 ## CHAOSLAB
 
 The independent evaluator scores adapter output against synthetic golden cases. It checks extraction, evidence relations, source spans, review state and failure behavior separately. Paired comparisons rescore raw runs under the same dataset and scorer, preserving missing cases and regressions.
@@ -22,7 +24,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 393 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 453 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
 | Multi-obligation comparison | Baseline 5/9; recorded model 9/9 | [Comparison runbook](comparison-runbook.md) |
@@ -34,7 +36,7 @@ The extractive baseline still misses one authored requirement pattern. The model
 
 Earlier container, browser and database results apply to the versions they tested. A new native test run does not refresh them. The [decision records](adr/) explain how the implementation and its checks developed.
 
-The [initial GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed 393 backend tests, ten workbench browser tests and three static-viewer tests. Eighteen optional database groups were skipped; PostgreSQL evidence remains separate.
+The [initial GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed the published release’s backend and browser jobs: 393 backend tests, ten workbench browser tests and three static-viewer tests. Eighteen optional database groups were skipped. Newer local implementation has its own verification and is not included in that run.
 
 ## Remaining work
 

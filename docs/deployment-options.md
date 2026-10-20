@@ -21,9 +21,9 @@ These constraints rule out copying the current three-service Compose stack uncha
 | Profile | Intended behavior | Current state |
 | --- | --- | --- |
 | Full review service | Managed access, durable originals/reviews/jobs, private database roles, separate worker and tested recovery | Local implementation/evidence; a coherent free deployment combination remains unverified. |
-| Public synthetic lab | A running baseline restricted to seeded fictional inputs, tightly bounded sessions/actions, no real uploads or model credentials, explicit history-reset limits | Proposed adaptation only. The private/local API cannot be exposed as a shortcut. |
+| Public synthetic lab | A running baseline restricted to seeded fictional inputs, tightly bounded sessions/actions, no real uploads or model credentials, explicit history-reset limits | Dedicated local API and React lab exercised through three Chromium workflows; a dedicated local Linux image also passes constrained HTTP/restart checks; hosted HTTPS/provider behavior remains unverified. The private/local API cannot be exposed as a shortcut. |
 
-A public lab could demonstrate the actual analysis/review workflow without pretending to provide durable customer storage. It would need explicit admission, session/isolation, origin, resource and cleanup rules plus local/browser tests before deployment. It would remain a prototype, not the full service. No such public runtime profile has been implemented or approved by this document.
+A public lab could demonstrate the actual analysis/review workflow without pretending to provide durable customer storage. It would need explicit admission, session/isolation, origin, resource and cleanup rules plus local/browser tests before deployment. It would remain a prototype, not the full service. The separate local API boundary now has seeded-input, session, origin, budget and cleanup tests (ADR 033). A separate React workbench is now connected and checked on loopback HTTP (ADR 034); a pinned dedicated image has separate local Linux evidence (ADR 035). Provider execution and hosted HTTPS are not validated. This document does not approve public deployment.
 
 ## Next acceptance steps
 

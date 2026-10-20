@@ -1,0 +1,22 @@
+FROM node:24-bookworm-slim@sha256:a5f4366e834695d5f363b920c104953a535d3a9864d1bdf74566a0ebe01daee5 AS frontend
+WORKDIR /build
+RUN corepack enable && corepack prepare pnpm@11.25.0 --activate
+COPY apps/web/package.json apps/web/pnpm-lock.yaml apps/web/pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY apps/web/tsconfig.json apps/web/vite.lab.config.ts ./
+COPY apps/web/lab/index.html lab/index.html
+COPY apps/web/src/lab.tsx apps/web/src/lab.css apps/web/src/Dialog.tsx src/
+RUN pnpm build:lab
+
+FROM python:3.12-slim@sha256:a6e34c598f2467ed0e9a8d349809fcd8b5c603269512df273a0bb1784edc11b1 AS runtime
+WORKDIR /app
+COPY requirements.lock pyproject.toml ./
+RUN pip install --no-cache-dir -r requirements.lock && useradd --uid 10001 --create-home atlas
+COPY src/ src/
+COPY datasets/demo.json datasets/demo.json
+COPY --from=frontend /build/dist-lab apps/web/dist-lab/
+RUN mkdir -p var && chown atlas:atlas var
+USER 10001
+ENV PYTHONPATH=/app/src PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+EXPOSE 8000
+CMD ["python", "-m", "atlas.lab_container"]

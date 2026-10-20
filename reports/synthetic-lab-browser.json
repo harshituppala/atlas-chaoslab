@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-20T00:00:07.961174+00:00",
+  "scope": "Three Chromium workflows against the actual loopback API and built React lab. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
+  "browser_cases_passed": 3,
+  "workflows": [
+    "real analysis, exact sources, review conflicts across tabs, reload and logout",
+    "mobile conflict review and a controlled capacity message recover without automatic retries",
+    "client expiry clears a restored workspace using controlled lifetime metadata"
+  ],
+  "privacy_scope": "Projects only authored test names, counts and hashes. No cookies, headers, session identifiers, source payloads, stderr, attachments or trace content are exported.",
+  "browser_evidence_sha256": "0a5adec3b785050ef3586ff95fa5693d2fced95fcd73a52bfa7646c5bf67c9a2",
+  "frontend_sha256": {
+    "apps/web/src/lab.tsx": "3578c18205659f57b599e31c55c686184a670f72f773b402a82095d875f0ca61",
+    "apps/web/src/lab.css": "b8a71dc8ab018880c8f0efc1799e8aac23e75039dc13e65ed1e9635785812d4e",
+    "apps/web/src/Dialog.tsx": "e3bc3463b46673c1ee53a65bc0ad73989815209cce7f7b1f6d6af2b92e8da1eb",
+    "apps/web/lab/index.html": "30d4bd3be1e022d6ea6992c9a33b8e3a7cf77a6a9e251c23324317088d112d74",
+    "apps/web/vite.lab.config.ts": "fa7939c5fdd22e067115ada51e07b978076033c52c898bb885640d746bb87e0a",
+    "apps/web/playwright.lab.config.ts": "34c7d7089ef916e591283a7f2b8389fe3a2036f14d55c729d439d7ab26843ae2",
+    "apps/web/lab-e2e/lab.spec.ts": "ba5204180c002906a06afb13ac91f5c533e7c8340217831cbcedfc41bac42a7e",
+    "apps/web/package.json": "67a1cc9b4e4f718313671c26026a9c11e0204d53c7e4c34c4c208eac48bc5cfb",
+    "scripts/record_lab_browser.py": "93b8b41fc6107a1a556eed27be5df29d450f2ad67bdbe9b64c8137bb258b26f7"
+  },
+  "backend_source_sha256": "cbd42dc2dfbb09df208ce006db938500f309b93b4222e30a8f7de88fceadaf1c",
+  "build_sha256": {
+    "assets/index-97GApLnn.css": "a2711edd993f817f9fcb7ac94cfb7abb98c3e0feb3411204b571b65e8d2c8211",
+    "assets/index-C6DbezVL.js": "144ff8211f706d9bbfa3db086b8545dbfa0387cc6114937beb3b426f5950ae9d",
+    "index.html": "2fbfb9a3de97025ce64d0ef6856431c027d256c79c89dc6b1ec8c52ef7fd9725"
+  },
+  "screenshots_sha256": {
+    "reports/synthetic-workbench.png": "6114a8634f0f4363ed161c9d719b634a1042645819d9e3e8d11d31f0a23935e9",
+    "reports/synthetic-workbench-mobile.png": "a9e1fdd21caf5bcc89f26ec7681cc0b8e781151496da7aab94ef65c9d6907550"
+  },
+  "identity_scope": "Source/build/screenshot hashes captured after the actual browser run; no frozen-run, signed execution or full loaded-dependency attestation. Separate ASGI evidence checks its own source before/after.",
+  "new_model_provider_calls": 0
+}

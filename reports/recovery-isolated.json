@@ -1,0 +1,138 @@
+{
+  "schema_version": 2,
+  "kind": "workflow_recovery",
+  "generated_at": "2026-10-19T18:40:19.243797+00:00",
+  "scope": "Deterministic SQLite failure injection with simulated lease time. Real process crash is separately exercised by pytest. Not cloud availability or PostgreSQL validation.",
+  "execution_scope": "One disposable trusted adapter process per case; bounded input/artifacts and parent deadline. Not a hostile-code sandbox. Cases use the fixture's simulated lease time unless stated otherwise.",
+  "adapter": "atlas.recovery_adapter:run",
+  "adapter_deadline_seconds": 10.0,
+  "dataset_sha256": "498414072a5e1bd8370866de9945a00c1325806135779faa09709ad9aa8b31a3",
+  "source_sha256": "acf2dd2a6977e227d7a423f64c781ca15f8b953200624e3464e51e29c5e861b6",
+  "source_unchanged": true,
+  "source_scope": "On-disk src Python bytes checked before/after; not installed dependency or loaded-code attestation. External adapter code outside src is not covered.",
+  "revision": "61d077022874b7d1d1660320ff1b163ca3c67bbd",
+  "working_tree_dirty": true,
+  "python": "3.12.14",
+  "environment": "macOS-27.0.1-arm64-arm-64bit",
+  "unique_cases": 7,
+  "cases_passed": 7,
+  "results": [
+    {
+      "id": "expired_worker",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true,
+        "stale_worker_rejected": true
+      },
+      "observations": {
+        "status": "succeeded",
+        "attempts": 2,
+        "results": 1,
+        "stale_worker_rejected": true
+      },
+      "latency_ms": 1008.143208004185
+    },
+    {
+      "id": "cancel_running",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true,
+        "stale_worker_rejected": true
+      },
+      "observations": {
+        "status": "cancelled",
+        "attempts": 1,
+        "results": 0,
+        "stale_worker_rejected": true
+      },
+      "latency_ms": 841.6834999952698
+    },
+    {
+      "id": "publication_rollback",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "results": true,
+        "results_after_interruption": true,
+        "status_after_interruption": true
+      },
+      "observations": {
+        "status": "succeeded",
+        "results": 1,
+        "results_after_interruption": 0,
+        "status_after_interruption": "running"
+      },
+      "latency_ms": 826.5900829865132
+    },
+    {
+      "id": "retry_ceiling",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true,
+        "premature_retry_blocked": true,
+        "exhausted_retry_blocked": true
+      },
+      "observations": {
+        "status": "failed",
+        "attempts": 2,
+        "results": 0,
+        "premature_retry_blocked": true,
+        "exhausted_retry_blocked": true
+      },
+      "latency_ms": 835.129874991253
+    },
+    {
+      "id": "last_attempt_crash",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true
+      },
+      "observations": {
+        "status": "failed",
+        "attempts": 1,
+        "results": 0
+      },
+      "latency_ms": 824.7584579949034
+    },
+    {
+      "id": "competing_workers",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true,
+        "owners": true
+      },
+      "observations": {
+        "status": "running",
+        "attempts": 1,
+        "results": 0,
+        "owners": 1
+      },
+      "latency_ms": 833.3014169911621
+    },
+    {
+      "id": "forged_review",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "results": true,
+        "self_approval_rejected": true
+      },
+      "observations": {
+        "status": "running",
+        "results": 0,
+        "self_approval_rejected": true
+      },
+      "latency_ms": 891.7649580107536
+    }
+  ]
+}

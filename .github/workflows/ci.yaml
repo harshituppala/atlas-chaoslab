@@ -43,6 +43,10 @@ jobs:
         working-directory: apps/web
       - run: pnpm build:replay && pnpm test:replay
         working-directory: apps/web
+      - run: pnpm build:lab && pnpm test:lab
+        working-directory: apps/web
+        env:
+          ATLAS_TEST_PYTHON: python
       - run: PYTHONPATH=src python -m chaoslab --output reports/baseline.json
       - run: PYTHONPATH=src python -m chaoslab --dataset datasets/adversarial.json --output reports/adversarial.json --repeat 3
       - run: PYTHONPATH=src python -m chaoslab.reasoning
