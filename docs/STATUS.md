@@ -40,6 +40,8 @@ The [corrected GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/ac
 
 Hosted acceptance checked eight requirements and fourteen exact source spans, human review and stale conflicts, session isolation, secure cookies and rejection of private API routes. A real Chromium run covered desktop/mobile source inspection, review, reload and logout. A provider restart rejected the old session before its expiry and allowed a fresh analysis. See [HTTP](../reports/hosted-lab.json), [browser](../reports/hosted-lab-browser.json) and [restart](../reports/hosted-lab-restart.json) reports. These checks do not establish durable storage or production reliability.
 
+The [public portfolio](https://harshit-uppala-portfolio.vercel.app) now has separate ATLAS and CHAOSLAB source links, project guides and an ATLAS lab link. An unauthenticated Chromium check passed at desktop and mobile widths after deployment: both project dialogs opened, their links matched the published destinations, Escape dismissed them, and no horizontal overflow or browser runtime errors were observed. The latest [source CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39463244651) also passed.
+
 ## Remaining work
 
 - Observe free-host cold starts and usage limits; keep the temporary lab separate from a durable service.

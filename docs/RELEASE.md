@@ -12,16 +12,12 @@ The [source repository](https://github.com/harshituppala/atlas-chaoslab) is publ
 
 ## Hosting
 
-The [fictional review lab](https://atlas-review-lab.onrender.com) is live and passes targeted HTTPS, browser and controlled restart checks. The full managed review service has not been deployed. Hosting must stay free; the model-test allowance does not authorize infrastructure spending. The [hosting plan](deployment-options.md) describes the provider constraints and the difference between a temporary synthetic lab and a durable review service.
+The [fictional review lab](https://atlas-review-lab.onrender.com) is live and passes targeted HTTPS, browser and controlled restart checks. The full managed review service has not been deployed. The [hosting plan](deployment-options.md) describes the provider constraints and the difference between a temporary synthetic lab and a durable review service.
 
-The local bearer-token launcher is for private use. A full hosted service needs real sign-in, durable source and review storage, private database roles, HTTPS and a tested recovery path. A synthetic lab may deliberately reset session history, provided the interface explains that behavior and the deployment tests confirm it.
+The local bearer-token launcher is for private use. A full hosted service needs real sign-in, durable source and review storage, private database roles, HTTPS and a tested recovery path. The public lab resets session history, as explained in the interface and checked during a real service restart.
 
-## Release checks
+## Next release
 
-Source inventory, public contents and the initial CI outcome have been checked. Remaining deployment work:
+The lab's HTTP, browser and restart checks are recorded in the [status notes](STATUS.md). The next hosting work is to observe cold starts and shared free-tier quotas, then prepare the full service with managed sign-in and durable storage. Those are separate from the temporary lab already running.
 
-1. Check the selected host's free-plan limits and billing settings before creating a service.
-2. Preserve the completed lab acceptance checks and observe cold-start and usage-limit behavior; complete durable hosting and real sign-in separately.
-3. Record failures and teardown steps alongside the results.
-
-Source publication and a reachable page do not establish production operation. The lab acceptance checks have run; the full service and broader evaluation remain unfinished.
+The [portfolio](https://harshit-uppala-portfolio.vercel.app) links to the lab and each tool's guide. Its project dialogs were checked on desktop and mobile after deployment.

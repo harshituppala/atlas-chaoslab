@@ -4,7 +4,7 @@ ATLAS starts with an ordinary procurement problem: an RFP asks for a capability,
 
 The seeded municipal example asks for recovery within four hours. The internal capability register guarantees eight. ATLAS puts the extracted obligation next to the selected excerpt, links each to its source and leaves the assessment pending. A reviewer can inspect the source before recording a decision. The tool does not make a legal-compliance determination.
 
-## One workflow, with recoverable boundaries
+## From upload to review
 
 The browser submits a job to FastAPI and follows its status. A separate worker extracts requirements, retrieves evidence and checks source identity before publishing a result. The database stores the job and ownership lease; a worker crash can lead to another attempt, but the old owner cannot publish afterward. Result, initial review state and audit data commit together.
 
@@ -40,6 +40,6 @@ Resource controls include request-body admission, parser limits, worker deadline
 
 The native suite passes 460 tests, with eighteen optional PostgreSQL groups skipped in that run; the database groups have separate executed evidence. Historical image, browser, backup and live-model reports identify their own scope and source. None automatically becomes current when another suite passes.
 
-The fictional review lab now runs on free Render hosting with verified HTTPS, browser and controlled restart behavior. The full managed review service remains local. Free hosting is required, and recordings are deferred. The temporary lab is separate from the durable authenticated service still to finish. The source and fictional lab are public; durable hosting and real sign-in remain unfinished. An implemented static replay remains a recorded artifact; it does not complete either hosted runtime.
+The [fictional review lab](https://atlas-review-lab.onrender.com) runs on Render. Hosted checks cover source inspection, review conflicts, session isolation and a service restart. It uses temporary sessions and accepts no uploads or model credentials. The full workbench remains local until managed sign-in and durable hosted storage are ready.
 
-[Run locally](../README.md#run-locally) · [Architecture](architecture.md) · [Threat model](threat-model.md) · [Hosting decision](deployment-options.md) · [Measured history](STATUS.md) · [Paired failure evidence](../reports/injection-pairs-live-v4.json)
+[Run locally](../README.md#run-atlas-locally) · [Architecture](architecture.md) · [Threat model](threat-model.md) · [Hosting decision](deployment-options.md) · [Measured history](STATUS.md) · [Paired failure evidence](../reports/injection-pairs-live-v4.json)
