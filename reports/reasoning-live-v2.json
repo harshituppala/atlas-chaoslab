@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "kind": "reasoning_quality",
+  "scope": "Targeted eighteen-case synthetic development diagnostic; not a blinded holdout, production accuracy estimate, legal compliance assessment, or prompt-injection benchmark.",
+  "adapter_scope": "Private provider artifact scoring; provider usage is reported, not an invoice or signed execution attestation.",
+  "dataset_sha256": "2727a11d50ba97b2fffc39439bcb476102fac1a2969c48d8e016af23868c6801",
+  "planned_cases": 18,
+  "evaluated_cases": 18,
+  "not_run_cases": 0,
+  "summary": {
+    "cases": 18,
+    "cases_passed": 12,
+    "grounded_contract_pass_rate": 0.6666666666666666,
+    "extraction_coverage": 0.6666666666666666,
+    "end_to_end_relation_accuracy": 0.6666666666666666,
+    "relation_accuracy_given_extraction": 1.0,
+    "supported_precision": 1.0,
+    "insufficient_recall": 1.0,
+    "confusion_matrix": {
+      "supported": {
+        "supported": 7,
+        "contradicted": 0,
+        "insufficient": 0,
+        "omitted": 0,
+        "invalid_extraction": 0,
+        "invalid": 0,
+        "error": 0
+      },
+      "contradicted": {
+        "supported": 0,
+        "contradicted": 1,
+        "insufficient": 0,
+        "omitted": 0,
+        "invalid_extraction": 0,
+        "invalid": 0,
+        "error": 6
+      },
+      "insufficient": {
+        "supported": 0,
+        "contradicted": 0,
+        "insufficient": 4,
+        "omitted": 0,
+        "invalid_extraction": 0,
+        "invalid": 0,
+        "error": 0
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "residency-exact",
+      "expected": "supported",
+      "extracted": true,
+      "predicted": "supported",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "residency-conflict",
+      "expected": "contradicted",
+      "extracted": true,
+      "predicted": "contradicted",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "residency-backup-exception",
+      "expected": "contradicted",
+      "extracted": false,
+      "predicted": "error",
+      "relation_correct": false,
+      "passed": false
+    },
+    {
+      "id": "residency-partial",
+      "expected": "insufficient",
+      "extracted": true,
+      "predicted": "insufficient",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "recovery-equal",
+      "expected": "supported",
+      "extracted": true,
+      "predicted": "supported",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "recovery-faster",
+      "expected": "supported",
+      "extracted": true,
+      "predicted": "supported",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "recovery-slower",
+      "expected": "contradicted",
+      "extracted": false,
+      "predicted": "error",
+      "relation_correct": false,
+      "passed": false
+    },
+    {
+      "id": "recovery-aspiration",
+      "expected": "insufficient",
+      "extracted": true,
+      "predicted": "insufficient",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "retention-short",
+      "expected": "contradicted",
+      "extracted": false,
+      "predicted": "error",
+      "relation_correct": false,
+      "passed": false
+    },
+    {
+      "id": "retention-longer",
+      "expected": "supported",
+      "extracted": true,
+      "predicted": "supported",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "saml-negation",
+      "expected": "contradicted",
+      "extracted": false,
+      "predicted": "error",
+      "relation_correct": false,
+      "passed": false
+    },
+    {
+      "id": "saml-unrelated-negation",
+      "expected": "supported",
+      "extracted": true,
+      "predicted": "supported",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "saml-roadmap",
+      "expected": "contradicted",
+      "extracted": false,
+      "predicted": "error",
+      "relation_correct": false,
+      "passed": false
+    },
+    {
+      "id": "encryption-partial",
+      "expected": "insufficient",
+      "extracted": true,
+      "predicted": "insufficient",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "encryption-complete",
+      "expected": "supported",
+      "extracted": true,
+      "predicted": "supported",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "response-business-hours",
+      "expected": "contradicted",
+      "extracted": false,
+      "predicted": "error",
+      "relation_correct": false,
+      "passed": false
+    },
+    {
+      "id": "irrelevant-evidence",
+      "expected": "insufficient",
+      "extracted": true,
+      "predicted": "insufficient",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    },
+    {
+      "id": "paraphrased-obligation",
+      "expected": "supported",
+      "extracted": true,
+      "predicted": "supported",
+      "relation_correct": true,
+      "citation_integrity": true,
+      "source_scope": true,
+      "evidence_gate": true,
+      "complete_reference": true,
+      "human_review_pending": true,
+      "extractive_draft": true,
+      "passed": true
+    }
+  ],
+  "live_execution": {
+    "pipeline_version": "source-selection-v2",
+    "provider": "bedrock",
+    "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "region": "us-east-1",
+    "input_artifact_sha256": "a422da6bdcebde3b9c1ec5e75850f398ad35230a94082122839e2514fc9271be",
+    "successful_case_outputs": 12,
+    "call_status_counts": {
+      "validated": 29,
+      "invalid_schema": 6
+    },
+    "validation_failure_counts": {
+      "relation_missing_evidence": 6
+    },
+    "estimated_model_cost_usd": "0.0259776",
+    "cost_is_invoice": false,
+    "continue_invalid_output": true,
+    "limitations": [
+      "Failed bundles are errors in end-to-end denominators; extraction_coverage reflects independently verifiable completed bundles, not raw extraction-call success.",
+      "Same authored cases were used during development; later prompt revisions are evaluated on a seen diagnostic set.",
+      "Artifact hashes bind local data, not signed provider attestations. No execution-source snapshot was frozen by this batch runner.",
+      "No general reliability, latency, AWS deployment or billing reconciliation claim follows from these results."
+    ]
+  }
+}

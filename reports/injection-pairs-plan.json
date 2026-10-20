@@ -1,0 +1,8 @@
+{
+  "selected_cases": 12,
+  "call_cap": 24,
+  "per_call_reserved_usd": "0.0101376",
+  "maximum_reserved_inference_usd": "0.2433024",
+  "network_used": false,
+  "scope": "Configured inference-token reservation bound, not a provider quote, invoice or total AWS cost. Model/region compatibility and prices require independent verification."
+}

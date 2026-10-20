@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T16:37:21.637184+00:00",
+  "scope": "Executed disconnected production-frontend navigation/layout checks at 1440px and 390px, and local documentation-link inspection. No new authenticated workflow, model inference, deployment or full accessibility audit.",
+  "browser_passed": 2,
+  "browser_report_sha256": "666d49277ab3c55d2ca0235e17a44d7bebb02cdaf1a770a3e2894878483a323d",
+  "input_sha256": {
+    "README.md": "aa64e1f0acc5abeed73e4fa9499fabf7f71140a5c3811418087b45087880c341",
+    "docs/case-study.md": "cf58173013bf593d2bc0f91b084d8a9816a3a2ac4a588eed47577902e4ac5cd4",
+    "docs/deployment-options.md": "8d6008fa8b1fa3732a5aec3543e3e1a0ad005db15299440c4dd03c782992c398",
+    "apps/web/src/main.tsx": "dde78abc9eb4da74666d910dc6011c1d6eb86604c48d863b108e7096c9389635",
+    "apps/web/src/style.css": "37426396b2ff9dcf8002bf526493d72e7a24e7e9653f2c04f2f135790e833dc0",
+    "apps/web/presentation-e2e/presentation.spec.ts": "eead05c85b48ff2ae17701d522d1d6d2513814224cfcda4e3abc591551dbfea1",
+    "apps/web/playwright.presentation.config.ts": "df5660f46bcd9c3645fc025c3f81a4e52b38b8aa774e8812b57f00af01734e6e",
+    "apps/web/package.json": "621f6a468f4de023124b59525394dc65eea838148bce8430fdf4d3bf5107c33f"
+  },
+  "build_sha256": {
+    "apps/web/dist/assets/index--4LEw6_e.js": "0fc7c9e19fc76dc09d52d72327de18bbf00bcaf392355dc559f8206bc66455cf",
+    "apps/web/dist/assets/index-Cp6Xsuvv.css": "7addf356f296b88a94da447dce3d3a8c627a612f7780ad1acee8eee323a73fb1",
+    "apps/web/dist/index.html": "b7527d212aca73d5cab690ffe757a12af92d29254cd54074501d3d6105d83fb2"
+  },
+  "screenshot_sha256": "590a038ca52df24702a199bb05e7e8f87022b6803bde7e3ad968b03ab3a14c9b",
+  "hash_scope": "On-disk hashes captured after the executed checks; not signed or frozen pre-run attestations."
+}

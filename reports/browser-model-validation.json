@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "scope": "One synthetic real browser\u2192FastAPI\u2192isolated Bedrock worker\u2192SQLite\u2192authenticated browser readback. No request mocks or provider stubs. Not production accuracy, PostgreSQL/live-model integration, cloud deployment or load validation.",
+  "case_id": "residency-exact",
+  "passed": true,
+  "attempts": 1,
+  "provider": "bedrock",
+  "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "region": "us-east-1",
+  "pipeline_version": "source-selection-v4",
+  "model_config_sha256": "2ce5eccded4d7dd6d4bdabd21bf49bb49beafce6c24bb59cee8002d039e32721",
+  "estimated_model_cost_usd": "0.0014586",
+  "cost_is_invoice": false,
+  "call_status_counts": {
+    "validated": 2
+  },
+  "artifact_sha256": "e8d2c74bc9000a86b7bbc287a8e8799beadd2c3f59a2043c3983bee1aeca4d2a",
+  "source_sha256": "61322ad2e4d67c0eb0b45eef36e4809e3efea60bb4a98fb8f077f3adc077bebc",
+  "dataset_sha256": "2727a11d50ba97b2fffc39439bcb476102fac1a2969c48d8e016af23868c6801",
+  "browser_test_sha256": "2299662edd7cf7d6241751342471c52463101fac1b1b48701c87f43c22f6b047",
+  "checks": [
+    "explicit_mode",
+    "displayed_config_binding",
+    "single_attempt",
+    "authenticated_readback",
+    "source_snapshot",
+    "exact_citations",
+    "expected_support_label",
+    "pending_review",
+    "extractive_draft",
+    "source_highlight_in_browser"
+  ],
+  "limitations": "Hashes identify selected on-disk Python source, test and dataset, not loaded code or a signed provider attestation. Frontend build identity was not separately captured. Browser screenshot/highlight checks come from the completed test; this recorder independently rechecks its saved payload and database state."
+}

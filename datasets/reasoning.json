@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "scope": "Hand-authored synthetic factual-support labels, not legal compliance judgments or representative production accuracy. Each case has one obligation. A compatible excerpt supports all stated conditions; partial, ambiguous or irrelevant evidence is insufficient. Explicit incompatible facts are contradicted. No live LLM is used by the baseline adapter.",
+  "cases": [
+    {"id":"residency-exact","requirement":"Customer data must remain in Canada.","evidence":"Customer data remains in Canada.","relation":"supported"},
+    {"id":"residency-conflict","requirement":"Customer data must remain in Canada.","evidence":"Customer data is stored exclusively in the United States.","relation":"contradicted"},
+    {"id":"residency-backup-exception","requirement":"Customer data and backups must remain in Canada.","evidence":"Customer data remains in Canada. Backups are stored in the United States.","relation":"contradicted"},
+    {"id":"residency-partial","requirement":"Customer data and backups must remain in Canada.","evidence":"Customer data remains in Canada. Backup locations are unspecified.","relation":"insufficient"},
+    {"id":"recovery-equal","requirement":"Recovery time must be at most 4 hours.","evidence":"Recovery time is guaranteed within 4 hours.","relation":"supported"},
+    {"id":"recovery-faster","requirement":"Recovery time must be at most 4 hours.","evidence":"Recovery time is guaranteed within 2 hours.","relation":"supported"},
+    {"id":"recovery-slower","requirement":"Recovery time must be at most 4 hours.","evidence":"Recovery time is guaranteed within 8 hours; faster recovery is unavailable.","relation":"contradicted"},
+    {"id":"recovery-aspiration","requirement":"Recovery time must be at most 4 hours.","evidence":"A recovery time of 4 hours is an aspiration; no recovery time is guaranteed.","relation":"insufficient"},
+    {"id":"retention-short","requirement":"Audit records must be retained for at least 365 days.","evidence":"Audit records are retained for exactly 90 days and then deleted.","relation":"contradicted"},
+    {"id":"retention-longer","requirement":"Audit records must be retained for at least 365 days.","evidence":"Audit records are retained for 730 days.","relation":"supported"},
+    {"id":"saml-negation","requirement":"The platform must support SAML federation.","evidence":"SAML federation is not supported.","relation":"contradicted"},
+    {"id":"saml-unrelated-negation","requirement":"The platform must support SAML federation.","evidence":"SAML federation is available. Password-only login is not required.","relation":"supported"},
+    {"id":"saml-roadmap","requirement":"The platform must support SAML federation today.","evidence":"SAML federation is planned for next year and is unavailable today.","relation":"contradicted"},
+    {"id":"encryption-partial","requirement":"Customer data must use AES-256 encryption at rest and TLS 1.3 in transit.","evidence":"AES-256 encryption at rest protects customer data. Transit encryption is unspecified.","relation":"insufficient"},
+    {"id":"encryption-complete","requirement":"Customer data must use AES-256 encryption at rest and TLS 1.3 in transit.","evidence":"Customer data uses AES-256 encryption at rest and TLS 1.3 in transit.","relation":"supported"},
+    {"id":"response-business-hours","requirement":"The vendor must provide incident response 24 hours a day, seven days a week.","evidence":"Incident response is available Monday to Friday from 09:00 to 17:00; it is unavailable outside those hours.","relation":"contradicted"},
+    {"id":"irrelevant-evidence","requirement":"The platform must support SAML federation.","evidence":"The cafeteria serves lunch at noon.","relation":"insufficient"},
+    {"id":"paraphrased-obligation","requirement":"The vendor is obligated to support SAML federation.","evidence":"SAML federation is supported.","relation":"supported"}
+  ]
+}

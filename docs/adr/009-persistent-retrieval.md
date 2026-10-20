@@ -1,0 +1,17 @@
+# ADR 009: persistent source-aware exact vector retrieval
+
+Status: implemented and exercised on local PostgreSQL with actual pinned CPU embeddings; not the default workbench job path.
+
+Revision 0003 adds tenant-owned immutable corpus snapshots and 384-dimensional chunks with a composite tenant/corpus foreign key. PostgreSQL uses pgvector; SQLite has a JSON storage placeholder for schema compatibility but the persistent-search implementation explicitly refuses SQLite. No numerical-search fallback is hidden behind a successful response. Migration installs the extension if needed in the shared public schema and never drops a shared extension during rollback. Downgrade refuses a nonempty corpus cache.
+
+Cache identity binds canonical source documents, content hashes and an encoder recipe. The recipe covers weights/revision, tokenizer/config files, maximum token window, chunking recipe and key runtime versions. Changed source text or model configuration creates a different corpus. Tenant is a separate primary-key/query predicate. The caller must supply a scope from trusted authenticated identity; repository methods do not accept an unscoped hash lookup. This is application scoping, not a substitute for database RLS.
+
+Corpus header and all chunk vectors publish in one transaction. A racing duplicate rolls back its entire publication and loads the existing complete snapshot. Reopening validates source snapshots, chunk count, chunk IDs and exact citation spans before use. Invalid dimensions/finite values and corrupted source metadata fail closed. Source vectors are reused after restart; each query still requires a local query embedding. There is no LLM-result cache or hidden model inference.
+
+Search uses exact cosine distance over a bounded corpus, stable chunk-ID tie ordering and reciprocal rank fusion with the same source chunks used by BM25. No approximate index or scale/SLA claim is introduced for at most 5,000 chunks. Queries are SQL-parameterized and scoped to tenant/corpus. Database RLS, least-privilege production roles, corpus retention and aggregate cache storage quotas remain unfinished; the current integration server uses a private test administrator.
+
+Executed correctness groups cover restart reuse, source/recipe invalidation, tenant separation, concurrent duplicate publication, atomic rollback, tampered citations and preservation on refused downgrade. Synthetic 384-dimensional vectors test storage correctness; they are not AI-quality measurements. A separate real MiniLM group evaluated authored queries and reopened the corpus in another process whose source encoder was disabled, proving stored vectors were reused.
+
+The independent persisted-retrieval report uses the same ten positive authored queries as the in-memory report: lexical recall@3 0.70; semantic/hybrid recall@3 1.00. This does not increase the number of independent quality cases or establish enterprise accuracy, abstention, factual faithfulness or production latency. Actual query/build/restore timings, recipe/source/dataset digests and revision are retained in the report. No external inference calls occurred.
+
+The model-selection library accepts this retriever through its existing bounded protocol and rechecks candidates against submitted knowledge before disclosure. Model pipeline metadata is now `source-selection-v2` and reports the retrieval backend accurately. Live provider validation, durable model accounting and API deployment integration remain separate work.

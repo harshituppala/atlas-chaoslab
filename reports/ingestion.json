@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "kind": "document_ingestion",
+  "generated_at": "2026-10-15T03:07:17.240368+00:00",
+  "scope": "Four authored synthetic ingestion cases. Text/page mapping and safe rejection only; no OCR, real-world layout accuracy or AI faithfulness claim.",
+  "adapter": "atlas.ingestion_adapter:run",
+  "dataset_sha256": "c0b33ac37edc6991637d6666aae20bd64aa9c0c9d5922d314b2793df498d8e72",
+  "fixture_sha256": {
+    "documents/municipal-rfp.pdf": "ee3d55d69e92de8fa7efc88e5fb5acf79f859812b2f0728ab8eb2beb335b96ae",
+    "documents/capability-register.docx": "78a6846f9a24d1def4e6de3b6eadba8ae38a695ad28818e7c13e3ca612d19c07"
+  },
+  "source_sha256": "31ac6f96f4636f482271982bc137bb48f97280f6b0a7ca9683b65f8ab86dbdaf",
+  "revision": "224dc73656d2d5272601d682b8de676ebf5072e7",
+  "working_tree_dirty": true,
+  "environment": "macOS-27.0.1-arm64-arm-64bit",
+  "python": "3.12.14",
+  "unique_cases": 4,
+  "cases_passed": 4,
+  "external_inference_calls": 0,
+  "results": [
+    {
+      "id": "two-page-pdf-provenance",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "raw_identity": true,
+        "segment_count": true,
+        "format": true,
+        "source_map_coverage": true,
+        "authored_location_1": true,
+        "authored_location_2": true
+      },
+      "observed_status": "extracted",
+      "observed_reason": null,
+      "latency_ms": 105.46783299650997
+    },
+    {
+      "id": "docx-unicode-and-table-cells",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "raw_identity": true,
+        "segment_count": true,
+        "format": true,
+        "source_map_coverage": true,
+        "authored_location_1": true,
+        "authored_location_2": true,
+        "authored_location_3": true,
+        "authored_location_4": true
+      },
+      "observed_status": "extracted",
+      "observed_reason": null,
+      "latency_ms": 68.28508300532121
+    },
+    {
+      "id": "wrong-file-signature",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "reason": true,
+        "no_partial_document": true
+      },
+      "observed_status": "rejected",
+      "observed_reason": "unsupported_document",
+      "latency_ms": 93.14829199865926
+    },
+    {
+      "id": "malformed-pdf-fails-without-partial-output",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "reason": true,
+        "no_partial_document": true
+      },
+      "observed_status": "rejected",
+      "observed_reason": "extraction_failed",
+      "latency_ms": 93.645209002716
+    }
+  ]
+}

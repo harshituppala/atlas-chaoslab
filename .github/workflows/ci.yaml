@@ -1,0 +1,54 @@
+name: quality-gates
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.lock
+      - run: ruff check src tests scripts && ruff format --check src tests scripts
+      - run: PYTHONPATH=src python -m pytest -q
+      - run: PYTHONPATH=src python -m chaoslab --repeat 3 --output reports/ci.json
+      - run: PYTHONPATH=src python -m chaoslab --dataset datasets/adversarial.json --output reports/adversarial-ci.json --repeat 3
+      - run: PYTHONPATH=src python -m chaoslab.reasoning --output reports/reasoning-ci.json
+      - run: PYTHONPATH=src python -m chaoslab.recovery --output reports/recovery-ci.json
+      - run: PYTHONPATH=src python -m chaoslab.ingestion --output reports/ingestion-ci.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: baseline-evidence
+          path: |
+            reports/ci.json
+            reports/adversarial-ci.json
+            reports/reasoning-ci.json
+            reports/recovery-ci.json
+            reports/ingestion-ci.json
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: pip install -r requirements.lock
+      - run: corepack enable && corepack prepare pnpm@11.25.0 --activate
+      - run: pnpm install --frozen-lockfile && pnpm format:check && pnpm build && pnpm exec playwright install --with-deps chromium
+        working-directory: apps/web
+      - run: pnpm build:replay && pnpm test:replay
+        working-directory: apps/web
+      - run: PYTHONPATH=src python -m chaoslab --output reports/baseline.json
+      - run: PYTHONPATH=src python -m chaoslab --dataset datasets/adversarial.json --output reports/adversarial.json --repeat 3
+      - run: PYTHONPATH=src python -m chaoslab.reasoning
+      - run: PYTHONPATH=src python -m chaoslab.recovery
+      - run: ATLAS_DEMO=1 PYTHONPATH=src python -m atlas > var-ci-server.log 2>&1 &
+      - run: PYTHONPATH=src python -m atlas.worker > var-ci-worker.log 2>&1 &
+      - run: python scripts/wait_ready.py
+      - run: pnpm test
+        working-directory: apps/web

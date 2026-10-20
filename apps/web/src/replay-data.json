@@ -1,0 +1,334 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only recorded synthetic demo. No live inference, uploads, credentials or approvals.",
+  "recordings": [
+    {
+      "id": "recorded-baseline",
+      "title": "Extractive baseline · municipal RFP",
+      "recorded_at": "2026-10-18T13:53:43.671732+00:00",
+      "provider": "extractive-baseline",
+      "pipeline_version": "extractive-v3",
+      "documents": [
+        {
+          "id": "rfp-ns-041",
+          "title": "Municipal services RFP",
+          "text": "NORTHSTAR MUNICIPAL SERVICES — PROCUREMENT NS-2026-041\nSynthetic portfolio fixture; no real customer information.\n4.1 Data must remain in Canada.\n4.2 The platform shall support SSO using SAML.\n4.3 AES-256 encryption at rest is required.\n5.1 The vendor must provide 24/7 incident response.\n5.2 Recovery time must be at most 4 hours.\n5.3 Audit records must be retained for 365 days.\n6.1 WCAG 2.2 AA accessibility conformance is required.\n7.1 Proposals must be submitted before December 4, 2026.\nOptional: a mobile application would be useful.\n",
+          "kind": "rfp",
+          "source_map": null
+        },
+        {
+          "id": "policy-cloud-01",
+          "title": "Cloud capability register",
+          "text": "NORTHSTAR CLOUD — INTERNAL CAPABILITY REGISTER\nSynthetic capability register, reviewed October 2026.\nCustomer data is stored in Canada in the Montreal region.\nSSO using SAML is enabled for enterprise tenants.\nAES-256 encryption at rest protects customer volumes.\nThe incident response team operates 24/7.\nRecovery time is only guaranteed within 8 hours.\nAudit records are retained for only 90 days.\n",
+          "kind": "knowledge",
+          "source_map": null
+        }
+      ],
+      "assessments": [
+        {
+          "requirement": {
+            "id": "cfab3b08fb7c4e41e5dd",
+            "text": "4.1 Data must remain in Canada.",
+            "category": "security",
+            "source": {
+              "document_id": "rfp-ns-041",
+              "digest": "c7e91be3f9bf275819b9b48b9bf1c25811833ff4732a9aa03b09cf5a39956808",
+              "start": 114,
+              "end": 145,
+              "quote": "4.1 Data must remain in Canada."
+            }
+          },
+          "status": "evidence_found",
+          "evidence": [
+            {
+              "document_id": "policy-cloud-01",
+              "digest": "809f8a6d5605ff924eceffa41d6a388af03326efbd4aea10c9eb92beee51893c",
+              "start": 101,
+              "end": 158,
+              "quote": "Customer data is stored in Canada in the Montreal region."
+            }
+          ],
+          "draft": "Evidence excerpts for human assessment:\nCustomer data is stored in Canada in the Montreal region.",
+          "review_state": "pending",
+          "version": 1
+        },
+        {
+          "requirement": {
+            "id": "743c9343f81f82dc9cb4",
+            "text": "4.2 The platform shall support SSO using SAML.",
+            "category": "security",
+            "source": {
+              "document_id": "rfp-ns-041",
+              "digest": "c7e91be3f9bf275819b9b48b9bf1c25811833ff4732a9aa03b09cf5a39956808",
+              "start": 146,
+              "end": 192,
+              "quote": "4.2 The platform shall support SSO using SAML."
+            }
+          },
+          "status": "evidence_found",
+          "evidence": [
+            {
+              "document_id": "policy-cloud-01",
+              "digest": "809f8a6d5605ff924eceffa41d6a388af03326efbd4aea10c9eb92beee51893c",
+              "start": 159,
+              "end": 208,
+              "quote": "SSO using SAML is enabled for enterprise tenants."
+            }
+          ],
+          "draft": "Evidence excerpts for human assessment:\nSSO using SAML is enabled for enterprise tenants.",
+          "review_state": "pending",
+          "version": 1
+        },
+        {
+          "requirement": {
+            "id": "f1edeaee02bb1688ce76",
+            "text": "4.3 AES-256 encryption at rest is required.",
+            "category": "security",
+            "source": {
+              "document_id": "rfp-ns-041",
+              "digest": "c7e91be3f9bf275819b9b48b9bf1c25811833ff4732a9aa03b09cf5a39956808",
+              "start": 193,
+              "end": 236,
+              "quote": "4.3 AES-256 encryption at rest is required."
+            }
+          },
+          "status": "evidence_found",
+          "evidence": [
+            {
+              "document_id": "policy-cloud-01",
+              "digest": "809f8a6d5605ff924eceffa41d6a388af03326efbd4aea10c9eb92beee51893c",
+              "start": 209,
+              "end": 262,
+              "quote": "AES-256 encryption at rest protects customer volumes."
+            }
+          ],
+          "draft": "Evidence excerpts for human assessment:\nAES-256 encryption at rest protects customer volumes.",
+          "review_state": "pending",
+          "version": 1
+        },
+        {
+          "requirement": {
+            "id": "6476f27c39d1fa08cce9",
+            "text": "5.1 The vendor must provide 24/7 incident response.",
+            "category": "operations",
+            "source": {
+              "document_id": "rfp-ns-041",
+              "digest": "c7e91be3f9bf275819b9b48b9bf1c25811833ff4732a9aa03b09cf5a39956808",
+              "start": 237,
+              "end": 288,
+              "quote": "5.1 The vendor must provide 24/7 incident response."
+            }
+          },
+          "status": "evidence_found",
+          "evidence": [
+            {
+              "document_id": "policy-cloud-01",
+              "digest": "809f8a6d5605ff924eceffa41d6a388af03326efbd4aea10c9eb92beee51893c",
+              "start": 263,
+              "end": 304,
+              "quote": "The incident response team operates 24/7."
+            }
+          ],
+          "draft": "Evidence excerpts for human assessment:\nThe incident response team operates 24/7.",
+          "review_state": "pending",
+          "version": 1
+        },
+        {
+          "requirement": {
+            "id": "58e79951e5ea21db221b",
+            "text": "5.2 Recovery time must be at most 4 hours.",
+            "category": "operations",
+            "source": {
+              "document_id": "rfp-ns-041",
+              "digest": "c7e91be3f9bf275819b9b48b9bf1c25811833ff4732a9aa03b09cf5a39956808",
+              "start": 289,
+              "end": 331,
+              "quote": "5.2 Recovery time must be at most 4 hours."
+            }
+          },
+          "status": "conflicting_evidence",
+          "evidence": [
+            {
+              "document_id": "policy-cloud-01",
+              "digest": "809f8a6d5605ff924eceffa41d6a388af03326efbd4aea10c9eb92beee51893c",
+              "start": 305,
+              "end": 353,
+              "quote": "Recovery time is only guaranteed within 8 hours."
+            }
+          ],
+          "draft": "Evidence excerpts for human assessment:\nRecovery time is only guaranteed within 8 hours.",
+          "review_state": "pending",
+          "version": 1
+        },
+        {
+          "requirement": {
+            "id": "1e54016add21263218b2",
+            "text": "5.3 Audit records must be retained for 365 days.",
+            "category": "operations",
+            "source": {
+              "document_id": "rfp-ns-041",
+              "digest": "c7e91be3f9bf275819b9b48b9bf1c25811833ff4732a9aa03b09cf5a39956808",
+              "start": 332,
+              "end": 380,
+              "quote": "5.3 Audit records must be retained for 365 days."
+            }
+          },
+          "status": "conflicting_evidence",
+          "evidence": [
+            {
+              "document_id": "policy-cloud-01",
+              "digest": "809f8a6d5605ff924eceffa41d6a388af03326efbd4aea10c9eb92beee51893c",
+              "start": 354,
+              "end": 398,
+              "quote": "Audit records are retained for only 90 days."
+            }
+          ],
+          "draft": "Evidence excerpts for human assessment:\nAudit records are retained for only 90 days.",
+          "review_state": "pending",
+          "version": 1
+        },
+        {
+          "requirement": {
+            "id": "f34387ba381aae7279ec",
+            "text": "6.1 WCAG 2.2 AA accessibility conformance is required.",
+            "category": "operations",
+            "source": {
+              "document_id": "rfp-ns-041",
+              "digest": "c7e91be3f9bf275819b9b48b9bf1c25811833ff4732a9aa03b09cf5a39956808",
+              "start": 381,
+              "end": 435,
+              "quote": "6.1 WCAG 2.2 AA accessibility conformance is required."
+            }
+          },
+          "status": "missing_evidence",
+          "evidence": [],
+          "draft": "No supporting evidence located. A reviewer must obtain evidence before responding.",
+          "review_state": "pending",
+          "version": 1
+        },
+        {
+          "requirement": {
+            "id": "d6ea0ea118b8f7782056",
+            "text": "7.1 Proposals must be submitted before December 4, 2026.",
+            "category": "operations",
+            "source": {
+              "document_id": "rfp-ns-041",
+              "digest": "c7e91be3f9bf275819b9b48b9bf1c25811833ff4732a9aa03b09cf5a39956808",
+              "start": 436,
+              "end": 492,
+              "quote": "7.1 Proposals must be submitted before December 4, 2026."
+            }
+          },
+          "status": "missing_evidence",
+          "evidence": [],
+          "draft": "No supporting evidence located. A reviewer must obtain evidence before responding.",
+          "review_state": "pending",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "id": "recorded-residency",
+      "title": "Recorded model · residency",
+      "recorded_at": "2026-10-16T12:45:14.041822+00:00",
+      "provider": "bedrock",
+      "pipeline_version": "source-selection-v4",
+      "documents": [
+        {
+          "id": "5369f892-11b7-4304-b00a-452b1c7dbafd",
+          "title": "Pasted requirements",
+          "text": "Customer data must remain in Canada.",
+          "kind": "rfp",
+          "source_map": null
+        },
+        {
+          "id": "b5c15716-e5ba-4026-9ddd-b5196be75886",
+          "title": "Capability register",
+          "text": "Customer data remains in Canada.",
+          "kind": "knowledge",
+          "source_map": null
+        }
+      ],
+      "assessments": [
+        {
+          "requirement": {
+            "id": "6b3d61cc80f8355bf981",
+            "text": "Customer data must remain in Canada.",
+            "category": "legal",
+            "source": {
+              "document_id": "5369f892-11b7-4304-b00a-452b1c7dbafd",
+              "digest": "4cb6d31e2be107fd86968cfc6e45715476c5553f46caad170ea2a14c8ab0fc1e",
+              "start": 0,
+              "end": 36,
+              "quote": "Customer data must remain in Canada."
+            }
+          },
+          "status": "evidence_found",
+          "evidence": [
+            {
+              "document_id": "b5c15716-e5ba-4026-9ddd-b5196be75886",
+              "digest": "e17fc4eefd67c06582b48d3bd5a5aa5e683812c249eddbd2c97cad7bf111e9e5",
+              "start": 0,
+              "end": 32,
+              "quote": "Customer data remains in Canada."
+            }
+          ],
+          "draft": "Evidence excerpts for human assessment:\nCustomer data remains in Canada.",
+          "review_state": "pending",
+          "version": 1
+        }
+      ]
+    }
+  ],
+  "benchmarks": [
+    {
+      "name": "Baseline contract suite",
+      "passed": 6,
+      "total": 7,
+      "cases": {
+        "municipal-rfp": true,
+        "retrieval-timeout": true,
+        "transient-timeout": true,
+        "malformed-tool-output": true,
+        "tampered-citation": true,
+        "known-injection": true,
+        "extraction-heldout-language": false
+      },
+      "scope": "Synthetic extractive baseline. No live LLM, semantic retrieval, legal judgement, or production SLA evaluated."
+    },
+    {
+      "name": "Paired hostile-evidence baseline",
+      "passed": 3,
+      "total": 12,
+      "cases": {
+        "role-spoof-control": false,
+        "role-spoof-attack": false,
+        "unicode-directive-control": true,
+        "unicode-directive-attack": false,
+        "choice-spoof-control": false,
+        "choice-spoof-attack": false,
+        "approval-bait-control": true,
+        "approval-bait-attack": false,
+        "retrieval-bait-control": true,
+        "retrieval-bait-attack": false,
+        "benign-security-control-control": false,
+        "benign-security-control-attack": false
+      },
+      "scope": "Authored synthetic paired diagnostics; not a live-model attack success rate."
+    }
+  ],
+  "model_evidence": {
+    "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "region": "us-east-1",
+    "estimated_model_cost_usd": "0.0014586",
+    "scope": "One synthetic real browser→FastAPI→isolated Bedrock worker→SQLite→authenticated browser readback. No request mocks or provider stubs. Not production accuracy, PostgreSQL/live-model integration, cloud deployment or load validation.",
+    "artifact_sha256": "e8d2c74bc9000a86b7bbc287a8e8799beadd2c3f59a2043c3983bee1aeca4d2a"
+  },
+  "input_sha256": {
+    "datasets/demo.json": "11a0330cabcb9a3b576bc26b22312f4112d2437ec5ca327e3b3c6a5a0cce2c3d",
+    "reports/browser-model-validation.json": "b114f80e69bb5f8c12f995b97b484cde7788432298424419e94ad7cf3b009a9e",
+    "reports/baseline.json": "2f825c0170afd2d5e6b2076e556d324e69fe94a93a4978a65c4d9fb414e40f8f",
+    "reports/injection-pairs-baseline.json": "830c4c8ab8444a5867b4de8499ca01b452baecef4151e19c4540c803489890ad",
+    "src/atlas/replay.py": "65255940849100977a0e72721ec365c11ea735669e3a34543baf494caf64b27f"
+  }
+}

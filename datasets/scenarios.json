@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "scope": "Three authored synthetic scenarios with nine obligations, multiple evidence records, historical distractors and split support. Same-author development diagnostics, not blinded independent validation, representative enterprise accuracy, or legal compliance.",
+  "cases": [
+    {
+      "id": "identity-current-and-historical",
+      "input": {
+        "rfp": {
+          "id": "obligations",
+          "title": "Obligations",
+          "kind": "rfp",
+          "text": "The platform must support SAML federation today.\nThe platform must support SCIM provisioning today.\nAdministrator accounts must require phishing-resistant MFA."
+        },
+        "knowledge": [
+          {
+            "id": "current-capabilities",
+            "title": "Current Capabilities",
+            "kind": "knowledge",
+            "text": "SAML federation is supported today. SCIM provisioning is planned for next year and unavailable today."
+          },
+          {
+            "id": "access-policy",
+            "title": "Access Policy",
+            "kind": "knowledge",
+            "text": "Administrator accounts require phishing-resistant MFA."
+          },
+          {
+            "id": "historical-note",
+            "title": "Historical Note",
+            "kind": "knowledge",
+            "text": "Historical note from 2022: SAML federation was unavailable then."
+          }
+        ]
+      },
+      "expected": [
+        {
+          "text": "The platform must support SAML federation today.",
+          "relation": "supported",
+          "evidence_ids": [
+            "current-capabilities"
+          ]
+        },
+        {
+          "text": "The platform must support SCIM provisioning today.",
+          "relation": "contradicted",
+          "evidence_ids": [
+            "current-capabilities"
+          ]
+        },
+        {
+          "text": "Administrator accounts must require phishing-resistant MFA.",
+          "relation": "supported",
+          "evidence_ids": [
+            "access-policy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retention-recovery-and-residency",
+      "input": {
+        "rfp": {
+          "id": "obligations",
+          "title": "Obligations",
+          "kind": "rfp",
+          "text": "Audit records must be retained for at least 365 days.\nRecovery time must be at most 4 hours.\nCustomer data and backups must remain in Canada."
+        },
+        "knowledge": [
+          {
+            "id": "retention-policy",
+            "title": "Retention Policy",
+            "kind": "knowledge",
+            "text": "Audit records are retained for exactly 90 days and then deleted."
+          },
+          {
+            "id": "recovery-policy",
+            "title": "Recovery Policy",
+            "kind": "knowledge",
+            "text": "Recovery time is guaranteed within 2 hours."
+          },
+          {
+            "id": "residency-policy",
+            "title": "Residency Policy",
+            "kind": "knowledge",
+            "text": "Customer data remains in Canada. Backup locations are unspecified."
+          }
+        ]
+      },
+      "expected": [
+        {
+          "text": "Audit records must be retained for at least 365 days.",
+          "relation": "contradicted",
+          "evidence_ids": [
+            "retention-policy"
+          ]
+        },
+        {
+          "text": "Recovery time must be at most 4 hours.",
+          "relation": "supported",
+          "evidence_ids": [
+            "recovery-policy"
+          ]
+        },
+        {
+          "text": "Customer data and backups must remain in Canada.",
+          "relation": "insufficient",
+          "evidence_ids": []
+        }
+      ]
+    },
+    {
+      "id": "split-evidence-and-service-hours",
+      "input": {
+        "rfp": {
+          "id": "obligations",
+          "title": "Obligations",
+          "kind": "rfp",
+          "text": "Customer data must use AES-256 encryption at rest and TLS 1.3 in transit.\nThe vendor must notify customers at least 14 days before planned maintenance.\nThe vendor must provide incident response 24 hours a day, seven days a week."
+        },
+        "knowledge": [
+          {
+            "id": "storage-security",
+            "title": "Storage Security",
+            "kind": "knowledge",
+            "text": "Customer data uses AES-256 encryption at rest."
+          },
+          {
+            "id": "transport-security",
+            "title": "Transport Security",
+            "kind": "knowledge",
+            "text": "Customer data uses TLS 1.3 encryption in transit."
+          },
+          {
+            "id": "service-policy",
+            "title": "Service Policy",
+            "kind": "knowledge",
+            "text": "Customers receive notification 21 days before planned maintenance. Incident response is available Monday to Friday from 09:00 to 17:00 and unavailable outside those hours."
+          }
+        ]
+      },
+      "expected": [
+        {
+          "text": "Customer data must use AES-256 encryption at rest and TLS 1.3 in transit.",
+          "relation": "supported",
+          "evidence_ids": [
+            "storage-security",
+            "transport-security"
+          ]
+        },
+        {
+          "text": "The vendor must notify customers at least 14 days before planned maintenance.",
+          "relation": "supported",
+          "evidence_ids": [
+            "service-policy"
+          ]
+        },
+        {
+          "text": "The vendor must provide incident response 24 hours a day, seven days a week.",
+          "relation": "contradicted",
+          "evidence_ids": [
+            "service-policy"
+          ]
+        }
+      ]
+    }
+  ]
+}

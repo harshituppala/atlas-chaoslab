@@ -1,0 +1,543 @@
+{
+  "schema_version": 1,
+  "kind": "persistent_retrieval",
+  "generated_at": "2026-10-15T02:30:50.388150+00:00",
+  "scope": "Ten authored synthetic English paraphrase queries over ten short capability excerpts. Labels were fixed before model execution. Not representative of enterprise corpora. Same ten positive queries through persisted exact pgvector search; not additional independent cases, RLS validation or a production SLA.",
+  "unique_queries": 10,
+  "k": 3,
+  "backend": "pgvector_exact",
+  "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+  "encoder_recipe_sha256": "df264f5c2e0373d2f842a84921c29e70748f6ac0a45795d36ba9796b46c14e9b",
+  "corpus_id": "25165174e4d9d8258ee78ee72dc62ac4e1e0771a9e5cdddc892dc36ef49e90d3",
+  "corpus_build_ms": 99.3277500019758,
+  "cache_restore_ms": 9.180374996503815,
+  "cache_reused": true,
+  "dataset_sha256": "a90485da50761c5905dc0b9977bcdf5d9aa9bb54224cf4e9d8e3858a305817b7",
+  "source_sha256": "fea618774f2e361b03c09f48d5358245577013ad8860d58d6e43e66282738177",
+  "revision": "f9e2f6a92702b1687704c7a65b6ed5da59e35a73",
+  "working_tree_dirty": true,
+  "python": "3.12.14",
+  "environment": "macOS-27.0.1-arm64-arm-64bit",
+  "external_inference_calls": 0,
+  "summary": {
+    "lexical": {
+      "recall_at_k": 0.7,
+      "mrr": 0.6,
+      "latency_median_ms": 0.015124998753890395
+    },
+    "semantic": {
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "latency_median_ms": 3.2292499963659793
+    },
+    "hybrid": {
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "latency_median_ms": 3.224770502129104
+    }
+  },
+  "results": [
+    {
+      "query_id": "q1",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.019333994714543223,
+      "ranked_document_ids": [
+        "residency"
+      ],
+      "scores": [
+        1.0
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q1",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 4.083458996319678,
+      "ranked_document_ids": [
+        "residency",
+        "export",
+        "encryption"
+      ],
+      "scores": [
+        0.4284609896861924,
+        0.4032159803380986,
+        0.31141168807183783
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q1",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.6720839998451993,
+      "ranked_document_ids": [
+        "residency",
+        "export",
+        "encryption"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q2",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "latency_ms": 0.018999999156221747,
+      "ranked_document_ids": [
+        "export",
+        "identity"
+      ],
+      "scores": [
+        1.0,
+        0.5
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q2",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.670709003927186,
+      "ranked_document_ids": [
+        "identity",
+        "authorization",
+        "encryption"
+      ],
+      "scores": [
+        0.4657155732597258,
+        0.25759973354340504,
+        0.20801020908416568
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q2",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.273291004006751,
+      "ranked_document_ids": [
+        "identity",
+        "export",
+        "authorization"
+      ],
+      "scores": [
+        0.03252247488101534,
+        0.031544957774465976,
+        0.016129032258064516
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q3",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "latency_ms": 0.015124998753890395,
+      "ranked_document_ids": [
+        "residency",
+        "encryption"
+      ],
+      "scores": [
+        1.0,
+        0.5
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q3",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.107541000645142,
+      "ranked_document_ids": [
+        "encryption",
+        "residency",
+        "export"
+      ],
+      "scores": [
+        0.5112089071038042,
+        0.2822692822057442,
+        0.2814024519084428
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q3",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.176250000251457,
+      "ranked_document_ids": [
+        "encryption",
+        "residency",
+        "export"
+      ],
+      "scores": [
+        0.03252247488101534,
+        0.03252247488101534,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q4",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.015124998753890395,
+      "ranked_document_ids": [
+        "response"
+      ],
+      "scores": [
+        1.0
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q4",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.663709001557436,
+      "ranked_document_ids": [
+        "response",
+        "recovery",
+        "residency"
+      ],
+      "scores": [
+        0.4046622273527256,
+        0.2092667097290335,
+        0.1346237796993518
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q4",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.452999997534789,
+      "ranked_document_ids": [
+        "response",
+        "recovery",
+        "residency"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q5",
+      "method": "lexical",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "latency_ms": 0.01120899833040312,
+      "ranked_document_ids": [],
+      "scores": [],
+      "score_kind": null
+    },
+    {
+      "query_id": "q5",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.129291995719541,
+      "ranked_document_ids": [
+        "recovery",
+        "backup",
+        "audit"
+      ],
+      "scores": [
+        0.595259428024292,
+        0.42773735523223877,
+        0.35822099447250366
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q5",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.057791996980086,
+      "ranked_document_ids": [
+        "recovery",
+        "backup",
+        "audit"
+      ],
+      "scores": [
+        0.01639344262295082,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q6",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.01491699367761612,
+      "ranked_document_ids": [
+        "audit",
+        "accessibility"
+      ],
+      "scores": [
+        1.0,
+        0.5
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q6",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.040125004190486,
+      "ranked_document_ids": [
+        "audit",
+        "backup",
+        "recovery"
+      ],
+      "scores": [
+        0.6561536602790807,
+        0.434387512876095,
+        0.2760605184959767
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q6",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.5710829979507253,
+      "ranked_document_ids": [
+        "audit",
+        "accessibility",
+        "backup"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.031054405392392875,
+        0.016129032258064516
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q7",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.017750004190020263,
+      "ranked_document_ids": [
+        "accessibility",
+        "authorization"
+      ],
+      "scores": [
+        1.0,
+        0.5
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q7",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.3292079970124178,
+      "ranked_document_ids": [
+        "accessibility",
+        "response",
+        "encryption"
+      ],
+      "scores": [
+        0.4130097031593323,
+        0.16056841611862183,
+        0.13057595880555994
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q7",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.081959002884105,
+      "ranked_document_ids": [
+        "accessibility",
+        "authorization",
+        "response"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.030621785881252923,
+        0.016129032258064516
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q8",
+      "method": "lexical",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "latency_ms": 0.010583004041109234,
+      "ranked_document_ids": [],
+      "scores": [],
+      "score_kind": null
+    },
+    {
+      "query_id": "q8",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.030208004929591,
+      "ranked_document_ids": [
+        "backup",
+        "recovery",
+        "audit"
+      ],
+      "scores": [
+        0.526244637221741,
+        0.41682965554837814,
+        0.30517035065050924
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q8",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.054540997254662,
+      "ranked_document_ids": [
+        "backup",
+        "recovery",
+        "audit"
+      ],
+      "scores": [
+        0.01639344262295082,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q9",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.018916995031759143,
+      "ranked_document_ids": [
+        "export",
+        "residency",
+        "identity"
+      ],
+      "scores": [
+        1.0,
+        0.5,
+        0.3333333333333333
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q9",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.5830830020131543,
+      "ranked_document_ids": [
+        "export",
+        "residency",
+        "encryption"
+      ],
+      "scores": [
+        0.5047412509034573,
+        0.322234949799186,
+        0.25049894301596554
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q9",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.366625001945067,
+      "ranked_document_ids": [
+        "export",
+        "residency",
+        "identity"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.03225806451612903,
+        0.030798389007344232
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q10",
+      "method": "lexical",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "latency_ms": 0.009750001481734216,
+      "ranked_document_ids": [],
+      "scores": [],
+      "score_kind": null
+    },
+    {
+      "query_id": "q10",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.0255419987952337,
+      "ranked_document_ids": [
+        "authorization",
+        "encryption",
+        "accessibility"
+      ],
+      "scores": [
+        0.4937503639608414,
+        0.2638727803192372,
+        0.16269205510616302
+      ],
+      "score_kind": "pgvector_cosine"
+    },
+    {
+      "query_id": "q10",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.874292003980372,
+      "ranked_document_ids": [
+        "authorization",
+        "encryption",
+        "accessibility"
+      ],
+      "scores": [
+        0.01639344262295082,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    }
+  ]
+}

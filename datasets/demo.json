@@ -1,0 +1,16 @@
+{
+  "rfp": {
+    "id": "rfp-ns-041",
+    "title": "Municipal services RFP",
+    "text": "NORTHSTAR MUNICIPAL SERVICES \u2014 PROCUREMENT NS-2026-041\nSynthetic portfolio fixture; no real customer information.\n4.1 Data must remain in Canada.\n4.2 The platform shall support SSO using SAML.\n4.3 AES-256 encryption at rest is required.\n5.1 The vendor must provide 24/7 incident response.\n5.2 Recovery time must be at most 4 hours.\n5.3 Audit records must be retained for 365 days.\n6.1 WCAG 2.2 AA accessibility conformance is required.\n7.1 Proposals must be submitted before December 4, 2026.\nOptional: a mobile application would be useful.\n",
+    "kind": "rfp"
+  },
+  "knowledge": [
+    {
+      "id": "policy-cloud-01",
+      "title": "Cloud capability register",
+      "text": "NORTHSTAR CLOUD \u2014 INTERNAL CAPABILITY REGISTER\nSynthetic capability register, reviewed October 2026.\nCustomer data is stored in Canada in the Montreal region.\nSSO using SAML is enabled for enterprise tenants.\nAES-256 encryption at rest protects customer volumes.\nThe incident response team operates 24/7.\nRecovery time is only guaranteed within 8 hours.\nAudit records are retained for only 90 days.\n",
+      "kind": "knowledge"
+    }
+  ]
+}

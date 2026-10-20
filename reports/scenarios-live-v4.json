@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "scope": "Three authored synthetic scenarios with nine obligations, multiple evidence records, historical distractors and split support. Same-author development diagnostics, not blinded independent validation, representative enterprise accuracy, or legal compliance.",
+  "dataset_sha256": "930dff34830b8e31618f6f4370c7dc0407604c3e46abe575b2dc00b3c2f45dd4",
+  "planned_scenarios": 3,
+  "evaluated_scenarios": 3,
+  "not_run_scenarios": 0,
+  "scenarios_passed": 3,
+  "requirements_evaluated": 9,
+  "requirements_passed": 9,
+  "results": [
+    {
+      "id": "identity-current-and-historical",
+      "unexpected_extractions": 0,
+      "passed": true,
+      "requirements": [
+        {
+          "expected": "supported",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "contradicted",
+          "predicted": "contradicted",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "supported",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "retention-recovery-and-residency",
+      "unexpected_extractions": 0,
+      "passed": true,
+      "requirements": [
+        {
+          "expected": "contradicted",
+          "predicted": "contradicted",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "supported",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "insufficient",
+          "predicted": "insufficient",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "split-evidence-and-service-hours",
+      "unexpected_extractions": 0,
+      "passed": true,
+      "requirements": [
+        {
+          "expected": "supported",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "supported",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "contradicted",
+          "predicted": "contradicted",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "scoring_module_sha256": "3f9f906c7fc5e82b70dd01943678096bf61e83d405ef4436ae443e973230dcc9",
+  "execution": {
+    "provider": "bedrock",
+    "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "region": "us-east-1",
+    "pipeline_version": "source-selection-v4",
+    "source_sha256": "93984727f08ec47705b1993fdbacd5d0f1710f3481ed872cc66e5652bb11d1f3",
+    "input_artifact_sha256": "11aae1556642578966eb017e25174c12ba93b1201b3274927af18da1746076ac",
+    "call_status_counts": {
+      "validated": 12
+    },
+    "estimated_model_cost_usd": "0.0100232",
+    "cost_is_invoice": false,
+    "limitations": "Same-author synthetic diagnostics, not a blinded holdout. Exact full-record evidence and extraction gates are conservative. No loaded-code/provider attestation, production accuracy, deployment or billing reconciliation claim."
+  }
+}

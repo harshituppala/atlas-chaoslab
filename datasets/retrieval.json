@@ -1,0 +1,138 @@
+{
+  "version": "1.0",
+  "scope": "Ten authored synthetic English paraphrase queries over ten short capability excerpts. Labels were fixed before model execution. Not representative of enterprise corpora.",
+  "documents": [
+    {
+      "id": "residency",
+      "title": "residency",
+      "kind": "knowledge",
+      "text": "Customer information is hosted exclusively in Canadian data centres."
+    },
+    {
+      "id": "identity",
+      "title": "identity",
+      "kind": "knowledge",
+      "text": "Enterprise users can authenticate through federated single sign-on with SAML 2.0."
+    },
+    {
+      "id": "encryption",
+      "title": "encryption",
+      "kind": "knowledge",
+      "text": "Stored customer volumes are protected using AES-256 cryptographic encryption."
+    },
+    {
+      "id": "response",
+      "title": "response",
+      "kind": "knowledge",
+      "text": "Our on-call incident responders are available twenty-four hours a day, every day."
+    },
+    {
+      "id": "recovery",
+      "title": "recovery",
+      "kind": "knowledge",
+      "text": "After an outage, service restoration is guaranteed within eight hours."
+    },
+    {
+      "id": "audit",
+      "title": "audit",
+      "kind": "knowledge",
+      "text": "User activity logs are preserved for ninety days before deletion."
+    },
+    {
+      "id": "accessibility",
+      "title": "accessibility",
+      "kind": "knowledge",
+      "text": "The user interface has not yet received a WCAG accessibility audit."
+    },
+    {
+      "id": "backup",
+      "title": "backup",
+      "kind": "knowledge",
+      "text": "Database snapshots are captured nightly and restoration is exercised monthly."
+    },
+    {
+      "id": "export",
+      "title": "export",
+      "kind": "knowledge",
+      "text": "Customers can download their records as CSV and JSON files."
+    },
+    {
+      "id": "authorization",
+      "title": "authorization",
+      "kind": "knowledge",
+      "text": "Access privileges are assigned by role and follow the least-privilege principle."
+    }
+  ],
+  "queries": [
+    {
+      "id": "q1",
+      "query": "Where does client data physically reside?",
+      "relevant_document_ids": [
+        "residency"
+      ]
+    },
+    {
+      "id": "q2",
+      "query": "Can employees log in with their existing corporate identity?",
+      "relevant_document_ids": [
+        "identity"
+      ]
+    },
+    {
+      "id": "q3",
+      "query": "How do you protect information while it is stored?",
+      "relevant_document_ids": [
+        "encryption"
+      ]
+    },
+    {
+      "id": "q4",
+      "query": "Will someone answer urgent technical incidents at any time of the day?",
+      "relevant_document_ids": [
+        "response"
+      ]
+    },
+    {
+      "id": "q5",
+      "query": "How quickly is the application restored following a disaster?",
+      "relevant_document_ids": [
+        "recovery"
+      ]
+    },
+    {
+      "id": "q6",
+      "query": "For how long do you keep a history of user actions?",
+      "relevant_document_ids": [
+        "audit"
+      ]
+    },
+    {
+      "id": "q7",
+      "query": "Has the product been assessed for use by people with disabilities?",
+      "relevant_document_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "q8",
+      "query": "How often are recovery copies made and tested?",
+      "relevant_document_ids": [
+        "backup"
+      ]
+    },
+    {
+      "id": "q9",
+      "query": "Can clients move their data out in an open file format?",
+      "relevant_document_ids": [
+        "export"
+      ]
+    },
+    {
+      "id": "q10",
+      "query": "How are employee permissions restricted?",
+      "relevant_document_ids": [
+        "authorization"
+      ]
+    }
+  ]
+}

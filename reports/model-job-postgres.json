@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "scope": "Local PostgreSQL suite on owned disposable schemas; model-job group uses actual restricted SCRAM logins and controlled model output. No paid inference, browser model review, cloud deployment or model accuracy claim.",
+  "groups_passed": 18,
+  "server_version": "18.6",
+  "junit_sha256": "6b08018785b58b9f5257c314c1b2b90a2d4a50b61fb7e0fe8a4cd20a6d6e51ac",
+  "source_sha256_after_execution": "61322ad2e4d67c0eb0b45eef36e4809e3efea60bb4a98fb8f077f3adc077bebc",
+  "test_sha256_after_execution": "09ef68e1c3811d66adaf1ab48e9e1b94a3a2c91073eadc6b12e96b0eab6562c9",
+  "provenance_limit": "Source/test hashes were recorded after execution; no pre-execution snapshot or signed attestation was captured for this run.",
+  "revision_at_recording": "fdb49805026dd833e10af33c9378d50fe7352dbb",
+  "working_tree_dirty_at_recording": true,
+  "results": [
+    {
+      "id": "test_postgres_persistent_vectors_reopen_without_reembedding_and_isolate_tenants",
+      "passed": true,
+      "duration_seconds": 0.153
+    },
+    {
+      "id": "test_postgres_persistent_cache_atomic_rollback_and_concurrent_publication",
+      "passed": true,
+      "duration_seconds": 0.13
+    },
+    {
+      "id": "test_postgres_persistent_cache_rejects_tampered_sources_and_preserves_data_on_downgrade",
+      "passed": true,
+      "duration_seconds": 0.089
+    },
+    {
+      "id": "test_postgres_real_cpu_encoder_retrieval_and_new_process_cache_reuse",
+      "passed": true,
+      "duration_seconds": 6.752
+    },
+    {
+      "id": "test_postgres_tenant_scoping_idempotency_and_review_race",
+      "passed": true,
+      "duration_seconds": 0.16
+    },
+    {
+      "id": "test_postgres_competing_workers_publish_each_job_once",
+      "passed": true,
+      "duration_seconds": 0.201
+    },
+    {
+      "id": "test_postgres_expired_lease_and_cancellation_fence_old_owners",
+      "passed": true,
+      "duration_seconds": 0.068
+    },
+    {
+      "id": "test_postgres_atomic_publication_rolls_back_result_and_state",
+      "passed": true,
+      "duration_seconds": 0.066
+    },
+    {
+      "id": "test_postgres_duplicate_submission_and_storage_quota_races",
+      "passed": true,
+      "duration_seconds": 0.116
+    },
+    {
+      "id": "test_postgres_http_upload_and_job_publication",
+      "passed": true,
+      "duration_seconds": 0.298
+    },
+    {
+      "id": "test_pgvector_extension_persists_and_searches_vectors",
+      "passed": true,
+      "duration_seconds": 0.035
+    },
+    {
+      "id": "test_postgres_index_migration_rollback_preserves_revision_and_rows",
+      "passed": true,
+      "duration_seconds": 0.083
+    },
+    {
+      "id": "test_postgres_verified_legacy_adoption_preserves_existing_audit",
+      "passed": true,
+      "duration_seconds": 0.09
+    },
+    {
+      "id": "test_postgres_membership_cas_revocation_and_audit",
+      "passed": true,
+      "duration_seconds": 0.091
+    },
+    {
+      "id": "test_postgres_restricted_login_row_policies_and_pool_reset",
+      "passed": true,
+      "duration_seconds": 0.135
+    },
+    {
+      "id": "test_postgres_restricted_membership_and_worker_grants",
+      "passed": true,
+      "duration_seconds": 0.221
+    },
+    {
+      "id": "test_postgres_runtime_role_guard_and_policy_drift",
+      "passed": true,
+      "duration_seconds": 0.18
+    },
+    {
+      "id": "test_postgres_model_jobs_pinned_publication_review_and_rollback",
+      "passed": true,
+      "duration_seconds": 0.114
+    }
+  ]
+}

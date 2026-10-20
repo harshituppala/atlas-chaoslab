@@ -1,0 +1,77 @@
+# Local synthetic integration only. No AWS/model credentials or public deployment.
+# Generate ignored secrets with scripts/verify_compose.py; never use owner as runtime login.
+x-application: &application
+  image: ${ATLAS_LOCAL_IMAGE:-atlas-local:compose}
+  build: .
+  environment:
+    ATLAS_LOCAL_STACK: "1"
+    PYTHONDONTWRITEBYTECODE: "1"
+  networks: [integration]
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  pids_limit: 128
+  mem_limit: 768m
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: atlas
+      POSTGRES_USER: atlas_owner
+      POSTGRES_PASSWORD_FILE: /run/secrets/owner_password
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    secrets: [owner_password]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks: [integration]
+    mem_limit: 768m
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atlas_owner -d atlas"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  initialize:
+    <<: *application
+    command: ["python", "-m", "atlas.local_stack", "initialize"]
+    secrets: [operator]
+    depends_on:
+      postgres:
+        condition: service_healthy
+  api:
+    <<: *application
+    command: ["python", "-m", "atlas.local_stack", "api"]
+    secrets: [api]
+    networks: [integration, frontend]
+    ports:
+      - "127.0.0.1:${ATLAS_LOCAL_PORT:-8005}:8000"
+    depends_on:
+      initialize:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz', timeout=3)"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  worker:
+    <<: *application
+    command: ["python", "-m", "atlas.local_stack", "worker"]
+    secrets: [worker]
+    depends_on:
+      initialize:
+        condition: service_completed_successfully
+volumes:
+  postgres-data:
+networks:
+  frontend:
+    driver: bridge
+  integration:
+    internal: true
+secrets:
+  owner_password:
+    file: ${ATLAS_LOCAL_SECRETS:?Supply the private local secret directory}/owner_password
+  operator:
+    file: ${ATLAS_LOCAL_SECRETS:?Supply the private local secret directory}/operator.json
+  api:
+    file: ${ATLAS_LOCAL_SECRETS:?Supply the private local secret directory}/api.json
+  worker:
+    file: ${ATLAS_LOCAL_SECRETS:?Supply the private local secret directory}/worker.json

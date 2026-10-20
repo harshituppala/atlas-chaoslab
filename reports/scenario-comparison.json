@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "scope": "Descriptive paired rescoring of saved outputs, not new model inference or a production accuracy/significance claim. Strict outcomes count attempted execution failures as failures; missing attempts remain null/unpaired. Obligations within scenarios are correlated.",
+  "dataset_sha256": "930dff34830b8e31618f6f4370c7dc0407604c3e46abe575b2dc00b3c2f45dd4",
+  "planned_scenarios": 3,
+  "planned_requirements": 9,
+  "coverage": {
+    "reference_attempted": 3,
+    "candidate_attempted": 3,
+    "full_paired_coverage": true,
+    "execution_failures": {
+      "reference": 0,
+      "candidate": 0
+    }
+  },
+  "scenario_transitions": {
+    "both_passed": 0,
+    "both_failed": 0,
+    "improved": 3,
+    "regressed": 0,
+    "unpaired": 0
+  },
+  "requirement_transitions": {
+    "both_passed": 5,
+    "both_failed": 0,
+    "improved": 4,
+    "regressed": 0,
+    "unpaired": 0
+  },
+  "fixture_gate_passed": true,
+  "gate_scope": "This authored fixture set only; no deployment, security, comparative latency/cost, blinded validation or broad model superiority decision.",
+  "scenarios": [
+    {
+      "id": "identity-current-and-historical",
+      "reference_passed": false,
+      "candidate_passed": true,
+      "reference_execution": "succeeded",
+      "candidate_execution": "succeeded",
+      "requirements": [
+        {
+          "obligation_index": 0,
+          "obligation_sha256": "de6babe630f82a50814e18effe49113d5bbfa9de04d74727394065464bfee903",
+          "reference_passed": false,
+          "candidate_passed": true
+        },
+        {
+          "obligation_index": 1,
+          "obligation_sha256": "8aa19fef62baee50741495d98f86382b8a82b09e1747f1a82f3e382603eadd66",
+          "reference_passed": true,
+          "candidate_passed": true
+        },
+        {
+          "obligation_index": 2,
+          "obligation_sha256": "a634f3de3d4b17d7f5b24e90894d32da4fa41ec2b45abf5ff065143b35f102ad",
+          "reference_passed": true,
+          "candidate_passed": true
+        }
+      ]
+    },
+    {
+      "id": "retention-recovery-and-residency",
+      "reference_passed": false,
+      "candidate_passed": true,
+      "reference_execution": "succeeded",
+      "candidate_execution": "succeeded",
+      "requirements": [
+        {
+          "obligation_index": 0,
+          "obligation_sha256": "02851e47f75452d01b255762e15c86d86f0f2bc9798c38992e31b9518586c951",
+          "reference_passed": false,
+          "candidate_passed": true
+        },
+        {
+          "obligation_index": 1,
+          "obligation_sha256": "e1bf208b3909596e3b8a882b28f164031ce1474e89c9902c482b916e2a768799",
+          "reference_passed": true,
+          "candidate_passed": true
+        },
+        {
+          "obligation_index": 2,
+          "obligation_sha256": "5f332846fa0c540c00bf74365a7e6b5188868279c16da4ec26e66b92c7856396",
+          "reference_passed": false,
+          "candidate_passed": true
+        }
+      ]
+    },
+    {
+      "id": "split-evidence-and-service-hours",
+      "reference_passed": false,
+      "candidate_passed": true,
+      "reference_execution": "succeeded",
+      "candidate_execution": "succeeded",
+      "requirements": [
+        {
+          "obligation_index": 0,
+          "obligation_sha256": "928d7335193b0fc74262da75b9413a7dcd95b5ba5fc09ace57a2daa6a29181d7",
+          "reference_passed": true,
+          "candidate_passed": true
+        },
+        {
+          "obligation_index": 1,
+          "obligation_sha256": "8762b8f80d961d1446570e2bb062f9ed7fa5a2158fe040086e80c049bd988301",
+          "reference_passed": false,
+          "candidate_passed": true
+        },
+        {
+          "obligation_index": 2,
+          "obligation_sha256": "19b1782a29e79d8efe300862580c2ff568868476df433aa47368007746653cb6",
+          "reference_passed": true,
+          "candidate_passed": true
+        }
+      ]
+    }
+  ],
+  "recorded_at": "2026-10-18T23:57:23.326539+00:00",
+  "scorer_sha256": {
+    "src/chaoslab/comparison.py": "9e8f7a75aaf0587be82280f8322fc88c180002ac549f92f154228c425d825a2e",
+    "src/chaoslab/scenarios.py": "3f9f906c7fc5e82b70dd01943678096bf61e83d405ef4436ae443e973230dcc9",
+    "src/chaoslab/__main__.py": "9d910d9e04eaff16ad77c7e4d6e81e4e12c17d4d270eac3a4707253e3ab60ec7"
+  },
+  "input_sha256": {
+    "dataset": "930dff34830b8e31618f6f4370c7dc0407604c3e46abe575b2dc00b3c2f45dd4",
+    "reference": "3d4d3ba988abfce9d2229662ba363db6cd405018082cb6f0705594257bfa8ea1",
+    "candidate": "11aae1556642578966eb017e25174c12ba93b1201b3274927af18da1746076ac"
+  },
+  "provenance_scope": "Raw saved outputs rescored under the same current scorer. Hashes bound before and checked after comparison; not signed provider/loaded-code attestation. No original inference cost or timing is inferred.",
+  "experiment": {
+    "reference": "Fresh locally executed extractive baseline, three trusted adapter subprocesses.",
+    "candidate": "Historical Bedrock source-selection-v4 recording from October 16; no new inference.",
+    "historical_public_report_sha256": "d7d6a05637cdd951bcecbe5612bbd04f291e6d573614eedf66d1a8ed3e41cb4d",
+    "baseline_source_sha256": "2749a00339aff5aa3b4f0e84dee70ae0d69b8e695c28a122e264ba03e31fa4a9",
+    "recorder_sha256": "3fb5ff50b38ddffd359dc22a950ed6a4357896b7152422399660f760501e3335",
+    "new_provider_calls": 0,
+    "limits": "Same-author three-scenario/nine-obligation development set. Earlier held-out and hostile-evidence failures remain separate and unchanged. No controlled latency/cost comparison or superiority claim."
+  }
+}

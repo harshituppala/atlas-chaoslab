@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T10:52:18.161779+00:00",
+  "scope": "Actual in-process synthetic ASGI concurrency with one limiter instance. Not a network/HTTP-server load test, measured RSS cap, distributed admission, tenant fairness or production DoS guarantee.",
+  "observed": {
+    "simultaneous_attempts": 200,
+    "capacity": 8,
+    "body_bytes_each": 65536,
+    "accepted_first_wave": 8,
+    "rejected_first_wave": 192,
+    "peak_active_downstream": 8,
+    "body_reads_first_wave": 8,
+    "body_bytes_read_first_wave": 524288,
+    "health_status_during_saturation": 200,
+    "second_wave_accepted": 8,
+    "scope_body_removed_after_response": true
+  },
+  "source_sha256": {
+    "src/atlas/limits.py": "70c0756d515b8795e7e25854d8d40c774725a194c850ffb4e86eefef1dcb7cda",
+    "scripts/verify_body_admission.py": "bba1b09b895e1f3bb24c3bfe374526d5ca7e261fee6ed1d6adeb14f308f7f291"
+  }
+}

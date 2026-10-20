@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "kind": "workflow_recovery",
+  "generated_at": "2026-10-15T03:07:17.837112+00:00",
+  "scope": "Deterministic SQLite failure injection with simulated lease time. Real process crash is separately exercised by pytest. Not cloud availability or PostgreSQL validation.",
+  "adapter": "atlas.recovery_adapter:run",
+  "dataset_sha256": "498414072a5e1bd8370866de9945a00c1325806135779faa09709ad9aa8b31a3",
+  "source_sha256": "31ac6f96f4636f482271982bc137bb48f97280f6b0a7ca9683b65f8ab86dbdaf",
+  "revision": "224dc73656d2d5272601d682b8de676ebf5072e7",
+  "working_tree_dirty": true,
+  "python": "3.12.14",
+  "environment": "macOS-27.0.1-arm64-arm-64bit",
+  "unique_cases": 7,
+  "cases_passed": 7,
+  "results": [
+    {
+      "id": "expired_worker",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true,
+        "stale_worker_rejected": true
+      },
+      "observations": {
+        "stale_worker_rejected": true,
+        "status": "succeeded",
+        "attempts": 2,
+        "results": 1
+      },
+      "events": [
+        {
+          "id": "5f587c48-b335-4430-8595-2b756e02b7a4",
+          "tenant": "fixture",
+          "actor": "fixture-analyst",
+          "action": "job.queued",
+          "resource": "0972c7a0-300f-4d4e-bf22-9f0910a710d3",
+          "time": "2026-10-15T03:07:17.729650+00:00",
+          "details": {
+            "pipeline_version": "extractive-v3"
+          }
+        },
+        {
+          "id": "8f6b0639-6846-438d-94a3-96f510496f5a",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "0972c7a0-300f-4d4e-bf22-9f0910a710d3",
+          "time": "2026-10-15T03:07:17.731824+00:00",
+          "details": {
+            "attempt": 1
+          }
+        },
+        {
+          "id": "56fdbd58-463f-4307-a5fd-8fa25de0e57c",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "0972c7a0-300f-4d4e-bf22-9f0910a710d3",
+          "time": "2026-10-15T03:07:17.733262+00:00",
+          "details": {
+            "attempt": 2
+          }
+        },
+        {
+          "id": "ccdea20d-272a-448e-9ec4-0cd5cc95cd84",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.succeeded",
+          "resource": "0972c7a0-300f-4d4e-bf22-9f0910a710d3",
+          "time": "2026-10-15T03:07:17.737872+00:00",
+          "details": {
+            "result_id": "c0c4f653-1933-4afc-857b-161b6a5e4d89"
+          }
+        }
+      ],
+      "latency_ms": 81.47316700342344
+    },
+    {
+      "id": "cancel_running",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true,
+        "stale_worker_rejected": true
+      },
+      "observations": {
+        "stale_worker_rejected": true,
+        "status": "cancelled",
+        "attempts": 1,
+        "results": 0
+      },
+      "events": [
+        {
+          "id": "f9f43bd8-c7b2-4521-88d3-0c3ea21c6131",
+          "tenant": "fixture",
+          "actor": "fixture-analyst",
+          "action": "job.queued",
+          "resource": "33e10d2a-4cbc-4e79-b584-f1be4e13b97e",
+          "time": "2026-10-15T03:07:17.748269+00:00",
+          "details": {
+            "pipeline_version": "extractive-v3"
+          }
+        },
+        {
+          "id": "9d79ed10-8ac9-454c-adc9-c9e10b3c7ad0",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "33e10d2a-4cbc-4e79-b584-f1be4e13b97e",
+          "time": "2026-10-15T03:07:17.750343+00:00",
+          "details": {
+            "attempt": 1
+          }
+        },
+        {
+          "id": "ee29ced3-9720-4e43-9db8-df1cf7eaccfd",
+          "tenant": "fixture",
+          "actor": "fixture-reviewer",
+          "action": "job.cancelled",
+          "resource": "33e10d2a-4cbc-4e79-b584-f1be4e13b97e",
+          "time": "2026-10-15T03:07:17.751189+00:00",
+          "details": {}
+        }
+      ],
+      "latency_ms": 14.700916995934676
+    },
+    {
+      "id": "publication_rollback",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "results": true,
+        "results_after_interruption": true,
+        "status_after_interruption": true
+      },
+      "observations": {
+        "results_after_interruption": 0,
+        "status_after_interruption": "running",
+        "status": "succeeded",
+        "attempts": 1,
+        "results": 1
+      },
+      "events": [
+        {
+          "id": "a581f02a-ad16-4a08-a89e-555aa2ab917b",
+          "tenant": "fixture",
+          "actor": "fixture-analyst",
+          "action": "job.queued",
+          "resource": "a63f1f9e-1af3-4683-901d-42d1339fe460",
+          "time": "2026-10-15T03:07:17.763223+00:00",
+          "details": {
+            "pipeline_version": "extractive-v3"
+          }
+        },
+        {
+          "id": "c398f25b-3737-435b-8ddb-13cfd92db956",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "a63f1f9e-1af3-4683-901d-42d1339fe460",
+          "time": "2026-10-15T03:07:17.765231+00:00",
+          "details": {
+            "attempt": 1
+          }
+        },
+        {
+          "id": "ebbdcd3c-8fca-47ed-a0ea-91c2a42ae1e5",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.succeeded",
+          "resource": "a63f1f9e-1af3-4683-901d-42d1339fe460",
+          "time": "2026-10-15T03:07:17.769834+00:00",
+          "details": {
+            "result_id": "08e484ee-c023-48b1-979c-301365e2d1df"
+          }
+        }
+      ],
+      "latency_ms": 17.09758400102146
+    },
+    {
+      "id": "retry_ceiling",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true,
+        "premature_retry_blocked": true,
+        "exhausted_retry_blocked": true
+      },
+      "observations": {
+        "premature_retry_blocked": true,
+        "exhausted_retry_blocked": true,
+        "status": "failed",
+        "attempts": 2,
+        "results": 0
+      },
+      "events": [
+        {
+          "id": "aec06fd0-5c2f-42aa-8436-19075d97e90f",
+          "tenant": "fixture",
+          "actor": "fixture-analyst",
+          "action": "job.queued",
+          "resource": "350a576a-a52f-4eb1-8482-6085ec7c0bd9",
+          "time": "2026-10-15T03:07:17.779953+00:00",
+          "details": {
+            "pipeline_version": "extractive-v3"
+          }
+        },
+        {
+          "id": "f34898fe-44cd-44c8-b29d-9c475b69ac4a",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "350a576a-a52f-4eb1-8482-6085ec7c0bd9",
+          "time": "2026-10-15T03:07:17.781807+00:00",
+          "details": {
+            "attempt": 1
+          }
+        },
+        {
+          "id": "1ddb0b67-9a3f-4553-a8b3-0f1dcb918948",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.retry_wait",
+          "resource": "350a576a-a52f-4eb1-8482-6085ec7c0bd9",
+          "time": "2026-10-15T03:07:17.782659+00:00",
+          "details": {
+            "attempt": 1,
+            "error_code": "upstream_unavailable"
+          }
+        },
+        {
+          "id": "8522f0e2-05e5-4871-b2e7-7d16ea57c47e",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "350a576a-a52f-4eb1-8482-6085ec7c0bd9",
+          "time": "2026-10-15T03:07:17.783753+00:00",
+          "details": {
+            "attempt": 2
+          }
+        },
+        {
+          "id": "70c4d70a-dee5-4dde-a6cf-68d565a51800",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.failed",
+          "resource": "350a576a-a52f-4eb1-8482-6085ec7c0bd9",
+          "time": "2026-10-15T03:07:17.784312+00:00",
+          "details": {
+            "attempt": 2,
+            "error_code": "upstream_unavailable"
+          }
+        }
+      ],
+      "latency_ms": 14.71816699631745
+    },
+    {
+      "id": "last_attempt_crash",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true
+      },
+      "observations": {
+        "status": "failed",
+        "attempts": 1,
+        "results": 0
+      },
+      "events": [
+        {
+          "id": "f6178e94-aa48-4399-ae51-f5d0606da03a",
+          "tenant": "fixture",
+          "actor": "fixture-analyst",
+          "action": "job.queued",
+          "resource": "fe8b1b4b-7c1c-4d2a-a51e-479323a14e96",
+          "time": "2026-10-15T03:07:17.794621+00:00",
+          "details": {
+            "pipeline_version": "extractive-v3"
+          }
+        },
+        {
+          "id": "68766eb3-2158-4ada-b5f7-1375a386f910",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "fe8b1b4b-7c1c-4d2a-a51e-479323a14e96",
+          "time": "2026-10-15T03:07:17.796252+00:00",
+          "details": {
+            "attempt": 1
+          }
+        },
+        {
+          "id": "9b0edd50-6c65-4fcc-a78c-d095031fdab8",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.failed",
+          "resource": "fe8b1b4b-7c1c-4d2a-a51e-479323a14e96",
+          "time": "2026-10-15T03:07:17.796730+00:00",
+          "details": {
+            "error_code": "attempts_exhausted"
+          }
+        }
+      ],
+      "latency_ms": 12.342207999608945
+    },
+    {
+      "id": "competing_workers",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "attempts": true,
+        "results": true,
+        "owners": true
+      },
+      "observations": {
+        "owners": 1,
+        "status": "running",
+        "attempts": 1,
+        "results": 0
+      },
+      "events": [
+        {
+          "id": "356fe290-54bf-469f-8d88-eba38691b621",
+          "tenant": "fixture",
+          "actor": "fixture-analyst",
+          "action": "job.queued",
+          "resource": "8ac01416-930a-4708-9141-4027c769d15a",
+          "time": "2026-10-15T03:07:17.806861+00:00",
+          "details": {
+            "pipeline_version": "extractive-v3"
+          }
+        },
+        {
+          "id": "b386a626-affb-4a31-a652-534085c1a310",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "8ac01416-930a-4708-9141-4027c769d15a",
+          "time": "2026-10-15T03:07:17.809705+00:00",
+          "details": {
+            "attempt": 1
+          }
+        }
+      ],
+      "latency_ms": 14.007541998580564
+    },
+    {
+      "id": "forged_review",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "results": true,
+        "self_approval_rejected": true
+      },
+      "observations": {
+        "self_approval_rejected": true,
+        "status": "running",
+        "attempts": 1,
+        "results": 0
+      },
+      "events": [
+        {
+          "id": "3a422f67-a6fe-4fc3-8906-d91de19e9431",
+          "tenant": "fixture",
+          "actor": "fixture-analyst",
+          "action": "job.queued",
+          "resource": "3f2bd9c5-1773-431f-8120-efde50c2b22b",
+          "time": "2026-10-15T03:07:17.821817+00:00",
+          "details": {
+            "pipeline_version": "extractive-v3"
+          }
+        },
+        {
+          "id": "e1bca792-bcc9-41b5-aff0-99b82ac4edc2",
+          "tenant": "fixture",
+          "actor": "worker",
+          "action": "job.claimed",
+          "resource": "3f2bd9c5-1773-431f-8120-efde50c2b22b",
+          "time": "2026-10-15T03:07:17.823627+00:00",
+          "details": {
+            "attempt": 1
+          }
+        }
+      ],
+      "latency_ms": 14.43079199816566
+    }
+  ]
+}

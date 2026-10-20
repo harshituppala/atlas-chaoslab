@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-10-16T16:56:18.322830+00:00",
+  "completed_at": "2026-10-16T16:56:40.065092+00:00",
+  "source_files": {
+    "Dockerfile": "477526f4870d1746f002f2e322ed53b67307f860ba39efa2ec2fb37c1428aba9",
+    "compose.yaml": "c9e6c26f4a60b5128b5a345e7bc4f3585316ce4681f75e071a0dcd913178b052",
+    "datasets/demo.json": "11a0330cabcb9a3b576bc26b22312f4112d2437ec5ca327e3b3c6a5a0cce2c3d",
+    "deployment/postgres-runtime-roles.sql": "63a3997de6dcaac336667fcf8e8055e27578875fc9afc1e02f9ece02dffc8e1f",
+    "pyproject.toml": "bc0b88840b9226fba41bfff0ac44ed299f5fbc90a3c4b2d15b1bfcca86aaa07c",
+    "requirements.lock": "4d3b48b1b350d7b135aec9eb386e071b2f4269dd654f7cbf2fb0d93a7d9540d6",
+    "scripts/verify_compose.py": "02e75d3abcaefa1ca82e80ca57469849a23c56ba43a5ac1f8f1f36195d839048",
+    "src/atlas/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/atlas/__main__.py": "b249955ef5c09c6214468a6e201d54f4e455b1e0fc25917aa1bc9d91067f81f8",
+    "src/atlas/api.py": "63fc9014c2e3589ed25a91b8f0114596a4cb2f83e8c4d717b944e68edecf9e97",
+    "src/atlas/artifacts.py": "1feeee9a3bf81acc9fbf9d3cabe85676c669667d5be7900849ac7c710f3e9391",
+    "src/atlas/chaos_adapter.py": "a6688917cba0d01bab0d8a846fe70fc53e970ec318e901d8b274846e3d816658",
+    "src/atlas/db_scope.py": "ffaa7ace6db3ba797d558a31ae8e68ec7f1f5314611379074fb75ff35038caf6",
+    "src/atlas/documents.py": "d7a114fe283eb9ce61ba190c4f6ec272156c72e287d270c1b46a5cf02cacd46e",
+    "src/atlas/domain.py": "816b2d3e44c969922a5a7ab4f10c52953bdb0399c17aa179e2bcf73e7af30a03",
+    "src/atlas/execution.py": "c66768da685deb282102af0c76ff646ea5a99f781a140cc8fc46c15fc2bc988c",
+    "src/atlas/http_privacy.py": "2ded6bd30f2be4fb4f30bbd2a4ab41294ca2055e7a91b03e6bcaabffa691f979",
+    "src/atlas/ingestion.py": "569014c341879acf361038adbbc3fc76fe6d72c09484a8b273b44329b11e6623",
+    "src/atlas/ingestion_adapter.py": "5c0ce6cc75b2b76d2bab46131218be8d1345bf92f0948222ccdf4a0079dda21d",
+    "src/atlas/ingestion_task.py": "0d1a747a058aaa7ae56a8b31ffd3c5b8e0ca4e14b9a541690789c04185bfd737",
+    "src/atlas/jobs.py": "0516c32cc9f976a1fcb22cb8e5157e0f45b29ce53f12403c2a124c908a545d09",
+    "src/atlas/limits.py": "9f9e55c8d66d857f23eb8a60a0ecb056632361ab6beec5731780bcf67340acde",
+    "src/atlas/local_stack.py": "4584150512f066301bb907220d1b139c314976a9e2fb138db2d461350a58d923",
+    "src/atlas/migration_scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/atlas/migration_scripts/env.py": "737a405d2114e44a5c26fe88554246def6be7bbade4db90576527790989576f8",
+    "src/atlas/migration_scripts/versions/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/atlas/migration_scripts/versions/r0001_baseline.py": "7de5e5fc0052481f1e588ffc07db8b54755d5f3027f08680d60b012816c73498",
+    "src/atlas/migration_scripts/versions/r0002_query_indexes.py": "3bdf06d76c32599799cc8ed4b4662982feb1d8a000f5ccf4e1047b703fecf359",
+    "src/atlas/migration_scripts/versions/r0003_retrieval_cache.py": "4f80dcd2504f36c2808d58217c723549182874812bb288abb7dfe05364b3e5b4",
+    "src/atlas/migration_scripts/versions/r0004_memberships.py": "eaaa46e1a51e7a223178cd9505a8d120db5ef176ba973bddbd258fb1bb69e928",
+    "src/atlas/migration_scripts/versions/r0005_row_security.py": "8959cb8fcbf21bfee70f00a1542a7985839b63faf2f9223cf5c45be7ad42d706",
+    "src/atlas/migrations.py": "11141a4b3d5758fcd22f702ae70c1c045190b510e0c04ba8ba685b49b6d39593",
+    "src/atlas/models/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/atlas/models/__main__.py": "80b534dfbcbd74116d6096a1514cccd53b82d814dbcc45fffb60e309369bb5ee",
+    "src/atlas/models/bedrock.py": "d13a1a8ef787bf910354d3d96547b8373ef5d4e0a684caca069e107af7fe5f60",
+    "src/atlas/models/benchmark.py": "611d267b8f299d287a474eab255e9d4188c49f870dac72988cb2722b819bbb5f",
+    "src/atlas/models/contracts.py": "01d2cbb75618fed0f645757ad8bc2f922826f5fb2ea1ff4e86de4e1f10faaa51",
+    "src/atlas/models/intelligence.py": "c0d496f4dca02984091e2fa47d59fb913d158400678fcc8777e3a649945d6e14",
+    "src/atlas/models/job_spec.py": "9a3b1b551792d74114d48abeadd93c05e2447bb97fe7917fc0bfc235e8793164",
+    "src/atlas/models/job_task.py": "e9a78a101a5347549e6123b6cefd3ddda900fd65ff037554aa87b93daec0abdf",
+    "src/atlas/models/provenance.py": "59a951245c6f6af1116c530cfad2116c5ca19808d1388c485f5184e1a9730e21",
+    "src/atlas/models/session_budget.py": "b7fc69bb938dfdb269e68df620bb671551c5b3d519bc13b537c3c4cc6e4c3e78",
+    "src/atlas/observability.py": "720c6d28f258cfec30b6bb994648cd1046cbdc7552dc6c17f9f51136a5791500",
+    "src/atlas/pg_retrieval.py": "e9c058fcc3f531c23408f476e5263ba41505ff7e07d4f87cc383490cfc805236",
+    "src/atlas/recovery_adapter.py": "7ff52aeb826aebff19d592b1a570ec443626d103b713ff5f147f8cdbb570c943",
+    "src/atlas/retrieval.py": "c6a8914c05c4dc5c78d07538a1ade3bd78430bdd2c1b1468e44fa0e4c5df7086",
+    "src/atlas/security/__init__.py": "85c096954f770e9f6f11f4836f9b74152088cbd976395d22fc0a77b56fd36a76",
+    "src/atlas/security/memberships.py": "1eb0f0189ab31a8cdc75f881b6c3520387636210f2f2805428d7d16710d5b9b2",
+    "src/atlas/security/tokens.py": "970e620afa1329bd3fd5425cbcfe1bf4da6edbb463c7db42500814c71ffc1d3a",
+    "src/atlas/semantic.py": "2a70ff606a0f167d66b609170da1ea14129ec5dce0bfa008ccea652dac4b2e54",
+    "src/atlas/store.py": "f62c981b5070dbc392246789fbdce335c272e5324cb128486571a30624ecf9f2",
+    "src/atlas/worker.py": "75e3c371102bde7ed71d6134f0172bd9d6e2d8c633d4bf57b4f22a9ed75fc789",
+    "src/atlas/worker_task.py": "f3cd4dd151963e23f38f5a53caeacaeacf5bd66193c039f41c823f8dc6269a3d",
+    "src/atlas/workflow.py": "ad73634d058f55d22be42457ee1a7ec41038c2d79adeea6af42050b1319a85e2",
+    "src/chaoslab/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/chaoslab/__main__.py": "9d910d9e04eaff16ad77c7e4d6e81e4e12c17d4d270eac3a4707253e3ab60ec7",
+    "src/chaoslab/artifacts.py": "4bfb33a59b70a24e655b7888904b6f3cde7c624813fa707f21cd08d30c01c400",
+    "src/chaoslab/execution.py": "f6b9f268f7654e0fc54498bf641104c52773cb04b3efb127aa305559017bfbc6",
+    "src/chaoslab/execution_child.py": "8ef1c7e561112e55254f73afc604a8c0c8875a50bfb8254775e635bbdae62d8c",
+    "src/chaoslab/ingestion.py": "cb0f1b20eda592c2c7c692c1c6b714bd739508d7104b986ee9a6847bf090fbad",
+    "src/chaoslab/pg_retrieval.py": "5b590263a2500512923fc6e1043520ccc718082f175e3ef8dabcc647da092cf0",
+    "src/chaoslab/reasoning.py": "822452f347e4b5e18b26df6aac8a97184b010df85d4e488aff3bc5713c58bc0a",
+    "src/chaoslab/recovery.py": "6c7d634e85c2e1416aabd3fe93ad10349c4d4ecbd86b427bcbca7aedf8777e6c",
+    "src/chaoslab/retrieval.py": "ca2bc5ecba29d4e62bd8d0008aea8d61850ba402984861a4237c2b6022703b94",
+    "src/chaoslab/scenarios.py": "3f9f906c7fc5e82b70dd01943678096bf61e83d405ef4436ae443e973230dcc9"
+  },
+  "images": {
+    "postgres": "sha256:ac08538c6f8b9904c33c8224c5e5706dbe760aca29db1d096972b4052c22a75d",
+    "api": "sha256:ffe5f43e1c658f8c9693a505ef282dcecdb5f369684d01c249d860da197df43f",
+    "worker": "sha256:ffe5f43e1c658f8c9693a505ef282dcecdb5f369684d01c249d860da197df43f",
+    "initialize": "sha256:ffe5f43e1c658f8c9693a505ef282dcecdb5f369684d01c249d860da197df43f"
+  },
+  "database": {
+    "server_version": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit",
+    "vector_version": "0.8.7",
+    "revision": "0005"
+  },
+  "runtime_configuration": {
+    "postgres": {
+      "user": "",
+      "secret_values_absent_from_inspect": true
+    },
+    "api": {
+      "user": "10001",
+      "secret_values_absent_from_inspect": true
+    },
+    "worker": {
+      "user": "10001",
+      "secret_values_absent_from_inspect": true
+    },
+    "initialize": {
+      "user": "10001",
+      "secret_values_absent_from_inspect": true
+    }
+  },
+  "api_role": {
+    "role": "atlas_api",
+    "superuser": false,
+    "bypass": false
+  },
+  "worker_role": {
+    "role": "atlas_worker",
+    "superuser": false,
+    "bypass": true
+  },
+  "model_admission_disabled": true,
+  "idempotent_queued_job": true,
+  "queued_job_survives_api_recreation": true,
+  "worker_completed": true,
+  "validated_citations": 14,
+  "competing_review_statuses": [
+    200,
+    409
+  ],
+  "unscoped_api_role_rows": 0,
+  "tenant_isolation": true,
+  "review_and_audit_survive_stack_recreation": true,
+  "repeat_initialization_passed": true,
+  "paid_calls": 0,
+  "scope": "Actual local Linux ARM64 Compose stack with PostgreSQL/pgvector, explicit migrations and restricted SCRAM logins, forced row policies, separate HTTP API and baseline worker. One synthetic workflow, not a load or model-quality study. Docker administrators are trusted; local secret bind files are not encrypted. No TLS, live provider, managed identity, remote CI or AWS deployment proof."
+}

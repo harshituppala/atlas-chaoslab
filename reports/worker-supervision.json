@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-19T10:59:00.362239+00:00",
+  "scope": "Native POSIX child-process tests and a fresh real SQLite queue/worker timeout-followed-by-success exercise. Model wiring checks use a controlled result, not live inference. Not hostile-code containment, total RSS protection, Linux image or cloud validation.",
+  "supervision_cases_passed": 18,
+  "native_suite": {
+    "passed": 384,
+    "skipped": 18
+  },
+  "queue": {
+    "deadline_job_failed_without_result": true,
+    "following_job_succeeded": true,
+    "following_attempts": 1,
+    "requirements": 8,
+    "validated_citations": 14,
+    "all_reviews_pending": true
+  },
+  "checks": [
+    "concurrent_stdin_stdout_stderr_progress",
+    "inclusive_byte_boundaries",
+    "stdout_and_stderr_overflow_early_stop",
+    "root_reaped_after_timeout_or_overflow",
+    "same_group_descendant_heartbeat_stops_on_deadline_and_success",
+    "closed_pipe_deadline",
+    "input_budget_before_spawn",
+    "early_stdin_close",
+    "actual_baseline_worker_protocol",
+    "controlled_model_supervisor_wiring",
+    "uncertain_model_billing_timeout_message"
+  ],
+  "queue_exercise_source_sha256": {
+    "src/atlas/child_process.py": "423df4b53d26688fa144164a5c55cb2f3d4a36d0bb26cf62ac71469a02c3ccbe",
+    "src/atlas/worker.py": "09da76fa3a5b616099bbf3caa58ddff07741ef38e3958dad875856e8e8e1da21",
+    "scripts/verify_worker_supervision.py": "8077f45ec6b50843339566b9cf99a828eb1db2594807c388761fae422cd14972",
+    "datasets/demo.json": "11a0330cabcb9a3b576bc26b22312f4112d2437ec5ca327e3b3c6a5a0cce2c3d"
+  },
+  "test_source_sha256": "fde875cf8eccef895746f1df0391f5111a39b22ac7c6642f19297050fd277695",
+  "junit_sha256": "a5afd67ba9d153867f0aa165f6f11a90dfe14ab3f4d0fd634a24b3de35688f09",
+  "test_hash_scope": "Test source/JUnit hashes captured after execution; no frozen test-run or signed loaded-code attestation. Queue exercise source hashes separately captured before and checked after.",
+  "new_provider_calls": 0
+}

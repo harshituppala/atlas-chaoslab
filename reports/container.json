@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "started_at": "2026-10-18T13:38:44.599343+00:00",
+  "completed_at": "2026-10-18T13:38:58.621714+00:00",
+  "image_id": "sha256:a8e8502f4360eee2f84fe4ea64a46e76801c46b4dad1266d55a9865c6057897a",
+  "os": "linux",
+  "architecture": "arm64",
+  "runtime_user": "10001",
+  "verification_input_sha256": "2c5131e3c8bc493fc5501a5fbd5289180c72b172247f33fc6c349f4acf056784",
+  "image_source_sha256": "d2aedf868d3ab19b9eb8543a9007d6ded4b4cee5d77b0de167a419654eb57113",
+  "source_matches_host": true,
+  "inputs_unchanged": true,
+  "dependency_check_passed": true,
+  "workflow": {
+    "runtime_uid": 10001,
+    "http_ready": true,
+    "frontend_served": true,
+    "model_admission_disabled": true,
+    "queued_job_survives_api_restart": true,
+    "real_worker_completed": true,
+    "citation_count_validated": 14,
+    "competing_review_statuses": [
+      200,
+      409
+    ],
+    "review_survives_api_restart": true,
+    "tenant_isolation": true,
+    "storage": "temporary SQLite",
+    "paid_calls": 0
+  },
+  "junit_sha256": "a2205ec1f7b443b88e328cd525f63af0e67f2b6498fb018f60f594c4ad475ec8",
+  "counts": {
+    "tests": 334,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 316
+  },
+  "scope": "Real Linux ARM64 image build, dependency consistency, and offline backend suite as UID 10001. Read-only host tests and fixture generator were mounted; application source and dependencies came from the image. Real loopback HTTP, worker, review concurrency and API restarts used temporary SQLite. PostgreSQL and embedding integrations are skipped. No Compose stack, live provider, browser, cloud deployment, image scanning or production identity validation is implied. Hashes are local provenance, not signed execution attestations."
+}

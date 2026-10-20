@@ -1,0 +1,541 @@
+{
+  "schema_version": 1,
+  "kind": "retrieval",
+  "generated_at": "2026-10-15T01:11:27.095285+00:00",
+  "scope": "Ten authored synthetic English paraphrase queries over ten short capability excerpts. Labels were fixed before model execution. Not representative of enterprise corpora.",
+  "unique_queries": 10,
+  "k": 3,
+  "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "embedding_dimensions": 384,
+  "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+  "model_load_ms": 3277.2531250011525,
+  "index_build_ms": 26.144415998714976,
+  "device": "cpu",
+  "external_inference_calls": 0,
+  "dataset_sha256": "a90485da50761c5905dc0b9977bcdf5d9aa9bb54224cf4e9d8e3858a305817b7",
+  "source_sha256": "16e62e598fb0c27945c33b1a8c3f938f1fdcb2498b7212745a4ef4105fb26d7e",
+  "revision": "85291e233eb4d3c396901e6896436608c35bf4c2",
+  "working_tree_dirty": true,
+  "environment": "macOS-27.0.1-arm64-arm-64bit",
+  "python": "3.12.14",
+  "summary": {
+    "lexical": {
+      "recall_at_k": 0.7,
+      "mrr": 0.6,
+      "latency_median_ms": 0.015270499716280028
+    },
+    "semantic": {
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "latency_median_ms": 2.5409375011804514
+    },
+    "hybrid": {
+      "recall_at_k": 1.0,
+      "mrr": 1.0,
+      "latency_median_ms": 2.5331250035378616
+    }
+  },
+  "results": [
+    {
+      "query_id": "q1",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.03683400427689776,
+      "ranked_document_ids": [
+        "residency"
+      ],
+      "scores": [
+        1.0
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q1",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 3.0447500030277297,
+      "ranked_document_ids": [
+        "residency",
+        "export",
+        "encryption"
+      ],
+      "scores": [
+        0.428460955619812,
+        0.40321606397628784,
+        0.31141164898872375
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q1",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.5948749971576035,
+      "ranked_document_ids": [
+        "residency",
+        "export",
+        "encryption"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q2",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "latency_ms": 0.01858399627963081,
+      "ranked_document_ids": [
+        "export",
+        "identity"
+      ],
+      "scores": [
+        1.0,
+        0.5
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q2",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.818250002746936,
+      "ranked_document_ids": [
+        "identity",
+        "authorization",
+        "encryption"
+      ],
+      "scores": [
+        0.4657156467437744,
+        0.25759974122047424,
+        0.20801019668579102
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q2",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.5571660007699393,
+      "ranked_document_ids": [
+        "identity",
+        "export",
+        "authorization"
+      ],
+      "scores": [
+        0.03252247488101534,
+        0.031544957774465976,
+        0.016129032258064516
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q3",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 0.5,
+      "latency_ms": 0.016332996892742813,
+      "ranked_document_ids": [
+        "residency",
+        "encryption"
+      ],
+      "scores": [
+        1.0,
+        0.5
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q3",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.60658300248906,
+      "ranked_document_ids": [
+        "encryption",
+        "residency",
+        "export"
+      ],
+      "scores": [
+        0.5112088918685913,
+        0.28226932883262634,
+        0.28140246868133545
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q3",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.786791999824345,
+      "ranked_document_ids": [
+        "encryption",
+        "residency",
+        "export"
+      ],
+      "scores": [
+        0.03252247488101534,
+        0.03252247488101534,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q4",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.014833000022917986,
+      "ranked_document_ids": [
+        "response"
+      ],
+      "scores": [
+        1.0
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q4",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.7396670047892258,
+      "ranked_document_ids": [
+        "response",
+        "recovery",
+        "residency"
+      ],
+      "scores": [
+        0.40466219186782837,
+        0.20926672220230103,
+        0.13462376594543457
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q4",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.528875003918074,
+      "ranked_document_ids": [
+        "response",
+        "recovery",
+        "residency"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q5",
+      "method": "lexical",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "latency_ms": 0.011250005627516657,
+      "ranked_document_ids": [],
+      "scores": [],
+      "score_kind": null
+    },
+    {
+      "query_id": "q5",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.4532500028726645,
+      "ranked_document_ids": [
+        "recovery",
+        "backup",
+        "audit"
+      ],
+      "scores": [
+        0.595259428024292,
+        0.42773735523223877,
+        0.3582209348678589
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q5",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.5678750025690533,
+      "ranked_document_ids": [
+        "recovery",
+        "backup",
+        "audit"
+      ],
+      "scores": [
+        0.01639344262295082,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q6",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.016749996575526893,
+      "ranked_document_ids": [
+        "audit",
+        "accessibility"
+      ],
+      "scores": [
+        1.0,
+        0.5
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q6",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.5107080000452697,
+      "ranked_document_ids": [
+        "audit",
+        "backup",
+        "recovery"
+      ],
+      "scores": [
+        0.6561537981033325,
+        0.43438756465911865,
+        0.2760605216026306
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q6",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.537375003157649,
+      "ranked_document_ids": [
+        "audit",
+        "accessibility",
+        "backup"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.031054405392392875,
+        0.016129032258064516
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q7",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.014666999049950391,
+      "ranked_document_ids": [
+        "accessibility",
+        "authorization"
+      ],
+      "scores": [
+        1.0,
+        0.5
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q7",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.4896250033634715,
+      "ranked_document_ids": [
+        "accessibility",
+        "response",
+        "encryption"
+      ],
+      "scores": [
+        0.4130096435546875,
+        0.1605684459209442,
+        0.1305759698152542
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q7",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.4735830011195503,
+      "ranked_document_ids": [
+        "accessibility",
+        "authorization",
+        "response"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.030621785881252923,
+        0.016129032258064516
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q8",
+      "method": "lexical",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "latency_ms": 0.010333998943679035,
+      "ranked_document_ids": [],
+      "scores": [],
+      "score_kind": null
+    },
+    {
+      "query_id": "q8",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.418500000203494,
+      "ranked_document_ids": [
+        "backup",
+        "recovery",
+        "audit"
+      ],
+      "scores": [
+        0.5262446999549866,
+        0.4168297052383423,
+        0.30517035722732544
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q8",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.4585000064689666,
+      "ranked_document_ids": [
+        "backup",
+        "recovery",
+        "audit"
+      ],
+      "scores": [
+        0.01639344262295082,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q9",
+      "method": "lexical",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 0.01570799940964207,
+      "ranked_document_ids": [
+        "export",
+        "residency",
+        "identity"
+      ],
+      "scores": [
+        1.0,
+        0.5,
+        0.3333333333333333
+      ],
+      "score_kind": "lexical_rank"
+    },
+    {
+      "query_id": "q9",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.503791001799982,
+      "ranked_document_ids": [
+        "export",
+        "residency",
+        "encryption"
+      ],
+      "scores": [
+        0.504741370677948,
+        0.32223498821258545,
+        0.25049889087677
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q9",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.4999580055009574,
+      "ranked_document_ids": [
+        "export",
+        "residency",
+        "identity"
+      ],
+      "scores": [
+        0.03278688524590164,
+        0.03225806451612903,
+        0.030798389007344232
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    },
+    {
+      "query_id": "q10",
+      "method": "lexical",
+      "recall_at_k": 0.0,
+      "reciprocal_rank": 0.0,
+      "latency_ms": 0.008374998287763447,
+      "ranked_document_ids": [],
+      "scores": [],
+      "score_kind": null
+    },
+    {
+      "query_id": "q10",
+      "method": "semantic",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.571167002315633,
+      "ranked_document_ids": [
+        "authorization",
+        "encryption",
+        "accessibility"
+      ],
+      "scores": [
+        0.49375036358833313,
+        0.26387274265289307,
+        0.16269205510616302
+      ],
+      "score_kind": "cosine"
+    },
+    {
+      "query_id": "q10",
+      "method": "hybrid",
+      "recall_at_k": 1.0,
+      "reciprocal_rank": 1.0,
+      "latency_ms": 2.413916001387406,
+      "ranked_document_ids": [
+        "authorization",
+        "encryption",
+        "accessibility"
+      ],
+      "scores": [
+        0.01639344262295082,
+        0.016129032258064516,
+        0.015873015873015872
+      ],
+      "score_kind": "reciprocal_rank_fusion"
+    }
+  ]
+}

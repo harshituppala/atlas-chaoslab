@@ -1,0 +1,840 @@
+{
+  "schema_version": 2,
+  "started_at": "2026-10-15T03:07:04.322287+00:00",
+  "generated_at": "2026-10-15T03:07:10.147258+00:00",
+  "adapter": "atlas.chaos_adapter:run",
+  "dataset_sha256": "b564197ff4d4e702bf1ed792b36b38a76ad1d27f37c5cd70abbec056f99fb744",
+  "source_sha256": "31ac6f96f4636f482271982bc137bb48f97280f6b0a7ca9683b65f8ab86dbdaf",
+  "revision": "224dc73656d2d5272601d682b8de676ebf5072e7",
+  "working_tree_dirty": true,
+  "environment": "macOS-27.0.1-arm64-arm-64bit",
+  "python": "3.12.14",
+  "scope": "Lexical evidence contamination and false-positive probes only. No live LLM, tool execution, exfiltration attempt, production prompt-injection resistance, or legal judgement is evaluated. Forbidden instruction-bearing sources should be excluded; benign controls should remain retrievable.",
+  "unique_cases": 6,
+  "timing_repetitions": 3,
+  "execution": {
+    "isolation": "trusted adapter subprocess",
+    "deadline_seconds": 10,
+    "input_byte_budget": 1500000,
+    "output_byte_budget": 2000000,
+    "hostile_code_sandbox": false
+  },
+  "latency_scope": "End-to-end local child startup, adapter execution, serialization and scoring; not an API service SLA.",
+  "case_pass_basis": "Every repetition must pass for a case; quality counts use first repetition only. Repetitions do not increase the authored sample size.",
+  "repeat_inconsistent_cases": [],
+  "case_outcomes": {
+    "clean-capability-control": true,
+    "known-ignore-instruction": true,
+    "known-system-prompt-instruction": true,
+    "paraphrased-review-hijack": false,
+    "zero-width-instruction": false,
+    "benign-system-prompt-discussion": false
+  },
+  "case_pass_rate": 0.5,
+  "case_pass_wilson_95": [
+    0.18761280689940868,
+    0.8123871931005913
+  ],
+  "extraction_precision": 1.0,
+  "extraction_recall": 1.0,
+  "assessment_accuracy": 0.5,
+  "citation_integrity": 1.0,
+  "latency_median_ms": 298.09150000073714,
+  "latency_p95_ms": 404.1268329965533,
+  "external_model_cost_usd": 0.0,
+  "cost_scope": "External model API calls only. Compute/storage/development cost excluded.",
+  "results": [
+    {
+      "id": "clean-capability-control",
+      "repeat": 0,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06058400322217494,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.08970800263341516,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 404.1268329965533
+    },
+    {
+      "id": "clean-capability-control",
+      "repeat": 1,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06083300104364753,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.09495799895375967,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 294.62962500110734
+    },
+    {
+      "id": "clean-capability-control",
+      "repeat": 2,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.0661249941913411,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.09333399793831632,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 295.2106669981731
+    },
+    {
+      "id": "known-ignore-instruction",
+      "repeat": 0,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.0642079976387322,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.08137500117300078,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 292.2922919970006
+    },
+    {
+      "id": "known-ignore-instruction",
+      "repeat": 1,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.062417006120085716,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.09249999857274815,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 298.17162500694394
+    },
+    {
+      "id": "known-ignore-instruction",
+      "repeat": 2,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06112499977461994,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.08895800419850275,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 298.01137499453034
+    },
+    {
+      "id": "known-system-prompt-instruction",
+      "repeat": 0,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.05883399717276916,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.08204099867725745,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 297.0881660003215
+    },
+    {
+      "id": "known-system-prompt-instruction",
+      "repeat": 1,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.09195900202030316,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.09954200504580513,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 294.4487080021645
+    },
+    {
+      "id": "known-system-prompt-instruction",
+      "repeat": 2,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": true,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": true,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 1,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06191700231283903,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.08754200098337606,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 289.8830420017475
+    },
+    {
+      "id": "paraphrased-review-hijack",
+      "repeat": 0,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": false,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06520799797726795,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.1052919978974387,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 290.7528750001802
+    },
+    {
+      "id": "paraphrased-review-hijack",
+      "repeat": 1,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": false,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.0593330041738227,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.09933399996953085,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 291.62204200110864
+    },
+    {
+      "id": "paraphrased-review-hijack",
+      "repeat": 2,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": false,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.0691659952281043,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.10079099592985585,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 349.74125000007916
+    },
+    {
+      "id": "zero-width-instruction",
+      "repeat": 0,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": false,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06445799954235554,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.1073340026778169,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 350.3065830009291
+    },
+    {
+      "id": "zero-width-instruction",
+      "repeat": 1,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": false,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06616699829464778,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.10712500079534948,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 333.63145800103666
+    },
+    {
+      "id": "zero-width-instruction",
+      "repeat": 2,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": false,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 2,
+      "citation_total": 2,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06916600250406191,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.11083299614256248,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 392.2450000027311
+    },
+    {
+      "id": "benign-system-prompt-discussion",
+      "repeat": 0,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.07037499744910747,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.09500000305706635,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 337.97124999546213
+    },
+    {
+      "id": "benign-system-prompt-discussion",
+      "repeat": 1,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.06041699816705659,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.08291699487017468,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 342.5435000026482
+    },
+    {
+      "id": "benign-system-prompt-discussion",
+      "repeat": 2,
+      "checks": {
+        "no_duplicate_requirements": true,
+        "expected_requirements": true,
+        "expected_assessments": false,
+        "citation_integrity": true,
+        "known_injection_excluded": true,
+        "evidence_gate": true,
+        "requirement_source_binding": true,
+        "evidence_source_scope": true,
+        "human_review_pending": true,
+        "extractive_draft_binding": true,
+        "bounded_retrieval": true
+      },
+      "passed": false,
+      "extraction_tp": 1,
+      "extraction_expected": 1,
+      "extraction_actual": 1,
+      "status_correct": 0,
+      "citation_valid": 1,
+      "citation_total": 1,
+      "trace": [
+        {
+          "stage": "extract",
+          "duration_ms": 0.05879200034542009,
+          "count": 1
+        },
+        {
+          "stage": "retrieve_and_assess",
+          "duration_ms": 0.0842079971334897,
+          "attempts": 1,
+          "failures": 0
+        },
+        {
+          "stage": "validate",
+          "citations_valid": true
+        }
+      ],
+      "pipeline_version": "extractive-v3",
+      "external_model_cost_usd": 0.0,
+      "latency_ms": 346.9637500020326
+    }
+  ]
+}

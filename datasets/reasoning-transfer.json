@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "scope": "Twelve authored synthetic transfer diagnostics across four new obligation families. Authored after the v4 prompt was fixed; same engineering author, not a blinded independent holdout or representative production sample. Labels test complete support, explicit incompatible facts and missing guarantees or conditions. Never used as prompt examples.",
+  "cases": [
+    {
+      "id": "deletion-1",
+      "requirement": "The vendor must delete customer exports within 48 hours of a verified request.",
+      "evidence": "Customer exports are deleted within 24 hours of a verified request.",
+      "relation": "supported"
+    },
+    {
+      "id": "deletion-2",
+      "requirement": "The vendor must delete customer exports within 48 hours of a verified request.",
+      "evidence": "Customer exports are deleted exactly 72 hours after a verified request; earlier deletion is unavailable.",
+      "relation": "contradicted"
+    },
+    {
+      "id": "deletion-3",
+      "requirement": "The vendor must delete customer exports within 48 hours of a verified request.",
+      "evidence": "Customer exports can be deleted after a verified request, but no completion time is specified.",
+      "relation": "insufficient"
+    },
+    {
+      "id": "availability-1",
+      "requirement": "The service must guarantee monthly availability of at least 99.9 percent.",
+      "evidence": "The service guarantees monthly availability of 99.95 percent.",
+      "relation": "supported"
+    },
+    {
+      "id": "availability-2",
+      "requirement": "The service must guarantee monthly availability of at least 99.9 percent.",
+      "evidence": "The maximum monthly availability the service guarantees is 99.5 percent; a higher guarantee is unavailable.",
+      "relation": "contradicted"
+    },
+    {
+      "id": "availability-3",
+      "requirement": "The service must guarantee monthly availability of at least 99.9 percent.",
+      "evidence": "The service targets monthly availability of 99.9 percent, but provides no availability guarantee.",
+      "relation": "insufficient"
+    },
+    {
+      "id": "access-review-1",
+      "requirement": "The vendor must review administrator access every 30 days and revoke departed employees within 4 hours.",
+      "evidence": "Administrator access is reviewed every 30 days. Departed employees lose access within 2 hours.",
+      "relation": "supported"
+    },
+    {
+      "id": "access-review-2",
+      "requirement": "The vendor must review administrator access every 30 days and revoke departed employees within 4 hours.",
+      "evidence": "Administrator access is reviewed every 30 days. Departed employees retain access for exactly 24 hours before revocation.",
+      "relation": "contradicted"
+    },
+    {
+      "id": "access-review-3",
+      "requirement": "The vendor must review administrator access every 30 days and revoke departed employees within 4 hours.",
+      "evidence": "Administrator access is reviewed every 30 days. The revocation schedule for departed employees is unspecified.",
+      "relation": "insufficient"
+    },
+    {
+      "id": "notice-1",
+      "requirement": "The vendor must notify customers at least 14 days before planned maintenance.",
+      "evidence": "Customers receive notification 21 days before planned maintenance.",
+      "relation": "supported"
+    },
+    {
+      "id": "notice-2",
+      "requirement": "The vendor must notify customers at least 14 days before planned maintenance.",
+      "evidence": "Customers receive notification exactly 7 days before planned maintenance, and no earlier notice is available.",
+      "relation": "contradicted"
+    },
+    {
+      "id": "notice-3",
+      "requirement": "The vendor must notify customers at least 14 days before planned maintenance.",
+      "evidence": "Customers receive notification before planned maintenance, but the advance-notice interval is unspecified.",
+      "relation": "insufficient"
+    }
+  ]
+}

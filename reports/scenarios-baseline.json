@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "scope": "Three authored synthetic scenarios with nine obligations, multiple evidence records, historical distractors and split support. Same-author development diagnostics, not blinded independent validation, representative enterprise accuracy, or legal compliance.",
+  "dataset_sha256": "930dff34830b8e31618f6f4370c7dc0407604c3e46abe575b2dc00b3c2f45dd4",
+  "planned_scenarios": 3,
+  "evaluated_scenarios": 3,
+  "not_run_scenarios": 0,
+  "scenarios_passed": 0,
+  "requirements_evaluated": 9,
+  "requirements_passed": 5,
+  "results": [
+    {
+      "id": "identity-current-and-historical",
+      "unexpected_extractions": 0,
+      "passed": false,
+      "requirements": [
+        {
+          "expected": "supported",
+          "predicted": "contradicted",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": false,
+          "pending_review": true,
+          "passed": false
+        },
+        {
+          "expected": "contradicted",
+          "predicted": "contradicted",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "supported",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "id": "retention-recovery-and-residency",
+      "unexpected_extractions": 0,
+      "passed": false,
+      "requirements": [
+        {
+          "expected": "contradicted",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": false
+        },
+        {
+          "expected": "supported",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "insufficient",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": false,
+          "pending_review": true,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "id": "split-evidence-and-service-hours",
+      "unexpected_extractions": 0,
+      "passed": false,
+      "requirements": [
+        {
+          "expected": "supported",
+          "predicted": "supported",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        },
+        {
+          "expected": "supported",
+          "predicted": "contradicted",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": false
+        },
+        {
+          "expected": "contradicted",
+          "predicted": "contradicted",
+          "extracted": true,
+          "citation_integrity": true,
+          "source_scope": true,
+          "evidence_record_coverage": true,
+          "pending_review": true,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "adapter": "atlas.chaos_adapter:run",
+  "scoring_source_sha256": "179790ed3c6fdfd32c26a8fec425c0738840f89ff62fab2fe553c8f57f305f21"
+}

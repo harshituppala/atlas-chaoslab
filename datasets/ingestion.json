@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "scope": "Four authored synthetic ingestion cases. Text/page mapping and safe rejection only; no OCR, real-world layout accuracy or AI faithfulness claim.",
+  "cases": [
+    {
+      "id": "two-page-pdf-provenance",
+      "input": {"file": "documents/municipal-rfp.pdf", "format": "pdf", "kind": "rfp"},
+      "expected": {"status": "extracted", "format": "pdf", "segment_count": 2, "locations": [
+        {"quote": "Data must remain in Canada.", "unit": "page", "number": 1},
+        {"quote": "Recovery time must be at most 4 hours.", "unit": "page", "number": 2}
+      ]}
+    },
+    {
+      "id": "docx-unicode-and-table-cells",
+      "input": {"file": "documents/capability-register.docx", "format": "docx", "kind": "knowledge"},
+      "expected": {"status": "extracted", "format": "docx", "segment_count": 8, "locations": [
+        {"quote": "Café team review.", "unit": "paragraph", "number": 2},
+        {"quote": "Customer data is stored in Canada", "unit": "paragraph", "number": 3},
+        {"quote": "Recovery time is only guaranteed within 8 hours.", "unit": "paragraph", "number": 7},
+        {"quote": "Audit records are retained for only 90 days.", "unit": "paragraph", "number": 8}
+      ]}
+    },
+    {
+      "id": "wrong-file-signature",
+      "input": {"raw_ascii": "An ordinary text file, not a PDF.", "format": "pdf", "kind": "rfp"},
+      "expected": {"status": "rejected", "reason": "unsupported_document"}
+    },
+    {
+      "id": "malformed-pdf-fails-without-partial-output",
+      "input": {"raw_ascii": "%PDF-1.7\nSynthetic malformed data", "format": "pdf", "kind": "rfp"},
+      "expected": {"status": "rejected", "reason": "extraction_failed"}
+    }
+  ]
+}

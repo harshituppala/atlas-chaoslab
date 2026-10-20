@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-18T13:57:01.272679+00:00",
+  "scope": "Executed local Chromium static-artifact checks and native backend regression suite. No deployment or new inference. Not a complete accessibility/security audit.",
+  "browser": {
+    "passed": 3,
+    "skipped": 0,
+    "duration_ms": 1304.219
+  },
+  "backend": {
+    "passed": 326,
+    "skipped": 18
+  },
+  "checks": [
+    "baseline_and_historical_recording",
+    "exact_citation_highlight",
+    "keyboard_dialog_and_focus_return",
+    "search_empty_state",
+    "known_failures_visible",
+    "no_api_or_external_requests",
+    "empty_browser_storage",
+    "csp_blocks_fetch",
+    "390px_mobile_no_horizontal_overflow",
+    "source_projection_privacy_and_tamper_rejection"
+  ],
+  "input_sha256": {
+    "src/atlas/replay.py": "65255940849100977a0e72721ec365c11ea735669e3a34543baf494caf64b27f",
+    "tests/test_replay.py": "7d7efe2ae0a933c5d1b31cb2144b25d57cd34e19e7f1b4c4885b9ce3917c957c",
+    "apps/web/src/replay.tsx": "0944d0554c38f77cfbf28d78e6d1c5d565fb8663b2a176c1fbbfa6caa2efc34f",
+    "apps/web/src/replay.css": "071fca603668889fbf7c09ba28a01ccbf3bb9b5323f860e0750b54bbbe09780c",
+    "apps/web/src/replay-data.json": "94cec05d0892e7115ce0dfe637ffdd687f3afdf599f8e4151fb94b881dacd43b",
+    "apps/web/src/Dialog.tsx": "e3bc3463b46673c1ee53a65bc0ad73989815209cce7f7b1f6d6af2b92e8da1eb",
+    "apps/web/replay/index.html": "3af211b63a7dc0fa71cf1570be4169652eab5e1a1bedc0c53656445b85093c33",
+    "apps/web/vite.replay.config.ts": "5ca42b4af1555e8b260e8b9186c026f8758b2819be752618aae3956afaad82b9",
+    "apps/web/playwright.replay.config.ts": "0cf085de240b28959b8dc69de132fe7b7b4fb85bebf3bc4988e45ad533363178",
+    "apps/web/replay-e2e/replay.spec.ts": "546d542ed46489f9fb2804cc9d2d4dee65a7aebcbd6c6521dc7088ef7dcbf366",
+    "apps/web/package.json": "f3eb2f3894174ab4c89d5aa1ff4c904b559a6eebbd66e837d925ab0e150afdef",
+    "apps/web/pnpm-lock.yaml": "f2078bf59fe6a18714450c4747dca7c5b67c8fa12f4a6b53b06ad1210c48478a",
+    "scripts/record_replay_validation.py": "5c99b1be4c64e671e2f76be8c1c1c383d69c0bee09de4be48f40795aa84af47a"
+  },
+  "build_sha256": {
+    "apps/web/dist-replay/assets/index-3rkRxk2v.css": "1838365fb117dfa332afeb278f9da0212c89f4c4a6a3c8f637e43e3ec61b0911",
+    "apps/web/dist-replay/assets/index-ROtRDMVN.js": "edcc7ceb6cd225cd0db784807a2b7d693281fb820a27e81888c7ff497e2a0c69",
+    "apps/web/dist-replay/index.html": "16cbe57bdb06170b3b2850e231be7987782d5bcbd5b34337b13f9cda178ec8a5"
+  },
+  "execution_report_sha256": {
+    "browser": "e765f19273964228890004b32d43973f75cd779e7e47b5163ff19d17293b2a2b",
+    "backend": "7f297277c7b70ce603e0e83e15d9fda7d01a127b136b94e27fa187f6d5d35dd5"
+  },
+  "hash_scope": "On-disk hashes captured after executed checks; no frozen pre-run attestation, loaded-code proof, remote CI or host-header validation is implied."
+}

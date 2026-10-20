@@ -1,0 +1,7 @@
+allowBuilds:
+  esbuild: set this to true or false
+  esbuild@0.27.0: true
+overrides:
+  esbuild: 0.27.0
+storeDir: ../../.cache/pnpm-store
+cacheDir: ../../.cache/pnpm-cache

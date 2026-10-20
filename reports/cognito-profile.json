@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-18T13:40:02.137602+00:00",
+  "profile": "cognito-resource",
+  "host_profile_cases_passed": 36,
+  "host_junit_sha256": "b368d07c178fe522ee20d2f351240f9895ff241c8c54d04d6269a60e70cf6af3",
+  "test_file_sha256": "0e5288079ee1aef5fa360772ff70bd6a7b27fe9766bb0ae291851f855bd46e4b",
+  "token_module_sha256": "037b3b71e596d17ae86e9ec42154d25307358643c6a406dba09822972f030daf",
+  "linux_image_id": "sha256:a8e8502f4360eee2f84fe4ea64a46e76801c46b4dad1266d55a9865c6057897a",
+  "linux_suite_counts": {
+    "tests": 334,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 18,
+    "passed": 316
+  },
+  "image_source_sha256": "d2aedf868d3ab19b9eb8543a9007d6ded4b4cee5d77b0de167a419654eb57113",
+  "linux_verification_input_sha256": "2c5131e3c8bc493fc5501a5fbd5289180c72b172247f33fc6c349f4acf056784",
+  "scope": "Offline real RSA signatures, controlled JWKS and actual SQLite API membership/revocation tests. Host file identities recorded after execution. The separate Linux verifier froze inputs before execution and matched image source to the host. Local hashes are not signed attestations. No real Cognito pool/login, browser PKCE, managed token issuance, deployed identity, cloud resources or billing were exercised."
+}

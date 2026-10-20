@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "One synthetic in-process FastAPI TestClient submission through a real isolated Bedrock worker and SQLite publication/readback. Not a browser, PostgreSQL, cloud deployment, load or production reliability validation.",
+  "status": "succeeded",
+  "attempts": 1,
+  "pipeline_version": "source-selection-v4",
+  "dataset_sha256": "2727a11d50ba97b2fffc39439bcb476102fac1a2969c48d8e016af23868c6801",
+  "source_sha256": "d1d4c9fab48b84814883c05cd24e8ef1b461d76e2f617980908a2a7d4e144911",
+  "source_unchanged": true,
+  "case_id": "residency-exact",
+  "cost_is_invoice": false,
+  "checks": {
+    "extracted": true,
+    "predicted": "supported",
+    "relation_correct": true,
+    "citation_integrity": true,
+    "source_scope": true,
+    "evidence_gate": true,
+    "complete_reference": true,
+    "human_review_pending": true,
+    "extractive_draft": true,
+    "passed": true
+  },
+  "estimated_model_cost_usd": 0.0014465,
+  "provider": "bedrock",
+  "authenticated_readback": true
+}
