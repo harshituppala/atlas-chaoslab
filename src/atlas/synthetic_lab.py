@@ -4,6 +4,7 @@ import argparse
 import asyncio
 import hashlib
 import json
+import logging
 import math
 import os
 import secrets
@@ -162,7 +163,9 @@ class OriginPolicy:
         await self.app(scope, receive, send)
 
 
-def create_lab(origin, *, sessions=None, executor=None, web_root=None):
+def create_lab(origin, *, sessions=None, executor=None, web_root=None, execution_timeout_seconds=5):
+    if type(execution_timeout_seconds) is not int or not 1 <= execution_timeout_seconds <= 30:
+        raise ValueError("Synthetic execution deadline must be between 1 and 30 seconds")
     parsed = urlsplit(origin)
     try:
         _ = parsed.port
@@ -202,7 +205,7 @@ def create_lab(origin, *, sessions=None, executor=None, web_root=None):
     ):
         raise ValueError("Only the dedicated synthetic lab build may be mounted")
     registry = sessions if sessions is not None else Sessions()
-    execute = executor or partial(execute_isolated, timeout_seconds=5)
+    execute = executor or partial(execute_isolated, timeout_seconds=execution_timeout_seconds)
     secure = parsed.scheme == "https"
     cookie = "__Host-atlas-lab" if secure else "atlas-lab-local"
 
@@ -314,7 +317,13 @@ def create_lab(origin, *, sessions=None, executor=None, web_root=None):
                 seed = json.loads(raw)
                 try:
                     output = validate_publication(seed, execute(json.loads(raw)))
+                except TimeoutError:
+                    logging.getLogger(__name__).warning("Synthetic analysis deadline exceeded")
+                    raise HTTPException(503, "Synthetic analysis could not complete") from None
                 except Exception:
+                    logging.getLogger(__name__).warning(
+                        "Synthetic analysis failed validation or execution"
+                    )
                     raise HTTPException(503, "Synthetic analysis could not complete") from None
                 registry.check(session)
                 saved = session.store.save(

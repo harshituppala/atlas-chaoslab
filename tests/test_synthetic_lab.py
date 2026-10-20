@@ -343,3 +343,35 @@ def test_static_mount_requires_dedicated_lab_build_and_preserves_api_boundary(tm
         assert response.headers["cache-control"] == "no-store"
         assert c.get("/api/lab/session").status_code == 401
         assert c.get("/api/documents").status_code == 404
+
+
+@pytest.mark.parametrize("deadline", [0, 31, True, 5.5, float("inf"), "20"])
+def test_execution_deadline_refuses_unbounded_or_wrong_typed_settings(deadline):
+    with pytest.raises(ValueError, match="deadline"):
+        create_lab(ORIGIN, execution_timeout_seconds=deadline)
+
+
+def test_operator_deadline_and_timeout_release_preserve_private_errors(monkeypatch, output, caplog):
+    import atlas.synthetic_lab as lab
+
+    calls = []
+
+    def run(body, timeout_seconds):
+        calls.append(timeout_seconds)
+        if len(calls) == 1:
+            raise TimeoutError("private-source-canary")
+        return output
+
+    monkeypatch.setattr(lab, "execute_isolated", run)
+    with TestClient(create_lab(ORIGIN, execution_timeout_seconds=20), base_url=ORIGIN) as client:
+        start(client)
+        failed = client.post("/api/lab/run", json={"case_id": "municipal"}, headers=HEADERS)
+        assert failed.status_code == 503
+        assert "private-source-canary" not in failed.text
+        assert "private-source-canary" not in caplog.text
+        assert "Synthetic analysis deadline exceeded" in caplog.text
+        assert (
+            client.post("/api/lab/run", json={"case_id": "municipal"}, headers=HEADERS).status_code
+            == 200
+        )
+        assert calls == [20, 20]

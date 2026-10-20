@@ -21,7 +21,7 @@ def main():
     import uvicorn
 
     origin, port = configuration(os.environ)
-    app = create_lab(origin, web_root="apps/web/dist-lab")
+    app = create_lab(origin, web_root="apps/web/dist-lab", execution_timeout_seconds=20)
     uvicorn.run(app, host="0.0.0.0", port=port, access_log=False, proxy_headers=False)
 
 
