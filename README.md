@@ -84,11 +84,11 @@ pnpm test
 
 `make benchmark` records the extractive baseline, recovery and ingestion diagnostics. Known quality failures are reported, not erased. Other focused runbooks cover [paired comparisons](docs/comparison-runbook.md), [live evidence rescoring](docs/live-injection-runbook.md), [body admission](docs/body-admission-runbook.md) and [child-process recovery](docs/worker-supervision-runbook.md). Unit tests use controlled model responses unless explicitly identified as live diagnostics.
 
-The repository contains CI configuration; GitHub CI has not run. A passing native suite does not refresh old container, database or browser evidence automatically.
+The [first GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed: 393 backend tests with 18 optional PostgreSQL skips, ten workbench browser tests and three static-viewer tests. A passing native suite does not refresh old container, database or browser evidence automatically.
 
 ## Hosting and access
 
-Hosting must remain free. The source release is being prepared for public GitHub publication. The local static-token API is not a deployment configuration. A full hosted service still needs a tested identity/login flow, durable storage, private runtime roles, secrets/TLS handling and an executed hosted workflow. The optional Cognito token profile has real-signature offline tests; no live Cognito login is claimed.
+Hosting must remain free. The source is available on [GitHub](https://github.com/harshituppala/atlas-chaoslab). The local static-token API is not a deployment configuration. A full hosted service still needs a tested identity/login flow, durable storage, private runtime roles, secrets/TLS handling and an executed hosted workflow. The optional Cognito token profile has real-signature offline tests; no live Cognito login is claimed.
 
 Demo recordings are deferred. The existing static replay remains a separate recorded artifact; it is not a hosted backend or a prerequisite for hosting. [Hosting status and decisions](docs/deployment-options.md) · [Release checkpoint](docs/RELEASE.md).
 

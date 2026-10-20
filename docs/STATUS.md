@@ -1,6 +1,6 @@
 # Project status
 
-Updated October 20, 2026. ATLAS and CHAOSLAB work locally. Neither has a hosted application URL yet.
+Updated October 20, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. Neither has a hosted application URL yet.
 
 ## ATLAS
 
@@ -34,9 +34,10 @@ The extractive baseline still misses one authored requirement pattern. The model
 
 Earlier container, browser and database results apply to the versions they tested. A new native test run does not refresh them. The [decision records](adr/) explain how the implementation and its checks developed.
 
+The [initial GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed 393 backend tests, ten workbench browser tests and three static-viewer tests. Eighteen optional database groups were skipped; PostgreSQL evidence remains separate.
+
 ## Remaining work
 
-- Publish the reviewed source and inspect the actual remote CI results.
 - Deploy and test a free hosted demonstration, including HTTPS, session isolation, cold starts, restart behavior and provider usage limits.
 - Complete real managed sign-in and durable hosted storage before offering the full review service.
 - Extend evaluation with independently written cases, realistic document layouts and targeted tests of threshold reasoning and hostile evidence.

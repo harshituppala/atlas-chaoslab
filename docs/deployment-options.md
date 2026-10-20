@@ -1,6 +1,6 @@
 # Hosting decision — October 19, 2026
 
-ATLAS is not hosted yet. Hosting must stay free, and demo recordings are deferred. The public source release is being prepared separately from the hosted application. The separate model-test allowance is not an infrastructure budget.
+ATLAS is not hosted yet. Hosting must stay free, and demo recordings are deferred. The source is public; the hosted application remains unfinished. The separate model-test allowance is not an infrastructure budget.
 
 ## What a host must preserve
 
@@ -27,9 +27,10 @@ A public lab could demonstrate the actual analysis/review workflow without prete
 
 ## Next acceptance steps
 
-1. Publish only the reviewed source release. Keep private systems, runtime files, credentials and prior local history out.
-2. Select and implement the intended hosted runtime profile under the free-only constraint. Verify provider quotas, database/identity privileges, secret delivery, shutdown and teardown before creating resources.
-3. Validate the actual hosted URL: login/session boundary, isolation, queue completion, citation/original access, review conflicts, restart behavior, resource rejection and persistence claims appropriate to that profile.
-4. Record what actually happened, including failures. Do not label a reachable page as the full deployed application.
+The reviewed source is public and its initial CI run passed. Remaining hosting steps:
+
+1. Select and implement the intended hosted runtime profile under the free-only constraint. Verify provider quotas, database/identity privileges, secret delivery, shutdown and teardown before creating resources.
+2. Validate the actual hosted URL: login/session boundary, isolation, queue completion, citation/original access, review conflicts, restart behavior, resource rejection and persistence claims appropriate to that profile.
+3. Record what actually happened, including failures. Do not label a reachable page as the full deployed application.
 
 Recordings are deferred and are not an acceptance dependency. The already prepared static replay remains explicitly recorded and is not a substitute for a running hosted backend. Earlier paid-host price comparisons remain in Git history; they are not approved alternatives.

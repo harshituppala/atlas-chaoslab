@@ -40,6 +40,6 @@ Resource controls include request-body admission, parser limits, worker deadline
 
 The native suite passes 393 tests, with eighteen optional PostgreSQL groups skipped in that run; the database groups have separate executed evidence. Historical image, browser, backup and live-model reports identify their own scope and source. None automatically becomes current when another suite passes.
 
-ATLAS has no hosted URL yet. Free hosting is required, and recordings are deferred. The next delivery decision must distinguish a durable authenticated service from a deliberately limited running synthetic lab. The public source release is being prepared separately from hosting. An implemented static replay remains a recorded artifact; it does not complete either hosted runtime.
+ATLAS has no hosted URL yet. Free hosting is required, and recordings are deferred. The next delivery decision must distinguish a durable authenticated service from a deliberately limited running synthetic lab. The source is public; hosted application delivery remains unfinished. An implemented static replay remains a recorded artifact; it does not complete either hosted runtime.
 
 [Run locally](../README.md#run-locally) · [Architecture](architecture.md) · [Threat model](threat-model.md) · [Hosting decision](deployment-options.md) · [Measured history](STATUS.md) · [Paired failure evidence](../reports/injection-pairs-live-v4.json)

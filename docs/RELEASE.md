@@ -6,7 +6,7 @@ This source release contains the ATLAS review workbench, CHAOSLAB evaluators, sy
 
 The source release excludes credentials, local databases, raw provider artifacts, installed dependencies and private workspace material. It starts with a fresh Git history. Exact file hashes and the publication inventory are kept in the release manifest; they do not represent additional test evidence.
 
-The latest native suite for this version passed 393 tests, with 18 optional PostgreSQL groups skipped. Database, browser, container and live-model checks have separate reports. Known benchmark failures are included. Remote CI has not run yet.
+The latest native suite for this version passed 393 tests, with 18 optional PostgreSQL groups skipped. Database, browser, container and live-model checks have separate reports. Known benchmark failures are included. The [first GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39451999129) passed its backend and browser jobs: 393 backend tests, ten workbench browser tests and three static-viewer tests. Eighteen optional PostgreSQL groups were skipped; their local evidence remains separate.
 
 ## Hosting
 
@@ -16,10 +16,10 @@ The local bearer-token launcher is for private use. A full hosted service needs 
 
 ## Release checks
 
-1. Check the source inventory and exclusions, then publish only the reviewed release.
-2. Verify the public repository contents and record the actual CI outcome.
-3. Check the selected host's free-plan limits and billing settings before creating a service.
-4. Exercise the deployed workflow, isolation, review conflicts and restart behavior at the actual URL.
-5. Record failures and teardown steps alongside the results.
+Source inventory, public contents and the initial CI outcome have been checked. Remaining deployment work:
+
+1. Check the selected host's free-plan limits and billing settings before creating a service.
+2. Exercise the deployed workflow, isolation, review conflicts and restart behavior at the actual URL.
+3. Record failures and teardown steps alongside the results.
 
 Source publication and a reachable page do not establish production operation. Deployment remains unfinished until the hosted checks have run.
