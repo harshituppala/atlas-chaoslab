@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 567 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 616 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -53,7 +53,9 @@ The [login exchange report](../reports/login-exchange-offline.json) records cont
 
 The [HTTP session report](../reports/browser-sessions-offline.json) records 67 focused checks and the full native suite. It uses controlled ASGI requests, not a real browser or TLS connection. Routes remain absent from default profiles. See [ADR 041](adr/041-opt-in-browser-sessions.md); the session release passed [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39632885844).
 
-The [workbench sign-in checks](../reports/browser-login-ui.json) passed seven controlled Chromium cases. Six existing bearer-workbench browser regressions also passed locally. The interface hides workspace data on expiry/denial/logout, aborts pending requests and reports failed logout without claiming success. The native suite separately covers the server configuration and pinned form policy. [ADR 042](adr/042-workbench-session-interface.md) records the boundaries: intercepted responses and direct form-target probes do not establish a real external login. No identity-provider resources or paid calls were made; hosted applications are unchanged. CI for this interface release has not yet been observed.
+The [workbench sign-in checks](../reports/browser-login-ui.json) passed seven controlled Chromium cases. Six existing bearer-workbench browser regressions also passed locally. The interface hides workspace data on expiry/denial/logout, aborts pending requests and reports failed logout without claiming success. The native suite separately covers the server configuration and pinned form policy. [ADR 042](adr/042-workbench-session-interface.md) records the boundaries: intercepted responses and direct form-target probes do not establish a real external login. No identity-provider resources or paid calls were made; hosted applications are unchanged. The interface release passed all three jobs in [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39666498219).
+
+Saved-observation admission now rejects malformed bundles and nested containers before scoring. The comparison CLI returns 2 and preserves earlier evidence, while wrong-but-usable answers remain scored failures. Fresh malformed adapter output is recorded as an attempted failure. The separately installed evaluator passed eight controlled checks without ATLAS installed; the extractive scenario baseline remains five of nine obligations and zero of three complete scenarios. See [ADR 043](adr/043-saved-observation-admission.md) and [the refreshed package report](../reports/chaoslab-package.json). No dataset expectations or historical model results changed. CI for this source update has not yet been observed.
 
 ## Remaining work
 

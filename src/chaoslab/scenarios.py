@@ -9,6 +9,7 @@ from .__main__ import citation_valid, source_digest
 from .artifacts import publish_report
 from .datasets import validate_case, validate_dataset
 from .execution import invoke
+from .scenario_artifacts import validate_bundle, validate_output
 
 RELATIONS = {
     "evidence_found": "supported",
@@ -44,6 +45,7 @@ def export_inputs(dataset, raw):
 
 def score(case, output):
     validate_case(case)
+    validate_output(output)
     original = case["input"]
     documents = {d["id"]: d for d in [original["rfp"], *original["knowledge"]]}
     items = output["assessments"]
@@ -127,6 +129,7 @@ def score(case, output):
 
 def score_bundle(dataset, raw, bundle):
     exported = export_inputs(dataset, raw)
+    validate_bundle(bundle, len(dataset["cases"]))
     if bundle.get("dataset_sha256") != exported["dataset_sha256"]:
         raise ValueError("Scenario artifact dataset differs")
     known = {
@@ -213,6 +216,7 @@ def main():
             try:
                 observed = invoke("atlas.chaos_adapter:run", row["input"])
                 observed["documents"] = [row["input"]["rfp"], *row["input"]["knowledge"]]
+                validate_output(observed)
                 results.append(
                     {
                         **row,

@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-21T07:15:54.409153+00:00",
+  "recorded_at": "2026-10-21T21:48:54.883430+00:00",
   "status": "passed",
   "scope": "Local wheel installation and controlled regression checks, not agent quality or model inference.",
   "python": "3.12.14",
@@ -7,7 +7,7 @@
     "src/chaoslab/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/chaoslab/__main__.py": "aee991a075d26936e2c3b17ed15faac2925419b167268c9f0def8eb9166ee4c5",
     "src/chaoslab/artifacts.py": "4bfb33a59b70a24e655b7888904b6f3cde7c624813fa707f21cd08d30c01c400",
-    "src/chaoslab/comparison.py": "29cb90d88cc90ca05d1d574964516ae21ecd014b931784e1cf01bae4ef2449a5",
+    "src/chaoslab/comparison.py": "3a85792793b3f859ab0d882692436cad272ee2cd43191ce62b7d10754c42ee80",
     "src/chaoslab/datasets.py": "21cd9f476efa0bd2aefc9472092b2d5bed1406e81b87d7cf0946ef5b723940eb",
     "src/chaoslab/execution.py": "f6b9f268f7654e0fc54498bf641104c52773cb04b3efb127aa305559017bfbc6",
     "src/chaoslab/execution_child.py": "8ef1c7e561112e55254f73afc604a8c0c8875a50bfb8254775e635bbdae62d8c",
@@ -17,12 +17,13 @@
     "src/chaoslab/reasoning.py": "822452f347e4b5e18b26df6aac8a97184b010df85d4e488aff3bc5713c58bc0a",
     "src/chaoslab/recovery.py": "ad69c80617c9110b7ab220d7f913500ae1e576f3ece1f9f960b6409daee140ab",
     "src/chaoslab/retrieval.py": "ca2bc5ecba29d4e62bd8d0008aea8d61850ba402984861a4237c2b6022703b94",
-    "src/chaoslab/scenarios.py": "b061a6858ebe65c28ac48e5bcb4fe84199d46af532cb281b62fb511bd589379c",
-    "src/chaoslab/pyproject.toml": "86dd9555021045e8960745a5f67377931dcdcacce14c00a2dd714985f5e76266",
-    "scripts/verify_chaoslab_package.py": "f79f1bfac4f08809e8abb8775892fd2b5033c552b1a6b06354b9f6eee14ee5e2"
+    "src/chaoslab/scenario_artifacts.py": "8d50a1be7e1377e2e193b6e3f5d935884becafa30cf00ed567f93f8c54a26178",
+    "src/chaoslab/scenarios.py": "18e3fb577e00e91844c3692bd7e3071f4007439ac8101471c96d620377f0f73f",
+    "src/chaoslab/pyproject.toml": "4b19ff96107ed8cafb16cc3d982f0af80e6b8a279feb24269def7be0a14c79b7",
+    "scripts/verify_chaoslab_package.py": "e1de38a112f30598449076e96009cc67e40b200716c0bdc6b788b2c8fc550fc6"
   },
-  "wheel_sha256": "0c8b285ba8a14c564740e8b7886c412afe98d94637eb1401d98d9df299eaa8d1",
-  "wheel_name": "chaoslab_eval-0.1.0-py3-none-any.whl",
+  "wheel_sha256": "3f4245a491d57b56825596ca66aa0c0a299c9afa84365cae2b18dca2809363ad",
+  "wheel_name": "chaoslab_eval-0.1.1-py3-none-any.whl",
   "runtime_dependencies": [],
   "atlas_installed": false,
   "outside_repository_execution": true,
@@ -80,6 +81,22 @@
       }
     },
     "invalid-golden-relation": {
+      "exit_code": 2,
+      "previous_report_preserved": true
+    },
+    "array-artifact": {
+      "exit_code": 2,
+      "previous_report_preserved": true
+    },
+    "null-row": {
+      "exit_code": 2,
+      "previous_report_preserved": true
+    },
+    "overflow-number": {
+      "exit_code": 2,
+      "previous_report_preserved": true
+    },
+    "deep-nesting": {
       "exit_code": 2,
       "previous_report_preserved": true
     }

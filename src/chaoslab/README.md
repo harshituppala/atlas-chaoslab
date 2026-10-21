@@ -33,7 +33,7 @@ python -m pip install ./src/chaoslab
 chaoslab-compare --help
 ```
 
-The `chaoslab-eval` wheel has no third-party runtime dependencies. `chaoslab-compare` takes a dataset and two saved raw runs and rescores them without installing ATLAS. Use `--require-fixture-gate` to return a failing exit code for missing attempts, regressions or candidate failures. The report is written before that exit. A malformed dataset or artifact instead exits with code 2 and preserves any previous report.
+The `chaoslab-eval` wheel has no third-party runtime dependencies. `chaoslab-compare` takes a dataset and two saved raw runs and rescores them without installing ATLAS. Use `--require-fixture-gate` to return a failing exit code for missing attempts, regressions or candidate failures. The report is written before that exit. A malformed dataset or artifact instead exits with code 2 and preserves any previous report. Saved succeeded rows are admitted before scoring; a wrong citation or review state still counts as a quality failure. See the [artifact decision](../../docs/adr/043-saved-observation-admission.md).
 
 The [package check](../../scripts/verify_chaoslab_package.py) builds a wheel, installs it in a fresh environment and runs from outside the source tree. It checks unchanged output, a corrupt citation and a missing attempt, then invokes a separate trusted adapter. These are controlled installation checks, not agent benchmark results.
 

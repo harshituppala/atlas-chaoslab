@@ -187,6 +187,32 @@ def main():
     )
     assert (outside / "result.json").read_bytes() == previous
     results["invalid-golden-relation"] = {"exit_code": 2, "previous_report_preserved": True}
+    (outside / "dataset.json").write_bytes(raw)
+    for name, malformed in (
+        ("array-artifact", "[]"),
+        ("null-row", json.dumps({"dataset_sha256": dataset_hash, "results": [None]})),
+        ("overflow-number", '{"extra":1e9999}'),
+        ("deep-nesting", "[" * 80 + "]" * 80),
+    ):
+        (outside / "candidate.json").write_text(malformed)
+        previous = (outside / "result.json").read_bytes()
+        run(
+            [
+                str(runtime / "bin/chaoslab-compare"),
+                "--dataset",
+                "dataset.json",
+                "--reference",
+                "reference.json",
+                "--candidate",
+                "candidate.json",
+                "--output",
+                "result.json",
+                "--require-fixture-gate",
+            ],
+            expected=2,
+        )
+        assert (outside / "result.json").read_bytes() == previous
+        results[name] = {"exit_code": 2, "previous_report_preserved": True}
     # The installed child process must resolve an external trusted adapter, too.
     (outside / "external_adapter.py").write_text(
         "def run(body, fault):\n    return {'seen': body}\n"

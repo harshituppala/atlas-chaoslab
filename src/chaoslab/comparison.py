@@ -3,11 +3,13 @@
 import argparse
 import hashlib
 import json
+import math
 from datetime import UTC, datetime
 from pathlib import Path
 
 from .artifacts import publish_report
 from .datasets import validate_dataset
+from .scenario_artifacts import validate_bundle
 from .scenarios import export_inputs, score_bundle
 
 MAX_BYTES = 8_000_000
@@ -30,10 +32,32 @@ def read_json(path):
     def invalid(_):
         raise ValueError("Non-finite JSON value")
 
-    return raw, json.loads(raw, object_pairs_hook=unique, parse_constant=invalid)
+    def finite(value):
+        parsed = float(value)
+        if not math.isfinite(parsed):
+            raise ValueError("Non-finite JSON value")
+        return parsed
+
+    try:
+        parsed = json.loads(
+            raw, object_pairs_hook=unique, parse_constant=invalid, parse_float=finite
+        )
+        pending = [(parsed, 0)]
+        while pending:
+            value, depth = pending.pop()
+            if depth > 64:
+                raise ValueError("Comparison JSON exceeds nesting budget")
+            if isinstance(value, dict):
+                pending.extend((item, depth + 1) for item in value.values())
+            elif isinstance(value, list):
+                pending.extend((item, depth + 1) for item in value)
+        return raw, parsed
+    except (RecursionError, UnicodeError):
+        raise ValueError("Comparison JSON encoding or nesting is invalid") from None
 
 
 def normalized(dataset, raw, bundle):
+    validate_bundle(bundle, len(dataset["cases"]))
     if bundle.get("dataset_sha256") != hashlib.sha256(raw).hexdigest():
         raise ValueError("Comparison dataset differs")
     rows = bundle["results"]
@@ -140,6 +164,7 @@ def scorer_hashes():
             "src/chaoslab/scenarios.py",
             "src/chaoslab/__main__.py",
             "src/chaoslab/datasets.py",
+            "src/chaoslab/scenario_artifacts.py",
         )
     }
 
@@ -162,6 +187,8 @@ def main():
         report = compare(loaded[0][1], loaded[0][0], loaded[1][1], loaded[2][1])
     except ValueError as exc:
         parser.error(str(exc))
+    except OSError:
+        parser.error("Could not read comparison input")
     if scorer_hashes() != frozen or any(
         p.read_bytes() != raw for p, (raw, _) in zip(inputs, loaded, strict=True)
     ):

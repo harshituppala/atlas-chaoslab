@@ -129,7 +129,7 @@ def test_row_order_does_not_change_pairing():
 
 def test_aggregates_without_raw_outputs_are_rejected():
     dataset, raw, bundle = fixtures()
-    with pytest.raises(KeyError):
+    with pytest.raises(ValueError, match="result coverage"):
         compare(dataset, raw, bundle, {"dataset_sha256": bundle["dataset_sha256"], "passed": 3})
 
 
