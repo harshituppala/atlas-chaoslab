@@ -1,6 +1,6 @@
 # ADR 040: consume login attempts before exchanging codes
 
-Date: October 21, 2026. Status: backend component implemented and checked offline. No login routes are enabled.
+Date: October 21, 2026. Status at this milestone: backend component implemented and checked offline. Exchange-only source passed GitHub run 39626877457. ADR 041 adds an explicit HTTP-session opt-in; defaults remain disabled.
 
 The API already verifies resource-bound access JWTs, but a browser cannot yet obtain one through the application. Add the authorization-code exchange as a separate component before introducing callback routes and session cookies. It uses the explicit Cognito trust profile, an operator-pinned provider origin and one exact HTTPS callback URL. It is not wired into the private workbench or public fictional lab.
 

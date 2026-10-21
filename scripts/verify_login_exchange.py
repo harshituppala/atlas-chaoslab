@@ -1,5 +1,6 @@
 """Record offline login-component checks; never contact or configure a provider."""
 
+import argparse
 import hashlib
 import json
 import os
@@ -22,13 +23,19 @@ def tree_hash(directory):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--http-sessions", action="store_true")
+    args = parser.parse_args()
+    focused = ["tests/test_login_exchange.py"]
+    if args.http_sessions:
+        focused += ["tests/test_browser_sessions.py", "tests/test_http_privacy.py"]
     source_before, tests_before = tree_hash("src"), tree_hash("tests")
     script_hash = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     work = ROOT / "var/login-exchange" / uuid4().hex[:12]
     work.mkdir(parents=True)
     started = datetime.now(UTC).isoformat()
     results = {}
-    for label, targets in (("focused", ["tests/test_login_exchange.py"]), ("native", [])):
+    for label, targets in (("focused", focused), ("native", [])):
         xml = work / f"{label}.xml"
         command = [
             sys.executable,
@@ -71,17 +78,24 @@ def main():
     report = {
         "started_at": started,
         "recorded_at": datetime.now(UTC).isoformat(),
-        "scope": "Offline backend component. Controlled HTTP token/key services and actual RSA-signed synthetic access JWTs; no AWS login, user pool, browser callback or deployed authentication verified.",
+        "scope": "Controlled ASGI HTTPS/session requests, token/key services and RSA-signed synthetic JWTs. No actual browser, AWS user pool or deployed identity flow validated."
+        if args.http_sessions
+        else "Offline backend exchange component; controlled provider/key services and synthetic RSA JWTs. No real provider/browser acceptance.",
         "source_sha256": source_before,
         "test_sources_sha256": tests_before,
         "verifier_script_sha256": script_hash,
         "checks": results,
         "provider_network_calls": 0,
         "cloud_resources_created": 0,
-        "browser_routes_enabled": False,
-        "limits": "Process-local pending state. HTTP cookie binding, callback query redaction, application sessions, membership integration and real browser/provider acceptance are separate unfinished work. A component test is not a live sign-in test.",
+        "default_browser_routes_enabled": False,
+        "opt_in_http_routes_exercised": args.http_sessions,
+        "limits": "Process-local attempts/sessions; explicit factory opt-in only. The workbench UI and actual browser/provider login remain unfinished. No distributed session backend, refresh-token storage, provider logout or deployed proxy-log acceptance. Controlled HTTP clients do not enforce browser SameSite behavior.",
     }
-    output = ROOT / "reports/login-exchange-offline.json"
+    output = ROOT / (
+        "reports/browser-sessions-offline.json"
+        if args.http_sessions
+        else "reports/login-exchange-offline.json"
+    )
     temporary = work / "report.json"
     temporary.write_text(json.dumps(report, indent=2) + "\n")
     os.replace(temporary, output)

@@ -18,9 +18,10 @@ class ResponsePrivacy:
                 headers["X-Frame-Options"] = "DENY"
                 headers["Referrer-Policy"] = "no-referrer"
                 headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
-                if scope["path"].startswith("/api/"):
+                if scope["path"].startswith(("/api/", "/auth/")):
                     headers["Cache-Control"] = "no-store"
                     headers.add_vary_header("Authorization")
+                    headers.add_vary_header("Cookie")
                 if "text/html" in headers.get("Content-Type", ""):
                     headers["Content-Security-Policy"] = (
                         "default-src 'self'; script-src 'self'; style-src 'self'; "

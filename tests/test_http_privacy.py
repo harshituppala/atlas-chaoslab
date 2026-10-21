@@ -14,7 +14,10 @@ def test_auth_errors_private_data_and_body_limit_errors_are_not_cached():
         assert [r.status_code for r in responses] == [401, 200, 413]
         for response in responses:
             assert response.headers["cache-control"] == "no-store"
-            assert response.headers["vary"] == "Authorization"
+            assert {name.strip() for name in response.headers["vary"].split(",")} == {
+                "Authorization",
+                "Cookie",
+            }
             assert response.headers["x-content-type-options"] == "nosniff"
             assert response.headers["x-frame-options"] == "DENY"
 

@@ -33,6 +33,7 @@ from .migrations import HEAD, SchemaNotReady, revision
 from .models.intelligence import MODEL_PIPELINE_VERSION
 from .models.job_spec import load_job_spec
 from .observability import RequestTracing, configure
+from .security.browser import BrowserLogin
 from .security.memberships import MembershipRegistry
 from .security.tokens import (
     AccessTokenVerifier,
@@ -66,15 +67,25 @@ class ReviewRequest(StrictModel):
     note: str = Field(min_length=1, max_length=2000)
 
 
-def create_app(database_url=None, principals=None, token_verifier=None, *, readiness_probe=None):
+def create_app(
+    database_url=None,
+    principals=None,
+    token_verifier=None,
+    *,
+    readiness_probe=None,
+    login_exchange=None,
+):
     configure("atlas-api")
     owns_verifier = False
+    browser_login = None
 
     @asynccontextmanager
     async def lifespan(app):
         try:
             yield
         finally:
+            if browser_login is not None:
+                browser_login.close()
             if owns_verifier:
                 token_verifier.close()
 
@@ -99,6 +110,12 @@ def create_app(database_url=None, principals=None, token_verifier=None, *, readi
             raise ValueError("Token trust configuration exceeds budget")
         token_verifier = AccessTokenVerifier(TokenTrust(**json.loads(trust_config)))
         owns_verifier = True
+    if login_exchange is not None:
+        if token_verifier is None:
+            token_verifier = login_exchange.verifier
+        if token_verifier.trust != login_exchange.config.trust:
+            raise ValueError("Browser login and API token trust must match")
+        browser_login = BrowserLogin(login_exchange)
     ingestion_slots = threading.BoundedSemaphore(2)
     app.add_middleware(BodyLimit)
     app.add_middleware(RequestTracing)
@@ -118,16 +135,23 @@ def create_app(database_url=None, principals=None, token_verifier=None, *, readi
     security = HTTPBearer(auto_error=False)
 
     def identity(
+        request: Request,
         credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(security)],
         workspace: Annotated[str | None, Header(alias="X-Workspace-ID", max_length=128)] = None,
     ):
-        if not credentials:
+        if browser_login is not None and browser_login.has_session_cookie(request):
+            if "authorization" in request.headers:
+                raise HTTPException(400, "Choose one authentication method")
+            credential = browser_login.credential(request).access_token
+        elif credentials:
+            credential = credentials.credentials
+        else:
             raise HTTPException(
                 401, "Authentication required", headers={"WWW-Authenticate": "Bearer"}
             )
         if token_verifier is not None:
             try:
-                subject = token_verifier.verify(credentials.credentials)
+                subject = token_verifier.verify(credential)
             except InvalidAccessToken:
                 raise HTTPException(
                     401, "Invalid credential", headers={"WWW-Authenticate": "Bearer"}
@@ -141,12 +165,14 @@ def create_app(database_url=None, principals=None, token_verifier=None, *, readi
                 raise HTTPException(403, "Authorized workspace selection required")
             return Identity(**member)
         for token, value in configured.items():
-            if secrets.compare_digest(credentials.credentials.encode(), token.encode()):
+            if secrets.compare_digest(credential.encode(), token.encode()):
                 if workspace is not None and workspace != value["tenant"]:
                     raise HTTPException(403, "Authorized workspace selection required")
                 return Identity(**value)
         raise HTTPException(401, "Invalid credential", headers={"WWW-Authenticate": "Bearer"})
 
+    if browser_login is not None:
+        browser_login.attach(app)
     User = Annotated[Identity, Depends(identity)]
     IdempotencyKey = Annotated[str, Header(min_length=8, max_length=128)]
 
@@ -438,6 +464,7 @@ def create_app(database_url=None, principals=None, token_verifier=None, *, readi
     frontend = Path("apps/web/dist")
     if frontend.exists():
         app.mount("/", StaticFiles(directory=frontend, html=True), name="web")
+    app.state.browser_login = browser_login
     app.state.store = store
     app.state.queue = queue
     app.state.documents = documents

@@ -1,0 +1,31 @@
+{
+  "started_at": "2026-10-21T16:09:10.624585+00:00",
+  "recorded_at": "2026-10-21T16:09:23.873181+00:00",
+  "scope": "Controlled ASGI HTTPS/session requests, token/key services and RSA-signed synthetic JWTs. No actual browser, AWS user pool or deployed identity flow validated.",
+  "source_sha256": "11ebe2dc212e85ac0494cd8c786aecc699c0e3ca8d1b2242887eb0cc0d746abe",
+  "test_sources_sha256": "b0cdcd3fda3437fbff08971ea1135cc4baa402d7c3b312946574a69f791ec322",
+  "verifier_script_sha256": "9f24a860d2279928c1de8d71dc1bf3c93cf12db76c935dbcc2710d3feddaecf4",
+  "checks": {
+    "focused": {
+      "tests": 67,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 67,
+      "junit_sha256": "968e78cdc60ad8b6b063da0a816d75df1859d2cd7b357ca7658a40bf7fa99840"
+    },
+    "native": {
+      "tests": 581,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 18,
+      "passed": 563,
+      "junit_sha256": "0df24878b0e35ca80e15060d0bf7e07069dd65fdb6e5469b4d3c1293b69acf12"
+    }
+  },
+  "provider_network_calls": 0,
+  "cloud_resources_created": 0,
+  "default_browser_routes_enabled": false,
+  "opt_in_http_routes_exercised": true,
+  "limits": "Process-local attempts/sessions; explicit factory opt-in only. The workbench UI and actual browser/provider login remain unfinished. No distributed session backend, refresh-token storage, provider logout or deployed proxy-log acceptance. Controlled HTTP clients do not enforce browser SameSite behavior."
+}

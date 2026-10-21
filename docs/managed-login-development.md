@@ -1,25 +1,32 @@
 # Managed login development
 
-The API can verify a Cognito resource-access token and resolve a server-owned workspace membership. The authorization-code exchange component now has offline tests. The browser sign-in flow is still unfinished, and neither component makes the full service ready for public exposure.
+The private API has an optional authorization-code and browser-session path. It is enabled only when an operator passes a configured `LoginExchange` into `create_app(..., login_exchange=exchange)`. Default launchers and the public fictional lab keep their existing profiles. The workbench sign-in interface and real provider/browser acceptance remain unfinished.
 
-Run the component checks and record their source/test fingerprints:
+## Run the controlled checks
 
 ```sh
-.runtime/bin/python scripts/verify_login_exchange.py
+.runtime/bin/python scripts/verify_login_exchange.py --http-sessions
 ```
 
-This runs controlled token and key services. It does not require AWS credentials or create a user pool. The resulting report is `reports/login-exchange-offline.json`; detailed JUnit files and logs stay under `var/login-exchange/`.
+This records `reports/browser-sessions-offline.json`; JUnit files and logs stay under `var/login-exchange/`. It uses controlled token/key services and an in-process HTTP client with HTTPS request URLs. It does not perform a TLS handshake, enforce browser SameSite rules, use AWS credentials or create resources. The older exchange-only report retains the scope of its original run.
 
-## Integration boundary
+## HTTP boundary
 
-`LoginExchange.begin()` returns an authorization URL and a separate browser binding. A future HTTP route must store that binding in a secure HttpOnly cookie before redirecting. It must not place it in the provider URL or browser storage. The callback supplies the state, cookie binding and code to `finish()`. Successful exchange returns a verified subject and an access token for server-side session handling. It grants no workspace role.
+| Route | Behavior |
+| --- | --- |
+| `POST /auth/start` | Requires the exact browser Origin, creates a bound PKCE attempt and redirects to the pinned provider. |
+| `GET /auth/callback` | Consumes the matching attempt, verifies the access token and sets an opaque session cookie. Redirects to a clean application URL. |
+| `GET /auth/session` | Returns the session's CSRF token and expiry; it grants no workspace access. |
+| `POST /auth/logout` | Requires Origin and CSRF for a valid session, then removes server state and cookies. |
 
-Keep login state and callback queries out of request logs and traces. Both the callback and redirect responses need no-store and referrer controls. Callback errors, logout and expiry must clear the appropriate browser state. The pending registry is local to one process, so routing and restart behavior need explicit tests before a multi-worker deployment.
+Application API writes use the session cookie plus `X-Atlas-CSRF`. API requests still verify signed access claims and resolve server-owned workspace membership every time. Do not send an Authorization header alongside the cookie. A browser must clear displayed data when authentication expires; do not persist provider tokens in browser storage.
 
-## Provider acceptance still required
+The app closes session/exchange state on shutdown. An injected token verifier remains caller-owned. State is local to one process; a restart logs users out, and multiple instances need an explicit shared-session or routing design. Provider refresh tokens are discarded. Local application logout does not log the user out of Cognito.
 
-Use an explicitly reviewed HTTPS application origin and exact callback registration. Configure a public client for authorization code with S256, the required API scopes and the resource audience. Verify that its provider domain belongs to the intended pool and that issued access tokens satisfy the existing pinned trust profile. Membership must be assigned by the application operator; provider role/group claims do not grant access.
+## Before enabling a hosted flow
 
-No pool or app client has been provisioned for this flow. Review access and cost before creating cloud resources. Real sign-in must be performed by the owner without sharing passwords or tokens in chat. After the routes and sessions exist, acceptance must include callback replay, wrong browser, provider denial/outage, membership revocation, logout and expiry. Until then, use the private local launcher or the separate fictional lab.
+Register one reviewed HTTPS callback and confirm that the provider domain belongs to the intended pool. Configure a public client for authorization code with S256, the API scopes and resource audience expected by the verifier. Membership must be assigned by the application operator, not inferred from groups or roles in provider claims.
 
-[Design and executed checks](adr/040-authorization-code-exchange.md) · [Current token profile](adr/025-explicit-cognito-access-profile.md)
+Keep callback query strings, cookies and tokens out of server/proxy logs and traces. Configure TLS, trusted proxy handling and request-rate controls. Real browser acceptance must check the external redirect, Lax binding cookie, Strict application cookie, callback replay, provider denial/outage, membership revocation, logout and expiry. Review account access and cost before creating cloud resources; the owner must complete real sign-in without sharing credentials in chat.
+
+[Session decision](adr/041-opt-in-browser-sessions.md) · [Exchange component](adr/040-authorization-code-exchange.md) · [Token profile](adr/025-explicit-cognito-access-profile.md)
