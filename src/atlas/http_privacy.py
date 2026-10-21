@@ -12,6 +12,7 @@ class ResponsePrivacy:
         ):
             raise ValueError("Form origin must be a pinned HTTPS hostname")
         self.app = app
+        self.browser_forms = form_origin is not None
         self.form_target = " 'self'" + (" " + form_origin if form_origin else "")
 
     async def __call__(self, scope, receive, send):
@@ -29,7 +30,16 @@ class ResponsePrivacy:
                     headers["Cache-Control"] = "no-store"
                     headers.add_vary_header("Authorization")
                     headers.add_vary_header("Cookie")
-                if "text/html" in headers.get("Content-Type", ""):
+                html = "text/html" in headers.get("Content-Type", "") or (
+                    message["status"] == 304 and scope["path"] in {"/", "/index.html"}
+                )
+                if html:
+                    if self.browser_forms:
+                        # Chromium makes navigation POST Origin opaque under
+                        # no-referrer. Keep same-origin proof without leaking
+                        # the page URL to an external identity provider.
+                        headers["Referrer-Policy"] = "same-origin"
+                        headers["Cache-Control"] = "no-store"
                     headers["Content-Security-Policy"] = (
                         "default-src 'self'; script-src 'self'; style-src 'self'; "
                         "connect-src 'self'; img-src 'self' data:; font-src 'self'; "

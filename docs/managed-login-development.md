@@ -1,6 +1,6 @@
 # Managed login development
 
-The private API has an optional authorization-code and browser-session path. It is enabled only when an operator passes a configured `LoginExchange` into `create_app(..., login_exchange=exchange)`. Default launchers and the public fictional lab keep their existing profiles. The workbench has a controlled-tested sign-in interface; real provider/browser acceptance remains unfinished.
+The private API has an optional authorization-code and browser-session path. It is enabled only when an operator passes a configured `LoginExchange` into `create_app(..., login_exchange=exchange)`. Default launchers and the public fictional lab keep their existing profiles. The workbench has controlled interface checks and a joined local HTTPS check with a synthetic provider; real AWS/provider acceptance remains unfinished.
 
 ## Run the controlled checks
 
@@ -17,6 +17,16 @@ python scripts/verify_browser_login_ui.py
 ```
 
 Requires Node, pnpm and installed Playwright Chromium. Set `PLAYWRIGHT_BROWSERS_PATH` to the local browser cache when needed. The runner builds the workbench, starts a loopback server and records seven browser cases in [the UI report](../reports/browser-login-ui.json). Sign-in/API responses are intercepted. This does not perform a real TLS/provider exchange or verify cookie enforcement. See [the interface decision](adr/042-workbench-session-interface.md).
+
+## Run the joined browser/server check
+
+```sh
+PYTHONPATH=src python scripts/verify_browser_login_https.py
+```
+
+This needs the same frontend tools and Chromium installation. It uses real loopback TLS, redirects, cookies, signed tokens, JWKS, membership and a baseline review, with a synthetic passwordless provider. The runner accepts the same bundled Node/pnpm flags as the UI verifier. It needs no AWS credentials, administrator access or cloud resources. [ADR 044](adr/044-composed-browser-login.md) explains the local proxy, certificate pin and test-only controls. The [joined report](../reports/browser-login-https.json) does not establish real provider or hosted acceptance.
+
+Optional login HTML uses same-origin referrers so a navigation POST can carry its Origin. It is not cached; index revalidation keeps the same policy. API and callback responses retain no-referrer. Do not weaken Origin checks to accept null to work around browser navigation failures.
 
 ## HTTP boundary
 

@@ -174,3 +174,8 @@ Provider tokens remain in process memory behind opaque host-only session cookies
 ## Saved evaluation observations
 
 Comparison admits observation containers before indexing them. Malformed saved experiments exit 2 without replacing an earlier report; wrong but usable citations and assessments remain scored failures. Fresh unusable adapter responses are recorded as attempted failures. Bounded bytes, explicit nesting depth and finite-number checks reduce parser ambiguity; fixed structural errors omit source contents. These checks do not sandbox adapters, attest saved output or sanitize arbitrary private metadata. Scenario IDs still appear in public comparison reports; operators must review publication inputs. See ADR 043.
+
+
+## Joined local browser identity check
+
+A real Chromium/TLS fixture caught an Origin:null form failure that manually supplied HTTP headers and intercepted UI responses missed. Optional login HTML uses same-origin referrers and no-store, including its index revalidation path; callbacks/API responses retain no-referrer. Origin admission remains strict. Browser checks now exercise cross-site Strict-cookie withholding, consumed callback replay, signed membership, CSRF, revoked access and logout through the real application. The provider is synthetic, uses a subprocess-pinned test certificate and contains local test controls. It must never be mounted in a hosted service. These results do not establish real Cognito configuration, public trust, production proxy redaction or distributed sessions. See ADR 044.

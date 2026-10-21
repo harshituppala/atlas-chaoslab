@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 616 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 617 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -55,7 +55,9 @@ The [HTTP session report](../reports/browser-sessions-offline.json) records 67 f
 
 The [workbench sign-in checks](../reports/browser-login-ui.json) passed seven controlled Chromium cases. Six existing bearer-workbench browser regressions also passed locally. The interface hides workspace data on expiry/denial/logout, aborts pending requests and reports failed logout without claiming success. The native suite separately covers the server configuration and pinned form policy. [ADR 042](adr/042-workbench-session-interface.md) records the boundaries: intercepted responses and direct form-target probes do not establish a real external login. No identity-provider resources or paid calls were made; hosted applications are unchanged. The interface release passed all three jobs in [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39666498219).
 
-Saved-observation admission now rejects malformed bundles and nested containers before scoring. The comparison CLI returns 2 and preserves earlier evidence, while wrong-but-usable answers remain scored failures. Fresh malformed adapter output is recorded as an attempted failure. The separately installed evaluator passed eight controlled checks without ATLAS installed; the extractive scenario baseline remains five of nine obligations and zero of three complete scenarios. See [ADR 043](adr/043-saved-observation-admission.md) and [the refreshed package report](../reports/chaoslab-package.json). No dataset expectations or historical model results changed. CI for this source update has not yet been observed.
+Saved-observation admission now rejects malformed bundles and nested containers before scoring. The comparison CLI returns 2 and preserves earlier evidence, while wrong-but-usable answers remain scored failures. Fresh malformed adapter output is recorded as an attempted failure. The separately installed evaluator passed eight controlled checks without ATLAS installed; the extractive scenario baseline remains five of nine obligations and zero of three complete scenarios. See [ADR 043](adr/043-saved-observation-admission.md) and [the refreshed package report](../reports/chaoslab-package.json). No dataset expectations or historical model results changed. The admission release passed [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39682008435).
+
+The [joined browser login check](../reports/browser-login-https.json) passed eleven groups through real loopback TLS and a synthetic identity provider. It exercises redirects, S256, signed-token/JWKS verification, browser cookies, a queued baseline review, revoked membership, logout, replay, controlled expiry and denial. It exposed a Chromium form-Origin/privacy-policy mismatch and a repeated-sign-in caching problem; [ADR 044](adr/044-composed-browser-login.md) records the correction. No real AWS user, public certificate or deployed identity flow was validated. The check is wired into CI; this release's remote result has not yet been observed.
 
 ## Remaining work
 

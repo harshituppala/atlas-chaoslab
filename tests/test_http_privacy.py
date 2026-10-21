@@ -34,6 +34,7 @@ def test_workbench_html_blocks_unapproved_script_sources(tmp_path, monkeypatch):
         assert "script-src 'self'" in policy and "frame-ancestors 'none'" in policy
         assert "unsafe-inline" not in policy
         assert policy.endswith("form-action 'self'")
+        assert response.headers["referrer-policy"] == "no-referrer"
         assert client.get("/docs").status_code == 404
         assert client.get("/openapi.json").status_code == 200
 
@@ -66,6 +67,32 @@ def test_pinned_provider_policy_does_not_expand_script_or_connect_sources():
         return HTMLResponse("<html><body>Fixture</body></html>")
 
     with TestClient(app) as client:
-        policy = client.get("/").headers["content-security-policy"]
+        response = client.get("/")
+        policy = response.headers["content-security-policy"]
+        assert response.headers["referrer-policy"] == "same-origin"
         assert policy.endswith("form-action 'self' https://identity.example.invalid")
         assert "script-src 'self';" in policy and "connect-src 'self';" in policy
+
+
+def test_opt_in_index_revalidation_keeps_origin_proof_and_disables_document_caching():
+    from fastapi import FastAPI
+    from fastapi.responses import Response
+
+    from atlas.http_privacy import ResponsePrivacy
+
+    app = FastAPI()
+    app.add_middleware(ResponsePrivacy, form_origin="https://identity.example.invalid")
+
+    @app.get("/")
+    def unchanged_index():
+        return Response(status_code=304)
+
+    with TestClient(app) as client:
+        response = client.get("/")
+        assert response.status_code == 304
+        assert response.headers["referrer-policy"] == "same-origin"
+        assert response.headers["cache-control"] == "no-store"
+        assert (
+            "form-action 'self' https://identity.example.invalid"
+            in response.headers["content-security-policy"]
+        )

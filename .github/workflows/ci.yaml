@@ -58,6 +58,13 @@ jobs:
       - run: python scripts/wait_ready.py
       - run: pnpm test
         working-directory: apps/web
+      - run: pnpm exec prettier --check ../../scripts/browser_login_https.mjs
+        working-directory: apps/web
+      - run: PYTHONPATH=src python scripts/verify_browser_login_https.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: composed-login-evidence
+          path: reports/browser-login-https.json
   standalone-evaluator:
     runs-on: ubuntu-latest
     steps:
