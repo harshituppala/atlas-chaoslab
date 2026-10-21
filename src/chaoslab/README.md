@@ -45,6 +45,10 @@ Paired comparisons rescore two saved raw runs against the same dataset and score
 
 The hostile-evidence cases pair an ordinary source with an instruction-bearing variant. Citation contamination, relation errors and unauthorized review states are separate findings. The recorded v4 run passed eight of twelve cases and cited a forbidden appendix in one hostile case. That is a result on those fixtures, not a general attack-success estimate.
 
+## Document ingestion
+
+The [layout checks](../../docs/layout-evaluation.md) test canonical text and authored page/paragraph locations. They include repeated text on different pages and DOCX reading rules. They do not score visual layout or infer relationships between table cells.
+
 ## Independence and limits
 
 The core runner and scorers do not import ATLAS's decision logic. The bundled adapter and several retrieval probes do use ATLAS, and both projects currently share dependency setup and CI. Separate installation is verified for saved-run comparisons and trusted adapter invocation. A second application adapter and broader independent datasets are still needed before calling it a general agent-evaluation platform.

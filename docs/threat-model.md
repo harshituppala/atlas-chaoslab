@@ -153,3 +153,7 @@ The free public lab uses the separate synthetic-only container entry, not the pr
 ## Separately installed evaluator
 
 The standalone wheel does not install ATLAS or third-party runtime packages. This reduces setup coupling, not adapter privileges: selected trusted adapters retain the user's filesystem and network permissions. Comparisons fingerprint installed scorer files rather than paths in the caller's directory. Installed package digests exclude external adapter code. The controlled checks in ADR 037 do not establish package-signing, supply-chain integrity or isolation from hostile code.
+
+## Ingestion evaluation inputs
+
+The ingestion runner freezes source, dataset and fixture bytes before execution and checks them before publishing. Changed inputs refuse publication; the report destination cannot overwrite its dataset or a fixture. Source-location checks search inside the authored segment, so repeated text elsewhere cannot substitute for that page or paragraph. These controls detect drift in trusted local runs; they do not make adapter code safe to execute or attest loaded bytecode.

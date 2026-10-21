@@ -18,6 +18,7 @@ jobs:
       - run: PYTHONPATH=src python -m chaoslab.reasoning --output reports/reasoning-ci.json
       - run: PYTHONPATH=src python -m chaoslab.recovery --output reports/recovery-ci.json
       - run: PYTHONPATH=src python -m chaoslab.ingestion --output reports/ingestion-ci.json
+      - run: PYTHONPATH=src python -m chaoslab.ingestion --dataset datasets/ingestion-layout.json --output reports/ingestion-layout-ci.json
       - uses: actions/upload-artifact@v4
         with:
           name: baseline-evidence
@@ -27,6 +28,7 @@ jobs:
             reports/reasoning-ci.json
             reports/recovery-ci.json
             reports/ingestion-ci.json
+            reports/ingestion-layout-ci.json
   browser:
     runs-on: ubuntu-latest
     steps:

@@ -1,6 +1,6 @@
 # ADR 037: install CHAOSLAB without the application
 
-Date: October 20, 2026. Status: local wheel and clean-environment checks passed; remote CI pending.
+Date: October 20, 2026. Status: local wheel and clean-environment checks passed; the standalone, backend and browser jobs passed in GitHub run 39515100079.
 
 CHAOSLAB had separate scoring code but still required the combined dependency setup. Comparison fingerprints also read files relative to the caller's directory. An installed scorer would fail to find them; the baseline source digest could hash an empty tree. A separate package should not borrow provenance from an unrelated working directory.
 

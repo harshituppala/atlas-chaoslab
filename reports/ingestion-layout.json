@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "kind": "document_ingestion",
+  "generated_at": "2026-10-21T02:15:53.995589+00:00",
+  "scope": "Three same-author fictional layout cases: repeated text, skipped blank pages, split DOCX runs, deleted revisions and merged table cells. Text/source locations only; no OCR, rendered layout, inferred row relationships or external accuracy estimate.",
+  "adapter": "atlas.ingestion_adapter:run",
+  "dataset_sha256": "9d5bd1d2ee8713c47c4ddd1b184b7e6e278e479c6a349d54cc44a0906739bad8",
+  "fixture_sha256": {
+    "documents/layout/repeated-footer.pdf": "0fb537aa06be15a8e93b40cc5d35f4ebd4d40b8d971f4683b6dcca23f32372e8",
+    "documents/layout/split-runs.docx": "c7795e61978c826e2459aeea49cde5300114937b20e48f07e577c8dfd5fd415c",
+    "documents/layout/merged-table.docx": "3cc3ea183aeaf335717337e5f9b0f5ab4c78cf76a7899b85424745fb39bcd16b"
+  },
+  "source_sha256": "f4f4861c52ad230927b586b7fbf16c51f6e44ceff001ff1795dd389e49ab3a11",
+  "inputs_verified_unchanged": true,
+  "provenance_scope": "Source and fixture bytes frozen before execution and checked before publication; not signed or loaded-bytecode attestation.",
+  "revision": "16773a99d0204b8af7583214786c26a834973357",
+  "working_tree_dirty": true,
+  "environment": "macOS-27.0.1-arm64-arm-64bit",
+  "python": "3.12.14",
+  "unique_cases": 3,
+  "cases_passed": 3,
+  "external_inference_calls": 0,
+  "results": [
+    {
+      "id": "repeated-pdf-footer-with-blank-middle-page",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "raw_identity": true,
+        "segment_count": true,
+        "format": true,
+        "source_map_coverage": true,
+        "authored_location_1": true,
+        "authored_location_2": true,
+        "authored_location_3": true,
+        "authored_location_4": true
+      },
+      "observed_status": "extracted",
+      "observed_reason": null,
+      "latency_ms": 106.80675000185147
+    },
+    {
+      "id": "split-docx-runs-and-deleted-revision",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "raw_identity": true,
+        "segment_count": true,
+        "format": true,
+        "authored_text": true,
+        "source_map_coverage": true,
+        "authored_location_1": true,
+        "authored_location_2": true,
+        "authored_location_3": true
+      },
+      "observed_status": "extracted",
+      "observed_reason": null,
+      "latency_ms": 67.93266598833725
+    },
+    {
+      "id": "merged-header-and-table-cell-order",
+      "passed": true,
+      "checks": {
+        "status": true,
+        "raw_identity": true,
+        "segment_count": true,
+        "format": true,
+        "authored_text": true,
+        "source_map_coverage": true,
+        "authored_location_1": true,
+        "authored_location_2": true,
+        "authored_location_3": true
+      },
+      "observed_status": "extracted",
+      "observed_reason": null,
+      "latency_ms": 65.34341600490734
+    }
+  ]
+}

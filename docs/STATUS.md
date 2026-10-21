@@ -1,6 +1,6 @@
 # Project status
 
-Updated October 20, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
+Updated October 21, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
 
 ## ATLAS
 
@@ -16,7 +16,7 @@ A separate synthetic lab runs the seeded review workflow with temporary sessions
 
 The independent evaluator scores adapter output against synthetic golden cases. It checks extraction, evidence relations, source spans, review state and failure behavior separately. Paired comparisons rescore raw runs under the same dataset and scorer, preserving missing cases and regressions.
 
-A separate `chaoslab-eval` wheel now supports saved-run comparisons without installing ATLAS. A clean-environment check exercised unchanged, corrupt-citation and missing-attempt outcomes, plus an external trusted adapter. See the [installation guide](../src/chaoslab/README.md#install-the-evaluator-on-its-own) and [package decision](adr/037-portable-chaoslab-evaluator.md). Remote CI for this package check is pending.
+A separate `chaoslab-eval` wheel now supports saved-run comparisons without installing ATLAS. A clean-environment check exercised unchanged, corrupt-citation and missing-attempt outcomes, plus an external trusted adapter. See the [installation guide](../src/chaoslab/README.md#install-the-evaluator-on-its-own) and [package decision](adr/037-portable-chaoslab-evaluator.md). The independent package job, backend checks and browser checks passed in [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39515100079).
 
 The datasets are development fixtures written for these projects. They are useful for finding regressions, but do not establish accuracy on customer contracts or constitute an external evaluation.
 
@@ -26,7 +26,8 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 462 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 471 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
 | Multi-obligation comparison | Baseline 5/9; recorded model 9/9 | [Comparison runbook](comparison-runbook.md) |
@@ -43,6 +44,8 @@ The [corrected GitHub CI run](https://github.com/harshituppala/atlas-chaoslab/ac
 Hosted acceptance checked eight requirements and fourteen exact source spans, human review and stale conflicts, session isolation, secure cookies and rejection of private API routes. A real Chromium run covered desktop/mobile source inspection, review, reload and logout. A provider restart rejected the old session before its expiry and allowed a fresh analysis. See [HTTP](../reports/hosted-lab.json), [browser](../reports/hosted-lab-browser.json) and [restart](../reports/hosted-lab-restart.json) reports. These checks do not establish durable storage or production reliability.
 
 The [public portfolio](https://harshit-uppala-portfolio.vercel.app) now has separate ATLAS and CHAOSLAB source links, project guides and an ATLAS lab link. An unauthenticated Chromium check passed at desktop and mobile widths after deployment: both project dialogs opened, their links matched the published destinations, Escape dismissed them, and no horizontal overflow or browser runtime errors were observed. The latest [source CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39463244651) also passed.
+
+The layout evaluation exposed a judge defect: a repeated quote on page three was compared only with its first occurrence on page one. The corrected judge searches the authored segment and keeps physical page numbers across blank pages. Source and fixture changes now prevent report publication. These checks cover synthetic text/source mapping, not rendered layout or table interpretation. See the [layout guide](layout-evaluation.md). The new CI run is pending.
 
 ## Remaining work
 

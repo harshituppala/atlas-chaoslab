@@ -11,6 +11,7 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
+from .__main__ import source_digest
 from .artifacts import publish_report
 
 
@@ -26,6 +27,8 @@ def evaluate(raw, expected, observed):
     checks["raw_identity"] = source.get("raw_sha256") == hashlib.sha256(raw).hexdigest()
     checks["segment_count"] = len(segments) == expected["segment_count"]
     checks["format"] = source.get("format") == expected["format"]
+    if "text" in expected:
+        checks["authored_text"] = text == expected["text"]
     previous_end, previous_number = 0, 0
     coherent = isinstance(text, str) and bool(text) and bool(segments)
     for segment in segments:
@@ -46,12 +49,17 @@ def evaluate(raw, expected, observed):
     checks["source_map_coverage"] = coherent and not text[previous_end:].strip()
     for index, location in enumerate(expected["locations"]):
         quote = location["quote"]
-        start = text.find(quote)
-        checks[f"authored_location_{index + 1}"] = start >= 0 and any(
-            s.get("unit") == location["unit"]
-            and s.get("number") == location["number"]
-            and s.get("start", len(text) + 1) <= start < start + len(quote) <= s.get("end", -1)
-            for s in segments
+        # A footer or repeated clause can occur on several pages. Search the
+        # authored segment, not only the first occurrence in the entire file.
+        checks[f"authored_location_{index + 1}"] = (
+            coherent
+            and bool(quote)
+            and any(
+                s["unit"] == location["unit"]
+                and s["number"] == location["number"]
+                and quote in text[s["start"] : s["end"]]
+                for s in segments
+            )
         )
     return checks
 
@@ -65,9 +73,10 @@ def main():
     path = Path(args.dataset).resolve()
     dataset_raw = path.read_bytes()
     dataset = json.loads(dataset_raw)
+    frozen_source = source_digest()
     module, function = args.adapter.split(":")
     adapter = getattr(importlib.import_module(module), function)
-    results, artifacts = [], {}
+    results, artifacts, snapshots = [], {}, []
     for case in dataset["cases"]:
         inputs = case["input"]
         if "file" in inputs:
@@ -78,6 +87,12 @@ def main():
             artifacts[inputs["file"]] = hashlib.sha256(raw).hexdigest()
         else:
             raw = inputs["raw_ascii"].encode("ascii")
+        snapshots.append((case, raw, file if "file" in inputs else None))
+    output = Path(args.output)
+    if output.resolve() in {path, *(file for _, _, file in snapshots if file is not None)}:
+        parser.error("Report output must not overwrite the dataset or a fixture")
+    for case, raw, _ in snapshots:
+        inputs = case["input"]
         started = time.perf_counter()
         try:
             observed = adapter(
@@ -100,10 +115,12 @@ def main():
             result = {"id": case["id"], "passed": False, "error_type": type(exc).__name__}
         result["latency_ms"] = (time.perf_counter() - started) * 1000
         results.append(result)
-    source = hashlib.sha256()
-    for file in sorted(Path("src").rglob("*.py")):
-        source.update(str(file).encode())
-        source.update(file.read_bytes())
+    if (
+        source_digest() != frozen_source
+        or path.read_bytes() != dataset_raw
+        or any(file.read_bytes() != raw for _, raw, file in snapshots if file is not None)
+    ):
+        raise SystemExit("Ingestion source or inputs changed; report publication refused")
     report = {
         "schema_version": 1,
         "kind": "document_ingestion",
@@ -112,7 +129,9 @@ def main():
         "adapter": args.adapter,
         "dataset_sha256": hashlib.sha256(dataset_raw).hexdigest(),
         "fixture_sha256": artifacts,
-        "source_sha256": source.hexdigest(),
+        "source_sha256": frozen_source,
+        "inputs_verified_unchanged": True,
+        "provenance_scope": "Source and fixture bytes frozen before execution and checked before publication; not signed or loaded-bytecode attestation.",
         "revision": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
         "working_tree_dirty": bool(
             subprocess.check_output(["git", "status", "--porcelain"], text=True).strip()
@@ -124,7 +143,6 @@ def main():
         "external_inference_calls": 0,
         "results": results,
     }
-    output = Path(args.output)
     publish_report(output, report)
     print(json.dumps({"cases_passed": report["cases_passed"], "unique_cases": len(results)}))
     raise SystemExit(0 if all(r["passed"] for r in results) else 1)

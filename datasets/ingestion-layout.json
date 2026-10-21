@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "scope": "Three same-author fictional layout cases: repeated text, skipped blank pages, split DOCX runs, deleted revisions and merged table cells. Text/source locations only; no OCR, rendered layout, inferred row relationships or external accuracy estimate.",
+  "cases": [
+    {
+      "id": "repeated-pdf-footer-with-blank-middle-page",
+      "input": {
+        "file": "documents/layout/repeated-footer.pdf",
+        "format": "pdf",
+        "kind": "rfp"
+      },
+      "expected": {
+        "status": "extracted",
+        "format": "pdf",
+        "segment_count": 2,
+        "locations": [
+          {
+            "quote": "Recovery must complete within four hours.",
+            "unit": "page",
+            "number": 1
+          },
+          {
+            "quote": "Fictional procurement - review copy",
+            "unit": "page",
+            "number": 1
+          },
+          {
+            "quote": "Evidence must identify the recovery test.",
+            "unit": "page",
+            "number": 3
+          },
+          {
+            "quote": "Fictional procurement - review copy",
+            "unit": "page",
+            "number": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "split-docx-runs-and-deleted-revision",
+      "input": {
+        "file": "documents/layout/split-runs.docx",
+        "format": "docx",
+        "kind": "rfp"
+      },
+      "expected": {
+        "status": "extracted",
+        "format": "docx",
+        "segment_count": 3,
+        "text": "Café team shall review the recovery evidence.\nCurrent recovery target: four hours.\nOwner\tReview team\nCanada",
+        "locations": [
+          {
+            "quote": "Café team shall review the recovery evidence.",
+            "unit": "paragraph",
+            "number": 1
+          },
+          {
+            "quote": "Current recovery target: four hours.",
+            "unit": "paragraph",
+            "number": 2
+          },
+          {
+            "quote": "Owner\tReview team\nCanada",
+            "unit": "paragraph",
+            "number": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "merged-header-and-table-cell-order",
+      "input": {
+        "file": "documents/layout/merged-table.docx",
+        "format": "docx",
+        "kind": "knowledge"
+      },
+      "expected": {
+        "status": "extracted",
+        "format": "docx",
+        "segment_count": 5,
+        "text": "Recovery evidence\nCriterion\nCapability\nRecovery target\nEight hours",
+        "locations": [
+          {
+            "quote": "Recovery evidence",
+            "unit": "paragraph",
+            "number": 1
+          },
+          {
+            "quote": "Recovery target",
+            "unit": "paragraph",
+            "number": 4
+          },
+          {
+            "quote": "Eight hours",
+            "unit": "paragraph",
+            "number": 5
+          }
+        ]
+      }
+    }
+  ]
+}
