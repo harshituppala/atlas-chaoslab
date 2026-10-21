@@ -1,6 +1,6 @@
 # ADR 039: reject malformed experiments before scoring
 
-Date: October 21, 2026. Status: local suite and installed-package checks passed; remote CI pending.
+Date: October 21, 2026. Status: local suite and installed-package checks passed; backend, browser and package jobs passed in GitHub run 39577292428.
 
 A controlled mutation exposed a false pass in the scenario judge. With an authored relation of `invalid` and an unknown agent status, both sides became the same fallback value. An otherwise well-formed answer could pass. No existing golden case uses that label; this was a defect in how malformed experiments were handled, not evidence that a recorded model result had improved.
 

@@ -8,7 +8,7 @@ The review workbench accepts text-bearing PDF/DOCX files and pasted sources, ext
 
 The default analysis is an offline extractive baseline. The optional Bedrock path selects evidence from server-owned choices and leaves every assessment pending for human review. Paid jobs require explicit operator configuration and have one queue attempt; a timeout can leave usage uncertain.
 
-SQLite supports the local demonstration. PostgreSQL has separately tested migrations, restricted API/worker roles, tenant row policies and persistent exact pgvector retrieval. Managed-token validation is implemented, but browser sign-in with a real identity provider remains unfinished.
+SQLite supports the local demonstration. PostgreSQL has separately tested migrations, restricted API/worker roles, tenant row policies and persistent exact pgvector retrieval. Managed-token validation and a single-use authorization-code exchange component have offline verification. Thirty-nine focused exchange cases pass, including PKCE, browser binding, replay and token checks. Browser routes, application sessions and real provider sign-in remain unfinished; see the [integration boundary](managed-login-development.md).
 
 A separate synthetic lab runs the seeded review workflow with temporary sessions. It accepts no uploads or model credentials. Desktop and mobile browser checks cover source inspection, review conflicts and session handling. A dedicated Linux image has also been exercised under a memory limit, with an intentional session reset on restart. Real hosted HTTPS, Chromium and controlled restart checks now pass. Session history is intentionally temporary; cold-start and usage-limit behavior still need further observation. See the [lab runbook](synthetic-lab-runbook.md) and [container checks](lab-container-runbook.md).
 
@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 498 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 537 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -47,7 +47,9 @@ The [public portfolio](https://harshit-uppala-portfolio.vercel.app) now has sepa
 
 The layout evaluation exposed a judge defect: a repeated quote on page three was compared only with its first occurrence on page one. The corrected judge searches the authored segment and keeps physical page numbers across blank pages. Source and fixture changes now prevent report publication. These checks cover synthetic text/source mapping, not rendered layout or table interpretation. See the [layout guide](layout-evaluation.md). The layout release passed [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39542856232).
 
-Authored scenario contracts now reject unknown relations, duplicate source IDs and inconsistent evidence expectations before scoring. This closes a controlled false pass where an invalid expected label matched the scorer's unknown-status fallback. The separately installed comparison command rejects invalid experiments without replacing earlier reports. See [the decision](adr/039-golden-contract-validation.md); CI for this change is pending.
+Authored scenario contracts now reject unknown relations, duplicate source IDs and inconsistent evidence expectations before scoring. This closes a controlled false pass where an invalid expected label matched the scorer's unknown-status fallback. The separately installed comparison command rejects invalid experiments without replacing earlier reports. See [the decision](adr/039-golden-contract-validation.md); The golden-contract release passed [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39577292428).
+
+The [login exchange report](../reports/login-exchange-offline.json) records controlled HTTP/RSA tests only. No AWS pool/client or enabled login routes were created. Remote CI for this component is pending.
 
 ## Remaining work
 

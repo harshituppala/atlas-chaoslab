@@ -1,0 +1,30 @@
+{
+  "started_at": "2026-10-21T15:31:14.227605+00:00",
+  "recorded_at": "2026-10-21T15:31:26.071827+00:00",
+  "scope": "Offline backend component. Controlled HTTP token/key services and actual RSA-signed synthetic access JWTs; no AWS login, user pool, browser callback or deployed authentication verified.",
+  "source_sha256": "782d0cf06e10eb20cb5bdde07092261f0c043d0a5914f0d203b14d46d398b44e",
+  "test_sources_sha256": "3f91712263462eb6979d14dbcabcb60e04a3d94ddb7dd8c7bfeee5afecad8dee",
+  "verifier_script_sha256": "9385fe27aa8671829bc967fba5a3a9e4e568a76a8f7eb326004f91625d81ae64",
+  "checks": {
+    "focused": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 39,
+      "junit_sha256": "67d83f6d60bab513c4762201c28b9f3ffe2e6e271c9b29263b73c3a9f37d78f6"
+    },
+    "native": {
+      "tests": 555,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 18,
+      "passed": 537,
+      "junit_sha256": "8952a33b87e8731dda935da348d04f1eb9e72f38c9b7c1f7f16d80da19ad0e9b"
+    }
+  },
+  "provider_network_calls": 0,
+  "cloud_resources_created": 0,
+  "browser_routes_enabled": false,
+  "limits": "Process-local pending state. HTTP cookie binding, callback query redaction, application sessions, membership integration and real browser/provider acceptance are separate unfinished work. A component test is not a live sign-in test."
+}
