@@ -1,6 +1,6 @@
 # ADR 038: score repeated source text in its own segment
 
-Date: October 21, 2026. Status: implemented and checked locally; remote CI pending.
+Date: October 21, 2026. Status: implemented and checked locally; backend, browser and package jobs passed in GitHub run 39542856232.
 
 The ingestion judge searched for the first occurrence of each expected quote in the entire extracted document, then checked its page. A repeated footer on page three was therefore marked wrong when the same footer appeared on page one. The parser had retained the right text and page coordinates; the judge was wrong.
 

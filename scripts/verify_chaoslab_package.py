@@ -166,6 +166,27 @@ def main():
         }
         for name_in_report, digest in observed["scorer_sha256"].items():
             assert digest == frozen[name_in_report]
+    invalid_dataset = deepcopy(dataset)
+    invalid_dataset["cases"][0]["expected"][0]["relation"] = "invalid"
+    (outside / "dataset.json").write_text(json.dumps(invalid_dataset))
+    previous = (outside / "result.json").read_bytes()
+    run(
+        [
+            str(runtime / "bin/chaoslab-compare"),
+            "--dataset",
+            "dataset.json",
+            "--reference",
+            "reference.json",
+            "--candidate",
+            "candidate.json",
+            "--output",
+            "result.json",
+            "--require-fixture-gate",
+        ],
+        expected=2,
+    )
+    assert (outside / "result.json").read_bytes() == previous
+    results["invalid-golden-relation"] = {"exit_code": 2, "previous_report_preserved": True}
     # The installed child process must resolve an external trusted adapter, too.
     (outside / "external_adapter.py").write_text(
         "def run(body, fault):\n    return {'seen': body}\n"

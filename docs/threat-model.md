@@ -157,3 +157,7 @@ The standalone wheel does not install ATLAS or third-party runtime packages. Thi
 ## Ingestion evaluation inputs
 
 The ingestion runner freezes source, dataset and fixture bytes before execution and checks them before publishing. Changed inputs refuse publication; the report destination cannot overwrite its dataset or a fixture. Source-location checks search inside the authored segment, so repeated text elsewhere cannot substitute for that page or paragraph. These controls detect drift in trusted local runs; they do not make adapter code safe to execute or attest loaded bytecode.
+
+## Authored evaluation contracts
+
+Unknown relations, duplicate source identities, out-of-source obligation quotes and inconsistent evidence expectations reject a scenario experiment before scoring. Errors describe fields without echoing source text. Invalid inputs preserve the previous comparison report. This prevents malformed labels from matching fallback states, but does not establish the factual correctness or independence of the author's expectations. See ADR 039.

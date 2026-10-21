@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .__main__ import citation_valid, source_digest
 from .artifacts import publish_report
+from .datasets import validate_case, validate_dataset
 from .execution import invoke
 
 RELATIONS = {
@@ -23,6 +24,9 @@ def digest(value):
 
 
 def export_inputs(dataset, raw):
+    validate_dataset(dataset)
+    if json.loads(raw) != dataset:
+        raise ValueError("Parsed dataset differs from bound bytes")
     dataset_hash = hashlib.sha256(raw).hexdigest()
     return {
         "schema_version": 1,
@@ -39,6 +43,7 @@ def export_inputs(dataset, raw):
 
 
 def score(case, output):
+    validate_case(case)
     original = case["input"]
     documents = {d["id"]: d for d in [original["rfp"], *original["knowledge"]]}
     items = output["assessments"]

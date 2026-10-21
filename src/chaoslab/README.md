@@ -33,7 +33,7 @@ python -m pip install ./src/chaoslab
 chaoslab-compare --help
 ```
 
-The `chaoslab-eval` wheel has no third-party runtime dependencies. `chaoslab-compare` takes a dataset and two saved raw runs and rescores them without installing ATLAS. Use `--require-fixture-gate` to return a failing exit code for missing attempts, regressions or candidate failures. The report is written before that exit.
+The `chaoslab-eval` wheel has no third-party runtime dependencies. `chaoslab-compare` takes a dataset and two saved raw runs and rescores them without installing ATLAS. Use `--require-fixture-gate` to return a failing exit code for missing attempts, regressions or candidate failures. The report is written before that exit. A malformed dataset or artifact instead exits with code 2 and preserves any previous report.
 
 The [package check](../../scripts/verify_chaoslab_package.py) builds a wheel, installs it in a fresh environment and runs from outside the source tree. It checks unchanged output, a corrupt citation and a missing attempt, then invokes a separate trusted adapter. These are controlled installation checks, not agent benchmark results.
 
@@ -48,6 +48,10 @@ The hostile-evidence cases pair an ordinary source with an instruction-bearing v
 ## Document ingestion
 
 The [layout checks](../../docs/layout-evaluation.md) test canonical text and authored page/paragraph locations. They include repeated text on different pages and DOCX reading rules. They do not score visual layout or infer relationships between table cells.
+
+## Writing cases
+
+Each expected obligation must quote its RFP. Relations are `supported`, `contradicted` or `insufficient`; evidence IDs must name unique knowledge records in that case. Document IDs cannot overlap, including between the RFP and knowledge records. Invalid labels or ambiguous source identities stop the experiment before scoring. These checks catch authoring mistakes; they cannot establish whether a label is factually right.
 
 ## Independence and limits
 

@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-20T17:16:07.375714+00:00",
+  "recorded_at": "2026-10-21T07:15:54.409153+00:00",
   "status": "passed",
   "scope": "Local wheel installation and controlled regression checks, not agent quality or model inference.",
   "python": "3.12.14",
@@ -7,20 +7,21 @@
     "src/chaoslab/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/chaoslab/__main__.py": "aee991a075d26936e2c3b17ed15faac2925419b167268c9f0def8eb9166ee4c5",
     "src/chaoslab/artifacts.py": "4bfb33a59b70a24e655b7888904b6f3cde7c624813fa707f21cd08d30c01c400",
-    "src/chaoslab/comparison.py": "3c2a7777ff108a1b21ae5b9013f096933d4a527021d9a230de8c9127333228be",
+    "src/chaoslab/comparison.py": "29cb90d88cc90ca05d1d574964516ae21ecd014b931784e1cf01bae4ef2449a5",
+    "src/chaoslab/datasets.py": "21cd9f476efa0bd2aefc9472092b2d5bed1406e81b87d7cf0946ef5b723940eb",
     "src/chaoslab/execution.py": "f6b9f268f7654e0fc54498bf641104c52773cb04b3efb127aa305559017bfbc6",
     "src/chaoslab/execution_child.py": "8ef1c7e561112e55254f73afc604a8c0c8875a50bfb8254775e635bbdae62d8c",
-    "src/chaoslab/ingestion.py": "cb0f1b20eda592c2c7c692c1c6b714bd739508d7104b986ee9a6847bf090fbad",
+    "src/chaoslab/ingestion.py": "dd2c204aa83c335c0613bd48fd27c22a814c81af48cc6fbcb1a0c2cede0594d6",
     "src/chaoslab/injection.py": "24586474caf5fb8c685cbc5ae35b0416c17d96a388e86e68c5125189f61f893e",
     "src/chaoslab/pg_retrieval.py": "5b590263a2500512923fc6e1043520ccc718082f175e3ef8dabcc647da092cf0",
     "src/chaoslab/reasoning.py": "822452f347e4b5e18b26df6aac8a97184b010df85d4e488aff3bc5713c58bc0a",
     "src/chaoslab/recovery.py": "ad69c80617c9110b7ab220d7f913500ae1e576f3ece1f9f960b6409daee140ab",
     "src/chaoslab/retrieval.py": "ca2bc5ecba29d4e62bd8d0008aea8d61850ba402984861a4237c2b6022703b94",
-    "src/chaoslab/scenarios.py": "3f9f906c7fc5e82b70dd01943678096bf61e83d405ef4436ae443e973230dcc9",
+    "src/chaoslab/scenarios.py": "b061a6858ebe65c28ac48e5bcb4fe84199d46af532cb281b62fb511bd589379c",
     "src/chaoslab/pyproject.toml": "86dd9555021045e8960745a5f67377931dcdcacce14c00a2dd714985f5e76266",
-    "scripts/verify_chaoslab_package.py": "4ca491cd608d3290b552e7867263c08c19a41eadefbb18fecc5ffeaae247d815"
+    "scripts/verify_chaoslab_package.py": "f79f1bfac4f08809e8abb8775892fd2b5033c552b1a6b06354b9f6eee14ee5e2"
   },
-  "wheel_sha256": "d74477444af33b7f86612b2c6523740856b91140792923a5b3aa640ecf5b1a92",
+  "wheel_sha256": "0c8b285ba8a14c564740e8b7886c412afe98d94637eb1401d98d9df299eaa8d1",
   "wheel_name": "chaoslab_eval-0.1.0-py3-none-any.whl",
   "runtime_dependencies": [],
   "atlas_installed": false,
@@ -77,6 +78,10 @@
         "regressed": 0,
         "unpaired": 1
       }
+    },
+    "invalid-golden-relation": {
+      "exit_code": 2,
+      "previous_report_preserved": true
     }
   },
   "limits": "POSIX process controls. ATLAS adapters and database/retrieval probes still require their own dependencies. No second application or external dataset evaluated. Wheel hashes identify this build, not reproducible byte-for-byte builds or signed provenance."

@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from .artifacts import publish_report
+from .datasets import validate_dataset
 from .scenarios import export_inputs, score_bundle
 
 MAX_BYTES = 8_000_000
@@ -30,23 +31,6 @@ def read_json(path):
         raise ValueError("Non-finite JSON value")
 
     return raw, json.loads(raw, object_pairs_hook=unique, parse_constant=invalid)
-
-
-def validate_dataset(dataset):
-    cases = dataset["cases"]
-    if not 1 <= len(cases) <= 200:
-        raise ValueError("Comparison requires 1..200 scenarios")
-    identifiers = [c["id"] for c in cases]
-    if any(not isinstance(i, str) or not 1 <= len(i) <= 128 for i in identifiers):
-        raise ValueError("Invalid scenario identity")
-    if len(set(identifiers)) != len(identifiers):
-        raise ValueError("Duplicate authored scenario")
-    for case in cases:
-        expectations = case["expected"]
-        if not 1 <= len(expectations) <= 200 or len({e["text"] for e in expectations}) != len(
-            expectations
-        ):
-            raise ValueError("Expected obligations must be nonempty and unique per scenario")
 
 
 def normalized(dataset, raw, bundle):
@@ -155,6 +139,7 @@ def scorer_hashes():
             "src/chaoslab/comparison.py",
             "src/chaoslab/scenarios.py",
             "src/chaoslab/__main__.py",
+            "src/chaoslab/datasets.py",
         )
     }
 
@@ -172,8 +157,11 @@ def main():
     if output in {p.resolve() for p in inputs}:
         parser.error("Comparison output must not overwrite an input")
     frozen = scorer_hashes()
-    loaded = [read_json(p) for p in inputs]
-    report = compare(loaded[0][1], loaded[0][0], loaded[1][1], loaded[2][1])
+    try:
+        loaded = [read_json(p) for p in inputs]
+        report = compare(loaded[0][1], loaded[0][0], loaded[1][1], loaded[2][1])
+    except ValueError as exc:
+        parser.error(str(exc))
     if scorer_hashes() != frozen or any(
         p.read_bytes() != raw for p, (raw, _) in zip(inputs, loaded, strict=True)
     ):

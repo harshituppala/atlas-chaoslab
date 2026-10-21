@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 471 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 498 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -45,7 +45,9 @@ Hosted acceptance checked eight requirements and fourteen exact source spans, hu
 
 The [public portfolio](https://harshit-uppala-portfolio.vercel.app) now has separate ATLAS and CHAOSLAB source links, project guides and an ATLAS lab link. An unauthenticated Chromium check passed at desktop and mobile widths after deployment: both project dialogs opened, their links matched the published destinations, Escape dismissed them, and no horizontal overflow or browser runtime errors were observed. The latest [source CI run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39463244651) also passed.
 
-The layout evaluation exposed a judge defect: a repeated quote on page three was compared only with its first occurrence on page one. The corrected judge searches the authored segment and keeps physical page numbers across blank pages. Source and fixture changes now prevent report publication. These checks cover synthetic text/source mapping, not rendered layout or table interpretation. See the [layout guide](layout-evaluation.md). The new CI run is pending.
+The layout evaluation exposed a judge defect: a repeated quote on page three was compared only with its first occurrence on page one. The corrected judge searches the authored segment and keeps physical page numbers across blank pages. Source and fixture changes now prevent report publication. These checks cover synthetic text/source mapping, not rendered layout or table interpretation. See the [layout guide](layout-evaluation.md). The layout release passed [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39542856232).
+
+Authored scenario contracts now reject unknown relations, duplicate source IDs and inconsistent evidence expectations before scoring. This closes a controlled false pass where an invalid expected label matched the scorer's unknown-status fallback. The separately installed comparison command rejects invalid experiments without replacing earlier reports. See [the decision](adr/039-golden-contract-validation.md); CI for this change is pending.
 
 ## Remaining work
 
