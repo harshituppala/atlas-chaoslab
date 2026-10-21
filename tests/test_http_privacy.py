@@ -33,5 +33,39 @@ def test_workbench_html_blocks_unapproved_script_sources(tmp_path, monkeypatch):
         policy = response.headers["content-security-policy"]
         assert "script-src 'self'" in policy and "frame-ancestors 'none'" in policy
         assert "unsafe-inline" not in policy
+        assert policy.endswith("form-action 'self'")
         assert client.get("/docs").status_code == 404
         assert client.get("/openapi.json").status_code == 200
+
+
+def test_form_origin_rejects_csp_directive_injection():
+    import pytest
+
+    from atlas.http_privacy import ResponsePrivacy
+
+    for origin in (
+        "https://example.invalid;script-src:*",
+        "https://*.example.invalid",
+        "http://example.invalid",
+    ):
+        with pytest.raises(ValueError):
+            ResponsePrivacy(None, form_origin=origin)
+
+
+def test_pinned_provider_policy_does_not_expand_script_or_connect_sources():
+    from fastapi import FastAPI
+    from fastapi.responses import HTMLResponse
+
+    from atlas.http_privacy import ResponsePrivacy
+
+    app = FastAPI()
+    app.add_middleware(ResponsePrivacy, form_origin="https://identity.example.invalid")
+
+    @app.get("/")
+    def page():
+        return HTMLResponse("<html><body>Fixture</body></html>")
+
+    with TestClient(app) as client:
+        policy = client.get("/").headers["content-security-policy"]
+        assert policy.endswith("form-action 'self' https://identity.example.invalid")
+        assert "script-src 'self';" in policy and "connect-src 'self';" in policy

@@ -1,6 +1,6 @@
 # Managed login development
 
-The private API has an optional authorization-code and browser-session path. It is enabled only when an operator passes a configured `LoginExchange` into `create_app(..., login_exchange=exchange)`. Default launchers and the public fictional lab keep their existing profiles. The workbench sign-in interface and real provider/browser acceptance remain unfinished.
+The private API has an optional authorization-code and browser-session path. It is enabled only when an operator passes a configured `LoginExchange` into `create_app(..., login_exchange=exchange)`. Default launchers and the public fictional lab keep their existing profiles. The workbench has a controlled-tested sign-in interface; real provider/browser acceptance remains unfinished.
 
 ## Run the controlled checks
 
@@ -10,10 +10,19 @@ The private API has an optional authorization-code and browser-session path. It 
 
 This records `reports/browser-sessions-offline.json`; JUnit files and logs stay under `var/login-exchange/`. It uses controlled token/key services and an in-process HTTP client with HTTPS request URLs. It does not perform a TLS handshake, enforce browser SameSite rules, use AWS credentials or create resources. The older exchange-only report retains the scope of its original run.
 
+## Check the interface
+
+```sh
+python scripts/verify_browser_login_ui.py
+```
+
+Requires Node, pnpm and installed Playwright Chromium. Set `PLAYWRIGHT_BROWSERS_PATH` to the local browser cache when needed. The runner builds the workbench, starts a loopback server and records seven browser cases in [the UI report](../reports/browser-login-ui.json). Sign-in/API responses are intercepted. This does not perform a real TLS/provider exchange or verify cookie enforcement. See [the interface decision](adr/042-workbench-session-interface.md).
+
 ## HTTP boundary
 
 | Route | Behavior |
 | --- | --- |
+| `GET /auth/config` | Announces only the enabled session mode; absent in default profiles. |
 | `POST /auth/start` | Requires the exact browser Origin, creates a bound PKCE attempt and redirects to the pinned provider. |
 | `GET /auth/callback` | Consumes the matching attempt, verifies the access token and sets an opaque session cookie. Redirects to a clean application URL. |
 | `GET /auth/session` | Returns the session's CSRF token and expiry; it grants no workspace access. |

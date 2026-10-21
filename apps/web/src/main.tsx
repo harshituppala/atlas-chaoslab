@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import "./style.css";
+import { AuthBoundary, type BrowserAccess } from "./AuthBoundary";
 import {
   LiveReasoningPanel,
   type LiveReasoningReport,
@@ -164,7 +165,17 @@ function percentage(value: number | null) {
   return value === null ? "Not measured" : (value * 100).toFixed(1) + "%";
 }
 
-function App() {
+function App({ access }: { access: BrowserAccess | null }) {
+  const lifetime = useRef(new AbortController());
+  useEffect(() => {
+    lifetime.current = new AbortController();
+    return () => lifetime.current.abort();
+  }, []);
+  function credentials(): HeadersInit {
+    return access
+      ? { "X-Atlas-CSRF": access.csrf }
+      : { Authorization: `Bearer ${token}` };
+  }
   const [token, setToken] = useState("");
   const [connected, setConnected] = useState(false);
   const [workspace, setWorkspace] = useState("");
@@ -221,16 +232,27 @@ function App() {
   const [note, setNote] = useState("");
   const [citation, setCitation] = useState<Citation | null>(null);
   async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
+    const signal = lifetime.current.signal;
     const response = await fetch(path, {
       ...options,
+      signal,
+      credentials: "same-origin",
+      cache: "no-store",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        ...credentials(),
         ...(workspace ? { "X-Workspace-ID": workspace } : {}),
         ...options.headers,
       },
     });
+    if (access && [401, 403].includes(response.status)) {
+      access.invalidate();
+      throw new Error(
+        "Workspace access ended. Sign in again or check your membership.",
+      );
+    }
     const data = await response.json();
+    signal.throwIfAborted();
     if (!response.ok)
       throw new Error(
         typeof data.detail === "string"
@@ -354,18 +376,25 @@ function App() {
   }
   async function downloadOriginal(document: Document) {
     await task(async () => {
+      const signal = lifetime.current.signal;
       const response = await fetch(
         "/api/documents/" + document.id + "/original",
         {
+          signal,
+          credentials: "same-origin",
+          cache: "no-store",
           headers: {
-            Authorization: `Bearer ${token}`,
+            ...credentials(),
             ...(workspace ? { "X-Workspace-ID": workspace } : {}),
           },
         },
       );
+      if (access && [401, 403].includes(response.status)) access.invalidate();
       if (!response.ok)
         throw new Error("Could not download the original source.");
-      const url = URL.createObjectURL(await response.blob());
+      const blob = await response.blob();
+      signal.throwIfAborted();
+      const url = URL.createObjectURL(blob);
       const link = window.document.createElement("a");
       link.href = url;
       link.download = document.id + "." + document.source_map!.format;
@@ -563,13 +592,13 @@ function App() {
                 {identity.tenant} · {identity.role}
               </span>
             )}
-            {connected && (
+            {(connected || access) && (
               <button
                 className="secondary"
-                disabled={busy}
-                onClick={disconnect}
+                disabled={busy && !access}
+                onClick={access ? access.logout : disconnect}
               >
-                Disconnect
+                {access ? "Sign out" : "Disconnect"}
               </button>
             )}
           </div>
@@ -611,23 +640,36 @@ function App() {
           {!connected && (
             <section className="connect">
               <div>
-                <h2>Connect your local workspace</h2>
-                <p>
-                  Paste the generated local token from{" "}
-                  <code>var/local-credentials.json</code>. Credentials stay in
-                  this page’s memory.
-                </p>
+                <h2>
+                  {access
+                    ? "Open your workspace"
+                    : "Connect your local workspace"}
+                </h2>
+                {access ? (
+                  <p>
+                    Your sign-in is active. Workspace access is checked by the
+                    server.
+                  </p>
+                ) : (
+                  <p>
+                    Paste the generated local token from{" "}
+                    <code>var/local-credentials.json</code>. Credentials stay in
+                    this page’s memory.
+                  </p>
+                )}
               </div>
-              <label>
-                Workspace token
-                <input
-                  aria-label="Workspace token"
-                  type="password"
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                  autoComplete="off"
-                />
-              </label>
+              {!access && (
+                <label>
+                  Workspace token
+                  <input
+                    aria-label="Workspace token"
+                    type="password"
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                    autoComplete="off"
+                  />
+                </label>
+              )}
               <label>
                 Workspace ID (optional)
                 <input
@@ -641,7 +683,7 @@ function App() {
               </label>
               <button
                 className="primary"
-                disabled={!token || busy}
+                disabled={(!access && !token) || busy}
                 onClick={connect}
               >
                 Connect
@@ -1507,6 +1549,6 @@ function App() {
 }
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <AuthBoundary>{(access) => <App access={access} />}</AuthBoundary>
   </React.StrictMode>,
 );

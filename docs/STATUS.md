@@ -8,7 +8,7 @@ The review workbench accepts text-bearing PDF/DOCX files and pasted sources, ext
 
 The default analysis is an offline extractive baseline. The optional Bedrock path selects evidence from server-owned choices and leaves every assessment pending for human review. Paid jobs require explicit operator configuration and have one queue attempt; a timeout can leave usage uncertain.
 
-SQLite supports the local demonstration. PostgreSQL has separately tested migrations, restricted API/worker roles, tenant row policies and persistent exact pgvector retrieval. Managed-token validation and a single-use authorization-code exchange component have offline verification. Thirty-nine focused exchange cases pass, including PKCE, browser binding, replay and token checks. An explicit factory opt-in now attaches HTTP callbacks and opaque browser sessions, with Origin/CSRF checks and per-request membership verification. The workbench interface and real provider/browser sign-in remain unfinished; see the [integration boundary](managed-login-development.md).
+SQLite supports the local demonstration. PostgreSQL has separately tested migrations, restricted API/worker roles, tenant row policies and persistent exact pgvector retrieval. Managed-token validation and a single-use authorization-code exchange component have offline verification. Thirty-nine focused exchange cases pass, including PKCE, browser binding, replay and token checks. An explicit factory opt-in now attaches HTTP callbacks and opaque browser sessions, with Origin/CSRF checks and per-request membership verification. The workbench interface now supports that explicit profile; real provider/browser sign-in remains unfinished; see the [integration boundary](managed-login-development.md).
 
 A separate synthetic lab runs the seeded review workflow with temporary sessions. It accepts no uploads or model credentials. Desktop and mobile browser checks cover source inspection, review conflicts and session handling. A dedicated Linux image has also been exercised under a memory limit, with an intentional session reset on restart. Real hosted HTTPS, Chromium and controlled restart checks now pass. Session history is intentionally temporary; cold-start and usage-limit behavior still need further observation. See the [lab runbook](synthetic-lab-runbook.md) and [container checks](lab-container-runbook.md).
 
@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 563 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 567 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -51,7 +51,9 @@ Authored scenario contracts now reject unknown relations, duplicate source IDs a
 
 The [login exchange report](../reports/login-exchange-offline.json) records controlled HTTP/RSA tests only. No AWS pool/client or enabled login routes were created. The exchange-only release passed [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39626877457).
 
-The [HTTP session report](../reports/browser-sessions-offline.json) records 67 focused checks and the full native suite. It uses controlled ASGI requests, not a real browser or TLS connection. Routes remain absent from default profiles. See [ADR 041](adr/041-opt-in-browser-sessions.md); CI for the session changes is pending.
+The [HTTP session report](../reports/browser-sessions-offline.json) records 67 focused checks and the full native suite. It uses controlled ASGI requests, not a real browser or TLS connection. Routes remain absent from default profiles. See [ADR 041](adr/041-opt-in-browser-sessions.md); the session release passed [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39632885844).
+
+The [workbench sign-in checks](../reports/browser-login-ui.json) passed seven controlled Chromium cases. Six existing bearer-workbench browser regressions also passed locally. The interface hides workspace data on expiry/denial/logout, aborts pending requests and reports failed logout without claiming success. The native suite separately covers the server configuration and pinned form policy. [ADR 042](adr/042-workbench-session-interface.md) records the boundaries: intercepted responses and direct form-target probes do not establish a real external login. No identity-provider resources or paid calls were made; hosted applications are unchanged. CI for this interface release has not yet been observed.
 
 ## Remaining work
 

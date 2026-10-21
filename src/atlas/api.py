@@ -119,7 +119,10 @@ def create_app(
     ingestion_slots = threading.BoundedSemaphore(2)
     app.add_middleware(BodyLimit)
     app.add_middleware(RequestTracing)
-    app.add_middleware(ResponsePrivacy)
+    app.add_middleware(
+        ResponsePrivacy,
+        form_origin=login_exchange.config.provider_origin if browser_login is not None else None,
+    )
 
     @app.exception_handler(RequestValidationError)
     async def invalid_request(request: Request, exc: RequestValidationError):

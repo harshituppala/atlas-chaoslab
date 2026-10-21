@@ -313,3 +313,23 @@ def test_login_routes_reject_http_and_unpinned_hosts(browser_app, url, headers):
     client, _, requests = browser_app
     assert client.post(url, headers=headers).status_code == 403
     assert not requests
+
+
+def test_config_exposes_only_the_enabled_mode_and_enforces_the_origin(browser_app):
+    client, _, requests = browser_app
+    response = client.get("/auth/config")
+    assert response.status_code == 200
+    assert response.json() == {"mode": "browser-session"}
+    assert response.headers["cache-control"] == "no-store"
+    assert (
+        client.get("/auth/config", headers={"Origin": "https://other.invalid"}).status_code == 403
+    )
+    assert not requests
+
+
+def test_enabled_login_adds_only_the_pinned_provider_to_form_middleware(browser_app):
+    from atlas.http_privacy import ResponsePrivacy
+
+    _, app, _ = browser_app
+    policy = next(item for item in app.user_middleware if item.cls is ResponsePrivacy)
+    assert policy.kwargs == {"form_origin": CONFIG.provider_origin}

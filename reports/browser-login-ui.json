@@ -1,0 +1,35 @@
+{
+  "recorded_at": "2026-10-21T19:58:39.685163+00:00",
+  "scope": "Chromium rendering a loopback HTTP build, with intercepted sign-in/API/provider responses and a restricted form-action policy. No real provider, TLS, signed-token exchange or cookie enforcement verified by this run.",
+  "files_sha256": {
+    "apps/web/src/AuthBoundary.tsx": "159677803946e422ee67143e135aa2f85bb84ba40b81f1a2a2b66bb7d9106a5f",
+    "apps/web/src/main.tsx": "5ca334ba0262be38617c00b1c96915ddda5f2786786616dc74a5fe2d95377fab",
+    "apps/web/src/style.css": "37426396b2ff9dcf8002bf526493d72e7a24e7e9653f2c04f2f135790e833dc0",
+    "apps/web/e2e/browser-login.spec.ts": "161de6b69d77f5a5615246212207385d4de0da9bd44bd3bcbbdc28e90c7480cb",
+    "apps/web/package.json": "67a1cc9b4e4f718313671c26026a9c11e0204d53c7e4c34c4c208eac48bc5cfb",
+    "apps/web/pnpm-lock.yaml": "f2078bf59fe6a18714450c4747dca7c5b67c8fa12f4a6b53b06ad1210c48478a",
+    "src/atlas/api.py": "e088cc5429e5269201674aab2969ad23cbc1b5a26db717a782a63dfba7967825",
+    "src/atlas/security/browser.py": "c3e0b6bcb8d16ef6eb1c8e43c7537efff682bbe0db43804bd8a039852ed403ff",
+    "src/atlas/http_privacy.py": "891110af555023162f458fecea2250c8911c13e8b2e9125334c1c35b000c98d3",
+    "tests/test_browser_sessions.py": "40832acd05fb2ecf8b6163ae5a65abcbf7fe1674ffcedb89791aff76ddc02358",
+    "tests/test_http_privacy.py": "182a9002dbf0a946e293ee272fd7121ad5654d97185a34ea6df38990ce88cab7",
+    "scripts/verify_browser_login_ui.py": "9dec5334751455aa620bfe3b42ee4bd9cb8ccc16484696f902fa7757820ad067"
+  },
+  "built_files_sha256": {
+    "assets/index-Cp6Xsuvv.css": "7addf356f296b88a94da447dce3d3a8c627a612f7780ad1acee8eee323a73fb1",
+    "assets/index-Cpz_-Tlh.js": "351475e9008051d4249bc0c83ae46c2d8eb3b26fcf90e3dd4d539657eaf01894",
+    "index.html": "3323637e233230770920aa554b2e3ccaf89aa1e6d6fde4bc672b6da92afa74ea"
+  },
+  "chromium_result_sha256": "0b0a97af0f6f252670f4b8739f5926576299638773631a91547c129968f554af",
+  "checks": {
+    "startTime": "2026-10-21T19:58:32.466Z",
+    "duration": 6838.008,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "real_provider_calls": 0,
+  "cloud_resources_created": 0,
+  "limits": "The backend's controlled HTTP tests cover signed tokens and cookies separately. These UI checks do not compose them into a real external identity flow; default managed login remains disabled."
+}

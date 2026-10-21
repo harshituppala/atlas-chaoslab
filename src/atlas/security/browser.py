@@ -129,6 +129,11 @@ class BrowserLogin:
         response.delete_cookie(BINDING_COOKIE, path="/", secure=True, httponly=True, samesite="lax")
 
     def attach(self, app):
+        @app.get("/auth/config")
+        def config(request: Request):
+            self._origin(request)
+            return {"mode": "browser-session"}
+
         @app.post("/auth/start")
         def start(request: Request):
             self._origin(request, required=True)
