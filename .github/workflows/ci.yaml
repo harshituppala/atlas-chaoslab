@@ -31,6 +31,8 @@ jobs:
             reports/ingestion-layout-ci.json
   browser:
     runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/playwright
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

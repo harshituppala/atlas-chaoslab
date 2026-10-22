@@ -17,3 +17,10 @@ The test needs no privileged port. A loopback CONNECT proxy maps only the two fi
 This is a passwordless synthetic identity fixture, not AWS, Cognito or a real user login. Its provider control routes are deliberately test-only and must never be deployed. The expiry case advances the server's monotonic clock; it does not wait for a real provider session to expire. Local SQLite and a test certificate do not establish durable hosting, public certificate trust, production proxy behavior or distributed sessions.
 
 The native suite passed 617 tests, with eighteen optional PostgreSQL groups skipped. The original eleven-group composed check passed in [Linux CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39683853703). A follow-up adds the twelfth group for temporary-profile containment and refreshes the local report; its new remote result must be observed separately. Default launchers and the hosted fictional lab keep their existing profiles. No model calls, cloud resources or hosted deployment were made.
+
+
+## Browser-cache correction
+
+The temporary-folder follow-up failed in CI before completing browser acceptance. A local run without the previously supplied browser-cache override reproduced a missing Chromium executable. Installation and execution had not agreed on a cache location; the local override had hidden that dependency.
+
+The runner now defaults to the repository's `.cache/playwright`, and the CI browser job uses that path for both installation and execution. A local run without the override passed all twelve groups. Setup errors identify a missing browser without printing private diagnostics. The failed CI run remains visible; the corrected remote result must be checked separately. Application authentication behavior is unchanged by this harness correction.

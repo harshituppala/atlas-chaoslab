@@ -24,6 +24,14 @@ Requires Node, pnpm and installed Playwright Chromium. Set `PLAYWRIGHT_BROWSERS_
 PYTHONPATH=src python scripts/verify_browser_login_https.py
 ```
 
+Install Chromium into the same cache used by the runner, from the repository root:
+
+```sh
+PLAYWRIGHT_BROWSERS_PATH="$PWD/.cache/playwright" pnpm --dir apps/web exec playwright install chromium
+```
+
+The runner defaults to that workspace cache and honors an explicit `PLAYWRIGHT_BROWSERS_PATH` override. CI sets the same value for installation and all browser steps. A missing browser now produces a specific setup error; other failures report only a completed-group count publicly, with detailed synthetic diagnostics kept locally.
+
 This needs the same frontend tools and Chromium installation. It uses real loopback TLS, redirects, cookies, signed tokens, JWKS, membership and a baseline review, with a synthetic passwordless provider. The runner accepts the same bundled Node/pnpm flags as the UI verifier. It needs no AWS credentials, administrator access or cloud resources. [ADR 044](adr/044-composed-browser-login.md) explains the local proxy, certificate pin and test-only controls. The [joined report](../reports/browser-login-https.json) does not establish real provider or hosted acceptance. Browser profiles and temporary/config/cache paths remain in the portfolio folder; the acceptance checks inspect Chromium's actual profile location. The generated TLS private key is also scheduled for deletion on normal process exit if setup fails early.
 
 Optional login HTML uses same-origin referrers so a navigation POST can carry its Origin. It is not cached; index revalidation keeps the same policy. API and callback responses retain no-referrer. Do not weaken Origin checks to accept null to work around browser navigation failures.

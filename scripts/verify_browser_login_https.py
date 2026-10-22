@@ -133,6 +133,9 @@ def main():
         "TEMP": str(temporary_directory),
         "XDG_CACHE_HOME": str(ROOT / ".cache"),
         "XDG_CONFIG_HOME": str(work / "config"),
+        "PLAYWRIGHT_BROWSERS_PATH": os.environ.get(
+            "PLAYWRIGHT_BROWSERS_PATH", str(ROOT / ".cache/playwright")
+        ),
     }
     command = [args.node, args.pnpm_script] if args.pnpm_script else ["pnpm"]
     build = subprocess.run(
@@ -196,8 +199,20 @@ def main():
         (work / "browser.log").write_bytes(result.stderr)
         (work / "fixture-metrics.json").write_text(json.dumps(metrics))
         if result.returncode:
+            if b"Executable doesn't exist" in result.stderr:
+                raise RuntimeError(
+                    "Chromium is missing from the configured browser cache; "
+                    "run the documented workspace-cache installation command"
+                )
+            try:
+                diagnostic = json.loads(result.stderr.splitlines()[0])
+                completed = diagnostic.get("completed_checks", [])
+                count = len(completed) if isinstance(completed, list) else 0
+            except (ValueError, IndexError, AttributeError):
+                count = 0
             raise RuntimeError(
-                f"Composed browser acceptance failed; inspect {work.relative_to(ROOT)}"
+                f"Composed browser acceptance failed after {count} groups; "
+                f"inspect {work.relative_to(ROOT)}"
             )
         observed = json.loads(result.stdout)
         if len(observed["checks"]) != 12 or not all(observed["checks"].values()):

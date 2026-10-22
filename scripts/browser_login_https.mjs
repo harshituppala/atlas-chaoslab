@@ -212,6 +212,7 @@ try {
     JSON.stringify({
       page: new URL(page.url()).origin + new URL(page.url()).pathname,
       body: await page.locator("body").innerText(),
+      completed_checks: Object.keys(checks),
       diagnostics,
     }),
   );
