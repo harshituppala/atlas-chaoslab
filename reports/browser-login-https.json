@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-22T02:00:02.528426+00:00",
+  "recorded_at": "2026-10-22T02:12:58.091963+00:00",
   "scope": "Chromium through a loopback-only CONNECT proxy to a real TLS server, ATLAS UI/API and a synthetic passwordless provider with real S256, token exchange, JWKS and RSA signature verification. Not AWS/Cognito or a real user login.",
   "browser": "141.0.7390.37",
   "checks": {
@@ -44,6 +44,7 @@
     "src/atlas/limits.py": "70c0756d515b8795e7e25854d8d40c774725a194c850ffb4e86eefef1dcb7cda",
     "src/atlas/local_service.py": "affea438d7febed963513c0b52c34f15c00e1e64987a75ea4c25323db49ce290",
     "src/atlas/local_stack.py": "4584150512f066301bb907220d1b139c314976a9e2fb138db2d461350a58d923",
+    "src/atlas/managed.py": "1eee371afe9819b207a2979757464c566c12b31cfa4f6e26102770677e7d3650",
     "src/atlas/migration_scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/atlas/migration_scripts/env.py": "737a405d2114e44a5c26fe88554246def6be7bbade4db90576527790989576f8",
     "src/atlas/migration_scripts/versions/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -79,7 +80,7 @@
     "src/atlas/worker.py": "09da76fa3a5b616099bbf3caa58ddff07741ef38e3958dad875856e8e8e1da21",
     "src/atlas/worker_task.py": "f3cd4dd151963e23f38f5a53caeacaeacf5bd66193c039f41c823f8dc6269a3d",
     "src/atlas/workflow.py": "ad73634d058f55d22be42457ee1a7ec41038c2d79adeea6af42050b1319a85e2",
-    "scripts/login_browser_fixture.py": "416617790d215aee0c7d78f245abd05a27a9056af0789fbea7168dc6d452d298",
+    "scripts/login_browser_fixture.py": "701fb1b8267aaac9842530624b447be8b6d68a62572df2c65a1eab2cf6b9d0b1",
     "scripts/browser_login_https.mjs": "c7ca1efcf92af72625a2037f882fcfddc74a661f63fc071f1289106e97d1562c",
     "scripts/verify_browser_login_https.py": "8bb5a6322fda561c7fd977815d94657dab5791010b38c1f2874e78df40d02657",
     "apps/web/src/AdversarialPanel.tsx": "a446f637dae6364eb9de9f125db4b231d425a150c7a62538a96164d117d235ce",

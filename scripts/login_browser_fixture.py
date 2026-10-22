@@ -6,6 +6,7 @@ import json
 import secrets
 import ssl
 import time
+from dataclasses import asdict
 from urllib.parse import parse_qs, urlencode
 
 import httpx
@@ -13,10 +14,10 @@ import jwt
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
-from atlas.api import create_app
-from atlas.security.login import LoginConfig, LoginExchange
+from atlas.managed import create_managed_app, read_settings
+from atlas.security.login import LoginConfig
 from atlas.security.memberships import MembershipChange
-from atlas.security.tokens import AccessTokenVerifier, TokenTrust
+from atlas.security.tokens import TokenTrust
 from atlas.worker import process_once
 
 APP = "https://127.0.0.1"
@@ -33,17 +34,16 @@ def create_fixture(work, proxy, certificate, key):
         client_id="synthetic-browser-client",
         required_scopes=("atlas/api",),
     )
-    verifier = AccessTokenVerifier(
-        trust, transport=httpx.HTTPTransport(verify=context, proxy=proxy)
+    settings = work / "managed-login.json"
+    settings.write_text(json.dumps(asdict(LoginConfig(trust, PROVIDER, APP + "/auth/callback"))))
+    settings.chmod(0o600)
+    app = create_managed_app(
+        read_settings(settings),
+        "sqlite:///" + str(work / "atlas.db"),
+        key_transport=httpx.HTTPTransport(verify=context, proxy=proxy),
+        token_transport=httpx.HTTPTransport(verify=context, proxy=proxy),
     )
-    exchange = LoginExchange(
-        LoginConfig(trust, PROVIDER, APP + "/auth/callback"),
-        verifier,
-        transport=httpx.HTTPTransport(verify=context, proxy=proxy),
-    )
-    app = create_app(
-        "sqlite:///" + str(work / "atlas.db"), token_verifier=verifier, login_exchange=exchange
-    )
+    exchange = app.state.browser_login.exchange
     version = 0
     metrics = {"authorized": 0, "token_exchanges": 0, "jwks_requests": 0, "pkce_rejections": 0}
 
@@ -188,7 +188,7 @@ def create_fixture(work, proxy, certificate, key):
 
     def close():
         app.state.browser_login.close()
-        verifier.close()
+        exchange.verifier.close()
         app.state.store.engine.dispose()
 
     return routing, metrics, close

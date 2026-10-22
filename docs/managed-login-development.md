@@ -36,6 +36,25 @@ This needs the same frontend tools and Chromium installation. It uses real loopb
 
 Optional login HTML uses same-origin referrers so a navigation POST can carry its Origin. It is not cached; index revalidation keeps the same policy. API and callback responses retain no-referrer. Do not weaken Origin checks to accept null to work around browser navigation failures.
 
+## Configure an operator-run application
+
+Copy `deployment/login-settings.example.json` to a private file under `var/`, replace every placeholder with the reviewed provider settings, and restrict it to mode 600. No AWS access key or client secret belongs in this file. The issuer and its key URL must refer to the same pool; the public client, API scope, resource audience and callback must match the reviewed console configuration.
+
+The explicit factory requires both settings and a database. For an existing TLS termination setup:
+
+```sh
+ATLAS_LOGIN_SETTINGS="$PWD/var/login-settings.json" \
+ATLAS_DATABASE_URL="sqlite:///$PWD/var/managed-atlas.db" \
+PYTHONPATH=src .runtime/bin/python -m uvicorn atlas.managed:create_from_environment \
+  --factory --host 127.0.0.1 --port 8000 --no-access-log
+```
+
+This binds a private upstream only. It does not install TLS or make an HTTPS callback reachable. The browser must use the exact approved HTTPS origin through a separately configured TLS endpoint. Do not expose this upstream directly or rewrite the callback to bypass origin checks. Keep callback query strings out of proxy logs too.
+
+Unset `ATLAS_DEMO`, `ATLAS_PRINCIPALS`, `ATLAS_TOKEN_TRUST` and `ATLAS_MODEL_JOB_SPEC` before using this profile; their presence is rejected. The entry point opens no provider connection during construction and assigns no membership. Use the separate trusted membership operator after verifying the user's real subject; never copy a role from provider claims. Model jobs remain disabled in this profile. Run a baseline worker against the same database when testing queued work.
+
+The joined synthetic browser check now exercises this factory and settings reader. Its transport overrides remain confined to the fixture. The real Cognito directory/client/domain and scope are configured, but real user sign-in is still pending. See [ADR 045](adr/045-managed-application-entry.md).
+
 ## HTTP boundary
 
 | Route | Behavior |
