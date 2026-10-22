@@ -26,4 +26,6 @@ PostgreSQL uses separate API and worker logins with tenant row policies. SQLite 
 
 Local and hosted checks cover source spans, review conflicts, session isolation and bounded execution. The first free deployment exposed a deadline that was too short for the host; that failure and its correction are recorded in the [hosting decision](../../docs/adr/036-hosted-lab-execution-budget.md).
 
+The optional managed-sign-in path has synthetic TLS/browser checks and an operator preflight for the configured provider. [The setup guide](../../docs/managed-login-development.md) distinguishes these from real user acceptance.
+
 Known model failures include a numeric-threshold mistake and hostile evidence selection. Real managed sign-in, durable hosted storage, broader document evaluation and production operation remain unfinished. [CHAOSLAB](../chaoslab/README.md) keeps evaluation separate from the application's own validation logic.

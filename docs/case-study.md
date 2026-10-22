@@ -32,7 +32,7 @@ The harness is independent of ATLAS's decision logic, but the fixtures are same-
 
 The local default is SQLite. The PostgreSQL path has real restricted-role/row-policy and concurrency evidence, separately from the Linux Compose workflow. A logical recovery drill restored ten populated tables into a new empty cluster after deleting only the disposable source volume. Restored content and resumed work were checked; this was not an offsite or continuous backup test.
 
-Managed access-token verification resolves workspace membership on each request. Provider claims cannot assign an application role. The Cognito-compatible profile has offline signature/claim tests, but a real browser/provider login remains unfinished. The local bearer-token launcher is deliberately private and must not be exposed as a public service.
+Managed access-token verification resolves workspace membership on each request. Provider claims cannot assign an application role. The optional sign-in interface has joined synthetic TLS/browser checks. The real Cognito configuration passes public discovery and signing-key checks, but an actual user login and callback remain unverified. The local bearer-token launcher is deliberately private and must not be exposed as a public service.
 
 Resource controls include request-body admission, parser limits, worker deadlines and bounded child pipes. These target concrete failure modes. They do not make trusted processes into hostile-code sandboxes or establish total-memory and distributed overload guarantees.
 
