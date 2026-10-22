@@ -143,7 +143,10 @@ def main():
     )
     (work / "build.log").write_bytes(build.stdout + build.stderr)
     if build.returncode:
-        raise RuntimeError("Frontend build failed")
+        raise RuntimeError(
+            f"Frontend build failed (exit {build.returncode}); "
+            f"inspect {work.relative_to(ROOT)}/build.log"
+        )
     assets = {
         p.relative_to(ROOT / "apps/web/dist").as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
         for p in sorted((ROOT / "apps/web/dist").rglob("*"))

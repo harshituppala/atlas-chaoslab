@@ -64,6 +64,12 @@ jobs:
         working-directory: apps/web
       - run: PYTHONPATH=src python scripts/verify_browser_login_https.py
       - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: composed-login-build-diagnostic
+          path: var/browser-login-https/*/build.log
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
         with:
           name: composed-login-evidence
           path: reports/browser-login-https.json

@@ -61,6 +61,8 @@ The [joined browser login check](../reports/browser-login-https.json) passed twe
 
 The managed application now has an explicit operator factory with a private settings file and database selection. It rejects inherited demo/bearer/model profiles and owns its authentication clients through shutdown. Twenty-four focused cases passed; the joined synthetic Chromium/TLS check now uses this factory and again passed all twelve groups. The approved real Cognito directory, public client, domain, API scope and authorization-code callback settings have been created and saved. Real user sign-in, an authenticated external callback and hosted service acceptance remain untested. See [ADR 045](adr/045-managed-application-entry.md) and the [operator entry point](managed-login-development.md#configure-an-operator-run-application).
 
+The operator-entry release passed backend and standalone-evaluator CI, but its final joined-browser step failed during a second frontend build. The build error had omitted the underlying output. The runner now reports the exit code and CI retains only its frontend build log for three days; no session logs, provider responses or certificates are uploaded. A fresh local joined run still passes twelve groups. The failed [remote run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39710460942) remains visible; diagnosis is in progress.
+
 ## Remaining work
 
 - Observe free-host cold starts and usage limits; keep the temporary lab separate from a durable service.

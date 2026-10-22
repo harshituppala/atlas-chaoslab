@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-22T02:12:58.091963+00:00",
+  "recorded_at": "2026-10-22T02:21:34.389688+00:00",
   "scope": "Chromium through a loopback-only CONNECT proxy to a real TLS server, ATLAS UI/API and a synthetic passwordless provider with real S256, token exchange, JWKS and RSA signature verification. Not AWS/Cognito or a real user login.",
   "browser": "141.0.7390.37",
   "checks": {
@@ -82,7 +82,7 @@
     "src/atlas/workflow.py": "ad73634d058f55d22be42457ee1a7ec41038c2d79adeea6af42050b1319a85e2",
     "scripts/login_browser_fixture.py": "701fb1b8267aaac9842530624b447be8b6d68a62572df2c65a1eab2cf6b9d0b1",
     "scripts/browser_login_https.mjs": "c7ca1efcf92af72625a2037f882fcfddc74a661f63fc071f1289106e97d1562c",
-    "scripts/verify_browser_login_https.py": "8bb5a6322fda561c7fd977815d94657dab5791010b38c1f2874e78df40d02657",
+    "scripts/verify_browser_login_https.py": "d56af330873b27759683defed3c82fc135888d3dc232bc892e852c5a53fc98c7",
     "apps/web/src/AdversarialPanel.tsx": "a446f637dae6364eb9de9f125db4b231d425a150c7a62538a96164d117d235ce",
     "apps/web/src/AuthBoundary.tsx": "159677803946e422ee67143e135aa2f85bb84ba40b81f1a2a2b66bb7d9106a5f",
     "apps/web/src/Dialog.tsx": "e3bc3463b46673c1ee53a65bc0ad73989815209cce7f7b1f6d6af2b92e8da1eb",
