@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import path from "node:path";
 import { chromium } from "../apps/web/node_modules/@playwright/test/index.mjs";
 
 const APP = "https://127.0.0.1";
@@ -66,6 +67,19 @@ async function api(path, options = {}) {
   );
 }
 try {
+  const cdp = await browser.newBrowserCDPSession();
+  const command = await cdp.send("Browser.getBrowserCommandLine");
+  const profile = command.arguments
+    .find((argument) => argument.startsWith("--user-data-dir="))
+    ?.slice("--user-data-dir=".length);
+  assert(
+    profile &&
+      path
+        .resolve(profile)
+        .startsWith(path.resolve(process.env.TMPDIR) + path.sep),
+  );
+  await cdp.detach();
+  checks.browser_profile_inside_workspace = true;
   const first = await signIn();
   checks.cross_site_code_callback = true;
   const cookie = (await context.cookies(APP)).find(

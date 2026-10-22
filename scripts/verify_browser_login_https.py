@@ -5,6 +5,7 @@ certificate's SPKI for this subprocess; the OS trust store is never modified.
 """
 
 import argparse
+import atexit
 import base64
 import hashlib
 import ipaddress
@@ -122,8 +123,21 @@ def main():
     work = ROOT / "var/browser-login-https" / uuid4().hex[:12]
     work.mkdir(parents=True, mode=0o700)
     cert, private, spki = certificate(work)
+    atexit.register(private.unlink, missing_ok=True)
+    temporary_directory = work / "tmp"
+    temporary_directory.mkdir(mode=0o700)
+    environment = {
+        **os.environ,
+        "TMPDIR": str(temporary_directory),
+        "TMP": str(temporary_directory),
+        "TEMP": str(temporary_directory),
+        "XDG_CACHE_HOME": str(ROOT / ".cache"),
+        "XDG_CONFIG_HOME": str(work / "config"),
+    }
     command = [args.node, args.pnpm_script] if args.pnpm_script else ["pnpm"]
-    build = subprocess.run([*command, "build"], cwd=ROOT / "apps/web", capture_output=True)
+    build = subprocess.run(
+        [*command, "build"], cwd=ROOT / "apps/web", env=environment, capture_output=True
+    )
     (work / "build.log").write_bytes(build.stdout + build.stderr)
     if build.returncode:
         raise RuntimeError("Frontend build failed")
@@ -170,7 +184,7 @@ def main():
             [args.node, str(ROOT / "scripts/browser_login_https.mjs")],
             cwd=ROOT,
             env={
-                **os.environ,
+                **environment,
                 "ATLAS_FIXTURE_PROXY": proxy_url,
                 "ATLAS_FIXTURE_SPKI": spki,
                 "ATLAS_FIXTURE_SCREENSHOT": str(work / "workbench.png"),
@@ -186,7 +200,7 @@ def main():
                 f"Composed browser acceptance failed; inspect {work.relative_to(ROOT)}"
             )
         observed = json.loads(result.stdout)
-        if len(observed["checks"]) != 11 or not all(observed["checks"].values()):
+        if len(observed["checks"]) != 12 or not all(observed["checks"].values()):
             raise RuntimeError("Incomplete browser acceptance")
         if not (
             metrics["token_exchanges"] == metrics["authorized"] == 2
@@ -222,6 +236,7 @@ def main():
             "backend_trust": "fixture certificate CA and hostname verification",
             "system_trust_modified": False,
         },
+        "browser_temporary_profile": "Verified inside this run's private var/browser-login-https directory via Chromium command-line inspection.",
         "external_provider_calls": 0,
         "cloud_resources_created": 0,
         "limits": "Synthetic identity and local SQLite only. Provider includes local control routes that must never be deployed. Server expiry uses a controlled monotonic-clock offset. No real provider configuration, public CA trust, deployed proxy, durable hosting, refresh or distributed-session acceptance.",
