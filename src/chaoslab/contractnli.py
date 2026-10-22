@@ -17,6 +17,7 @@ from pathlib import Path
 
 from .__main__ import source_digest
 from .artifacts import publish_report
+from .contract_journal import ObservationJournal, input_digest, read_observations
 from .execution import AdapterFailure, invoke, validate_adapter
 
 ARCHIVE_SHA256 = "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b"
@@ -194,23 +195,31 @@ def predictions(output, labels, span_count):
     return result
 
 
-def evaluate(data, adapter, *, invoke_adapter=invoke):
+def evaluate(data, adapter, *, invoke_adapter=invoke, observer=None):
     validate_adapter(adapter)
     validate_development(data)
     labels = data["labels"]
     confusion = {choice: Counter() for choice in CHOICES}
     failures, missing, joint, exact, eligible, overlap, predicted_spans, expected_spans = (0,) * 8
     for document in data["documents"]:
+        inputs = adapter_input(document, labels)
+        record = {
+            "document_id": document["id"],
+            "input_sha256": input_digest(inputs),
+            "status": "failed",
+            "output": None,
+        }
         try:
-            observed = predictions(
-                invoke_adapter(adapter, adapter_input(document, labels)),
-                labels,
-                len(document["spans"]),
-            )
+            output = invoke_adapter(adapter, inputs)
+            record.update(status="returned", output=output)
+            observed = predictions(output, labels, len(document["spans"]))
             failure = False
         except (AdapterFailure, ValueError):
             failures += 1
             observed, failure = {}, True
+        # Recording failures must abort publication, not become adapter failures.
+        if observer is not None:
+            observer(record)
         for key, expected in document["annotation_sets"][0]["annotations"].items():
             item = observed.get(key)
             predicted = item["choice"] if item else ("failed" if failure else "missing")
@@ -264,17 +273,59 @@ def evaluate(data, adapter, *, invoke_adapter=invoke):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", required=True)
-    parser.add_argument("--adapter", required=True, help="Explicit trusted module:function")
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--adapter", help="Explicit trusted module:function")
+    mode.add_argument(
+        "--replay", type=Path, help="Private complete observations; invokes no adapter"
+    )
+    parser.add_argument("--journal", type=Path, help="New observation directory under private var/")
     parser.add_argument("--output", type=Path, default=Path("var/contractnli-development.json"))
     args = parser.parse_args()
     try:
-        validate_adapter(args.adapter)
+        if args.replay is not None and args.journal is not None:
+            raise ValueError("Replay cannot create an observation journal")
+        if args.adapter is not None:
+            validate_adapter(args.adapter)
+        if args.replay is not None and args.output.resolve() == args.replay.resolve():
+            raise ValueError("Report cannot replace its saved observations")
+        if args.journal is not None and args.output.resolve().is_relative_to(
+            args.journal.resolve()
+        ):
+            raise ValueError("Keep reports outside the private observation directory")
         if args.output.resolve() == Path(args.archive).resolve():
             raise ValueError("Report cannot replace its dataset archive")
         before = source_digest()
         data, provenance = load_development(args.archive)
         started = time.perf_counter()
-        result = evaluate(data, args.adapter)
+        observations = None
+        adapter = args.adapter
+        if args.replay is not None:
+            inputs = {d["id"]: adapter_input(d, data["labels"]) for d in data["documents"]}
+            header, records, observations = read_observations(
+                args.replay, dataset=provenance, inputs=inputs
+            )
+            adapter = header["adapter"]
+
+            def replay(_, value):
+                record = records[value["document"]["id"]]
+                if record["status"] == "failed":
+                    raise AdapterFailure("Saved adapter failure")
+                return record["output"]
+
+            result = evaluate(data, adapter, invoke_adapter=replay)
+        elif args.journal is not None:
+            journal = ObservationJournal(
+                args.journal, dataset=provenance, adapter=adapter, scorer_sha256=before
+            )
+            try:
+                result = evaluate(data, adapter, observer=journal.record)
+                if source_digest() != before:
+                    raise ValueError("Scorer source changed; observations remain incomplete")
+                observations = journal.finish()
+            finally:
+                journal.close()
+        else:
+            result = evaluate(data, adapter)
         elapsed = time.perf_counter() - started
         if source_digest() != before:
             raise ValueError("Scorer source changed; report refused")
@@ -289,10 +340,16 @@ def main():
                 "split": "development; complete split, no model-based case selection",
                 "dataset": provenance,
                 "scorer_sha256": before,
-                "adapter": args.adapter,
+                "adapter": adapter,
+                "mode": "replay" if args.replay is not None else "adapter-run",
+                "observations": observations,
                 "results": result,
                 "evaluation_wall_seconds": elapsed,
-                "timing_scope": "Sequential adapter child-process startup and scoring; excludes archive loading and download. Not model request latency.",
+                "timing_scope": (
+                    "Read-only observation admission and scoring; no adapter execution or model calls."
+                    if args.replay is not None
+                    else "Sequential adapter child-process startup, optional private journaling and scoring; excludes archive loading and download. Not model request latency."
+                ),
                 "limits": "Externally authored NDA annotations, not RFP accuracy or legal validation. Public data may be present in model pretraining. Evidence metrics exclude NotMentioned gold labels; undefined precision/recall are null. Malformed/failed document outputs count against all their claims; omissions remain missing. Trusted adapters retain filesystem/network permissions. External adapter code is not covered by the packaged scorer digest. No raw contract text or predictions are published here.",
             },
         )

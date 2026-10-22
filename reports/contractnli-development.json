@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-22T12:19:00.787488+00:00",
+  "recorded_at": "2026-10-22T12:39:59.120696+00:00",
   "task": "ContractNLI development inference and evidence identification",
   "source": "https://stanfordnlp.github.io/contract-nli/",
   "citation": "Yuta Koreeda and Christopher D. Manning. ContractNLI. Findings of EMNLP 2021.",
@@ -10,8 +10,14 @@
     "member": "contract-nli/dev.json",
     "member_sha256": "310af7d661d2ab50ee3700169cef524c75f39fb296bbf5a515c229eb0f42e68e"
   },
-  "scorer_sha256": "3c76c0831359a192d4ba2c934b60bbd1b01750eb4049eb132ff6e668abf317ea",
+  "scorer_sha256": "4653eb35136d86f91511cbd5af0cd95d3cc80b560227708f3bbd230bc35cadca",
   "adapter": "chaoslab.contractnli:always_not_mentioned",
+  "mode": "adapter-run",
+  "observations": {
+    "sha256": "9b7025ea1d067b33aa113f53873e561ee8043800dbde8cf9c6aadea547d0e45c",
+    "records": 61,
+    "origin_scorer_sha256": "4653eb35136d86f91511cbd5af0cd95d3cc80b560227708f3bbd230bc35cadca"
+  },
   "results": {
     "documents": 61,
     "claims": 1037,
@@ -58,7 +64,7 @@
       "micro_recall": 0.0
     }
   },
-  "evaluation_wall_seconds": 2.37796466600048,
-  "timing_scope": "Sequential adapter child-process startup and scoring; excludes archive loading and download. Not model request latency.",
+  "evaluation_wall_seconds": 2.144219707999582,
+  "timing_scope": "Sequential adapter child-process startup, optional private journaling and scoring; excludes archive loading and download. Not model request latency.",
   "limits": "Externally authored NDA annotations, not RFP accuracy or legal validation. Public data may be present in model pretraining. Evidence metrics exclude NotMentioned gold labels; undefined precision/recall are null. Malformed/failed document outputs count against all their claims; omissions remain missing. Trusted adapters retain filesystem/network permissions. External adapter code is not covered by the packaged scorer digest. No raw contract text or predictions are published here."
 }

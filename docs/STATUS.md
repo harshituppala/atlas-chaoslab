@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 701 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 729 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -68,6 +68,8 @@ A reproducible provider preflight now checks private settings offline or, with e
 The provider-preflight source and documentation passed all three [CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39775144411).
 
 CHAOSLAB now also admits the complete ContractNLI development split: 61 externally annotated contracts and 1,037 fixed claims. The [first report](../reports/contractnli-development.json) runs a constant `NotMentioned` reference, scoring 40.8% label accuracy, 0.193 macro F1 and zero evidence recall. This is an honest class-distribution floor, not a model result or RFP accuracy measurement. The raw corpus remains private; training and test JSON remain unloaded. Thirty-five focused cases passed, native tests reached 701 passing with eighteen optional database groups skipped, and the standalone 0.1.2 wheel passed its existing comparison checks plus a fictional contract/CLI check without ATLAS. See [the task guide](contractnli-evaluation.md) and [ADR 047](adr/047-external-contract-annotations.md). No paid inference or authored RFP expectations changed.
+
+ContractNLI runs can now keep private raw observations and rescore them without importing the original adapter or making another model call. The full development constant-label run was captured and replayed: both reports have identical result objects across 61 contracts and 1,037 claims. The baseline remains 423 correct labels and zero evidence recall. Twenty-eight new controls passed, and the native suite reached 729 passing tests with eighteen optional PostgreSQL groups skipped. A fresh dependency-free 0.1.3 wheel also passed fictional capture/replay with an unavailable adapter, plus the existing comparison controls. Partial or mismatched journals are rejected; recording failures stop publication. Raw observations stay private. See [ADR 048](adr/048-private-contract-replay.md) and the [replay guide](contractnli-evaluation.md#save-a-run-and-rescore-it). No paid model call, test-split evaluation or new hosting was performed.
 
 ## Remaining work
 

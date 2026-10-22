@@ -189,3 +189,8 @@ The optional provider preflight compares public discovery against operator pins 
 ## External contract annotations
 
 The ContractNLI reader checks an operator-reviewed archive digest before parsing ZIP metadata, reads one fixed development member and extracts no archive paths. Raw contract text and notices remain private. Only contract text, hypothesis text and candidate spans reach the selected adapter; expected labels/evidence and source metadata stay in the judge. The existing child-process boundary retains local-user privileges and must not be described as a hostile-code sandbox. Contract text is untrusted task data, including any instructions it contains. Aggregate reports omit raw contracts/predictions and document metadata. External authorship does not establish that a pretrained model has never seen the corpus, or that its labels are legally definitive. See ADR 047.
+
+
+## Private contract observations
+
+Contract-task journals retain returned output, including malformed predictions, separately from public aggregates. A new private directory, restrictive file modes, bounded JSON lines, input fingerprints and a complete-file checksum prevent accidental mixing and reject partial or inconsistent runs. Invocation failures omit exception text. Failed recording stops report publication. Replay verifies the pinned dataset and complete input set before rescoring; it does not import the named adapter or invoke a provider. A local account owner can still replace files and recompute hashes. These are integrity checks, not signed provenance, hostile-code isolation or a defence against a compromised operator. Raw responses may quote licensed/private text and must remain outside source releases, images and CI uploads. See ADR 048.

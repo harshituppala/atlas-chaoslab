@@ -15,7 +15,7 @@ PYTHONPATH=src .runtime/bin/python -m chaoslab.contractnli \
   --output var/contractnli-development.json
 ```
 
-The same task is available as `chaoslab-contractnli` in the separately installed evaluator, version 0.1.2. It uses the existing child-process deadline and artifact budgets. Adapters are trusted local code with filesystem and network permissions, not a sandbox. The recorded reference is a constant-label function: it runs no model and retrieves no evidence.
+The same task is available as `chaoslab-contractnli` in the separately installed evaluator, version 0.1.3. It uses the existing child-process deadline and artifact budgets. Adapters are trusted local code with filesystem and network permissions, not a sandbox. The recorded reference is a constant-label function: it runs no model and retrieves no evidence.
 
 ## Recorded result
 
@@ -33,4 +33,31 @@ The public report contains aggregate results, dataset/source fingerprints and th
 
 ## What remains
 
-The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The test split remains unused; a model adapter, private raw-observation journaling and a frozen test comparison are still required.
+The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The test split remains unused; a model adapter and a frozen test comparison are still required.
+
+## Save a run and rescore it
+
+A model run should not have to be repeated just because the judge changes. Add `--journal` to save one private observation per contract, including malformed responses and invocation failures. The directory must be new and under `var/`; pick a different name for each run.
+
+```sh
+PYTHONPATH=src .runtime/bin/python -m chaoslab.contractnli \
+  --archive var/external-data/contractnli/contract-nli.zip \
+  --adapter chaoslab.contractnli:always_not_mentioned \
+  --journal var/contractnli-runs/reference-01 \
+  --output var/reference-01.json
+
+PYTHONPATH=src .runtime/bin/python -m chaoslab.contractnli \
+  --archive var/external-data/contractnli/contract-nli.zip \
+  --replay var/contractnli-runs/reference-01/observations.jsonl \
+  --output var/reference-01-replayed.json
+```
+
+Replay reads the same pinned development inputs and scores the saved responses. It neither imports the original adapter nor calls a model. Compare the reports' `results` objects for score equality; their wall times and run modes describe different work. The original scorer fingerprint stays with the observations, while each new report identifies the scorer used for that evaluation.
+
+The recorded [capture](../reports/contractnli-development.json) and [replay](../reports/contractnli-replay.json) produced identical result objects across all 61 contracts and 1,037 claims. Both refer to the same complete observation file. These are two scorings of one constant-label run, not independent trials or model comparisons.
+
+Observations may contain private contract excerpts returned by an adapter. They stay in ignored `var/`, in a new owner-only directory with an owner-only file. Inputs and expected annotations are not copied into the journal. Public reports contain only aggregate scores and an observation digest/count. Do not publish raw observations or attach them to CI artifacts.
+
+The writer flushes each record and marks the file complete only after evaluation and a source-stability check. An interrupted run leaves a partial file; replay refuses it. A recording error stops report publication rather than hiding the error as a model failure. Replay also rejects missing or duplicate contracts, mismatched inputs, altered checksums, trailing data, ambiguous JSON, oversized files and broadly readable files. The limits are 128 MiB per journal and the adapter-output budget plus a small envelope per line.
+
+These controls detect incomplete or inconsistent local files. They are not signatures: someone with access to the same account can rewrite both observations and checksums. Adapter code still has local-user privileges. Keep the archive and journal protected, and review aggregate reports before publication.
