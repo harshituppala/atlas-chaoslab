@@ -1,0 +1,64 @@
+{
+  "recorded_at": "2026-10-22T12:19:00.787488+00:00",
+  "task": "ContractNLI development inference and evidence identification",
+  "source": "https://stanfordnlp.github.io/contract-nli/",
+  "citation": "Yuta Koreeda and Christopher D. Manning. ContractNLI. Findings of EMNLP 2021.",
+  "license": "CC BY 4.0; original license and terms retained with private archive",
+  "split": "development; complete split, no model-based case selection",
+  "dataset": {
+    "archive_sha256": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b",
+    "member": "contract-nli/dev.json",
+    "member_sha256": "310af7d661d2ab50ee3700169cef524c75f39fb296bbf5a515c229eb0f42e68e"
+  },
+  "scorer_sha256": "3c76c0831359a192d4ba2c934b60bbd1b01750eb4049eb132ff6e668abf317ea",
+  "adapter": "chaoslab.contractnli:always_not_mentioned",
+  "results": {
+    "documents": 61,
+    "claims": 1037,
+    "failed_documents": 0,
+    "missing_predictions": 0,
+    "label_accuracy": 0.40790742526518803,
+    "macro_label_f1": 0.19315068493150686,
+    "joint_label_and_exact_evidence": 0.40790742526518803,
+    "per_class": {
+      "Entailment": {
+        "support": 519,
+        "correct": 0,
+        "f1": 0.0
+      },
+      "Contradiction": {
+        "support": 95,
+        "correct": 0,
+        "f1": 0.0
+      },
+      "NotMentioned": {
+        "support": 423,
+        "correct": 423,
+        "f1": 0.5794520547945206
+      }
+    },
+    "confusion": {
+      "Entailment": {
+        "NotMentioned": 519
+      },
+      "Contradiction": {
+        "NotMentioned": 95
+      },
+      "NotMentioned": {
+        "NotMentioned": 423
+      }
+    },
+    "evidence": {
+      "eligible_claims": 614,
+      "exact_sets": 0,
+      "matched_spans": 0,
+      "predicted_spans": 0,
+      "expected_spans": 1228,
+      "micro_precision": null,
+      "micro_recall": 0.0
+    }
+  },
+  "evaluation_wall_seconds": 2.37796466600048,
+  "timing_scope": "Sequential adapter child-process startup and scoring; excludes archive loading and download. Not model request latency.",
+  "limits": "Externally authored NDA annotations, not RFP accuracy or legal validation. Public data may be present in model pretraining. Evidence metrics exclude NotMentioned gold labels; undefined precision/recall are null. Malformed/failed document outputs count against all their claims; omissions remain missing. Trusted adapters retain filesystem/network permissions. External adapter code is not covered by the packaged scorer digest. No raw contract text or predictions are published here."
+}

@@ -226,6 +226,35 @@ def main():
         ],
         environment={**env, "PYTHONPATH": str(outside)},
     )
+    # A separate task runs with neither ATLAS nor third-party runtime packages.
+    contract_control = {
+        "labels": {"promise": {"hypothesis": "The fictional promise continues."}},
+        "documents": [
+            {
+                "id": 1,
+                "text": "The promise remains.",
+                "spans": [[0, 20]],
+                "annotation_sets": [
+                    {"annotations": {"promise": {"choice": "Entailment", "spans": [0]}}}
+                ],
+            }
+        ],
+    }
+    (outside / "contract-control.json").write_text(json.dumps(contract_control))
+    run(
+        [
+            python,
+            "-c",
+            "import json; from pathlib import Path; "
+            "from chaoslab.contractnli import evaluate; "
+            "data=json.loads(Path('contract-control.json').read_text()); "
+            "result=evaluate(data, 'chaoslab.contractnli:always_not_mentioned'); "
+            "assert result['claims']==1 and result['label_accuracy']==0; "
+            "assert result['evidence']['micro_precision'] is None; "
+            "assert result['evidence']['micro_recall']==0",
+        ]
+    )
+    run([str(runtime / "bin/chaoslab-contractnli"), "--help"])
     assert fingerprints() == frozen, "Package source changed during verification"
     report = {
         "recorded_at": datetime.now(UTC).isoformat(),
@@ -240,7 +269,8 @@ def main():
         "outside_repository_execution": True,
         "external_trusted_adapter": True,
         "comparison_checks": results,
-        "limits": "POSIX process controls. ATLAS adapters and database/retrieval probes still require their own dependencies. No second application or external dataset evaluated. Wheel hashes identify this build, not reproducible byte-for-byte builds or signed provenance.",
+        "contractnli_installation": "Fictional one-claim baseline and CLI help passed without ATLAS; no external contract used in this installation check.",
+        "limits": "POSIX process controls. ATLAS adapters and database/retrieval probes still require their own dependencies. External dataset results are separate from this installation check. Wheel hashes identify this build, not reproducible byte-for-byte builds or signed provenance.",
     }
     destination = ROOT / "reports/chaoslab-package.json"
     destination.write_text(json.dumps(report, indent=2) + "\n")

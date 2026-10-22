@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 666 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 701 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -65,11 +65,15 @@ The operator-entry release passed backend and standalone-evaluator CI, but its f
 
 A reproducible provider preflight now checks private settings offline or, with explicit opt-in, public discovery and signing keys. The [live AWS check](../reports/provider-check.json) matched the issuer and all endpoint pins and admitted two RSA signing keys. Twenty-five new controlled cases passed; the native suite reached 666 passing tests with eighteen optional PostgreSQL groups skipped, and the joined synthetic browser check again passed twelve groups. No user credentials, tokens, callback, app-client registration or workspace authorization were validated by this probe. See [ADR 046](adr/046-checking-provider-configuration.md).
 
+The provider-preflight source and documentation passed all three [CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39775144411).
+
+CHAOSLAB now also admits the complete ContractNLI development split: 61 externally annotated contracts and 1,037 fixed claims. The [first report](../reports/contractnli-development.json) runs a constant `NotMentioned` reference, scoring 40.8% label accuracy, 0.193 macro F1 and zero evidence recall. This is an honest class-distribution floor, not a model result or RFP accuracy measurement. The raw corpus remains private; training and test JSON remain unloaded. Thirty-five focused cases passed, native tests reached 701 passing with eighteen optional database groups skipped, and the standalone 0.1.2 wheel passed its existing comparison checks plus a fictional contract/CLI check without ATLAS. See [the task guide](contractnli-evaluation.md) and [ADR 047](adr/047-external-contract-annotations.md). No paid inference or authored RFP expectations changed.
+
 ## Remaining work
 
 - Observe free-host cold starts and usage limits; keep the temporary lab separate from a durable service.
 - Complete real managed sign-in and durable hosted storage before offering the full review service.
-- Extend evaluation with independently written cases, realistic document layouts and targeted tests of threshold reasoning and hostile evidence.
+- Add a model adapter and frozen untouched-test comparison for the external contract task; keep its claims separate from RFP accuracy. Extend realistic document-layout and targeted threshold/hostile-evidence tests.
 - Finish a practical interview walkthrough that the project owner can explain and demonstrate.
 
 PATCHWORK is deferred. Record walkthrough videos after the projects and final checks are complete, then add them to the portfolio.

@@ -29,9 +29,16 @@ class AdapterOutputBudget(AdapterFailure):
     pass
 
 
-def invoke(adapter, inputs, fault=None, *, deadline_seconds=10):
-    if not re.fullmatch(r"[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*:[A-Za-z_]\w*", adapter):
+def validate_adapter(adapter):
+    if not isinstance(adapter, str) or not re.fullmatch(
+        r"[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*:[A-Za-z_]\w*", adapter
+    ):
         raise ValueError("Adapter must be an explicit trusted module:function")
+    return adapter
+
+
+def invoke(adapter, inputs, fault=None, *, deadline_seconds=10):
+    validate_adapter(adapter)
     if not 0 < deadline_seconds <= 120:
         raise ValueError("Adapter deadline must be greater than zero and at most 120 seconds")
     body = json.dumps({"input": inputs, "fault": fault}, allow_nan=False).encode()
