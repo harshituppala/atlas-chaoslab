@@ -1,6 +1,6 @@
 # Project status
 
-Updated October 21, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
+Updated October 22, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
 
 ## ATLAS
 
@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 641 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 666 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -61,7 +61,9 @@ The [joined browser login check](../reports/browser-login-https.json) passed twe
 
 The managed application now has an explicit operator factory with a private settings file and database selection. It rejects inherited demo/bearer/model profiles and owns its authentication clients through shutdown. Twenty-four focused cases passed; the joined synthetic Chromium/TLS check now uses this factory and again passed all twelve groups. The approved real Cognito directory, public client, domain, API scope and authorization-code callback settings have been created and saved. Real user sign-in, an authenticated external callback and hosted service acceptance remain untested. See [ADR 045](adr/045-managed-application-entry.md) and the [operator entry point](managed-login-development.md#configure-an-operator-run-application).
 
-The operator-entry release passed backend and standalone-evaluator CI, but its final joined-browser step failed during a second frontend build. The build error had omitted the underlying output. The runner now reports the exit code and CI retains only its frontend build log for three days; no session logs, provider responses or certificates are uploaded. A fresh local joined run still passes twelve groups. The failed [remote run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39710460942) remains visible; diagnosis is in progress.
+The operator-entry release passed backend and standalone-evaluator CI, but its final joined-browser step failed during a second frontend build. The build error had omitted the underlying output. The runner now reports the exit code and CI retains only its frontend build log for three days; no session logs, provider responses or certificates are uploaded. A fresh local joined run still passes twelve groups. The failed [remote run](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39710460942) remains visible. Its diagnostic follow-up passed all three [CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39710989050) without a functional application change; the original build failure did not recur and its cause remains unconfirmed.
+
+A reproducible provider preflight now checks private settings offline or, with explicit opt-in, public discovery and signing keys. The [live AWS check](../reports/provider-check.json) matched the issuer and all endpoint pins and admitted two RSA signing keys. Twenty-five new controlled cases passed; the native suite reached 666 passing tests with eighteen optional PostgreSQL groups skipped, and the joined synthetic browser check again passed twelve groups. No user credentials, tokens, callback, app-client registration or workspace authorization were validated by this probe. See [ADR 046](adr/046-checking-provider-configuration.md).
 
 ## Remaining work
 

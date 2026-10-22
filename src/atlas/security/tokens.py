@@ -162,7 +162,15 @@ class AccessTokenVerifier:
             if not keys:
                 raise ValueError("No supported verification keys")
             return keys
-        except (httpx.HTTPError, ValueError, TypeError, KeyError, jwt.PyJWTError):
+        except (
+            httpx.HTTPError,
+            httpx.StreamError,
+            ValueError,
+            TypeError,
+            KeyError,
+            RecursionError,
+            jwt.PyJWTError,
+        ):
             raise KeyServiceUnavailable("Trusted signing keys unavailable") from None
 
     def _key(self, kid, *, force=False):

@@ -1,0 +1,20 @@
+{
+  "recorded_at": "2026-10-22T11:58:19.031764+00:00",
+  "scope": "Public discovery and signing-key checks",
+  "configuration_sha256": "7a65ac5a2e2399a6b5e50b6ff85df49ea3ac25be8cda3be88f23d7b88ff40f3b",
+  "files_sha256": {
+    "src/atlas/managed.py": "1eee371afe9819b207a2979757464c566c12b31cfa4f6e26102770677e7d3650",
+    "src/atlas/security/provider.py": "760a171cefd89e28884182b97e39431ffef9f2bc286557059d00e8da74e58e10",
+    "src/atlas/security/login.py": "d65e1d218fa463de2f3aea8c6bdc93110a6d04974cd2152217300274814905bf",
+    "src/atlas/security/tokens.py": "8610eed39b746948e6caf4fb9f958fb90a6e8c49c4de2eb532e619482598bcd4",
+    "scripts/check_managed_provider.py": "22ffb8c5afcc40c528116cbaa367eff07110cbd0e707667d3c148b7b4623cd19"
+  },
+  "checks": {
+    "settings_valid": true,
+    "pinned_discovery_endpoints_match": true,
+    "authorization_code_advertised": true,
+    "supported_public_signing_keys": 2,
+    "user_login_verified": false
+  },
+  "limitations": "No user credential, token, callback, registered scope/client, workspace membership or hosted service is validated. No inference or paid operation is requested."
+}

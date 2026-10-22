@@ -55,6 +55,21 @@ Unset `ATLAS_DEMO`, `ATLAS_PRINCIPALS`, `ATLAS_TOKEN_TRUST` and `ATLAS_MODEL_JOB
 
 The joined synthetic browser check now exercises this factory and settings reader. Its transport overrides remain confined to the fixture. The real Cognito directory/client/domain and scope are configured, but real user sign-in is still pending. See [ADR 045](adr/045-managed-application-entry.md).
 
+## Check the provider before signing in
+
+Validate the settings without opening a database or contacting AWS:
+
+```sh
+PYTHONPATH=src .runtime/bin/python scripts/check_managed_provider.py \
+  --settings var/login-settings.json
+```
+
+Add `--provider` to fetch the pinned issuer's public discovery document and signing keys. The probe requires the advertised issuer, key URL, authorization endpoint and token endpoint to match the operator's settings exactly. It does not follow redirects or use URLs supplied by the discovery response. Responses have time/size limits, and signing keys pass the same RSA admission rules as token verification.
+
+The JSON result contains source/configuration fingerprints and check results. It omits endpoint values, client IDs, key IDs and response bodies. Keep the real settings private. Failure returns a nonzero exit status with a fixed message; no success report is printed. A successful result does not establish that the client or scope is registered, that PKCE works, or that a user can access a workspace. Those need the real browser flow.
+
+The [recorded AWS check](../reports/provider-check.json) passed public discovery and signing-key admission. It sent no user credentials or tokens. See [the decision](adr/046-checking-provider-configuration.md).
+
 ## HTTP boundary
 
 | Route | Behavior |

@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-22T02:21:34.389688+00:00",
+  "recorded_at": "2026-10-22T11:58:33.148218+00:00",
   "scope": "Chromium through a loopback-only CONNECT proxy to a real TLS server, ATLAS UI/API and a synthetic passwordless provider with real S256, token exchange, JWKS and RSA signature verification. Not AWS/Cognito or a real user login.",
   "browser": "141.0.7390.37",
   "checks": {
@@ -73,7 +73,8 @@
     "src/atlas/security/browser.py": "c3e0b6bcb8d16ef6eb1c8e43c7537efff682bbe0db43804bd8a039852ed403ff",
     "src/atlas/security/login.py": "d65e1d218fa463de2f3aea8c6bdc93110a6d04974cd2152217300274814905bf",
     "src/atlas/security/memberships.py": "1eb0f0189ab31a8cdc75f881b6c3520387636210f2f2805428d7d16710d5b9b2",
-    "src/atlas/security/tokens.py": "037b3b71e596d17ae86e9ec42154d25307358643c6a406dba09822972f030daf",
+    "src/atlas/security/provider.py": "760a171cefd89e28884182b97e39431ffef9f2bc286557059d00e8da74e58e10",
+    "src/atlas/security/tokens.py": "8610eed39b746948e6caf4fb9f958fb90a6e8c49c4de2eb532e619482598bcd4",
     "src/atlas/semantic.py": "2a70ff606a0f167d66b609170da1ea14129ec5dce0bfa008ccea652dac4b2e54",
     "src/atlas/store.py": "f62c981b5070dbc392246789fbdce335c272e5324cb128486571a30624ecf9f2",
     "src/atlas/synthetic_lab.py": "e7898c9867b0c78f96789c9cb942e62d928abc952c49d2a1be18cd7874e9dcbb",
