@@ -1,0 +1,11 @@
+# Check the real sign-in through a review
+
+A synthetic provider had exercised the browser protocol, but it had missed Cognito’s resource/scope contract. After correcting that configuration, the owner completed the real provider password step in Safari. The application returned to its private HTTPS workbench with an active session.
+
+The browser connected to the explicitly approved workspace as a reviewer, queued the fictional municipal RFP and received the worker’s baseline result: eight requirements, with four evidence matches, two conflicts and two gaps. The cited capability source opened. A clearly labeled synthetic review saved at version two, and remained after a reload, workspace reconnection and analysis selection. A read-only database check confirmed that the job and review audit used the approved subject. No raw identity or token was copied into the public report.
+
+An unassigned workspace was denied and the application view closed. Checking the still-active session allowed another workspace selection. Sign-out then confirmed that the application session had ended; a page reload stayed signed out. A fresh authorization request used the existing provider session and returned to the application, where the saved analysis and review reopened. Application logout does not sign the user out of Cognito itself.
+
+The [acceptance record](../../reports/cognito-local-acceptance.json) contains thirteen manual observations, aggregate workflow counts and relevant source/evidence fingerprints. These are actual browser and persistence checks, not thirteen new automated tests. The queue worker ran once without a model configuration; this acceptance sent no inference requests.
+
+This establishes the real Cognito-to-local-review path for one identity. It does not establish durable hosted storage, a deployed reverse proxy, multiple application instances, provider outage handling or general production readiness. Cookie flags, replay, expiry, revoked membership and hostile requests have separate controlled reports; they were not remeasured here. The owner handled the browser certificate warning and credentials; no automated warning bypass or OS trust-store change was made. The short-lived certificate and all private configuration remain local.
