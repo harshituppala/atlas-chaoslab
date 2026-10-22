@@ -22,6 +22,7 @@ from atlas.worker import process_once
 
 APP = "https://127.0.0.1"
 PROVIDER = "https://localhost"
+SCOPE = APP + "/api/review"
 
 
 def create_fixture(work, proxy, certificate, key):
@@ -32,7 +33,7 @@ def create_fixture(work, proxy, certificate, key):
         jwks_url=PROVIDER + "/.well-known/jwks.json",
         profile="cognito-resource",
         client_id="synthetic-browser-client",
-        required_scopes=("atlas/api",),
+        required_scopes=(SCOPE,),
     )
     settings = work / "managed-login.json"
     settings.write_text(json.dumps(asdict(LoginConfig(trust, PROVIDER, APP + "/auth/callback"))))
@@ -83,7 +84,7 @@ def create_fixture(work, proxy, certificate, key):
             and query.get("response_type") == "code"
             and query.get("code_challenge_method") == "S256"
             and query.get("resource") == trust.audience
-            and "atlas/api" in query.get("scope", "").split()
+            and SCOPE in query.get("scope", "").split()
         ):
             return JSONResponse({"error": "fixture_authorization_rejected"}, status_code=400)
         ticket = secrets.token_urlsafe(32)
@@ -147,7 +148,7 @@ def create_fixture(work, proxy, certificate, key):
                 "exp": now + 300,
                 "client_id": trust.client_id,
                 "token_use": "access",
-                "scope": "openid atlas/api",
+                "scope": "openid " + SCOPE,
             },
             key,
             algorithm="RS256",

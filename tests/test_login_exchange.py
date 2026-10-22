@@ -77,7 +77,7 @@ def test_pkce_exchange_uses_pinned_resource_and_returns_verified_access_only(exc
     query = parse_qs(urlsplit(start.authorization_url).query)
     assert query["response_type"] == ["code"]
     assert query["resource"] == [TRUST.audience]
-    assert query["scope"] == ["atlas/api"]
+    assert query["scope"] == ["https://atlas.example.invalid/api/review"]
     assert query["redirect_uri"] == [CONFIG.redirect_uri]
     assert query["code_challenge_method"] == ["S256"]
     assert start.browser_binding not in start.authorization_url

@@ -33,7 +33,7 @@ The public report contains aggregate results, dataset/source fingerprints and th
 
 ## What remains
 
-The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The test split remains unused; a model adapter and a frozen test comparison are still required.
+The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The test split remains unused; the Bedrock integration is implemented, but a complete live development run and a frozen test comparison are still required.
 
 ## Save a run and rescore it
 
@@ -61,3 +61,7 @@ Observations may contain private contract excerpts returned by an adapter. They 
 The writer flushes each record and marks the file complete only after evaluation and a source-stability check. An interrupted run leaves a partial file; replay refuses it. A recording error stops report publication rather than hiding the error as a model failure. Replay also rejects missing or duplicate contracts, mismatched inputs, altered checksums, trailing data, ambiguous JSON, oversized files and broadly readable files. The limits are 128 MiB per journal and the adapter-output budget plus a small envelope per line.
 
 These controls detect incomplete or inconsistent local files. They are not signatures: someone with access to the same account can rewrite both observations and checksums. Adapter code still has local-user privileges. Keep the archive and journal protected, and review aggregate reports before publication.
+
+## Model integration
+
+The optional [Bedrock runner](contract-model-runbook.md) uses the full project environment and a shared spending ledger. It does not change the independent evaluator wheel. Two live development attempts stopped during preflight, after eighteen and twenty-three validated responses. Their overlapping prefixes are not a complete benchmark; no model accuracy score is published. [The stopped-run record](../reports/contract-model-stopped.json) retains the known costs, reservations and unresolved failure scope.

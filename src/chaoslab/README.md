@@ -47,7 +47,7 @@ The hostile-evidence cases pair an ordinary source with an instruction-bearing v
 
 ## External contract labels
 
-The separate [ContractNLI task](../../docs/contractnli-evaluation.md) evaluates fixed claims and evidence spans against externally authored NDA annotations. Its first report uses a constant-label reference on the complete development split: 40.8% label accuracy and zero evidence recall. That is a baseline for a future model comparison, not an AI performance claim. Raw contracts stay private and the test split remains unused. A run can now save private observations and replay them without importing the adapter or making another model request. The recorded constant-label capture and replay have identical scores; the task guide explains the file checks and their limits.
+The separate [ContractNLI task](../../docs/contractnli-evaluation.md) evaluates fixed claims and evidence spans against externally authored NDA annotations. Its first report uses a constant-label reference on the complete development split: 40.8% label accuracy and zero evidence recall. That is a baseline for a future model comparison, not an AI performance claim. Raw contracts stay private and the test split remains unused. A run can now save private observations and replay them without importing the adapter or making another model request. The recorded constant-label capture and replay have identical scores; the task guide explains the file checks and their limits. An optional [Bedrock integration](../../docs/contract-model-runbook.md) is implemented in the full project environment. Its two partial live attempts do not establish complete-development model accuracy.
 
 ## Document ingestion
 

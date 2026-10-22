@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 729 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 792 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -71,11 +71,15 @@ CHAOSLAB now also admits the complete ContractNLI development split: 61 external
 
 ContractNLI runs can now keep private raw observations and rescore them without importing the original adapter or making another model call. The full development constant-label run was captured and replayed: both reports have identical result objects across 61 contracts and 1,037 claims. The baseline remains 423 correct labels and zero evidence recall. Twenty-eight new controls passed, and the native suite reached 729 passing tests with eighteen optional PostgreSQL groups skipped. A fresh dependency-free 0.1.3 wheel also passed fictional capture/replay with an unavailable adapter, plus the existing comparison controls. Partial or mismatched journals are rejected; recording failures stop publication. Raw observations stay private. See [ADR 048](adr/048-private-contract-replay.md) and the [replay guide](contractnli-evaluation.md#save-a-run-and-rescore-it). No paid model call, test-split evaluation or new hosting was performed.
 
+The optional Bedrock contract adapter now admits label-free inputs, uses one shared gateway/budget ledger and records private observations. Thirty-five adapter controls and eight aggregate-export controls passed; the native suite reached 772 passing tests with eighteen optional PostgreSQL groups skipped. Two real development attempts stopped during preflight after eighteen and twenty-three validated responses. Their known inference estimates total $0.4370927; both full reservations remain retained. The next input in each case later passed token counting alone, so the original cause is unconfirmed; slower pacing did not resolve it. No partial-cohort model accuracy is published. See the [stopped-run record](../reports/contract-model-stopped.json), [operator runbook](contract-model-runbook.md) and [ADR 049](adr/049-budgeted-contract-model-runs.md). Training/test JSON remain unused.
+
+The owner created the real Cognito application identity and approved reviewer membership in one isolated local workspace. The local grant has been applied and audited; it grants no IAM/cloud permissions or paid-model execution. Real browser sign-in remains unverified. This machine refused an unprivileged listener on port 443. A narrow loopback-8443 profile is now implemented and tested; the owner approved its additional Cognito callback and the console confirmed both callbacks are saved. Actual local TLS health/auth-discovery checks passed, with mismatched-origin and anonymous-session rejection. The owner handled the browser certificate warning. The first real authorization request exposed a resource/scope mismatch; the approved matching resource and client scope are now saved, and Safari reaches Cognito’s password step. First password replacement still requires the owner; the authenticated callback remains unverified. No OS trust change or public hosting was made. See [ADR 050](adr/050-unprivileged-local-login.md) and [the scope correction](adr/051-cognito-resource-scope-binding.md).
+
 ## Remaining work
 
 - Observe free-host cold starts and usage limits; keep the temporary lab separate from a durable service.
 - Complete real managed sign-in and durable hosted storage before offering the full review service.
-- Add a model adapter and frozen untouched-test comparison for the external contract task; keep its claims separate from RFP accuracy. Extend realistic document-layout and targeted threshold/hostile-evidence tests.
+- Resolve the provider-preflight interruption and complete development/model and frozen untouched-test comparisons for the external contract task; keep its claims separate from RFP accuracy. Extend realistic document-layout and targeted threshold/hostile-evidence tests.
 - Finish a practical interview walkthrough that the project owner can explain and demonstrate.
 
 PATCHWORK is deferred. Record walkthrough videos after the projects and final checks are complete, then add them to the portfolio.

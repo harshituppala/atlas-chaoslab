@@ -7,6 +7,6 @@
     "jwks_url": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_example/.well-known/jwks.json",
     "profile": "cognito-resource",
     "client_id": "replace-with-public-client-id",
-    "required_scopes": ["atlas/api"]
+    "required_scopes": ["https://atlas.example.invalid/api/review"]
   }
 }

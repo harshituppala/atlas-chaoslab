@@ -27,7 +27,7 @@ class LoginCapacity(Exception):
     pass
 
 
-def https_url(value, *, origin=False):
+def https_url(value, *, origin=False, allow_loopback_port=False):
     if not isinstance(value, str) or not 1 <= len(value) <= 2048:
         return False
     if any(ord(character) < 33 or ord(character) == 127 for character in value) or any(
@@ -45,7 +45,11 @@ def https_url(value, *, origin=False):
             and parsed.password is None
             and not parsed.query
             and not parsed.fragment
-            and parsed.port in {None, 443}
+            and (
+                parsed.port in {None, 443}
+                or allow_loopback_port
+                and parsed.netloc == "127.0.0.1:8443"
+            )
             and not any(character.isspace() for character in value)
         )
         return valid and (not origin or parsed.path in {"", "/"})
@@ -64,10 +68,29 @@ class LoginConfig:
             raise ValueError("Browser exchange requires the explicit Cognito resource profile")
         if not https_url(self.provider_origin, origin=True):
             raise ValueError("Login provider must be a pinned HTTPS origin")
-        if not https_url(self.redirect_uri) or urlsplit(self.redirect_uri).path != "/auth/callback":
+        if (
+            not https_url(self.redirect_uri, allow_loopback_port=True)
+            or urlsplit(self.redirect_uri).path != "/auth/callback"
+        ):
             raise ValueError("Login callback must be an exact HTTPS /auth/callback URL")
-        if not https_url(self.trust.audience):
+        if not https_url(self.trust.audience, allow_loopback_port=True):
             raise ValueError("Login requires an HTTPS resource audience")
+        callback, resource = urlsplit(self.redirect_uri), urlsplit(self.trust.audience)
+        if callback.port == 8443 or resource.port == 8443:
+            if not (
+                callback.netloc == resource.netloc == "127.0.0.1:8443" and resource.path == "/api"
+            ):
+                raise ValueError("Loopback callback and resource origins must match")
+        resource_scopes = tuple(
+            scope
+            for scope in self.trust.required_scopes
+            if scope not in {"openid", "email", "phone", "profile"}
+        )
+        prefix = self.trust.audience + "/"
+        if not resource_scopes or any(
+            not scope.startswith(prefix) or len(scope) == len(prefix) for scope in resource_scopes
+        ):
+            raise ValueError("Resource scopes must belong to the configured API audience")
         object.__setattr__(self, "provider_origin", self.provider_origin.rstrip("/"))
 
 

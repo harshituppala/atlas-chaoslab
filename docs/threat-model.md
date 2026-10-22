@@ -194,3 +194,15 @@ The ContractNLI reader checks an operator-reviewed archive digest before parsing
 ## Private contract observations
 
 Contract-task journals retain returned output, including malformed predictions, separately from public aggregates. A new private directory, restrictive file modes, bounded JSON lines, input fingerprints and a complete-file checksum prevent accidental mixing and reject partial or inconsistent runs. Invocation failures omit exception text. Failed recording stops report publication. Replay verifies the pinned dataset and complete input set before rescoring; it does not import the named adapter or invoke a provider. A local account owner can still replace files and recompute hashes. These are integrity checks, not signed provenance, hostile-code isolation or a defence against a compromised operator. Raw responses may quote licensed/private text and must remain outside source releases, images and CI uploads. See ADR 048.
+
+
+## Contract model integration
+
+The optional provider bridge rejects annotation and extra instruction fields before provider setup. The contract and claims remain untrusted content inside application-owned task instructions; this does not establish model resistance to injection. One retained campaign reservation and one gateway ledger cover the full development split. Provider/usage uncertainty, source changes and failed recording stop the cohort; completed but unusable responses remain failed documents. No prefix score is exported. The two actual stopped attempts remain private with both full reservations retained. The exporter independently rescored controlled observations and checks complete receipts and token-price arithmetic before writing aggregates. Local files and SDK receipts are not signed provider attestations or invoices. See ADR 049.
+
+
+## Unprivileged local login origin
+
+The one development exception admits callback/resource URLs only at literal `127.0.0.1:8443`, with matching origins and the fixed callback/API paths. It does not expand provider, issuer or signing-key ports. Host and Origin checks continue to compare the complete configured origin; cookies remain secure and PKCE remains required. Local TLS certificates and the real identity/database stay private. No OS trust change or automated browser-warning bypass is performed. Callback registration and workspace membership were separately approved by the owner; a registered callback and grant still do not prove the real user can complete sign-in. See ADR 050.
+
+The login configuration also requires each custom scope to belong to the exact configured resource audience. Standard OIDC scopes may accompany it but cannot replace it. This prevents the observed Cognito resource-binding mismatch before the provider request; it does not prove the scope is registered or enabled on the client. Real console registration is verified separately, and successful authentication still requires signature, purpose, client, audience, scope and local membership checks. See ADR 051.

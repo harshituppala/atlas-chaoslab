@@ -50,7 +50,10 @@ def read_settings(path):
             "required_scopes",
         }:
             raise ValueError
-        if not all(https_url(trust[key]) for key in ("issuer", "audience", "jwks_url")):
+        if not (
+            all(https_url(trust[key]) for key in ("issuer", "jwks_url"))
+            and https_url(trust["audience"], allow_loopback_port=True)
+        ):
             raise ValueError
         return LoginConfig(TokenTrust(**trust), value["provider_origin"], value["redirect_uri"])
     except (OSError, ValueError, TypeError, UnicodeError, RecursionError):

@@ -21,7 +21,7 @@ TRUST = TokenTrust(
     jwks_url="https://cognito-idp.ca-central-1.amazonaws.com/ca-central-1_example/.well-known/jwks.json",
     profile="cognito-resource",
     client_id="client123",
-    required_scopes=("atlas/api",),
+    required_scopes=("https://atlas.example.invalid/api/review",),
 )
 
 
@@ -40,7 +40,7 @@ def signed(key, *, claims=None, missing=(), typ=None):
         "exp": now + 600,
         "client_id": TRUST.client_id,
         "token_use": "access",
-        "scope": "openid atlas/api",
+        "scope": "openid https://atlas.example.invalid/api/review",
     }
     body.update(claims or {})
     for name in missing:
@@ -82,11 +82,11 @@ def test_explicit_cognito_profile_accepts_resource_bound_access_only(key, typ):
         ({"aud": "other"}, (), None),
         ({"aud": [TRUST.audience]}, (), None),
         ({"scope": "openid"}, (), None),
-        ({"scope": "openid atlas/apix"}, (), None),
-        ({"scope": ["atlas/api"]}, (), None),
-        ({"scope": "atlas/api\nadmin"}, (), None),
-        ({"scope": " atlas/api"}, (), None),
-        ({"scope": "atlas/api  openid"}, (), None),
+        ({"scope": "openid https://atlas.example.invalid/api/reviewx"}, (), None),
+        ({"scope": ["https://atlas.example.invalid/api/review"]}, (), None),
+        ({"scope": "https://atlas.example.invalid/api/review\nadmin"}, (), None),
+        ({"scope": " https://atlas.example.invalid/api/review"}, (), None),
+        ({"scope": "https://atlas.example.invalid/api/review  openid"}, (), None),
         ({}, ("scope",), None),
         ({"iss": "https://other.example.invalid"}, (), None),
         ({"exp": 0}, (), None),
@@ -123,9 +123,14 @@ def test_default_profile_does_not_implicitly_accept_cognito_headers(key):
         {"client_id": None},
         {"client_id": ""},
         {"required_scopes": ()},
-        {"required_scopes": "atlas/api"},
-        {"required_scopes": ("atlas/api", "atlas/api")},
-        {"required_scopes": ("atlas/api admin",)},
+        {"required_scopes": "https://atlas.example.invalid/api/review"},
+        {
+            "required_scopes": (
+                "https://atlas.example.invalid/api/review",
+                "https://atlas.example.invalid/api/review",
+            )
+        },
+        {"required_scopes": ("https://atlas.example.invalid/api/review admin",)},
         {"jwks_url": "https://keys.example.invalid/jwks"},
         {"profile": "rfc9068"},
     ],
@@ -136,10 +141,10 @@ def test_cognito_operator_configuration_is_explicit_and_bounded(update):
 
 
 def test_json_scope_list_is_frozen_to_immutable_configuration():
-    scopes = ["atlas/api"]
+    scopes = ["https://atlas.example.invalid/api/review"]
     trust = replace(TRUST, required_scopes=scopes)
     scopes.append("mutated")
-    assert trust.required_scopes == ("atlas/api",)
+    assert trust.required_scopes == ("https://atlas.example.invalid/api/review",)
 
 
 def test_cognito_signed_claims_still_require_server_owned_membership_and_observe_revocation(

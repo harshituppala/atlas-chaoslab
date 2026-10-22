@@ -1,0 +1,42 @@
+{
+  "recorded_at": "2026-10-22T17:36:48.440974+00:00",
+  "status": "Both attempts stopped before a complete cohort",
+  "scope": "ContractNLI development attempts; no accuracy scores published for either partial cohort. Both use the same document order, so the prefixes overlap.",
+  "dataset": {
+    "archive_sha256": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b",
+    "member": "contract-nli/dev.json",
+    "member_sha256": "310af7d661d2ab50ee3700169cef524c75f39fb296bbf5a515c229eb0f42e68e"
+  },
+  "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "region": "us-east-1",
+  "attempts": [
+    {
+      "attempt": "development-v1",
+      "failure_kind": "provider_or_usage_failure",
+      "validated_responses": 18,
+      "known_estimated_inference_cost_usd": "0.1964666",
+      "full_run_reservation_retained_usd": "2.984608",
+      "min_interval_seconds": 0,
+      "wall_seconds": 73.19400429199959,
+      "private_run_sha256": "58a3c9c85d98fe92a86880bfec80b295ebb4ff1d8b791b6dc61ab76a64e039fb",
+      "source_sha256": "f53f921e7b02de4d042d0e91143c6d77242222c6f9404bca9434d942739f513b"
+    },
+    {
+      "attempt": "development-paced-v2",
+      "failure_kind": "provider_or_usage_failure",
+      "validated_responses": 23,
+      "known_estimated_inference_cost_usd": "0.2406261",
+      "full_run_reservation_retained_usd": "2.984608",
+      "min_interval_seconds": 10.0,
+      "wall_seconds": 230.6566702909986,
+      "private_run_sha256": "ae2a259ea6f1b83e8425b3556dcbac111f62c546f12abb4752fa10abfdd9b174",
+      "source_sha256": "ee554731bf29e4f43e7f00a970f71ab30db8a75d8f7c9dc7591f6242ba533fe7"
+    }
+  ],
+  "combined_known_estimated_inference_cost_usd": "0.4370927",
+  "cost_is_invoice": false,
+  "observation_state": "Private partial files, refused by complete-run replay; no complete observation receipt.",
+  "diagnostic": "The next input from each stopped run later passed a CountTokens-only probe without inference (10,085 and 6,561 input tokens respectively). The exact original service errors were not retained and their causes remain unconfirmed. Slower pacing did not eliminate the interruption.",
+  "spending": "No further model run started. Both full reservations remain retained in the shared campaign, whose cumulative reserved amount is $8.9347422 against $10 authorization. This is not an AWS account-wide cap or an invoice.",
+  "limits": "No raw contracts, model responses, document metadata, account identifiers or user data are published. Complete-cohort replay is required before model quality is exported."
+}

@@ -38,7 +38,7 @@ Optional login HTML uses same-origin referrers so a navigation POST can carry it
 
 ## Configure an operator-run application
 
-Copy `deployment/login-settings.example.json` to a private file under `var/`, replace every placeholder with the reviewed provider settings, and restrict it to mode 600. No AWS access key or client secret belongs in this file. The issuer and its key URL must refer to the same pool; the public client, API scope, resource audience and callback must match the reviewed console configuration.
+Copy `deployment/login-settings.example.json` to a private file under `var/`, replace every placeholder with the reviewed provider settings, and restrict it to mode 600. No AWS access key or client secret belongs in this file. The issuer and its key URL must refer to the same pool; the public client, API scope, resource audience and callback must match the reviewed console configuration. For resource binding, the resource-server identifier must equal the API audience. A scope named `review` under `https://atlas.example.invalid/api` is requested as `https://atlas.example.invalid/api/review`. A legacy `atlas/api` scope belongs to a different resource; Cognito rejects that combination before showing the password form. The settings reader now rejects it locally as well.
 
 The explicit factory requires both settings and a database. For an existing TLS termination setup:
 
@@ -91,3 +91,13 @@ Register one reviewed HTTPS callback and confirm that the provider domain belong
 Keep callback query strings, cookies and tokens out of server/proxy logs and traces. Configure TLS, trusted proxy handling and request-rate controls. Real browser acceptance must check the external redirect, Lax binding cookie, Strict application cookie, callback replay, provider denial/outage, membership revocation, logout and expiry. Review account access and cost before creating cloud resources; the owner must complete real sign-in without sharing credentials in chat.
 
 [Session decision](adr/041-opt-in-browser-sessions.md) · [Exchange component](adr/040-authorization-code-exchange.md) · [Token profile](adr/025-explicit-cognito-access-profile.md)
+
+## Private loopback without administrator privileges
+
+The default callback remains on standard HTTPS port 443. Some development machines refuse an ordinary process binding that port. The explicit private-development alternative is `https://127.0.0.1:8443/auth/callback`, with the resource audience `https://127.0.0.1:8443/api`.
+
+The settings reader admits that exact literal IP and port only for the callback/resource pair. Provider, issuer and signing-key endpoints keep their standard HTTPS checks. `localhost`, another loopback address, another port and a mismatched resource origin are rejected. Host and Origin checks include `:8443`; the application does not accept the port-443 Origin as equivalent.
+
+Before using this profile, register that exact additional callback with explicit owner approval and retain the original registration. Use a short-lived local TLS certificate, a private database and the approved workspace membership. Bind the listener to `127.0.0.1`, keep access logging disabled and leave the OS trust store alone. Certificate trust and any browser warning require a human decision; the application does not install a trust bypass.
+
+The owner-approved callback addition has been saved in Cognito, and the created owner identity has reviewer membership in one isolated local workspace. Actual loopback TLS requests passed health/auth-discovery checks and rejected an anonymous session and a mismatched port Origin. The browser rejected the local certificate; the owner must complete that handoff and the first password-change/sign-in flow. These steps do not yet establish an authenticated callback, hosted service or durable deployment. See [ADR 050](adr/050-unprivileged-local-login.md).
