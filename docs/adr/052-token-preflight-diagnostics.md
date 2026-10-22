@@ -1,0 +1,9 @@
+# Keep enough detail to investigate token-count failures
+
+Both development model attempts stopped before the next inference request. The gateway discarded the token-count exception and exposed only a generic failure, so neither run can establish why it stopped. Later successful token-count probes cannot reconstruct the original response. Those historical records stay unchanged.
+
+The gateway now stores the last failed preflight as a small diagnostic in its private usage ledger. It records a fixed transport category, an allowlisted service code when available, and that inference was not sent for this attempt. It persists that snapshot through the existing receipt callback. It retains no upstream message, endpoint, headers, request ID, contract text or arbitrary service code. Malformed token counts also stop before inference. Invocation failures use the same classifier while keeping their separate unknown-usage receipt semantics.
+
+This adds no retries or resume path, makes no reservation refund and changes no inference allowance. A failed ledger write still propagates and stops the cohort. Only the latest preflight diagnostic is retained, so repeated caller failures cannot grow an unbounded error journal. A later successful call does not erase that diagnostic. Cost estimates still cover only recorded inference receipts and are not invoices.
+
+Ten new controlled cases cover one-shot recording, zero inference calls after failure, copied snapshots, malformed token counts and secret-bearing exception fields. The full native suite passed 802 tests, with eighteen optional PostgreSQL groups skipped. No real provider request was made for this change, and the original live failure cause remains unknown. The next paid attempt needs a reviewed budget and recovery plan rather than another unchanged full-cohort restart.

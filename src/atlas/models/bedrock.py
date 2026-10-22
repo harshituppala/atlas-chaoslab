@@ -36,6 +36,48 @@ class StructuredGateway(Protocol):
     def structured(self, *, task: str, system: str, data: dict, output: type[T]) -> T: ...
 
 
+def failure_diagnostic(error):
+    """Bounded categories only; never retain upstream messages or response bodies."""
+    from botocore.exceptions import (
+        ClientError,
+        ConnectionClosedError,
+        ConnectTimeoutError,
+        EndpointConnectionError,
+        ReadTimeoutError,
+        SSLError,
+    )
+
+    kind, code = "unclassified", None
+    for error_type, category in (
+        (ClientError, "service_error"),
+        (ReadTimeoutError, "read_timeout"),
+        (ConnectTimeoutError, "connect_timeout"),
+        (ConnectionClosedError, "connection_closed"),
+        (SSLError, "tls_error"),
+        (EndpointConnectionError, "endpoint_connection"),
+    ):
+        if isinstance(error, error_type):
+            kind = category
+            break
+    if isinstance(error, ClientError):
+        response = error.response if isinstance(error.response, dict) else {}
+        detail = response.get("Error", {})
+        candidate = detail.get("Code") if isinstance(detail, dict) else None
+        if isinstance(candidate, str) and candidate in {
+            "AccessDeniedException",
+            "ValidationException",
+            "ThrottlingException",
+            "ModelTimeoutException",
+            "ModelNotReadyException",
+            "ServiceUnavailableException",
+            "InternalServerException",
+            "ResourceNotFoundException",
+            "ServiceQuotaExceededException",
+        }:
+            code = candidate
+    return {"failure_kind": kind, "provider_error_code": code}
+
+
 def provider_schema(schema: dict) -> dict:
     """Remove unsupported generation constraints; retain them in local validation."""
     forbidden = {
@@ -90,6 +132,7 @@ class Ledger:
         config.validate_price_identity()
         self.config = config
         self.receipts: list[Receipt] = []
+        self.preflight_failure = None
         self.on_change = None
 
     def changed(self):
@@ -166,6 +209,7 @@ class Ledger:
             if known
             else None,
             "cost_is_invoice": False,
+            "preflight_failure": deepcopy(self.preflight_failure),
             "receipts": [asdict(r) for r in self.receipts],
         }
 
@@ -207,7 +251,14 @@ class BedrockGateway:
                 modelId=self.config.count_tokens_model_id or self.config.model_id,
                 input={"converse": {"messages": messages, "system": system_blocks}},
             )["inputTokens"]
-        except Exception:
+            if type(count) is not int or count < 0:
+                raise ValueError("Invalid token preflight response")
+        except Exception as error:
+            self.ledger.preflight_failure = {
+                **failure_diagnostic(error),
+                "inference_sent": False,
+            }
+            self.ledger.changed()
             raise ProviderFailure("Token preflight failed; inference was not sent") from None
         receipt = self.ledger.reserve(
             task,
@@ -236,43 +287,9 @@ class BedrockGateway:
             )
         except Exception as exc:
             receipt.status = "invocation_unknown"
-            # Never persist arbitrary upstream messages, headers or response bodies.
-            from botocore.exceptions import (
-                ClientError,
-                ConnectionClosedError,
-                ConnectTimeoutError,
-                EndpointConnectionError,
-                ReadTimeoutError,
-                SSLError,
-            )
-
-            receipt.invocation_failure_kind = "unclassified"
-            for error_type, kind in (
-                (ClientError, "service_error"),
-                (ReadTimeoutError, "read_timeout"),
-                (ConnectTimeoutError, "connect_timeout"),
-                (ConnectionClosedError, "connection_closed"),
-                (SSLError, "tls_error"),
-                (EndpointConnectionError, "endpoint_connection"),
-            ):
-                if isinstance(exc, error_type):
-                    receipt.invocation_failure_kind = kind
-                    break
-
-            if isinstance(exc, ClientError):
-                code = exc.response.get("Error", {}).get("Code")
-                if code in {
-                    "AccessDeniedException",
-                    "ValidationException",
-                    "ThrottlingException",
-                    "ModelTimeoutException",
-                    "ModelNotReadyException",
-                    "ServiceUnavailableException",
-                    "InternalServerException",
-                    "ResourceNotFoundException",
-                    "ServiceQuotaExceededException",
-                }:
-                    receipt.provider_error_code = code
+            diagnostic = failure_diagnostic(exc)
+            receipt.invocation_failure_kind = diagnostic["failure_kind"]
+            receipt.provider_error_code = diagnostic["provider_error_code"]
             self.ledger.changed()
             raise ProviderFailure("Invocation failed; usage and cost may be unknown") from None
         self.ledger.observe(receipt, response.get("usage", {}))

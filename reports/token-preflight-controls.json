@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-10-22T18:01:03.325276+00:00",
+  "scope": "Controlled SDK exceptions and malformed token responses; no provider network or real model calls.",
+  "new_controls_passed": 10,
+  "native_suite": {
+    "passed": 802,
+    "skipped_optional_postgresql": 18
+  },
+  "junit_sha256": "542379d702cdae7fc007ea4e7fbd927a5b547f2ab09fbdb8844ce8dce9c52750",
+  "files_sha256": {
+    "src/atlas/models/bedrock.py": "4dfb8a59ceb8bc50164d837e355097633aeb951afd952e64c81f95b0066f9110",
+    "tests/test_token_preflight.py": "0861db3f8ede5277b4791451f475c8cb5a648dd2d2484706e1fc337291f42d76"
+  },
+  "limits": "The cause of both earlier live preflight interruptions remains unknown. This verifies future diagnostic handling, not recovery or quota availability."
+}

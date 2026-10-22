@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 792 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 802 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -74,6 +74,8 @@ ContractNLI runs can now keep private raw observations and rescore them without 
 The optional Bedrock contract adapter now admits label-free inputs, uses one shared gateway/budget ledger and records private observations. Thirty-five adapter controls and eight aggregate-export controls passed; the native suite reached 772 passing tests with eighteen optional PostgreSQL groups skipped. Two real development attempts stopped during preflight after eighteen and twenty-three validated responses. Their known inference estimates total $0.4370927; both full reservations remain retained. The next input in each case later passed token counting alone, so the original cause is unconfirmed; slower pacing did not resolve it. No partial-cohort model accuracy is published. See the [stopped-run record](../reports/contract-model-stopped.json), [operator runbook](contract-model-runbook.md) and [ADR 049](adr/049-budgeted-contract-model-runs.md). Training/test JSON remain unused.
 
 The owner created the real Cognito application identity and approved reviewer membership in one isolated local workspace. The local grant has been applied and audited; it grants no IAM/cloud permissions or paid-model execution. Real browser sign-in remains unverified. This machine refused an unprivileged listener on port 443. A narrow loopback-8443 profile is now implemented and tested; the owner approved its additional Cognito callback and the console confirmed both callbacks are saved. Actual local TLS health/auth-discovery checks passed, with mismatched-origin and anonymous-session rejection. The owner handled the browser certificate warning. The first real authorization request exposed a resource/scope mismatch; the approved matching resource and client scope are now saved, and Safari reaches Cognito’s password step. First password replacement still requires the owner; the authenticated callback remains unverified. No OS trust change or public hosting was made. See [ADR 050](adr/050-unprivileged-local-login.md) and [the scope correction](adr/051-cognito-resource-scope-binding.md).
+
+The resource-scope and contract-adapter release passed all three [GitHub CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39827227449). A subsequent local diagnostic correction now preserves bounded token-count failure categories without upstream messages or contract text. Ten new controls passed; the full native suite reached 802 passing tests with eighteen optional PostgreSQL groups skipped. No additional provider calls were made, and the earlier live failures remain unclassified. See [ADR 052](adr/052-token-preflight-diagnostics.md).
 
 ## Remaining work
 
