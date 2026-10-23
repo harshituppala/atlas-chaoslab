@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+const screenshotRoot = "../../var/ui-review/screenshots";
+
 for (const width of [1440, 390]) {
   test(`workbench navigation and disconnected layout at ${width}px`, async ({
     page,
@@ -31,7 +33,7 @@ for (const width of [1440, 390]) {
     ).toBe(true);
     if (width === 1440)
       await page.screenshot({
-        path: "../../reports/review-workbench.png",
+        path: `${screenshotRoot}/review-workbench.png`,
         fullPage: false,
       });
     await page

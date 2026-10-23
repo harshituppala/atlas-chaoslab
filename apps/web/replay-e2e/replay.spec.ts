@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+const screenshotRoot = "../../var/ui-review/screenshots";
 
 test("recordings, exact citations, keyboard and honest failure reports without backend access", async ({
   page,
@@ -129,5 +130,8 @@ test("capture desktop recorded demo", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1080 });
   await page.goto("/");
   await expect(page.locator("article.requirement")).toHaveCount(8);
-  await page.screenshot({ path: "../../reports/replay.png", fullPage: true });
+  await page.screenshot({
+    path: `${screenshotRoot}/replay.png`,
+    fullPage: true,
+  });
 });

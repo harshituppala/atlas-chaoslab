@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
+const screenshotRoot = "../../var/ui-review/screenshots";
 const token = Object.keys(
   JSON.parse(readFileSync("../../var/local-credentials.json", "utf8")),
 )[0];
@@ -48,7 +49,7 @@ test("review a sourced requirement and inspect measured failures", async ({
   await expect(page.getByRole("status")).toHaveCount(0);
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
-    path: "../../reports/workbench.png",
+    path: `${screenshotRoot}/workbench.png`,
     fullPage: false,
   });
   await page.getByRole("button", { name: "CHAOSLAB benchmarks" }).click();
@@ -69,7 +70,9 @@ test("review a sourced requirement and inspect measured failures", async ({
       .filter({ hasText: "paraphrased obligation" })
       .getByText("omitted", { exact: true }),
   ).toBeVisible();
-  await reasoning.screenshot({ path: "../../reports/chaoslab-reasoning.png" });
+  await reasoning.screenshot({
+    path: `${screenshotRoot}/chaoslab-reasoning.png`,
+  });
   await expect(
     page
       .getByRole("row")
@@ -93,7 +96,7 @@ test("review a sourced requirement and inspect measured failures", async ({
         name: "Adversarial evidence selection",
       }),
     })
-    .screenshot({ path: "../../reports/chaoslab-adversarial.png" });
+    .screenshot({ path: `${screenshotRoot}/chaoslab-adversarial.png` });
   await expect(
     page.getByText("Retrieval comparison", { exact: true }),
   ).toBeVisible();
@@ -206,7 +209,7 @@ test("upload PDF and DOCX, inspect a mapped page, and recover the original", asy
     readFileSync("../../datasets/documents/municipal-rfp.pdf"),
   );
   await page.screenshot({
-    path: "../../reports/upload-source.png",
+    path: `${screenshotRoot}/upload-source.png`,
     fullPage: false,
   });
 });
@@ -400,7 +403,7 @@ test("analysis mode selection is explicit and resets to baseline (controlled cap
   ).toBeVisible();
   await expect(page.getByText(/US\$0.0203/)).toBeVisible();
   await page.screenshot({
-    path: "../../reports/analysis-mode.png",
+    path: `${screenshotRoot}/analysis-mode.png`,
     fullPage: false,
   });
   await page.getByLabel("RFP text").fill("The vendor must support federation.");
@@ -480,5 +483,67 @@ test("complete scenarios distinguish obligation and whole-review results", async
   await expect(
     panel.getByRole("heading", { name: "split evidence and service hours" }),
   ).toBeVisible();
-  await panel.screenshot({ path: "../../reports/scenarios-dashboard.png" });
+  await panel.screenshot({ path: `${screenshotRoot}/scenarios-dashboard.png` });
 });
+
+for (const width of [390, 900]) {
+  test(`connected review and benchmark reading at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.goto("/");
+    await page.getByLabel("Workspace token", { exact: true }).fill(token);
+    await page.getByRole("button", { name: "Connect", exact: true }).click();
+    await page
+      .getByRole("button", { name: "Run seeded demonstration" })
+      .click();
+    await expect(
+      page.getByText("Requirement register", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Evidence workbench", exact: true }),
+    ).toHaveAttribute("aria-current", "page");
+    await page
+      .getByRole("button", { name: "Inspect requirement source" })
+      .click();
+    await expect(
+      page.getByRole("dialog", { name: "Source document" }),
+    ).toBeVisible();
+    await expect(page.locator("mark")).toContainText("Canada");
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Inspect requirement source" }),
+    ).toBeFocused();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `${screenshotRoot}/review-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("button", { name: "CHAOSLAB benchmarks", exact: true })
+      .click();
+    await expect(
+      page.getByRole("heading", { name: "Factual support evaluation" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "CHAOSLAB benchmarks", exact: true }),
+    ).toHaveAttribute("aria-current", "page");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    expect(errors).toEqual([]);
+    await page.screenshot({
+      path: `${screenshotRoot}/benchmarks-${width}.png`,
+      fullPage: true,
+    });
+  });
+}

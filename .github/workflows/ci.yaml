@@ -60,6 +60,12 @@ jobs:
       - run: python scripts/wait_ready.py
       - run: pnpm test
         working-directory: apps/web
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: interface-screenshots
+          path: var/ui-review/screenshots
+          retention-days: 7
       - run: pnpm exec prettier --check ../../scripts/browser_login_https.mjs
         working-directory: apps/web
       - run: PYTHONPATH=src python scripts/verify_browser_login_https.py

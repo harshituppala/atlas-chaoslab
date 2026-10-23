@@ -45,31 +45,23 @@ function Replay() {
       <main id="content">
         <section className="intro">
           <div>
-            <p className="eyebrow">PROCUREMENT INTELLIGENCE, WITH RECEIPTS</p>
-            <h1>
-              Every claim needs
-              <br />
-              <em>a source.</em>
-            </h1>
+            <p className="eyebrow">RECORDED REVIEW</p>
+            <h1>Recorded requirement reviews</h1>
             <p className="lede">
-              Inspect a requirements register, follow its citations, and see
-              where the system falls short. Evidence is a starting point for
-              human judgment.
+              Compare each requirement with the capability record. Open a
+              citation to read the original text, including the gaps and
+              contradictions in this fictional case.
             </p>
           </div>
           <aside className="scope">
-            <span className="eyebrow">WHAT YOU'RE EXPLORING</span>
-            <h2>
-              A saved analysis.
-              <br />
-              An inspectable decision trail.
-            </h2>
+            <span className="eyebrow">ABOUT THIS RECORD</span>
+            <h2>Fictional documents, saved results.</h2>
             <p>
               This viewer replays synthetic results. It does not run a model,
               accept uploads, or approve requirements.
             </p>
             <p className="scope-foot">
-              ATLAS produces evidence · CHAOSLAB challenges it
+              Source excerpts and evaluation results are recorded separately.
             </p>
           </aside>
         </section>

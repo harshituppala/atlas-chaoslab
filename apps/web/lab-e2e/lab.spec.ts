@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+const screenshotRoot = "../../var/ui-review/screenshots";
 
 test("real analysis, exact sources, review conflicts across tabs, reload and logout", async ({
   page,
@@ -74,7 +75,7 @@ test("real analysis, exact sources, review conflicts across tabs, reload and log
   );
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
-    path: "../../reports/synthetic-workbench.png",
+    path: `${screenshotRoot}/synthetic-workbench.png`,
     fullPage: true,
   });
   expect(
@@ -162,7 +163,7 @@ test("mobile conflict review and a controlled capacity message recover without a
     ),
   ).toBe(true);
   await page.screenshot({
-    path: "../../reports/synthetic-workbench-mobile.png",
+    path: `${screenshotRoot}/synthetic-workbench-mobile.png`,
     fullPage: true,
   });
   await page.getByRole("button", { name: "End session" }).click();

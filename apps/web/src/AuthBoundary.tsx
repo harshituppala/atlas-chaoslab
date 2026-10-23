@@ -151,7 +151,7 @@ export function AuthBoundary({
   if (mode === "browser-session" && active && session)
     return children({ csrf: session.csrf_token, invalidate, logout });
   return (
-    <main className="content">
+    <main className="content auth-screen">
       <section className="connect" aria-label="Workspace sign-in">
         <div>
           <h1>ATLAS</h1>

@@ -1,0 +1,78 @@
+{
+  "recorded_at": "2026-10-23T06:35:05.320491+00:00",
+  "scope": "Local Chromium UI checks against an isolated SQLite review service, static viewer and synthetic lab. No live model or hosted-deployment measurement.",
+  "browser_suites": {
+    "workbench": {
+      "passed": 12,
+      "failed": 0,
+      "report_sha256": "b782c119317eeb33b7e965b38e2e8753d77c62e256c4ab89139154e8529fd833"
+    },
+    "presentation": {
+      "passed": 2,
+      "failed": 0,
+      "report_sha256": "bdc66c92870697fef51722438a17b11b46b0ba23357a72ec38c13a71c53551ba"
+    },
+    "replay": {
+      "passed": 3,
+      "failed": 0,
+      "report_sha256": "863f3888635fb03f78b6bd17443c03ed5db8435945ae10ed46f06278acc87388"
+    },
+    "lab": {
+      "passed": 3,
+      "failed": 0,
+      "report_sha256": "6cb6b204e78fccf2307bb1016ed9f34d1720cc6bc079cacf93ca14355db26e70"
+    }
+  },
+  "browser_cases_passed": 20,
+  "viewports": {
+    "connected_review_and_benchmarks": [
+      390,
+      900
+    ],
+    "disconnected_workbench": [
+      390,
+      1440
+    ],
+    "public_lab": [
+      390,
+      1440
+    ]
+  },
+  "observed_checks": [
+    "No horizontal page overflow at the connected review/benchmark phone and tablet widths",
+    "Source dialog opens, highlights the expected source text, closes on Escape and returns keyboard focus",
+    "Navigation exposes the selected page with aria-current",
+    "Review submission, stale-state behavior, upload mappings, viewer role and unknown metrics retain their existing checks",
+    "Static viewer and lab retain their source, filtering, session and review checks"
+  ],
+  "native_suite": {
+    "passed": 833,
+    "skipped_optional_database": 18
+  },
+  "files_sha256": {
+    "apps/web/src/style.css": "8610a9f9f5c92872231ea5f7dad949a90fc0d34e5c8a41740d9361a61b8df4dd",
+    "apps/web/src/main.tsx": "1fae9d3ab04b068171778e407c83e48fb3f12eeee7ee9e3d179b27e0d0479951",
+    "apps/web/src/AuthBoundary.tsx": "2567606514f3aa877a017c45971a0b94f966710e27c3b628a89052eb36246cb2",
+    "apps/web/src/lab.css": "d5722fd909d543b47394b6cd68141f124dc4fead1f9abaff4e3d6faf504c6f51",
+    "apps/web/src/replay.css": "a4d95b1a42a77a5b4e5f427f0e40206a6b88cfb5c57dfd4d3105947ea2697b54",
+    "apps/web/src/replay.tsx": "f5838a520b7009c4842afdd36855a75817cce277a154dcb1c1ade238b13011ea",
+    "apps/web/e2e/workbench.spec.ts": "005112aacd8993b3bd0e39088e266be5038d26cce86827b515cbe4c37a2243f1",
+    "apps/web/presentation-e2e/presentation.spec.ts": "23ac08c1068bf4f9c56a4ed076f04dfcb00ae849e9c858095ebed1827aeff67a",
+    "apps/web/replay-e2e/replay.spec.ts": "3758e1dbdace13ed842cae9f62252e3de8837a1a4e72a6e7b9e613a7c490f427",
+    "apps/web/lab-e2e/lab.spec.ts": "3280d03545ce6b332126ecafb208a680f72e0ff267ac8261947d05705c29c6f9"
+  },
+  "screenshots_sha256": {
+    "reports/interface-review-desktop.png": "6ac22eb6931b67bb9031e25580d42e93108b4c3d1690fa290a2a1a46430b9b5e",
+    "reports/interface-review-mobile.png": "297fa5c305d0b9947037154cac2a4ac9480634221105bc3a75c1c59c30b2ea07",
+    "reports/interface-evaluation.png": "79c459fbddb8f38d65d6a5cb834f9419e642a5bc8e234a427f23d641b08552d5",
+    "reports/interface-public-lab.png": "003b6738e5fc9176b1824b7403090313583fc2cb3135ed875c56c22326b680de"
+  },
+  "existing_owner_edits_preserved": true,
+  "provider_inference_calls": 0,
+  "limits": "These are functional and layout checks on synthetic fixtures, not usability research, a complete accessibility audit, model-quality evaluation or real Cognito revalidation. Private QA artifacts stay under var/. The first resumed workbench check found its old preview server unavailable; its log was retained, the server restarted and only that suite rerun successfully. The public deployment has not been refreshed by this report.",
+  "joined_https_login": {
+    "passed_groups": 12,
+    "provider": "synthetic loopback fixture",
+    "report_sha256": "e37478aa31933fda809af920eb52c71dcf5f6007a019b8b8bffe03d6c1044ded"
+  }
+}

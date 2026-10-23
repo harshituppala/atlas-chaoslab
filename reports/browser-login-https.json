@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-22T17:55:22.861409+00:00",
+  "recorded_at": "2026-10-23T06:34:36.133232+00:00",
   "scope": "Chromium through a loopback-only CONNECT proxy to a real TLS server, ATLAS UI/API and a synthetic passwordless provider with real S256, token exchange, JWKS and RSA signature verification. Not AWS/Cognito or a real user login.",
   "browser": "141.0.7390.37",
   "checks": {
@@ -56,8 +56,9 @@
     "src/atlas/migrations.py": "11141a4b3d5758fcd22f702ae70c1c045190b510e0c04ba8ba685b49b6d39593",
     "src/atlas/models/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/atlas/models/__main__.py": "80b534dfbcbd74116d6096a1514cccd53b82d814dbcc45fffb60e309369bb5ee",
-    "src/atlas/models/bedrock.py": "d13a1a8ef787bf910354d3d96547b8373ef5d4e0a684caca069e107af7fe5f60",
+    "src/atlas/models/bedrock.py": "4dfb8a59ceb8bc50164d837e355097633aeb951afd952e64c81f95b0066f9110",
     "src/atlas/models/benchmark.py": "611d267b8f299d287a474eab255e9d4188c49f870dac72988cb2722b819bbb5f",
+    "src/atlas/models/contract_checkpoint.py": "adc6af12d3edfc556144e08cfd5f1492c6cbea8f89fe6051cd9929d2b03e7d9f",
     "src/atlas/models/contract_evaluation.py": "9ab6e3d7ae70730a2bd2197d53eaac2b9c4416830edc3e915d88b7442b01653c",
     "src/atlas/models/contracts.py": "01d2cbb75618fed0f645757ad8bc2f922826f5fb2ea1ff4e86de4e1f10faaa51",
     "src/atlas/models/intelligence.py": "8219af474b9c7b9eecd080409948657d0c7e217dd208e9f42c55ac09b8db935b",
@@ -86,20 +87,20 @@
     "scripts/browser_login_https.mjs": "c7ca1efcf92af72625a2037f882fcfddc74a661f63fc071f1289106e97d1562c",
     "scripts/verify_browser_login_https.py": "d56af330873b27759683defed3c82fc135888d3dc232bc892e852c5a53fc98c7",
     "apps/web/src/AdversarialPanel.tsx": "a446f637dae6364eb9de9f125db4b231d425a150c7a62538a96164d117d235ce",
-    "apps/web/src/AuthBoundary.tsx": "159677803946e422ee67143e135aa2f85bb84ba40b81f1a2a2b66bb7d9106a5f",
+    "apps/web/src/AuthBoundary.tsx": "2567606514f3aa877a017c45971a0b94f966710e27c3b628a89052eb36246cb2",
     "apps/web/src/Dialog.tsx": "e3bc3463b46673c1ee53a65bc0ad73989815209cce7f7b1f6d6af2b92e8da1eb",
     "apps/web/src/LiveReasoningPanel.tsx": "139e8eb1e100950d610e903842bd400ac3b3a5bfe60ea6cbe7606971410ac29c",
     "apps/web/src/ReasoningPanel.tsx": "76d5296f4759842fe73ffb65de5992e769b2c87a28178c26a60137a6d47fe781",
     "apps/web/src/RetrievalPanel.tsx": "eb775dc5bb37290617fadfca71c8026bf4a853887db3defaffbc1668c6ee4006",
     "apps/web/src/ScenarioPanel.tsx": "bd989f36d9b57c733709d5c2ddfae1d405bbd82f132b4fe92c93d2c228ada4ee",
     "apps/web/src/lab.tsx": "3578c18205659f57b599e31c55c686184a670f72f773b402a82095d875f0ca61",
-    "apps/web/src/main.tsx": "5ca334ba0262be38617c00b1c96915ddda5f2786786616dc74a5fe2d95377fab",
-    "apps/web/src/replay.tsx": "0944d0554c38f77cfbf28d78e6d1c5d565fb8663b2a176c1fbbfa6caa2efc34f"
+    "apps/web/src/main.tsx": "1fae9d3ab04b068171778e407c83e48fb3f12eeee7ee9e3d179b27e0d0479951",
+    "apps/web/src/replay.tsx": "f5838a520b7009c4842afdd36855a75817cce277a154dcb1c1ade238b13011ea"
   },
   "built_assets_sha256": {
-    "assets/index-Cp6Xsuvv.css": "7addf356f296b88a94da447dce3d3a8c627a612f7780ad1acee8eee323a73fb1",
-    "assets/index-Cpz_-Tlh.js": "351475e9008051d4249bc0c83ae46c2d8eb3b26fcf90e3dd4d539657eaf01894",
-    "index.html": "3323637e233230770920aa554b2e3ccaf89aa1e6d6fde4bc672b6da92afa74ea"
+    "assets/index-CHnrvE2t.css": "6c5975f5e9a9856cd84010513f91173a70213da7ed59f6e7580cd92eec27371c",
+    "assets/index-u-fuuYdG.js": "663413fe7464a7b4d741616ccb3c38aca497d5217c3a64353ad6e9a77ba9a8fa",
+    "index.html": "b510c05dc721491661b7992a76c5ab0eabf0fe290af6de7f5593fcc4b1dd74ab"
   },
   "browser_result_sha256": "9a1415ca60135a8a05ba5d0ae51e1b60fb1952b7919518aac5908f630d7a8107",
   "tls": {

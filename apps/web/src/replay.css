@@ -1,7 +1,7 @@
 :root {
   font-family: Arial, Helvetica, sans-serif;
   color: #153134;
-  background: #f4f5ef;
+  background: #f3f1eb;
   font-synthesis: none;
   line-height: 1.5;
 }
@@ -135,7 +135,7 @@ h3 {
 .scope {
   background: #e6ebdf;
   border: 1px solid #d6dfcf;
-  border-radius: 9px;
+  border-radius: 3px;
   padding: 30px;
 }
 .scope p {
@@ -279,7 +279,7 @@ h3 {
 }
 .requirement {
   border: 1px solid #d4ddd1;
-  border-radius: 8px;
+  border-radius: 3px;
   background: #fdfefb;
   padding: 23px;
 }
@@ -372,7 +372,7 @@ pre {
   border: 1px solid #d4ddd1;
   background: #fafbf7;
   padding: 25px;
-  border-radius: 8px;
+  border-radius: 3px;
 }
 .benchmark-grid article p {
   font-size: 13px;
@@ -450,7 +450,7 @@ footer span {
   width: min(800px, 90vw);
   max-height: 85vh;
   border: 1px solid #b8c9b5;
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 30px;
   background: #fafbf5;
   color: #183a32;
@@ -570,5 +570,32 @@ footer span {
   }
   .brand small {
     font-size: 9px;
+  }
+}
+
+/* Keep the public sample close to the document workbench. */
+h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 400;
+  letter-spacing: -0.8px;
+}
+h1 em {
+  font-style: normal;
+  color: inherit;
+}
+.scope {
+  background: #eeeee4;
+  border-color: #d8dacd;
+}
+.profile {
+  border-radius: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }

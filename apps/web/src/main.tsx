@@ -500,7 +500,7 @@ function App({ access }: { access: BrowserAccess | null }) {
     items.filter((a) => a.status === status).length;
   const sourceDoc = run?.documents.find((d) => d.id === citation?.document_id);
   return (
-    <div className="shell">
+    <div className={"shell page-" + page}>
       <aside className="sidebar">
         <a
           className="brand"
@@ -531,16 +531,16 @@ function App({ access }: { access: BrowserAccess | null }) {
         <p className="nav-label">WORKSPACE</p>
         <nav>
           {[
-            ["workbench", "◈", "Evidence workbench"],
-            ["benchmarks", "⌁", "CHAOSLAB benchmarks"],
-            ["audit", "≡", "Audit trail"],
-          ].map(([id, icon, label]) => (
+            ["workbench", "Evidence workbench"],
+            ["benchmarks", "CHAOSLAB benchmarks"],
+            ["audit", "Audit trail"],
+          ].map(([id, label]) => (
             <button
               key={id}
               className={page === id ? "active" : ""}
+              aria-current={page === id ? "page" : undefined}
               onClick={() => switchPage(id)}
             >
-              <span>{icon}</span>
               {label}
             </button>
           ))}
@@ -586,7 +586,7 @@ function App({ access }: { access: BrowserAccess | null }) {
                 : "Audit trail"}
           </span>
           <div className="session-controls">
-            <span className="badge neutral">LOCAL ENGINEERING</span>
+            <span className="badge neutral">Private workspace</span>
             {identity && (
               <span className="badge neutral">
                 {identity.tenant} · {identity.role}
@@ -778,7 +778,6 @@ function App({ access }: { access: BrowserAccess | null }) {
               </div>
               {!run ? (
                 <section className="empty">
-                  <span className="empty-icon">◈</span>
                   <h2>Sample municipal RFP</h2>
                   <p>
                     Eight mandatory requirements. A capability register with
@@ -924,15 +923,6 @@ function App({ access }: { access: BrowserAccess | null }) {
                             >
                               ↗ Inspect requirement source
                             </button>
-                            <div className="flow">
-                              <span>Source</span>
-                              <i>→</i>
-                              <span>Retrieve</span>
-                              <i>→</i>
-                              <span>Validate</span>
-                              <i>→</i>
-                              <span className="human">Human review</span>
-                            </div>
                             <p className="eyebrow">
                               SUPPORTING EXCERPTS · {item.evidence.length}
                             </p>
@@ -1343,11 +1333,8 @@ function App({ access }: { access: BrowserAccess | null }) {
             </section>
           )}
           <footer>
-            ATLAS × CHAOSLAB{" "}
-            <span>
-              Local workbench · Live diagnostics recorded · Cloud deployment
-              pending
-            </span>
+            <span>ATLAS · Requirements review</span>
+            <span>CHAOSLAB · Evaluation</span>
           </footer>
         </div>
       </main>

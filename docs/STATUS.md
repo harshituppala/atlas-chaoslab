@@ -81,6 +81,8 @@ Real Cognito sign-in is now verified locally through the reviewer workflow. Thir
 
 The real-login acceptance documentation passed all three [GitHub CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39830853296). A read-only checkpoint audit now reconciles both stopped model prefixes against their inputs, current prompt/schema fingerprints, usage arithmetic and retained campaign reservations. Eighteen and twenty-three records passed admission; they overlap and produce no accuracy score. Thirty-one new controls passed; the native suite reached 833 passing tests with eighteen optional database groups skipped. The audit sends no provider request, preserves the original files and keeps automatic resume disabled. See [ADR 054](adr/054-stopped-contract-checkpoints.md) and [the aggregate record](../reports/contract-checkpoints.json).
 
+The workbench interface now uses a document-focused layout with readable source text, a single count strip, simpler navigation and quieter status treatment. CHAOSLAB retains its detailed failure tables with aligned numeric summaries. Twenty local Chromium cases passed across the connected workbench, disconnected presentation, recorded viewer and fictional lab; phone/tablet overflow and source-dialog focus checks passed. The native suite remains 833 passing with eighteen optional database groups skipped. The [interface record](../reports/interface-review.json) and [visual notes](interface-review.md) keep these local checks separate from hosted acceptance. Test images now stay private until selected for publication; prior owner-edited reports and documents were preserved.
+
 ## Remaining work
 
 - Observe free-host cold starts and usage limits; keep the temporary lab separate from a durable service.
