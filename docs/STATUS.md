@@ -83,6 +83,8 @@ The real-login acceptance documentation passed all three [GitHub CI jobs](https:
 
 The workbench interface now uses a document-focused layout with readable source text, a single count strip, simpler navigation and quieter status treatment. CHAOSLAB retains its detailed failure tables with aligned numeric summaries. Twenty local Chromium cases passed across the connected workbench, disconnected presentation, recorded viewer and fictional lab; phone/tablet overflow and source-dialog focus checks passed. The native suite remains 833 passing with eighteen optional database groups skipped. The [interface record](../reports/interface-review.json) and [visual notes](interface-review.md) keep these local checks separate from hosted acceptance. Test images now stay private until selected for publication; prior owner-edited reports and documents were preserved.
 
+The interface release passed all three [GitHub CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39912647042). After the owner approved the hosted update, the existing free fictional lab was refreshed to revision `4205a5c`. [HTTPS acceptance](../reports/hosted-lab.json) and [desktop/phone browser checks](../reports/interface-hosted-browser.json) passed against that deployment. Served assets matched the local build; sources, review, reload, logout and temporary session boundaries were checked. No model calls, new services or managed-workbench exposure were introduced.
+
 ## Remaining work
 
 - Observe free-host cold starts and usage limits; keep the temporary lab separate from a durable service.

@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "executed_at": "2026-10-20T16:54:58.711936+00:00",
+  "executed_at": "2026-10-23T06:44:11.045923+00:00",
   "url": "https://atlas-review-lab.onrender.com",
   "profile": "temporary-synthetic-lab",
-  "deployment_source": "70ea7afe09b893109f8f4f2ceab9a301017085e1",
+  "deployment_source": "4205a5cbb5a1613b95ca2f6c552e5519ab39f9a7",
   "deployment_identity_scope": "Operator-supplied provider deployment record; not a runtime attestation.",
   "verification_source_sha256": "c17cdbf353269865a615e71b7ec1f7eb3244e828cfd2222742c3752da0edac1f",
   "status": "passed",
-  "elapsed_seconds": 14.350374957997701,
+  "elapsed_seconds": 14.825027541999589,
   "observations": {
     "https_workflow": true,
     "requirements": 8,
@@ -21,8 +21,8 @@
     "private_upload_api_absent": true,
     "cached_analysis_reused": true,
     "served_assets_sha256": {
-      "/assets/index-C6DbezVL.js": "144ff8211f706d9bbfa3db086b8545dbfa0387cc6114937beb3b426f5950ae9d",
-      "/assets/index-97GApLnn.css": "a2711edd993f817f9fcb7ac94cfb7abb98c3e0feb3411204b571b65e8d2c8211"
+      "/assets/index-J04U9Lvr.js": "144ff8211f706d9bbfa3db086b8545dbfa0387cc6114937beb3b426f5950ae9d",
+      "/assets/index-DKJUFh-S.css": "dfcfe2da90ebbdb76516ad61f27240429788481ffb77ef0fb23db36d52cea5cd"
     }
   },
   "limits": [
