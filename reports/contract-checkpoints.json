@@ -1,0 +1,84 @@
+{
+  "recorded_at": "2026-10-23T01:22:15.643430+00:00",
+  "scope": "Read-only checkpoint admission of the two previously stopped real development runs. No inference, accuracy scoring or automatic resume.",
+  "controls_passed": 31,
+  "native_suite": {
+    "passed": 833,
+    "skipped_optional_postgresql": 18
+  },
+  "junit_sha256": "016acf4296955aa013de6203e38f329fd1ba386c7b565d8aae2192a3bd6c5445",
+  "files_sha256": {
+    "src/atlas/models/contract_checkpoint.py": "adc6af12d3edfc556144e08cfd5f1492c6cbea8f89fe6051cd9929d2b03e7d9f",
+    "tests/test_contract_checkpoint.py": "d8fd7a14988c70b1c4d1cfe3f301f70c4f50d2e9325f9cac8f2daf5a33da36a3"
+  },
+  "attempts": [
+    {
+      "attempt": "development-v1",
+      "audit": {
+        "schema_version": 1,
+        "task": "contractnli-checkpoint-audit-v1",
+        "dataset": {
+          "archive_sha256": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b",
+          "member": "contract-nli/dev.json",
+          "member_sha256": "310af7d661d2ab50ee3700169cef524c75f39fb296bbf5a515c229eb0f42e68e"
+        },
+        "records_admitted": 18,
+        "remaining_documents": 43,
+        "recorded_known_inference_estimate_usd": "0.1964666",
+        "original_run_reservation_retained_usd": "2.984608",
+        "remaining_call_caps_estimate_usd": "2.103904",
+        "campaign_reserved_usd": "8.9347422",
+        "campaign_authorized_usd": "10",
+        "evidence_sha256": {
+          "run": "58a3c9c85d98fe92a86880bfec80b295ebb4ff1d8b791b6dc61ab76a64e039fb",
+          "usage": "4797fb45a2bc8d7c4704f0634d7144b1889863fdaaef94a7ed777df4336c8c4c",
+          "observations": "8b9b66c0366239efb39e8dcbff8a7c5eee1546d7fe4f9d6393d11c9b4e25cbd5",
+          "campaign": "1f9485fdd3703f13dca4ba2d47647440734447e9b1440f55aee06e086f0e5d68"
+        },
+        "automatic_resume_allowed": false,
+        "provider_calls": 0,
+        "accuracy_scores": null,
+        "response_authenticity_verified": false,
+        "auditor_sha256": "adc6af12d3edfc556144e08cfd5f1492c6cbea8f89fe6051cd9929d2b03e7d9f",
+        "origin_scorer_sha256": "f0a187589305f8cb7ed9c8ba4a93e13737f9b2b6f194292a132b5dcd6ed221c5",
+        "limits": "Read-only prefix/receipt reconciliation, not authenticity or answer correctness. No refund, new authorization, credential lookup, provider request, rewritten journal or completed result. Partial journals have no completion footer or independently authenticated response digest; admission does not prove the original response bytes. Fingerprints bind the evidence read now for later review. Historical failure cause remains unknown. A future resume implementation and spending review are still required; historical price estimates are neither fresh live-price approval nor invoices."
+      },
+      "private_audit_sha256": "a38e8216d37122e62f75c5628e7422f07546ebc0c01e990ceaa23f841e1ceb50"
+    },
+    {
+      "attempt": "development-paced-v2",
+      "audit": {
+        "schema_version": 1,
+        "task": "contractnli-checkpoint-audit-v1",
+        "dataset": {
+          "archive_sha256": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b",
+          "member": "contract-nli/dev.json",
+          "member_sha256": "310af7d661d2ab50ee3700169cef524c75f39fb296bbf5a515c229eb0f42e68e"
+        },
+        "records_admitted": 23,
+        "remaining_documents": 38,
+        "recorded_known_inference_estimate_usd": "0.2406261",
+        "original_run_reservation_retained_usd": "2.984608",
+        "remaining_call_caps_estimate_usd": "1.859264",
+        "campaign_reserved_usd": "8.9347422",
+        "campaign_authorized_usd": "10",
+        "evidence_sha256": {
+          "run": "ae2a259ea6f1b83e8425b3556dcbac111f62c546f12abb4752fa10abfdd9b174",
+          "usage": "7e588236d3ae06c729cd8b8fcef8d58a5a676680bb98a609cd0ee38102848fbb",
+          "observations": "83256252fd6146ae2a78dcaaecf40b202d724422ddb882ecdf885a391c4486bb",
+          "campaign": "1f9485fdd3703f13dca4ba2d47647440734447e9b1440f55aee06e086f0e5d68"
+        },
+        "automatic_resume_allowed": false,
+        "provider_calls": 0,
+        "accuracy_scores": null,
+        "response_authenticity_verified": false,
+        "auditor_sha256": "adc6af12d3edfc556144e08cfd5f1492c6cbea8f89fe6051cd9929d2b03e7d9f",
+        "origin_scorer_sha256": "8ed0c278e04a76cc3464570f9cfd459d4f8fff28cedb81d2234e516384add1fb",
+        "limits": "Read-only prefix/receipt reconciliation, not authenticity or answer correctness. No refund, new authorization, credential lookup, provider request, rewritten journal or completed result. Partial journals have no completion footer or independently authenticated response digest; admission does not prove the original response bytes. Fingerprints bind the evidence read now for later review. Historical failure cause remains unknown. A future resume implementation and spending review are still required; historical price estimates are neither fresh live-price approval nor invoices."
+      },
+      "private_audit_sha256": "a0dd2fb2629c296f6bb365c0f04ab661dd3d9090c6638482cd87ab0a915bcf1e"
+    }
+  ],
+  "provider_calls": 0,
+  "limits": "The prefixes overlap. They cannot be added as distinct documents or reported as model accuracy. Current fingerprints bind admitted evidence, not original provider authenticity. Automatic resume remains disabled; original reservations and stopped journals are unchanged. No training/test split was loaded."
+}

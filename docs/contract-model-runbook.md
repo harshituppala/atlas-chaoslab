@@ -50,3 +50,19 @@ A provider failure, unknown usage, exhausted resource budget, failed recording o
 For a complete run, use the independent `chaoslab-contractnli --replay` command in the [task guide](contractnli-evaluation.md#save-a-run-and-rescore-it). Check equality of the result objects and the observation digest/count. Replay makes no provider request. Keep raw responses private: they can quote licensed contract text. Review any aggregate report before publishing it, and retain the development-only and possible pretraining-exposure qualifications.
 
 Token-count failures now persist a bounded `preflight_failure` diagnostic in `usage.json`: a transport category, an allowlisted service code and `inference_sent: false` for that attempt. Unknown codes and messages are discarded. This is the last failed preflight, not a complete event history; a later success does not erase it. It creates no inference receipt, refund or retry. Earlier stopped runs predate this diagnostic and cannot be retrospectively classified. See [the decision](adr/052-token-preflight-diagnostics.md).
+
+## Audit a stopped checkpoint
+
+Before planning another paid run, inspect the preserved prefix without opening AWS credentials:
+
+```sh
+PYTHONPATH=src python -m atlas.models.contract_checkpoint \
+  --archive var/external-data/contractnli/contract-nli.zip \
+  --run-dir var/contract-model-runs/development-paced-v2 \
+  --session-budget var/bedrock/campaign-budget.json \
+  --output var/contract-model-runs/checkpoint-review.json
+```
+
+Choose a new report path outside the original run directory. Existing output is refused. Inputs must remain private under `var/`; the official archive is verified and only development JSON is read. The audit matches the ordered prefix to its input digests, prompt/schema fingerprints, validated receipts and retained full-cohort reservation. It publishes no document predictions or accuracy.
+
+A successful audit is not a resume command. `automatic_resume_allowed` remains false. No ledger or journal changes, refunds, new reservations or provider requests follow from it. Preserve the audit fingerprint for a later continuation review. The original failure cause remains unknown, and old partial response bytes are not provider-authenticated. See [ADR 054](adr/054-stopped-contract-checkpoints.md) and the [recorded audits](../reports/contract-checkpoints.json).

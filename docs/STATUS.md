@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 802 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 833 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -78,6 +78,8 @@ The owner created the real Cognito application identity and approved reviewer me
 The resource-scope and contract-adapter release passed all three [GitHub CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39827227449). A subsequent local diagnostic correction now preserves bounded token-count failure categories without upstream messages or contract text. Ten new controls passed; the full native suite reached 802 passing tests with eighteen optional PostgreSQL groups skipped. No additional provider calls were made, and the earlier live failures remain unclassified. See [ADR 052](adr/052-token-preflight-diagnostics.md).
 
 Real Cognito sign-in is now verified locally through the reviewer workflow. Thirteen manual Safari observations cover the authenticated callback, approved reviewer role, one queued baseline analysis, source inspection, a version-two review that survives reload/reconnection, denial of an unassigned workspace, sign-out and repeat sign-in. A read-only database check matched the job/review actor to the approved subject. No model requests were made. The [record](../reports/cognito-local-acceptance.json) preserves the scope: one user, private loopback TLS and SQLite, with no new hosted-service or provider-outage claim. See [ADR 053](adr/053-real-cognito-local-acceptance.md).
+
+The real-login acceptance documentation passed all three [GitHub CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39830853296). A read-only checkpoint audit now reconciles both stopped model prefixes against their inputs, current prompt/schema fingerprints, usage arithmetic and retained campaign reservations. Eighteen and twenty-three records passed admission; they overlap and produce no accuracy score. Thirty-one new controls passed; the native suite reached 833 passing tests with eighteen optional database groups skipped. The audit sends no provider request, preserves the original files and keeps automatic resume disabled. See [ADR 054](adr/054-stopped-contract-checkpoints.md) and [the aggregate record](../reports/contract-checkpoints.json).
 
 ## Remaining work
 
