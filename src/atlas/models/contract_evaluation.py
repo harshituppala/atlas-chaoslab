@@ -155,6 +155,20 @@ def run_development(data, provenance, gateway, directory, *, min_interval_second
     """One gateway/ledger for the whole split; partial runs produce no scores."""
     complete_plan(gateway.config, len(data["documents"]))
     adapter = ContractModelAdapter(gateway, min_interval_seconds=min_interval_seconds)
+    return execute_development(
+        data,
+        provenance,
+        gateway,
+        directory,
+        adapter,
+        min_interval_seconds=min_interval_seconds,
+    )
+
+
+def execute_development(
+    data, provenance, gateway, directory, adapter, *, min_interval_seconds=0, continuation=None
+):
+    """Record and score every input; admission and spending belong to the caller."""
     before, scorer = source_manifest(), source_digest()
     # Journal creation reserves a new run directory, including on a failed run.
     journal = ObservationJournal(
@@ -179,6 +193,13 @@ def run_development(data, provenance, gateway, directory, *, min_interval_second
         "min_interval_seconds": min_interval_seconds,
         "timing_scope": "Sequential token preflight, model response, configured pacing, private recording and scoring. Excludes archive loading and credential setup; not per-request latency.",
     }
+    if continuation is not None:
+        report["continuation"] = continuation
+        report["scope"] = (
+            "Complete development split assembled from an admitted saved prefix and new calls. "
+            "Not a single uninterrupted run, untouched-test result or RFP accuracy result."
+        )
+        report["timing_scope"] += " Saved-prefix generation time is excluded."
     try:
         write_private_json(ledger_path, gateway.ledger.report())
         write_private_json(report_path, report)

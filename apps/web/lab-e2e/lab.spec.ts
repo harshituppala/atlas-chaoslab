@@ -21,8 +21,54 @@ test("real analysis, exact sources, review conflicts across tabs, reload and log
   expect(response?.headers()["content-security-policy"]).toContain(
     "connect-src 'self'",
   );
+  await expect(
+    page.getByRole("heading", {
+      name: "Can this supplier meet the buyer’s requirements?",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "How to use this demo" }),
+  ).toContainText("4 hours");
+  await expect(
+    page.getByText("This demo searches the supplied text using rules", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: `${screenshotRoot}/lab-start-desktop.png`,
+    fullPage: true,
+  });
   await page.getByRole("button", { name: "Run sample analysis" }).click();
   await expect(page.locator("article.requirement")).toHaveCount(8);
+  await page
+    .getByRole("button", {
+      name: "Open the recovery-time example",
+      exact: true,
+    })
+    .click();
+  const examplePanel = page.getByRole("complementary", {
+    name: "Human review",
+  });
+  await expect(
+    examplePanel.getByRole("heading", {
+      name: "5.2 Recovery time must be at most 4 hours.",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(examplePanel).toContainText(
+    "Recovery time is only guaranteed within 8 hours.",
+  );
+  await expect(examplePanel).toContainText(
+    "The supplied documents appear to disagree",
+  );
+  await page
+    .getByText("What do the three findings mean?", { exact: true })
+    .click();
+  await expect(
+    page.getByText("This is a gap in the supplied evidence, not proof", {
+      exact: false,
+    }),
+  ).toBeVisible();
   const source = page
     .getByRole("button", { name: "Inspect obligation source", exact: true })
     .first();
@@ -54,6 +100,9 @@ test("real analysis, exact sources, review conflicts across tabs, reload and log
   const second = await context.newPage();
   await second.goto("/");
   await expect(second.locator("article.requirement")).toHaveCount(8);
+  await expect(
+    second.getByRole("region", { name: "How to use this demo" }),
+  ).toBeVisible();
   await second
     .locator('article[data-status="evidence_found"]')
     .first()
@@ -127,6 +176,15 @@ test("mobile conflict review and a controlled capacity message recover without a
     } else await route.continue();
   });
   await page.goto("/");
+  await expect(
+    page.getByRole("heading", {
+      name: "Can this supplier meet the buyer’s requirements?",
+    }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: `${screenshotRoot}/lab-start-mobile.png`,
+    fullPage: true,
+  });
   await page.getByRole("button", { name: "Run sample analysis" }).click();
   await expect(page.getByRole("status")).toContainText(
     "temporary capacity or activity limit",

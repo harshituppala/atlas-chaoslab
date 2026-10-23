@@ -1279,3 +1279,53 @@ section[aria-label="Analysis execution"] {
 section[aria-label="Analysis execution"] p {
   margin: 0;
 }
+
+.evaluation-guide {
+  border-left: 3px solid #637b88;
+}
+.evaluation-guide p {
+  max-width: 820px;
+  line-height: 1.65;
+}
+.evaluation-guide nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: 18px 0;
+}
+.evaluation-guide nav a {
+  color: #365565;
+  text-underline-offset: 4px;
+}
+.evaluation-guide details {
+  margin-top: 16px;
+}
+.evaluation-guide summary {
+  cursor: pointer;
+}
+.evaluation-guide dl {
+  max-width: 820px;
+}
+.evaluation-guide dt {
+  font-weight: 600;
+  margin-top: 12px;
+}
+.evaluation-guide dd {
+  margin: 4px 0 0;
+  line-height: 1.6;
+}
+#scenario-comparison,
+#hostile-evidence,
+#workflow-recovery {
+  scroll-margin-top: 24px;
+}
+
+.evaluation-details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 18px 0;
+  border-top: 1px solid #cbd1ce;
+}
+.evaluation-details > section {
+  margin-top: 18px;
+}

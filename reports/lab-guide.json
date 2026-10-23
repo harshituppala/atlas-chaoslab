@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-23T06:54:23.767879+00:00",
+  "scope": "Local fictional lab; plain-language introduction and recovery-example shortcut. Not a usability study or hosted result.",
+  "browser_workflows_passed": 3,
+  "native_tests_passed": 833,
+  "optional_database_groups_skipped": 18,
+  "browser_evidence_sha256": "2f89afb9e60b743d3bea5c4b19d8e55628eefd02f064c51786d56f9eb4101719",
+  "source_sha256": {
+    "apps/web/src/lab.tsx": "2666f3a4bee5a395077df72233268e9b66ecf3a511226adc8a0bd06910e41cc1",
+    "apps/web/src/lab.css": "315f70feb692e66f883fc9d65a243f3883a090db2be8d044c9b093e9fc52c592",
+    "apps/web/lab-e2e/lab.spec.ts": "e033a8eeaa33232889b09c97821be60e6dd197f6f084b90766414740ae56a683"
+  },
+  "screenshots_sha256": {
+    "reports/lab-guide-desktop.png": "c8c1f30b55df5eee764f28dcd5b1f310899df5d5bcd1e3683a12bf9ede8db4fb",
+    "reports/lab-guide-mobile.png": "50cf8d169efc5305062215cf78338e13b0421c65533e325705744987e6679e89"
+  },
+  "checks": [
+    "Buyer/supplier context and rules-only scope shown before starting",
+    "Recovery shortcut selects the real four-hour requirement and eight-hour excerpt",
+    "Finding explanations distinguish missing evidence from inability",
+    "Guidance remains available after restoring a session",
+    "Original source/review/conflict/expiry checks retained"
+  ],
+  "model_calls": 0,
+  "limits": "Functional Chromium checks, not evidence that a first-time visitor understands the product. Hosted deployment is not refreshed by this report."
+}

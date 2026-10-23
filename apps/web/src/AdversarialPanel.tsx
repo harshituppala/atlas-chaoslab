@@ -36,7 +36,11 @@ export function failureDescription(
 export function AdversarialPanel({ report }: { report: AdversarialReport }) {
   const passed = Math.round(report.case_pass_rate * report.unique_cases);
   return (
-    <section className="benchmark-panel recovery-panel">
+    <section
+      id="hostile-evidence"
+      tabIndex={-1}
+      className="benchmark-panel recovery-panel"
+    >
       <div className="panel-title">
         <h2>Adversarial evidence selection</h2>
         <span

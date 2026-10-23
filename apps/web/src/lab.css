@@ -570,3 +570,69 @@ h1 em {
     scroll-behavior: auto !important;
   }
 }
+
+.case-guide {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  border-top: 1px solid #cbd8c8;
+  padding: 24px 0;
+}
+.case-guide h2 {
+  font:
+    24px/1.3 Georgia,
+    serif;
+  margin: 0 0 12px;
+}
+.case-guide p,
+.case-guide li {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.case-guide p {
+  margin: 0 0 14px;
+}
+.case-guide ol {
+  margin: 0;
+  padding-left: 24px;
+}
+.case-guide li {
+  padding-left: 4px;
+  margin-bottom: 10px;
+}
+.sample-note {
+  max-width: 850px;
+  font-size: 14px;
+  margin: 10px 0 32px;
+}
+.finding-guide {
+  margin: 8px 0 24px;
+  font-size: 14px;
+}
+.finding-guide summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.finding-guide dl {
+  max-width: 850px;
+}
+.finding-guide dl > div {
+  margin: 16px 0;
+}
+.finding-guide dd {
+  margin: 6px 0 0;
+}
+.finding-explanation {
+  border-left: 2px solid #b7c8bf;
+  padding-left: 12px;
+}
+@media (max-width: 760px) {
+  .case-guide {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 22px 0 10px;
+  }
+  .case-guide h2 {
+    font-size: 22px;
+  }
+}

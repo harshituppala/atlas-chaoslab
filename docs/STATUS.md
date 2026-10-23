@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 833 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 852 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -84,6 +84,12 @@ The real-login acceptance documentation passed all three [GitHub CI jobs](https:
 The workbench interface now uses a document-focused layout with readable source text, a single count strip, simpler navigation and quieter status treatment. CHAOSLAB retains its detailed failure tables with aligned numeric summaries. Twenty local Chromium cases passed across the connected workbench, disconnected presentation, recorded viewer and fictional lab; phone/tablet overflow and source-dialog focus checks passed. The native suite remains 833 passing with eighteen optional database groups skipped. The [interface record](../reports/interface-review.json) and [visual notes](interface-review.md) keep these local checks separate from hosted acceptance. Test images now stay private until selected for publication; prior owner-edited reports and documents were preserved.
 
 The interface release passed all three [GitHub CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39912647042). After the owner approved the hosted update, the existing free fictional lab was refreshed to revision `4205a5c`. [HTTPS acceptance](../reports/hosted-lab.json) and [desktop/phone browser checks](../reports/interface-hosted-browser.json) passed against that deployment. Served assets matched the local build; sources, review, reload, logout and temporary session boundaries were checked. No model calls, new services or managed-workbench exposure were introduced.
+
+The lab now explains the buyer/supplier task, defines RFP in context and keeps a worked four-hour/eight-hour example available after analysis. A shortcut opens the actual finding; optional help explains the three statuses. Three expanded local Chromium workflows and the native suite passed. [Local guide checks](../reports/lab-guide.json) do not establish hosted acceptance or first-time-user comprehension.
+
+A separate, explicit continuation runner now preserves an admitted prefix and requests only missing documents. Its exporter binds the original answers and both campaign reservations before rescoring the complete set, with old/new usage kept separate. Nineteen new controls passed; the full native suite reached 852 passing tests with eighteen optional database groups skipped. A private dry plan admitted twenty-three saved responses and thirty-eight missing inputs. No new inference or accuracy score followed. See [ADR 055](adr/055-continued-contract-evaluation.md) and [the control record](../reports/contract-continuation-controls.json).
+
+CHAOSLAB now explains its evaluation task before the metrics, keeps the baseline/model comparison visible and groups longer technical tables behind a disclosure. Links reveal their destination; metric definitions distinguish source integrity from answer correctness. Nineteen local Chromium cases passed, including overview/expanded phone and tablet layouts. [Evaluation guide evidence](../reports/evaluation-guide.json) records local scope. No stored metrics, labels or model results changed.
 
 ## Remaining work
 

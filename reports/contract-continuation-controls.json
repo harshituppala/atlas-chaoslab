@@ -1,0 +1,33 @@
+{
+  "recorded_at": "2026-10-23T07:11:40.379516+00:00",
+  "scope": "Controlled SDK responses and real private checkpoint dry admission; no new provider inference or model accuracy.",
+  "new_controls_passed": 19,
+  "focused_controls_passed": 93,
+  "native_tests_passed": 852,
+  "optional_database_groups_skipped": 18,
+  "checkpoint_dry_plan": {
+    "saved_documents": 23,
+    "new_documents": 38,
+    "new_call_reservation_usd": "1.859264",
+    "old_reservations_retained": true
+  },
+  "checks": [
+    "Only missing input reaches the provider stub",
+    "Wrong saved answers are not corrected or retried",
+    "Complete independent replay matches saved aggregate results",
+    "Model identity and call caps cannot change",
+    "Missing capacity refuses a new reservation without resetting old records",
+    "Changed original evidence stops the cohort, not just one answer",
+    "Partial provider failure produces no complete-cohort score",
+    "Export binds both original and new reservations and copied observations"
+  ],
+  "source_sha256": {
+    "src/atlas/models/contract_continuation.py": "da65a70587ac747763e5b6ae7507c32cf610a0d2c20b415afb7b6046ccd7c8cb",
+    "src/atlas/models/contract_evaluation.py": "0aaeaf3cd15ca611ee209e0f0017d1186c13e6e3c3fcd881cf83ea34ba4eebec",
+    "scripts/record_contract_model.py": "4656ba0d4b126103d400e4955a56dbe75ec9a32036bb2fa64b7f4408bdacf532",
+    "tests/test_contract_continuation.py": "8cd2e398680b3378e05f1809053a6768dc2d0bd1806204877de48dd3d9419e8b"
+  },
+  "accuracy_scores": null,
+  "provider_inference_calls": 0,
+  "limits": "These are fictional controlled checks and a read-only plan on existing private evidence. The new complete live cohort is not yet executed. Saved historical responses remain unauthenticated; local checksums and token-cost estimates are not provider attestations or invoices."
+}

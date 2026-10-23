@@ -34,7 +34,12 @@ export function ScenarioPanel({
   const sameCases =
     !baseline || !live || baseline.dataset_sha256 === live.dataset_sha256;
   return (
-    <section className="benchmark-panel" aria-label="Complete review scenarios">
+    <section
+      id="scenario-comparison"
+      tabIndex={-1}
+      className="benchmark-panel"
+      aria-label="Complete review scenarios"
+    >
       <h2>Complete review scenarios</h2>
       <p>
         Multiple obligations and evidence records, including split support and

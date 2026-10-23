@@ -25,9 +25,9 @@ export function LiveReasoningPanel({
   if (!report) return null;
   const live = report.live_execution;
   return (
-    <section className="benchmark-panel" aria-label="Live model diagnostics">
+    <section className="benchmark-panel" aria-label="Recorded model runs">
       <div className="panel-title">
-        <h2>Live model diagnostics</h2>
+        <h2>Recorded model runs</h2>
         <span className="badge missing_evidence">
           Synthetic development evidence
         </span>

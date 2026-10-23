@@ -18,13 +18,13 @@ Required acceptance evidence:
 
 A generated infrastructure file alone is not deployment validation. Do not add résumé language claiming AWS operation until these checks are executed.
 
-### Managed access-token mode (implemented, not live-provider validated)
+### Private managed access-token mode
 
 `ATLAS_TOKEN_TRUST` is a JSON object with `issuer`, `audience` and `jwks_url`, all explicitly operator-selected. The default rfc9068 profile requires RS256 resource access tokens with at+jwt type, not ID tokens; see ADR 010. The explicit cognito-resource profile described below has separately tested purpose/client/resource/scope checks (ADR 025). `ATLAS_DEMO=1` cannot be combined with this mode in the local launcher. Development bearer tokens never authorize requests in managed mode.
 
 After an explicit migration, a trusted operator can apply a private JSON file using `PYTHONPATH=src .runtime/bin/python -m atlas.security.memberships var/membership-change.json`. The file must have mode 600, remain ignored, and contain `issuer`, `subject`, `tenant`, `role`, `active` and `expected_version`. Version 0 creates a membership; later changes require its current version. Membership writes and audit events are one transaction. This is OS/database-owner administration, not a validated production administrator login or fine-grained database role.
 
-An authenticated request can select `X-Workspace-ID`; selection grants nothing without active server-owned membership. With exactly one active membership it can be omitted. `/api/me` reports the resolved identity and mode. The default token profile enables no browser routes. A separate opt-in factory now supplies code/PKCE exchange, opaque sessions and a sign-in interface; refresh tokens are discarded and client secrets are unsupported. Real user sign-in must still be validated before exposing the full review service. See the [managed-login guide](managed-login-development.md). In-flight operations can complete after membership revocation; subsequent authorization checks observe revocation. Key revocation uses the bounded signing-key cache TTL, not immediate token introspection.
+An authenticated request can select `X-Workspace-ID`; selection grants nothing without active server-owned membership. With exactly one active membership it can be omitted. `/api/me` reports the resolved identity and mode. The default token profile enables no browser routes. A separate opt-in factory now supplies code/PKCE exchange, opaque sessions and a sign-in interface; refresh tokens are discarded and client secrets are unsupported. Real local Cognito reviewer sign-in is recorded in ADR 053. Deployed session/proxy handling and durable hosted storage still need acceptance before exposing the full review service. See the [managed-login guide](managed-login-development.md). In-flight operations can complete after membership revocation; subsequent authorization checks observe revocation. Key revocation uses the bounded signing-key cache TTL, not immediate token introspection.
 
 ### PostgreSQL runtime roles and row policies
 
@@ -35,7 +35,7 @@ The API refuses superusers, BYPASSRLS, table ownership, schema creation and elev
 Migration 0005 installs forced policies for tenant data and issuer/subject membership visibility. Runtime transactions use local identity settings that reset on commit/rollback. Startup detects policy drift. These policies protect against omitted filters and pooled-context leakage, not a compromised trusted service that can choose arbitrary SQL settings. See ADR 012 for executed evidence and remaining deployment limits.
 
 
-### Optional resource-bound Cognito profile (offline verified)
+### Optional resource-bound Cognito profile
 
 An operator can set ATLAS_TOKEN_TRUST to the following credential-free configuration shape, replacing every example with the actual approved provider/resource configuration:
 
@@ -52,4 +52,4 @@ An operator can set ATLAS_TOKEN_TRUST to the following credential-free configura
 
 This requires an access token whose signed token_use is access, client_id matches, aud is the exact resource, and scope contains each configured API scope. Resource binding is mandatory for this integration; an ordinary access token with no aud is rejected. An ID token's audience cannot substitute for resource access. Cognito typ may be absent or JWT; those headers remain rejected by the unchanged default profile. Provider keys must be at the exact pinned issuer JWKS path. Workspace membership still determines every role; groups and token role/tenant claims grant nothing.
 
-The access-token profile was tested with real signatures and controlled JWKS; [the original report](../reports/cognito-profile.json) retains that scope. The separate browser/session factory has joined synthetic TLS/Chromium checks. An approved real Cognito directory, public client, domain and scope have also been configured, and [public discovery/key checks](../reports/provider-check.json) now pass. No real user token or authenticated callback has been validated. Real token issuance, browser sign-in and hosted acceptance must still happen before the full working backend is offered publicly. Refresh tokens remain discarded.
+The access-token profile was tested with real signatures and controlled JWKS; [the original report](../reports/cognito-profile.json) retains that scope. The separate browser/session factory has joined synthetic TLS/Chromium checks. An approved real Cognito directory, public client, domain and scope have also been configured, and [public discovery/key checks](../reports/provider-check.json) now pass. A real local reviewer sign-in, authenticated callback, baseline review, wrong-workspace denial and sign-out were subsequently verified in [ADR 053](adr/053-real-cognito-local-acceptance.md). That evidence covers one identity over private loopback TLS and SQLite. It does not establish a deployed identity flow or durable hosted service. Refresh tokens remain discarded.

@@ -53,6 +53,29 @@ test("review a sourced requirement and inspect measured failures", async ({
     fullPage: false,
   });
   await page.getByRole("button", { name: "CHAOSLAB benchmarks" }).click();
+  const guide = page.getByRole("region", { name: "Understanding CHAOSLAB" });
+  await expect(
+    guide.getByRole("heading", { name: "How do we know the review is right?" }),
+  ).toBeVisible();
+  await guide
+    .getByText("What do the measurements mean?", { exact: true })
+    .click();
+  await expect(guide).toContainText(
+    "It does not establish that the text supports the answer.",
+  );
+  await guide
+    .getByRole("link", { name: "Compare baseline and model", exact: true })
+    .click();
+  await expect(page.locator("#scenario-comparison")).toBeInViewport();
+  await expect(page.locator(".evaluation-details")).not.toHaveAttribute(
+    "open",
+    "",
+  );
+  await guide
+    .getByRole("link", { name: "Inspect misleading evidence", exact: true })
+    .click();
+  await expect(page.locator("#hostile-evidence")).toBeVisible();
+  await expect(page.locator(".evaluation-details")).toHaveAttribute("open", "");
   await expect(page.getByText("extraction-heldout-language")).toBeVisible();
   const reasoning = page.locator("section").filter({
     has: page.getByRole("heading", { name: "Factual support evaluation" }),
@@ -338,7 +361,7 @@ test("live diagnostics expose incomplete coverage and unknown cost", async ({
   await page.getByLabel("Workspace token").fill(token);
   await page.getByRole("button", { name: "Connect", exact: true }).click();
   await page.getByRole("button", { name: "CHAOSLAB benchmarks" }).click();
-  const live = page.getByRole("region", { name: "Live model diagnostics" });
+  const live = page.getByRole("region", { name: "Recorded model runs" });
   await live.getByLabel("Recorded model run").selectOption({
     label: "source-selection-v3 · 18-case set · 15 attempted",
   });
@@ -528,6 +551,22 @@ for (const width of [390, 900]) {
     });
     await page
       .getByRole("button", { name: "CHAOSLAB benchmarks", exact: true })
+      .click();
+    await expect(
+      page.getByRole("region", { name: "Understanding CHAOSLAB" }),
+    ).toBeVisible();
+    await expect(page.locator("#scenario-comparison")).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: `${screenshotRoot}/evaluation-overview-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByText("View failed cases and technical checks", { exact: true })
       .click();
     await expect(
       page.getByRole("heading", { name: "Factual support evaluation" }),

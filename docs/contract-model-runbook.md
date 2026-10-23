@@ -66,3 +66,32 @@ PYTHONPATH=src python -m atlas.models.contract_checkpoint \
 Choose a new report path outside the original run directory. Existing output is refused. Inputs must remain private under `var/`; the official archive is verified and only development JSON is read. The audit matches the ordered prefix to its input digests, prompt/schema fingerprints, validated receipts and retained full-cohort reservation. It publishes no document predictions or accuracy.
 
 A successful audit is not a resume command. `automatic_resume_allowed` remains false. No ledger or journal changes, refunds, new reservations or provider requests follow from it. Preserve the audit fingerprint for a later continuation review. The original failure cause remains unknown, and old partial response bytes are not provider-authenticated. See [ADR 054](adr/054-stopped-contract-checkpoints.md) and the [recorded audits](../reports/contract-checkpoints.json).
+
+## Continue an admitted prefix
+
+The old audit command remains read-only. The separate continuation command first prints a dry plan:
+
+```sh
+PYTHONPATH=src python -m atlas.models.contract_continuation \
+  --archive var/external-data/contractnli/contract-nli.zip \
+  --config var/bedrock/contract-development-v1-config.json \
+  --origin var/contract-model-runs/development-paced-v2 \
+  --run-dir var/contract-model-runs/development-continued-v3
+```
+
+Use a new private directory outside the original run. The plan admits every input locally, narrows the new reservation to the missing calls and performs no credential lookup, reservation or remote token counting. Inspect its saved/new document counts and fingerprints. Refresh the official price verification, confirm the existing restricted AWS identity and review the cumulative campaign balance before adding `--allow-paid`. An explicit user authorization is needed if the retained reservations plus the new ceiling exceed the approved balance. Never reset the campaign or treat credits as unlimited authorization.
+
+The continuation keeps the old full reservation and creates a distinct tail reservation. It does not retry a failed call automatically. If it stops, preserve the new partial journal and diagnostic; this version does not chain continuations. Its complete report and timing cover new calls while recording the saved-prefix lineage separately. Saved mistakes are scored as mistakes.
+
+For aggregate export, supply the original evidence and retained campaign:
+
+```sh
+PYTHONPATH=src python scripts/record_contract_model.py \
+  --archive var/external-data/contractnli/contract-nli.zip \
+  --run-dir var/contract-model-runs/development-continued-v3 \
+  --origin var/contract-model-runs/development-paced-v2 \
+  --session-budget var/bedrock/campaign-budget.json \
+  --output var/contract-model-continued-development.json
+```
+
+Export independently replays the complete journal and refuses missing or changed original answers, lineage or reservations. Review aggregates before publishing. Describe the result as assembled from saved and new responses, with distinct usage/timing scopes. It remains a development-only ContractNLI task; it is not an RFP benchmark, a legal assessment or proof that the saved responses are authentic. See [the continuation decision](adr/055-continued-contract-evaluation.md).

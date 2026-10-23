@@ -13,11 +13,14 @@ from datetime import UTC, datetime
 from decimal import Decimal
 from pathlib import Path
 
+from atlas.models.contract_checkpoint import admit_prefix, audit_checkpoint, parse, private_bytes
 from atlas.models.contracts import PriceCard
 from atlas.models.provenance import source_manifest
+from atlas.models.session_budget import SessionBudget
 from chaoslab.__main__ import source_digest
 from chaoslab.artifacts import publish_report
 from chaoslab.contract_journal import (
+    MAX_JOURNAL_BYTES,
     finite_float,
     invalid_constant,
     read_observations,
@@ -91,7 +94,65 @@ def usage_summary(usage, documents):
     }
 
 
-def build_report(run, run_sha256, data, provenance, observations):
+def continuation_usage(run, data, provenance, records, origin, budget, run_path):
+    if origin is None or budget is None:
+        raise ValueError("Continuation export requires original evidence and retained campaign")
+    audit = audit_checkpoint(data, provenance, origin, budget)
+    lineage = run["continuation"]
+    if (
+        lineage["saved_documents"] != audit["records_admitted"]
+        or lineage["new_documents"] != audit["remaining_documents"]
+        or lineage["origin_scorer_sha256"] != audit["origin_scorer_sha256"]
+        or lineage["old_reservation_retained"] is not True
+        or lineage["response_authenticity_verified"] is not False
+        or any(
+            lineage["origin_evidence_sha256"][k] != audit["evidence_sha256"][k]
+            for k in ("run", "usage", "observations")
+        )
+    ):
+        raise ValueError("Continuation lineage differs from original evidence")
+    raw_run = private_bytes(Path(origin) / "run.json", 8_000_000)
+    raw_usage = private_bytes(Path(origin) / "usage.json", 8_000_000)
+    raw_records = private_bytes(Path(origin) / "observations.partial.jsonl", MAX_JOURNAL_BYTES)
+    for key, value in (("run", raw_run), ("usage", raw_usage), ("observations", raw_records)):
+        if hashlib.sha256(value).hexdigest() != audit["evidence_sha256"][key]:
+            raise ValueError("Origin changed during export")
+    prefix = admit_prefix(raw_records, parse(raw_run), data, provenance)
+    for saved in prefix:
+        copied = records[saved["document_id"]]
+        if any(copied[k] != saved[k] for k in ("document_id", "input_sha256", "status", "output")):
+            raise ValueError("Copied prefix differs from original observations")
+    old_usage = usage_summary(parse(raw_usage), len(prefix))
+    new_usage = usage_summary(run["usage"], len(data["documents"]) - len(prefix))
+    if (old_usage["model_id"], old_usage["region"]) != (new_usage["model_id"], new_usage["region"]):
+        raise ValueError("Continuation provider identity differs")
+    raw_campaign = private_bytes(budget, 2_000_000)
+    if hashlib.sha256(raw_campaign).hexdigest() != audit["evidence_sha256"]["campaign"]:
+        raise ValueError("Campaign changed during export")
+    campaign = SessionBudget.model_validate(parse(raw_campaign))
+    matches = [r for r in campaign.reservations if r.run_id == str(Path(run_path).resolve())]
+    old_caps = parse(raw_usage)["receipts"][0]
+    card = PriceCard.model_validate(run["usage"]["price_card"])
+    per_call = (
+        Decimal(old_caps["reserved_input_tokens"]) * card.input_usd_per_million
+        + Decimal(old_caps["reserved_output_tokens"]) * card.output_usd_per_million
+    ) / 1_000_000
+    required = per_call * lineage["new_documents"]
+    if (
+        len(matches) != 1
+        or matches[0].reserved_usd < required
+        or Decimal(lineage["tail_reservation_plan"]["maximum_reserved_inference_usd"]) != required
+        or any(
+            r["reserved_input_tokens"] != old_caps["reserved_input_tokens"]
+            or r["reserved_output_tokens"] != old_caps["reserved_output_tokens"]
+            for r in run["usage"]["receipts"]
+        )
+    ):
+        raise ValueError("New-tail reservation or call caps differ")
+    return new_usage, old_usage
+
+
+def build_report(run, run_sha256, data, provenance, observations, *, origin=None, budget=None):
     if (
         run["status"] != "complete"
         or run["live_model"] is not True
@@ -122,7 +183,14 @@ def build_report(run, run_sha256, data, provenance, observations):
         "chaoslab.contractnli:always_not_mentioned",
         invoke_adapter=lambda _, body: always_not_mentioned(body),
     )
-    return {
+    continued = "continuation" in run
+    if continued:
+        usage, prior_usage = continuation_usage(
+            run, data, provenance, records, origin, budget, Path(observations).parent / "run.json"
+        )
+    else:
+        usage, prior_usage = usage_summary(run["usage"], len(data["documents"])), None
+    report = {
         "recorded_at": datetime.now(UTC).isoformat(),
         "task": "ContractNLI complete development split, fixed claims and evidence spans",
         "source": "https://stanfordnlp.github.io/contract-nli/",
@@ -138,18 +206,32 @@ def build_report(run, run_sha256, data, provenance, observations):
         "replay_matches_recorded_results": True,
         "results": result,
         "constant_not_mentioned_reference": baseline,
-        "usage": usage_summary(run["usage"], len(data["documents"])),
+        "usage": usage,
         "wall_seconds": run["wall_seconds"],
         "timing_scope": run["timing_scope"],
         "min_interval_seconds": run["min_interval_seconds"],
         "limits": "One development run, not blinded or untouched-test performance, RFP accuracy or legal validation. The public corpus may be in model pretraining. Evidence metrics exclude NotMentioned gold labels. Raw contracts and responses remain private. SDK receipts and local checksums are not signed provider attestations or invoices. Batch wall time includes configured pacing, not per-request latency. Separate stopped attempts are excluded from these scores and usage totals; their full campaign reservations remain retained.",
     }
+    if continued:
+        report["continuation"] = run["continuation"]
+        report["saved_prefix_usage"] = prior_usage
+        report["limits"] = (
+            "Complete development scoring assembled from saved predictions and new calls. "
+            "Not an uninterrupted model run, blinded test, RFP accuracy or legal validation. "
+            "Usage and wall time cover only new calls; saved-prefix token estimates are "
+            "separate. Other stopped attempts are excluded and all old reservations retained. "
+            "The public corpus may be in pretraining. Saved responses are not independently "
+            "provider-authenticated; local checksums and SDK receipts are not attestations or invoices."
+        )
+    return report
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", required=True, type=Path)
     parser.add_argument("--run-dir", required=True, type=Path)
+    parser.add_argument("--origin", type=Path)
+    parser.add_argument("--session-budget", type=Path)
     parser.add_argument("--output", type=Path, default=Path("var/contract-model-development.json"))
     args = parser.parse_args()
     try:
@@ -163,7 +245,15 @@ def main():
             raise ValueError("Report cannot overwrite source evidence")
         data, provenance = load_development(args.archive)
         run, fingerprint = private_run(run_dir / "run.json")
-        result = build_report(run, fingerprint, data, provenance, run_dir / "observations.jsonl")
+        result = build_report(
+            run,
+            fingerprint,
+            data,
+            provenance,
+            run_dir / "observations.jsonl",
+            origin=args.origin,
+            budget=args.session_budget,
+        )
         if private_run(run_dir / "run.json")[1] != fingerprint:
             raise ValueError("Run changed during export")
         publish_report(args.output, result)

@@ -24,6 +24,14 @@ type Run = {
   assessments: Finding[];
 };
 type Session = { expires_in_seconds: number };
+const explanations = {
+  evidence_found:
+    "The sample contains related text. Check the excerpt before deciding whether it supports the requirement.",
+  conflicting_evidence:
+    "The supplied documents appear to disagree. Compare both excerpts and request follow-up rather than approving it.",
+  missing_evidence:
+    "The search found no supporting excerpt in these documents. This is a gap in the supplied evidence, not proof that the supplier cannot do it.",
+};
 const labels = {
   evidence_found: "Evidence located",
   conflicting_evidence: "Possible conflict",
@@ -198,6 +206,17 @@ function Lab() {
         (filter === "all" || a.status === filter) &&
         a.requirement.text.toLowerCase().includes(query.toLowerCase()),
     ) || [];
+  const recoveryExample = run?.assessments.find(
+    (a) =>
+      a.requirement.source.document_id === "rfp-ns-041" &&
+      a.requirement.source.quote ===
+        "5.2 Recovery time must be at most 4 hours.",
+  );
+  const openReview = (id: string) => {
+    setSelected(id);
+    setDecision("rejected");
+    setNote("needs_followup");
+  };
   const sourceDocument = run?.documents.find(
     (d) => d.id === citation?.document_id,
   );
@@ -218,26 +237,28 @@ function Lab() {
       <main id="content">
         <section className="intro">
           <div>
-            <p className="eyebrow">AN INSPECTABLE REVIEW WORKFLOW</p>
-            <h1>RFP review lab</h1>
+            <p className="eyebrow">ATLAS DEMO · FICTIONAL DOCUMENTS</p>
+            <h1>Can this supplier meet the buyer’s requirements?</h1>
             <p>
-              Compare a fictional municipal RFP with its capability register.
-              Follow the evidence before making a review decision.
+              A city is choosing a software supplier. Its request for proposals
+              (RFP) lists what the software must do. The supplier’s capability
+              record describes what it offers. ATLAS puts the requirements and
+              relevant excerpts side by side so a person can check them.
             </p>
           </div>
           <aside>
-            <strong>Live extractive baseline</strong>
+            <strong>Your role: check the evidence</strong>
             <p>
-              No uploads or paid inference. Sessions expire within ten minutes
-              and reset on restart. This is a practice workspace, not a contract
-              assessment.
+              Try reviewing one requirement. Open the original text, compare
+              what the buyer asks for with what the supplier offers, then save
+              your decision. You are practicing on a fictional case.
             </p>
           </aside>
         </section>
         <div className="actions">
           <span>
             {run
-              ? `${run.assessments.length} requirements · provisional findings`
+              ? `${run.assessments.length} requirements ready for you to check`
               : "Municipal services procurement · fictional sample"}
           </span>
           <div>
@@ -260,23 +281,66 @@ function Lab() {
         <p className="notice" role="status" aria-live="polite">
           {notice || (busy ? "Working on the sample. Please wait." : "")}
         </p>
-        {!run ? (
-          <section className="empty">
-            <span className="eyebrow">START WITH THE DISAGREEMENT</span>
-            <h2>Four hours required. Eight hours offered.</h2>
+        <section className="case-guide" aria-label="How to use this demo">
+          <div className="case-example">
+            <h2>Start with the recovery-time mismatch</h2>
             <p>
-              The sample includes a recovery-time mismatch, supporting evidence
-              and evidence gaps. Run it to inspect the actual baseline findings
-              and practice a review.
+              The buyer requires service recovery within{" "}
+              <strong>4 hours</strong>. The supplier only guarantees{" "}
+              <strong>8 hours</strong>. That promise falls short. ATLAS flags a
+              possible conflict and links to both passages; you decide whether
+              follow-up is needed.
             </p>
-            <ol>
-              <li>Run the sample</li>
-              <li>Inspect exact source excerpts</li>
-              <li>Record a provisional human decision</li>
-            </ol>
-          </section>
+            {recoveryExample && (
+              <button
+                onClick={() => {
+                  setQuery("");
+                  setFilter("all");
+                  openReview(recoveryExample.requirement.id);
+                }}
+                disabled={busy}
+              >
+                Open the recovery-time example
+              </button>
+            )}
+          </div>
+          <ol>
+            <li>
+              <strong>Run the sample.</strong> ATLAS finds requirements and
+              related text in the two supplied documents.
+            </li>
+            <li>
+              <strong>Open a requirement.</strong> Use Review, then open its
+              source excerpts to compare the wording.
+            </li>
+            <li>
+              <strong>Save your review.</strong> Approve the evidence or request
+              follow-up. Your choice is kept only for this temporary session.
+            </li>
+          </ol>
+        </section>
+        {!run ? (
+          <p className="sample-note">
+            Click Run sample analysis to begin. This demo searches the supplied
+            text using rules; it does not call an AI model, accept uploads or
+            assess a real contract. Sessions expire within ten minutes and reset
+            when the service restarts.
+          </p>
         ) : (
           <>
+            <details className="finding-guide">
+              <summary>What do the three findings mean?</summary>
+              <dl>
+                {Object.entries(labels).map(([value, label]) => (
+                  <div key={value}>
+                    <dt>
+                      <span className={`badge ${value}`}>{label}</span>
+                    </dt>
+                    <dd>{explanations[value as keyof typeof explanations]}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
             <div className="tools">
               <label>
                 Find a requirement
@@ -343,9 +407,7 @@ function Lab() {
                         className="review-button"
                         aria-label={`Review ${a.requirement.text}`}
                         onClick={() => {
-                          setSelected(a.requirement.id);
-                          setDecision("rejected");
-                          setNote("needs_followup");
+                          openReview(a.requirement.id);
                         }}
                         disabled={busy}
                       >
@@ -370,7 +432,10 @@ function Lab() {
                         {labels[item.status]}
                       </span>
                     </p>
-                    <h3>Capability evidence</h3>
+                    <p className="finding-explanation">
+                      {explanations[item.status]}
+                    </p>
+                    <h3>What the supplier’s document says</h3>
                     {item.evidence.length ? (
                       item.evidence.map((c, i) => (
                         <button
@@ -440,14 +505,12 @@ function Lab() {
                   </>
                 ) : (
                   <>
-                    <h2>Inspect, then decide.</h2>
+                    <h2>Choose a requirement to review</h2>
                     <p>
-                      Select a requirement to compare its capability evidence
-                      and record a review. Every finding starts pending.
+                      Use Review beside any requirement, or open the
+                      recovery-time example above. This panel will show the
+                      supplier’s excerpt and a place to record your decision.
                     </p>
-                    <div className="review-placeholder">
-                      Obligation → evidence → decision
-                    </div>
                   </>
                 )}
               </aside>
@@ -455,7 +518,7 @@ function Lab() {
           </>
         )}
         <details className="limits">
-          <summary>What this lab establishes</summary>
+          <summary>What this demo can and cannot tell you</summary>
           <p>
             Citations bind excerpts to the supplied source; they do not
             establish factual support. The baseline can miss obligations or
@@ -485,8 +548,7 @@ function Lab() {
             <button onClick={() => setCitation(null)}>Close</button>
           </div>
           <p className="source-meta">
-            Unicode characters {citation.start}–{citation.end} · SHA-256{" "}
-            <code>{citation.digest}</code>
+            The highlighted passage is the text used for this finding.
           </p>
           <pre>
             {chars(sourceDocument.text, 0, citation.start)}
@@ -495,6 +557,11 @@ function Lab() {
             </mark>
             {chars(sourceDocument.text, citation.end)}
           </pre>
+          <details className="source-meta">
+            <summary>Source verification details</summary>
+            Characters {citation.start}–{citation.end} · SHA-256{" "}
+            <code>{citation.digest}</code>
+          </details>
           <p className="hint">
             A valid excerpt shows where text came from. It does not prove the
             requirement is satisfied.

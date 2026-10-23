@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-10-23T12:42:35.051922+00:00",
+  "scope": "Local Chromium workbench and intercepted login controls, using existing saved synthetic evaluation reports. No new model run or hosted measurement.",
+  "browser_cases_passed": 19,
+  "browser_evidence_sha256": "60a59e6a07a6c106fe04c6fcdf65e7e62c14fbf83e6def0aea0d5a43f9f4fe7f",
+  "source_sha256": {
+    "apps/web/src/main.tsx": "a8d150bdc36e48ecd96018bde0df49b2946e1580087725940bd15d440993b91a",
+    "apps/web/src/style.css": "77b44724a21f723d0d5b3d4b008739e2f0292ff8eca64403f6b090edf49b901a",
+    "apps/web/src/ScenarioPanel.tsx": "0a1ba2b0feb2489ff7d48256a908945d1f0211b845493bc071e3b324a4f490cd",
+    "apps/web/src/AdversarialPanel.tsx": "bb96cd67f6ecc12f28f00b2cddfa90206852e57df92918cb6d876960681a4c20",
+    "apps/web/src/LiveReasoningPanel.tsx": "f0455b5ffa98cb4304621ef0834b87a202274c182403260447b7ccf703bfb19e",
+    "apps/web/e2e/workbench.spec.ts": "7a2d5987abd10ef62524667744bfc97e7ca16b67dbf8de14eeb19a208097cd92"
+  },
+  "screenshots_sha256": {
+    "reports/evaluation-guide-390.png": "2f8fc513d313be4148e94b5af58399f0d066b20819e50d54c1d87d7c17b8c412",
+    "reports/evaluation-guide-900.png": "ba4a7ef391c4316749a676c1f3304eecddcd9638a76a4603f8989838d7535efc"
+  },
+  "checked": [
+    "Explain the evaluator task before metrics",
+    "Define recall and citation integrity without changing measured values",
+    "Keep baseline/model comparison available by default",
+    "Collapse detailed fault, source, database and retrieval tables with explicit disclosure",
+    "Section links reveal their target details",
+    "Saved model runs retain incomplete coverage and unknown-cost checks",
+    "Phone/tablet overview and expanded details retain overflow and source-focus coverage"
+  ],
+  "limits": "Functional layout checks, not user research or an accessibility audit. Two initial responsive assertions expected a newly collapsed heading; the checks were updated to verify both the overview and expanded failures. Historical results and datasets were not edited. No public deployment is claimed."
+}
