@@ -39,6 +39,8 @@ The [package check](../../scripts/verify_chaoslab_package.py) builds a wheel, in
 
 ATLAS adapters, database drivers and embedding models still need their integration environment. Execution adapters use POSIX process controls; Windows is not supported by this release.
 
+A [four-answer example](../../examples/review-regression/README.md) demonstrates a wrong decision with valid sources, a broken citation and a missing answer. The files are controlled fixtures, not model responses. The [recording walkthrough](../../docs/demo-walkthrough.md) connects this command-line example to the public review and saved-results pages.
+
 ## Comparisons
 
 Paired comparisons rescore two saved raw runs against the same dataset and scorer. They report changed obligations, missing attempts and regressions, including regressions inside scenarios that already failed for another reason. Existing aggregate percentages are not enough to reconstruct that comparison.

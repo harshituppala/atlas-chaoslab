@@ -1,6 +1,6 @@
 # Project status
 
-Updated October 22, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
+Updated October 25, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
 
 ## ATLAS
 
@@ -107,3 +107,5 @@ The public lab source now includes a separate read-only CHAOSLAB results page, w
 The updated lab image also passed 39 focused Linux tests under the existing non-root, read-only, network-isolated runtime. Its real HTTP workflow checked eight requirements and fourteen citations, stale-review rejection and session isolation; restart rejected the old cookie and allowed a fresh analysis. The verifier's stale expectation of 32 tests was corrected to the current suite of 39. This is local container acceptance, not hosted acceptance of the new page.
 
 All three [GitHub checks](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40204262381) passed for the public evaluation release. Render confirmed that revision live on the existing free lab. [Hosted browser acceptance](../reports/public-evaluation-hosted.json) checked both saved comparisons, the two failure explanations and expanded desktop/phone layouts with no API requests, cookies, storage or runtime errors. Separate [HTTPS review acceptance](../reports/hosted-lab.json) matched the two served assets and checked eight requirements/fourteen spans, review conflicts and session boundaries. These checks made no model calls.
+
+A [demonstration walkthrough](demo-walkthrough.md) now connects the public review, saved model failure inspection and an independently installed evaluator. Four real CLI invocations against [handwritten fictional answers](../examples/review-regression/README.md) passed their expected gates: unchanged output exits zero; a wrong decision, broken citation and missing answer each exit one with the appropriate regression or unpaired count. The wheel rehearsal ran without ATLAS installed and without model calls. [Measured results](../reports/demo-walkthrough.json) bind the fixtures and installed scorer. These are evaluator controls, not model-quality measurements; no video or complete private-workbench recording rehearsal has been made.

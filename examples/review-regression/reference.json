@@ -1,0 +1,62 @@
+{
+  "dataset_sha256": "8d5eacaa133ad34e6171c354671376ea943facf8b84d4b9f93f847a7f0decaf3",
+  "results": [
+    {
+      "id": "b5edcf3dfeaf81b5039cec8deae900afa55f4c6b79ac589e447c35f11396d7f4",
+      "input": {
+        "rfp": {
+          "id": "request",
+          "text": "The service must recover within four hours."
+        },
+        "knowledge": [
+          {
+            "id": "record",
+            "text": "Recovery is guaranteed within eight hours."
+          }
+        ]
+      },
+      "input_sha256": "2e57e565ba60c7c0838ab3dbfd03ac1ea2b3fd1b86c3ccaabc50700eed742318",
+      "status": "succeeded",
+      "output": {
+        "documents": [
+          {
+            "id": "request",
+            "text": "The service must recover within four hours."
+          },
+          {
+            "id": "record",
+            "text": "Recovery is guaranteed within eight hours."
+          }
+        ],
+        "assessments": [
+          {
+            "requirement": {
+              "id": "r1",
+              "text": "The service must recover within four hours.",
+              "source": {
+                "document_id": "request",
+                "start": 0,
+                "end": 43,
+                "quote": "The service must recover within four hours.",
+                "digest": "892c3d92f75a643577496f710a81e0ba7263f43577d6276d51368a632cc35a48"
+              }
+            },
+            "status": "conflicting_evidence",
+            "evidence": [
+              {
+                "document_id": "record",
+                "start": 0,
+                "end": 42,
+                "quote": "Recovery is guaranteed within eight hours.",
+                "digest": "9aa16a6689b1250c7409eb483d2f181ac92d36ea8a4bc39a25dce29e462d382a"
+              }
+            ],
+            "review_state": "pending",
+            "version": 1,
+            "draft": "Evidence excerpts for human assessment:\nRecovery is guaranteed within eight hours."
+          }
+        ]
+      }
+    }
+  ]
+}

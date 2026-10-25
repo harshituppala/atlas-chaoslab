@@ -1,0 +1,29 @@
+{
+  "scope": "Handwritten demonstration of evaluator behavior. These saved answers are controlled fixtures, not outputs from a model or measured model quality.",
+  "cases": [
+    {
+      "id": "recovery-threshold",
+      "input": {
+        "rfp": {
+          "id": "request",
+          "text": "The service must recover within four hours."
+        },
+        "knowledge": [
+          {
+            "id": "record",
+            "text": "Recovery is guaranteed within eight hours."
+          }
+        ]
+      },
+      "expected": [
+        {
+          "text": "The service must recover within four hours.",
+          "relation": "contradicted",
+          "evidence_ids": [
+            "record"
+          ]
+        }
+      ]
+    }
+  ]
+}

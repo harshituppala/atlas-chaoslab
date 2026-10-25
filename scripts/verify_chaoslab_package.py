@@ -23,6 +23,8 @@ def fingerprints():
     files = sorted((ROOT / "src/chaoslab").glob("*.py")) + [
         ROOT / "src/chaoslab/pyproject.toml",
         Path(__file__).resolve(),
+        ROOT / "scripts/verify_demo_walkthrough.py",
+        *sorted((ROOT / "examples/review-regression").glob("*.json")),
     ]
     return {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
 
@@ -285,6 +287,10 @@ assert captured == replayed and receipt == saved and saved['records'] == 1
         ]
     )
     run([str(runtime / "bin/chaoslab-contractnli"), "--help"])
+    run(
+        [sys.executable, str(ROOT / "scripts/verify_demo_walkthrough.py"), "--python", python],
+        cwd=ROOT,
+    )
     assert fingerprints() == frozen, "Package source changed during verification"
     report = {
         "recorded_at": datetime.now(UTC).isoformat(),

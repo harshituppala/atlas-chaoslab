@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-22T12:39:58.913145+00:00",
+  "recorded_at": "2026-10-25T19:33:53.273132+00:00",
   "status": "passed",
   "scope": "Local wheel installation and controlled regression checks, not agent quality or model inference.",
   "python": "3.12.14",
@@ -22,9 +22,15 @@
     "src/chaoslab/scenario_artifacts.py": "8d50a1be7e1377e2e193b6e3f5d935884becafa30cf00ed567f93f8c54a26178",
     "src/chaoslab/scenarios.py": "18e3fb577e00e91844c3692bd7e3071f4007439ac8101471c96d620377f0f73f",
     "src/chaoslab/pyproject.toml": "74bfc518a7a5fcb52262751dc47e239e722808060b3c6d2333836055c2f6cda6",
-    "scripts/verify_chaoslab_package.py": "81852dfdf056295aba773dee4056edbca17b0e870689a3f1301842354aa392c9"
+    "scripts/verify_chaoslab_package.py": "d6ba38dba177e4669530f4b035548aa0d26e245fa61c19854e56458617c29132",
+    "scripts/verify_demo_walkthrough.py": "144c3f796931126014a096b8e33d14756c37ccbca8e2ea1a1c3ce83deb8b3ce8",
+    "examples/review-regression/broken-citation.json": "e5bfa6bf99741b5a7db2b001070ab4935b409d102e08886f3458751917361ef5",
+    "examples/review-regression/dataset.json": "8d5eacaa133ad34e6171c354671376ea943facf8b84d4b9f93f847a7f0decaf3",
+    "examples/review-regression/missing-answer.json": "74364780c65931d91320f30a514472315f9e4e876964f22214c84f4a47b5250c",
+    "examples/review-regression/reference.json": "9cdb5f98f46d5bfdb4a217a13216762ba484920a95b52c124507f4fb326b5807",
+    "examples/review-regression/wrong-decision.json": "1e7ba6b3748ff596fedd618ed8c72075b4c2e255007bb69200dc95a8dd7214d9"
   },
-  "wheel_sha256": "3084f5e2f508d20e5977ce131027120a1a234337edb017d38bdb9d2fb39af416",
+  "wheel_sha256": "56e5dfd05ae5a6c7c65e47d8bd196a4e3146406b110769741aa998bd6438df25",
   "wheel_name": "chaoslab_eval-0.1.3-py3-none-any.whl",
   "runtime_dependencies": [],
   "atlas_installed": false,

@@ -66,7 +66,13 @@ def allowed(name):
         and not PRIVATE_PARTS.intersection(path.parts)
         and not any(p.startswith(".env") for p in path.parts)
         and path.suffix not in {".pem", ".key", ".p12", ".pfx", ".db", ".sqlite", ".log", ".dump"}
-        and (name in ROOT_FILES or len(path.parts) > 1 and path.parts[0] in ROOT_DIRS)
+        and (
+            name in ROOT_FILES
+            or len(path.parts) > 1
+            and path.parts[0] in ROOT_DIRS
+            or path.parts[:2] == ("examples", "review-regression")
+            and len(path.parts) > 2
+        )
     )
 
 
