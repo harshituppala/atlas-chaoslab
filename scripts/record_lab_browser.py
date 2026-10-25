@@ -12,6 +12,8 @@ EXPECTED = {
     "real analysis, exact sources, review conflicts across tabs, reload and logout",
     "mobile conflict review and a controlled capacity message recover without automatic retries",
     "client expiry clears a restored workspace using controlled lifetime metadata",
+    "recorded evaluation at 1440px explains comparisons and failures without API calls",
+    "recorded evaluation at 390px explains comparisons and failures without API calls",
 }
 
 
@@ -30,8 +32,8 @@ def main():
     raw = evidence.read_bytes()
     data = json.loads(raw)
     specs = list(specifications(data["suites"]))
-    if len(specs) != 3 or {s["title"] for s in specs} != EXPECTED:
-        raise ValueError("Expected the three authored lab browser workflows")
+    if len(specs) != len(EXPECTED) or {s["title"] for s in specs} != EXPECTED:
+        raise ValueError("Expected all authored lab browser workflows")
     for spec in specs:
         if len(spec["tests"]) != 1:
             raise ValueError("Expected one actual Chromium execution per workflow")
@@ -43,7 +45,7 @@ def main():
         ):
             raise ValueError("Browser gate did not pass without retries")
     if (
-        data["stats"].get("expected") != 3
+        data["stats"].get("expected") != len(EXPECTED)
         or any(data["stats"].get(k) != 0 for k in ("unexpected", "flaky", "skipped"))
         or data.get("errors")
     ):
@@ -52,6 +54,14 @@ def main():
         "apps/web/src/lab.tsx",
         "apps/web/src/lab.css",
         "apps/web/src/Dialog.tsx",
+        "apps/web/src/PublicHeader.tsx",
+        "apps/web/src/PublicEvaluation.tsx",
+        "apps/web/src/ScenarioPanel.tsx",
+        "reports/scenarios-baseline.json",
+        "reports/scenarios-live-v4.json",
+        "reports/reasoning-transfer-baseline.json",
+        "reports/reasoning-transfer-live-v4.json",
+        "datasets/reasoning-transfer.json",
         "apps/web/lab/index.html",
         "apps/web/vite.lab.config.ts",
         "apps/web/playwright.lab.config.ts",
@@ -66,7 +76,7 @@ def main():
     report = {
         "schema_version": 1,
         "recorded_at": datetime.now(UTC).isoformat(),
-        "scope": "Three Chromium workflows against the actual loopback API and built React lab. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
+        "scope": "Five Chromium workflows against the built React lab. Three exercise the actual loopback API; two inspect saved evaluation results with no API requests or cookies. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
         "browser_cases_passed": len(specs),
         "workflows": [s["title"] for s in specs],
         "privacy_scope": "Projects only authored test names, counts and hashes. No cookies, headers, session identifiers, source payloads, stderr, attachments or trace content are exported.",
@@ -76,7 +86,12 @@ def main():
         "build_sha256": {p.relative_to(build).as_posix(): digest(p) for p in assets},
         "screenshots_sha256": {
             p: digest(Path(p))
-            for p in ["reports/synthetic-workbench.png", "reports/synthetic-workbench-mobile.png"]
+            for p in [
+                "var/ui-review/screenshots/synthetic-workbench.png",
+                "var/ui-review/screenshots/synthetic-workbench-mobile.png",
+                "var/ui-review/screenshots/public-evaluation-1440.png",
+                "var/ui-review/screenshots/public-evaluation-390.png",
+            ]
         },
         "identity_scope": "Source/build/screenshot hashes captured after the actual browser run; no frozen-run, signed execution or full loaded-dependency attestation. Separate ASGI evidence checks its own source before/after.",
         "new_model_provider_calls": 0,

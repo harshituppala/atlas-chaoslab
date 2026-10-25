@@ -23,6 +23,14 @@ FRONTEND = [
     "apps/web/src/lab.tsx",
     "apps/web/src/lab.css",
     "apps/web/src/Dialog.tsx",
+    "apps/web/src/PublicHeader.tsx",
+    "apps/web/src/PublicEvaluation.tsx",
+    "apps/web/src/ScenarioPanel.tsx",
+    "reports/scenarios-baseline.json",
+    "reports/scenarios-live-v4.json",
+    "reports/reasoning-transfer-baseline.json",
+    "reports/reasoning-transfer-live-v4.json",
+    "datasets/reasoning-transfer.json",
 ]
 
 
@@ -193,10 +201,10 @@ def main():
         ).stdout
         (private / "linux-tests.xml").write_bytes(junit)
         cases = list(ET.fromstring(junit).iter("testcase"))
-        if len(cases) != 32 or any(
+        if len(cases) != 39 or any(
             c.find(t) is not None for c in cases for t in ("failure", "error", "skipped")
         ):
-            raise ValueError("Expected all 32 focused Linux tests to pass")
+            raise ValueError("Expected all 39 focused Linux tests to pass")
         before = json.loads(
             docker(
                 "exec",
@@ -244,7 +252,7 @@ def main():
         report = {
             "schema_version": 1,
             "recorded_at": datetime.now(UTC).isoformat(),
-            "scope": "Actual local Docker Linux image, 32 focused lab/config tests, real HTTP/baseline/review and intentional ephemeral restart under isolated networking/resource flags. Not the full suite inside Linux, a hosted provider, TLS/browser-in-image or durable customer service.",
+            "scope": "Actual local Docker Linux image, 39 focused lab/config tests, real HTTP/baseline/review and intentional ephemeral restart under isolated networking/resource flags. Not the full suite inside Linux, a hosted provider, TLS/browser-in-image or durable customer service.",
             "image_id": identity,
             "image_architecture": image["Architecture"],
             "image_python_version": installed["python_version"],
@@ -252,7 +260,7 @@ def main():
             "source_sha256": manifest["source_sha256"],
             "source_unchanged": True,
             "build_context_files": len(paths),
-            "context_scope": "Allowlisted Python source/locks, one synthetic fixture and dedicated lab frontend only. No repository history, credentials, reports, owner documents or host runtime/cache copied into build context. Engine-managed image/build caches remain in Docker storage.",
+            "context_scope": "Allowlisted Python source/locks, two synthetic fixtures, four named public reports and dedicated lab frontend only. No repository history, credentials, private observations, external contracts, owner documents or host runtime/cache copied into build context. Engine-managed image/build caches remain in Docker storage.",
             "input_sha256": frozen,
             "linux_tests_passed": len(cases),
             "linux_junit_sha256": hashlib.sha256(junit).hexdigest(),

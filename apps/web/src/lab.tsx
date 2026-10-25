@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Dialog } from "./Dialog";
+import { PublicHeader } from "./PublicHeader";
+import { PublicEvaluation } from "./PublicEvaluation";
 import "./lab.css";
 
 type Citation = {
@@ -65,6 +67,7 @@ const chars = (text: string, start: number, end?: number) =>
 function Lab() {
   const [run, setRun] = useState<Run | null>(null);
   const [busy, setBusy] = useState(true);
+  const [progress, setProgress] = useState("Checking for a saved session…");
   const [deadline, setDeadline] = useState<number | null>(null);
   const [notice, setNotice] = useState("");
   const [query, setQuery] = useState("");
@@ -147,6 +150,7 @@ function Lab() {
   }, [selected]);
   const analyze = async () => {
     setBusy(true);
+    setProgress("Comparing the two sample documents…");
     setNotice("");
     try {
       const session = await api<Session>("session", "POST", {});
@@ -161,6 +165,7 @@ function Lab() {
   };
   const end = async () => {
     setBusy(true);
+    setProgress("Clearing your temporary session…");
     try {
       await api("session", "DELETE");
       clear();
@@ -174,6 +179,7 @@ function Lab() {
   const save = async () => {
     if (!item) return;
     setBusy(true);
+    setProgress("Saving your review…");
     setNotice("");
     try {
       setRun(
@@ -225,15 +231,7 @@ function Lab() {
       <a className="skip" href="#content">
         Skip to content
       </a>
-      <header className="lab-header">
-        <a href="#content" className="brand">
-          <b>A</b>
-          <span>
-            ATLAS<small>REQUIREMENTS INTELLIGENCE</small>
-          </span>
-        </a>
-        <span className="profile">Temporary · synthetic</span>
-      </header>
+      <PublicHeader active="review" />
       <main id="content">
         <section className="intro">
           <div>
@@ -279,7 +277,7 @@ function Lab() {
           </div>
         </div>
         <p className="notice" role="status" aria-live="polite">
-          {notice || (busy ? "Working on the sample. Please wait." : "")}
+          {notice || (busy ? progress : "")}
         </p>
         <section className="case-guide" aria-label="How to use this demo">
           <div className="case-example">
@@ -571,4 +569,10 @@ function Lab() {
     </>
   );
 }
-createRoot(document.getElementById("root")!).render(<Lab />);
+createRoot(document.getElementById("root")!).render(
+  new URLSearchParams(window.location.search).get("view") === "evaluation" ? (
+    <PublicEvaluation />
+  ) : (
+    <Lab />
+  ),
+);

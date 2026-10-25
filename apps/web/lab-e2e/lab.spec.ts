@@ -264,3 +264,95 @@ test("client expiry clears a restored workspace using controlled lifetime metada
     (await page.request.delete("/api/lab/session", { headers })).status(),
   ).toBe(204);
 });
+
+for (const width of [1440, 390]) {
+  test(`recorded evaluation at ${width}px explains comparisons and failures without API calls`, async ({
+    page,
+    context,
+  }) => {
+    const apiRequests: string[] = [];
+    const errors: string[] = [];
+    page.on("request", (request) => {
+      if (new URL(request.url()).pathname.startsWith("/api/"))
+        apiRequests.push(request.url());
+    });
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/?view=evaluation");
+    await expect(
+      page.getByRole("heading", {
+        name: "Does the model make the review better?",
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Opening this page makes no model request", {
+        exact: false,
+      }),
+    ).toBeVisible();
+    const scenarios = page.getByRole("region", {
+      name: "Complete review scenarios",
+    });
+    await expect(
+      scenarios.getByRole("cell", { name: "5 / 9", exact: true }),
+    ).toBeVisible();
+    await expect(
+      scenarios.getByRole("cell", { name: "9 / 9", exact: true }),
+    ).toBeVisible();
+    const transfer = page.getByRole("table").filter({
+      has: page.getByText("Recorded results on the same twelve cases", {
+        exact: true,
+      }),
+    });
+    await expect(transfer).toContainText("7 / 12");
+    await expect(transfer).toContainText("10 / 12");
+    const failure = page.getByRole("region", {
+      name: "Inspect a recorded model failure",
+    });
+    await expect(failure).toContainText("48 hours");
+    await expect(failure).toContainText("24 hours");
+    await expect(failure).toContainText(
+      "Matched the source text, even though the decision was wrong",
+    );
+    await page
+      .getByRole("combobox", { name: "Failed case" })
+      .selectOption("availability-3");
+    await expect(failure).toContainText("No valid requirement extracted");
+    await expect(failure).toContainText(
+      "Not available for this failed extraction",
+    );
+    await page
+      .getByText("Inspect recorded model scenarios", { exact: true })
+      .click();
+    await page
+      .getByText("What these results do and do not establish", { exact: true })
+      .click();
+    await expect(
+      page.getByText("Their counts cannot be", { exact: false }),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    expect(
+      await page.evaluate(() => ({
+        local: localStorage.length,
+        session: sessionStorage.length,
+      })),
+    ).toEqual({ local: 0, session: 0 });
+    expect(await context.cookies()).toEqual([]);
+    expect(apiRequests).toEqual([]);
+    expect(errors).toEqual([]);
+    await page.screenshot({
+      path: `${screenshotRoot}/public-evaluation-${width}.png`,
+      fullPage: true,
+    });
+    await page
+      .getByRole("navigation")
+      .getByRole("link", { name: "Review sample", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "Run sample analysis" }),
+    ).toBeEnabled();
+  });
+}

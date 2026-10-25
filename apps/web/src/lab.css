@@ -636,3 +636,125 @@ h1 em {
     font-size: 22px;
   }
 }
+
+.lab-header nav {
+  display: flex;
+  gap: 22px;
+  font-size: 14px;
+}
+.lab-header nav a {
+  color: inherit;
+  padding: 8px 0;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+.lab-header nav a[aria-current="page"] {
+  border-bottom-color: #17563f;
+  font-weight: 600;
+}
+.public-evaluation .evaluation-explainer,
+.public-evaluation .benchmark-panel {
+  margin: 24px 0;
+  padding: 24px 0;
+  border-top: 1px solid #cbd8c8;
+}
+.public-evaluation h2 {
+  font:
+    25px/1.35 Georgia,
+    serif;
+  margin: 0 0 14px;
+}
+.public-evaluation p {
+  max-width: 850px;
+}
+.public-evaluation table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: left;
+  margin: 18px 0;
+}
+.public-evaluation th,
+.public-evaluation td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #cbd8c8;
+  vertical-align: top;
+}
+.public-evaluation caption {
+  text-align: left;
+  padding-bottom: 10px;
+  color: #526951;
+}
+.public-evaluation .public-table {
+  overflow-x: auto;
+}
+.public-evaluation .fine {
+  font-size: 13px;
+  color: #526951;
+}
+.public-evaluation summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.public-evaluation .failure-example {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 40px;
+  border-top: 1px solid #cbd8c8;
+  padding: 28px 0;
+  margin-top: 28px;
+}
+.public-evaluation .recorded-answer {
+  background: #fbfcf7;
+  border-left: 3px solid #8a6741;
+  padding: 24px;
+}
+.public-evaluation .recorded-answer h3 {
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+.public-evaluation blockquote {
+  font:
+    19px/1.55 Georgia,
+    serif;
+  margin: 0 0 24px;
+}
+.public-evaluation dt {
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.public-evaluation dd {
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+@media (max-width: 760px) {
+  .lab-header {
+    height: auto;
+    min-height: 90px;
+    flex-wrap: wrap;
+    padding-top: 14px;
+    padding-bottom: 10px;
+    gap: 10px;
+  }
+  .lab-header nav {
+    font-size: 12px;
+    gap: 18px;
+  }
+  .public-evaluation .failure-example {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .public-evaluation th,
+  .public-evaluation td {
+    padding: 10px 5px;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+  }
+  .public-evaluation blockquote {
+    font-size: 18px;
+  }
+  .public-evaluation .recorded-answer {
+    padding: 18px;
+  }
+}

@@ -1,35 +1,47 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-20T00:00:07.961174+00:00",
-  "scope": "Three Chromium workflows against the actual loopback API and built React lab. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
-  "browser_cases_passed": 3,
+  "recorded_at": "2026-10-25T14:51:52.200483+00:00",
+  "scope": "Five Chromium workflows against the built React lab. Three exercise the actual loopback API; two inspect saved evaluation results with no API requests or cookies. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
+  "browser_cases_passed": 5,
   "workflows": [
     "real analysis, exact sources, review conflicts across tabs, reload and logout",
     "mobile conflict review and a controlled capacity message recover without automatic retries",
-    "client expiry clears a restored workspace using controlled lifetime metadata"
+    "client expiry clears a restored workspace using controlled lifetime metadata",
+    "recorded evaluation at 1440px explains comparisons and failures without API calls",
+    "recorded evaluation at 390px explains comparisons and failures without API calls"
   ],
   "privacy_scope": "Projects only authored test names, counts and hashes. No cookies, headers, session identifiers, source payloads, stderr, attachments or trace content are exported.",
-  "browser_evidence_sha256": "0a5adec3b785050ef3586ff95fa5693d2fced95fcd73a52bfa7646c5bf67c9a2",
+  "browser_evidence_sha256": "582f59f8e30073708d868e764af5b7c5fd9f510678e792c3cdc577d6db335b7d",
   "frontend_sha256": {
-    "apps/web/src/lab.tsx": "3578c18205659f57b599e31c55c686184a670f72f773b402a82095d875f0ca61",
-    "apps/web/src/lab.css": "b8a71dc8ab018880c8f0efc1799e8aac23e75039dc13e65ed1e9635785812d4e",
+    "apps/web/src/lab.tsx": "3ae5b84b09087b6f74cca751eadc1b23e89bdae208a1b07b83573c27f6e6a3bc",
+    "apps/web/src/lab.css": "9054caa1652402245d9bbb5172f1667c5b5dc0347a515b055df83b1027b16393",
     "apps/web/src/Dialog.tsx": "e3bc3463b46673c1ee53a65bc0ad73989815209cce7f7b1f6d6af2b92e8da1eb",
+    "apps/web/src/PublicHeader.tsx": "1fb34ec82af7d5e29d73a4bbfa5a0616be73a2459d0c3a67108770c94f5dcae2",
+    "apps/web/src/PublicEvaluation.tsx": "619944573bf2d3147c6b161ad42ea818f451c72b9aee37f1a6a98e892878fc75",
+    "apps/web/src/ScenarioPanel.tsx": "0a1ba2b0feb2489ff7d48256a908945d1f0211b845493bc071e3b324a4f490cd",
+    "reports/scenarios-baseline.json": "87e91ed56bd6520187d99d1b6bc781653f50b79cf6db548e9be16bb9aaeaa6fb",
+    "reports/scenarios-live-v4.json": "d7d6a05637cdd951bcecbe5612bbd04f291e6d573614eedf66d1a8ed3e41cb4d",
+    "reports/reasoning-transfer-baseline.json": "ac984949a2ad49a6c7c629b2e217b5f30b32c25ef7be297d417ec2615e72abe7",
+    "reports/reasoning-transfer-live-v4.json": "5a90f77a126e5e34cf5b1467b0b6f37f06b93f1354d13faf853516874108f8cd",
+    "datasets/reasoning-transfer.json": "7454b41b4c1a32a3808b6e9a699fd799110040adaed590d346069d153fa0146c",
     "apps/web/lab/index.html": "30d4bd3be1e022d6ea6992c9a33b8e3a7cf77a6a9e251c23324317088d112d74",
     "apps/web/vite.lab.config.ts": "fa7939c5fdd22e067115ada51e07b978076033c52c898bb885640d746bb87e0a",
-    "apps/web/playwright.lab.config.ts": "34c7d7089ef916e591283a7f2b8389fe3a2036f14d55c729d439d7ab26843ae2",
-    "apps/web/lab-e2e/lab.spec.ts": "ba5204180c002906a06afb13ac91f5c533e7c8340217831cbcedfc41bac42a7e",
+    "apps/web/playwright.lab.config.ts": "f9743da01992ccf4457c066e0ec1136cc7d712c5a108cee01851e8a9c0fcf781",
+    "apps/web/lab-e2e/lab.spec.ts": "0786eec3ff1a17a39800ad70de4db06ed0f067e18c93ddc310839786c5138ad7",
     "apps/web/package.json": "67a1cc9b4e4f718313671c26026a9c11e0204d53c7e4c34c4c208eac48bc5cfb",
-    "scripts/record_lab_browser.py": "93b8b41fc6107a1a556eed27be5df29d450f2ad67bdbe9b64c8137bb258b26f7"
+    "scripts/record_lab_browser.py": "b9ca0cdd213eabf7f0337db0f51138e39c62a0e56dd1713116194f323f392aee"
   },
-  "backend_source_sha256": "cbd42dc2dfbb09df208ce006db938500f309b93b4222e30a8f7de88fceadaf1c",
+  "backend_source_sha256": "957615a48a93554a15e1807a09cd458d56c7dc9fb48ac7bafdc7b71d321a8c13",
   "build_sha256": {
-    "assets/index-97GApLnn.css": "a2711edd993f817f9fcb7ac94cfb7abb98c3e0feb3411204b571b65e8d2c8211",
-    "assets/index-C6DbezVL.js": "144ff8211f706d9bbfa3db086b8545dbfa0387cc6114937beb3b426f5950ae9d",
-    "index.html": "2fbfb9a3de97025ce64d0ef6856431c027d256c79c89dc6b1ec8c52ef7fd9725"
+    "assets/index-C_dZAoTl.js": "fb79d061216524229b318a03f3b982b40f7f2eb46e29614a53b59c5454cb8d73",
+    "assets/index-DhMdjUiH.css": "175d048153eca2e86302bdb68eae6709cdf84208b27a31887491fc86d5207c3b",
+    "index.html": "9cf9eb13c0703c666e9b48a1511e352f633fbfb31158a8fec3b8375778464d05"
   },
   "screenshots_sha256": {
-    "reports/synthetic-workbench.png": "6114a8634f0f4363ed161c9d719b634a1042645819d9e3e8d11d31f0a23935e9",
-    "reports/synthetic-workbench-mobile.png": "a9e1fdd21caf5bcc89f26ec7681cc0b8e781151496da7aab94ef65c9d6907550"
+    "var/ui-review/screenshots/synthetic-workbench.png": "49bfa88559715682666461029f7c29d6c6c161941cb09396bc505ca0aad69c2b",
+    "var/ui-review/screenshots/synthetic-workbench-mobile.png": "e7e0845d472450d9e4281d6d1bcd08d3073413025eb9d1dc838a33618da157e4",
+    "var/ui-review/screenshots/public-evaluation-1440.png": "24a1df3dd5e1425afcce06b23c8dd6276f715f5ec0b323e2cfda9b0c641be120",
+    "var/ui-review/screenshots/public-evaluation-390.png": "f1f970fcb1af9d82a283e44d06d6f6280ba31a6b9919372997b1d76ccd7e35ab"
   },
   "identity_scope": "Source/build/screenshot hashes captured after the actual browser run; no frozen-run, signed execution or full loaded-dependency attestation. Separate ASGI evidence checks its own source before/after.",
   "new_model_provider_calls": 0

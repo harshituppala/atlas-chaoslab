@@ -66,3 +66,11 @@ The capacity response and one-second client lifetime are controlled faults. Othe
 The free container uses a twenty-second child deadline; the ordinary local launcher keeps five seconds. A first hosted attempt failed at the shorter deadline. Run `PYTHONPATH=src .runtime/bin/python scripts/verify_hosted_lab.py --deployment-source <full-deployed-revision>` to check the actual HTTPS workflow. Use only the provider-confirmed source revision. `scripts/verify_hosted_restart.py` pauses while the operator restarts this fictional service, then checks the old session and a fresh analysis. Cookies stay in memory. Run these checks sequentially: the lab deliberately allows one computation at a time.
 
 The verified deployment uses a free Render web service with no disk or model credentials and manual deploys. Sessions reset after expiry or restart. To stop it, use this lab service’s Suspend control in Render; do not delete or modify other services. A rollback must retain the lab-only entry, origin and free compute plan. Do not roll back to the original five-second container without rechecking its known analysis failure.
+
+## Inspect recorded evaluation results
+
+Open `/?view=evaluation` or choose **Evaluation results** in the header. This page compares saved synthetic baseline/model runs and exposes two failed model cases. It does not start an evaluation, call a model or create a review session. The two experiments have different units and must not be combined into one accuracy score.
+
+For a short walkthrough, start with the three-scenario comparison, then inspect the deletion deadline failure: a 24-hour supplier promise was judged as contradicting a 48-hour requirement despite a valid citation. Switch to the availability case to see an extraction failure. Return to **Review sample** for the independently runnable baseline and human review. Recorded model results do not describe the engine used by the public review sample.
+
+The lab image explicitly includes only the named public reports and authored transfer inputs. After changing these files, rebuild the frontend and container and rerun browser acceptance. The browser recorder reads current private test screenshots rather than historical, owner-edited report images.

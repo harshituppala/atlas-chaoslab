@@ -1,0 +1,33 @@
+{
+  "context_before_analysis": true,
+  "real_recovery_example": true,
+  "status_explanations": true,
+  "status": "passed",
+  "url": "https://atlas-review-lab.onrender.com",
+  "viewport_widths": [
+    1440,
+    390
+  ],
+  "requirements": 8,
+  "source_highlight": true,
+  "human_review": true,
+  "reload_restored": true,
+  "secure_httponly_strict_cookie": true,
+  "javascript_storage_empty": true,
+  "logout_cleared": true,
+  "no_horizontal_overflow": true,
+  "runtime_errors": [],
+  "limits": [
+    "Targeted Chromium workflow, not exhaustive accessibility/browser coverage.",
+    "No controlled mocks, paid model calls, load, ten-minute expiry or host restart in this run."
+  ],
+  "recorded_at": "2026-10-24T02:06:13.429099+00:00",
+  "deployment_source": "94e7c5101ac21bd87664601df208eddd1d5e19af",
+  "verification_source_sha256": "7673e329f9e69e428a0c177a03cbe3ae1dc1eff0a7af59aa55e7857f0f7353c2",
+  "source_hash_scope": "Post-execution private script identity, not a runtime attestation.",
+  "screenshots_sha256": {
+    "reports/guided-hosted-start.png": "5e3d83a1b5d4b789d2e0f463c50172d0fc7503fbab3397acd8ec607105799141",
+    "reports/guided-hosted-desktop.png": "4bcfec65d9de9e2d58c6ab47a64c9656a5994538409d0e8b3646e4811200e0fc",
+    "reports/guided-hosted-mobile.png": "584999f114c73d361ab3c70999126f86728f64dd914deedcfac98122f942b8bc"
+  }
+}

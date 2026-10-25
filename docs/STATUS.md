@@ -91,6 +91,8 @@ A separate, explicit continuation runner now preserves an admitted prefix and re
 
 CHAOSLAB now explains its evaluation task before the metrics, keeps the baseline/model comparison visible and groups longer technical tables behind a disclosure. Links reveal their destination; metric definitions distinguish source integrity from answer correctness. Nineteen local Chromium cases passed, including overview/expanded phone and tablet layouts. [Evaluation guide evidence](../reports/evaluation-guide.json) records local scope. No stored metrics, labels or model results changed.
 
+The guided source release passed all three [GitHub CI jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39955438105). Render confirmed revision `94e7c51` live on the existing free fictional lab. [HTTPS acceptance](../reports/hosted-lab.json) matched the two served assets and checked eight requirements/fourteen exact spans. A separate [hosted browser run](../reports/guided-hosted-browser.json) checked the explanation, actual recovery shortcut, finding definitions, source/review/reload/logout flow and phone layout. These checks made no model request or new managed-service claim.
+
 ## Remaining work
 
 - Observe free-host cold starts and usage limits; keep the temporary lab separate from a durable service.
@@ -99,3 +101,7 @@ CHAOSLAB now explains its evaluation task before the metrics, keeps the baseline
 - Finish a practical interview walkthrough that the project owner can explain and demonstrate.
 
 PATCHWORK is deferred. Record walkthrough videos after the projects and final checks are complete, then add them to the portfolio.
+
+The public lab source now includes a separate read-only CHAOSLAB results page, with saved baseline/model comparisons and inspectable threshold/extraction failures. Five local Chromium workflows passed at desktop/phone widths, including the existing live baseline review controls and direct evaluation navigation without API calls, cookies or browser storage. These are authored development results, not a new model run or general accuracy measurement. Hosted acceptance of this page remains pending. See [ADR 056](adr/056-public-recorded-evaluation.md).
+
+The updated lab image also passed 39 focused Linux tests under the existing non-root, read-only, network-isolated runtime. Its real HTTP workflow checked eight requirements and fourteen citations, stale-review rejection and session isolation; restart rejected the old cookie and allowed a fresh analysis. The verifier's stale expectation of 32 tests was corrected to the current suite of 39. This is local container acceptance, not hosted acceptance of the new page.
