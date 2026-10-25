@@ -678,13 +678,41 @@ th {
   border-bottom: 1px solid #e6ece6;
   padding: 15px 0;
 }
-.audit-event span {
-  margin: 0 20px;
-  color: #789083;
+.audit-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 20px;
 }
+.audit-heading h3 {
+  margin: 0;
+}
+.audit-actor {
+  font-size: 12px;
+  color: #66716a;
+}
+.audit-subject {
+  font-weight: 600;
+}
+.audit-note {
+  margin: 16px 0;
+  padding-left: 16px;
+  border-left: 2px solid #81927c;
+}
+.audit-event details {
+  margin-top: 16px;
+}
+.audit-event summary {
+  cursor: pointer;
+  font-size: 12px;
+}
+
 .audit-event pre {
   font-size: 12px;
   color: #728878;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 .error {
   background: #fae9e6;

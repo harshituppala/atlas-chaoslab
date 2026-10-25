@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-25T22:49:06.162393+00:00",
+  "scope": "One real Chromium workflow through an isolated loopback API, worker and SQLite database using fresh synthetic bearer credentials. PDF/DOCX upload, queued baseline, exact page mapping and original bytes, conflict approval blocked, rejection saved, reconnect/reload persistence, audit note and disconnect checked. No Cognito, deployed identity, TLS, PostgreSQL, cross-tenant or restart acceptance claim.",
+  "browser_workflows_passed": 1,
+  "authentication": "fresh private local bearer; not external sign-in",
+  "database": "new isolated SQLite database; no existing workspace changed",
+  "input_sha256": {
+    "apps/web/e2e/workbench.spec.ts": "1cc5e19743853a557ce8ba41da76ebd6c6a3a8e512b1157b3acdb696cd46d773",
+    "datasets/documents/municipal-rfp.pdf": "ee3d55d69e92de8fa7efc88e5fb5acf79f859812b2f0728ab8eb2beb335b96ae",
+    "datasets/documents/capability-register.docx": "78a6846f9a24d1def4e6de3b6eadba8ae38a695ad28818e7c13e3ca612d19c07",
+    "scripts/verify_document_review.py": "afe0aa264bc860e8c08b71ad4aa8ca6f04dc99914ae7810925484204f1e81d57"
+  },
+  "source_and_build_manifest_sha256": "b911853881833ddd1fa54c4696965c744246a46e57b446bac0adb68258276803",
+  "manifest_files": 99,
+  "provenance_scope": "Source and built artifact hashes checked before and after the rehearsal. Not signed execution provenance or an attestation of every loaded dependency.",
+  "browser_evidence_sha256": "53f2211f4fe9318b5d6154a77769e903efdf027801b0e169f6eb2767372cee8c",
+  "new_model_provider_calls": 0
+}

@@ -10,7 +10,20 @@ Start with the review problem, then show how the evaluator catches mistakes. Kee
 4. Leave the recovery finding rejected, save the review and reload. Show the saved decision. The lab's temporary history survives a page reload but expires or disappears when the service restarts.
 5. End the session. Do not describe the public lab as accepting arbitrary uploads, running a paid model or offering durable storage.
 
-The private workbench also accepts text-bearing PDF/DOCX files and pasted documents. Demonstrating that separate profile requires a prepared fictional file, a running API/worker and a completed off-camera sign-in. The real Cognito acceptance covers one local user with SQLite; it does not establish deployed managed-service acceptance. Keep credentials, account menus and external contract text off camera.
+The private workbench has a separately rehearsed document-intake flow. Upload `datasets/documents/municipal-rfp.pdf` as the RFP and `datasets/documents/capability-register.docx` as the evidence. They contain two mapped pages and eight mapped paragraphs. Analyze them using the baseline, open the recovery requirement on page two and download the original PDF. The rehearsal checks that the downloaded bytes match the input.
+
+For the conflicting recovery promise, approval stays disabled. Record a rejection with a reason, reload, reconnect and reopen the saved analysis. The rejected version remains available. Open **Audit trail** to see the decision, requirement, actor and note; source identifiers and other technical fields sit behind **Technical details**. Disconnect to clear the displayed history.
+
+This rehearsal uses a fresh local bearer identity and isolated SQLite database. The separate real Cognito acceptance covers one local user; neither establishes deployed managed-service acceptance. Complete sign-in off camera and keep credentials, account menus and external contract text out of the recording.
+
+To reproduce the document workflow with the locked environment, installed Chromium and Node/pnpm available:
+
+```sh
+pnpm --dir apps/web build
+PYTHONPATH=src .runtime/bin/python scripts/verify_document_review.py
+```
+
+The runner starts its own API/worker on loopback port 8136, creates private temporary credentials and a new database under `var/intake-rehearsal`, and stops its processes afterward. It expects Chromium in `.cache/playwright`; install it with that explicit browser-cache path if necessary. `--node` and `--pnpm` accept explicit executable paths. It never modifies the existing workspace database or enables model jobs. Logs and credentials remain private; the public [rehearsal report](../reports/document-review-rehearsal.json) contains only scope, counts and fingerprints.
 
 ## CHAOSLAB: inspect a wrong answer, then reproduce a gate
 

@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-10-25T22:49:37.060145+00:00",
+  "scope": "Twelve real connected-workbench Chromium cases using a fresh isolated local API/worker/SQLite profile. Some existing cases intentionally intercept responses; this is not twelve independent live model or identity-provider tests. Separate from the single real document-intake rehearsal.",
+  "browser_cases_passed": 12,
+  "case_names": [
+    "review a sourced requirement and inspect measured failures",
+    "modal keyboard boundaries, focus return, disconnect and response privacy",
+    "upload PDF and DOCX, inspect a mapped page, and recover the original",
+    "source highlighting preserves Unicode character offsets after emoji",
+    "viewer controls reflect the resolved workspace identity",
+    "unknown quality metrics are displayed without fabricated zeroes",
+    "live diagnostics expose incomplete coverage and unknown cost",
+    "analysis mode selection is explicit and resets to baseline (controlled capabilities)",
+    "saved model review displays unknown cost and configuration (controlled result)",
+    "complete scenarios distinguish obligation and whole-review results",
+    "connected review and benchmark reading at 390px",
+    "connected review and benchmark reading at 900px"
+  ],
+  "browser_evidence_sha256": "a867654b23bf5aa5271943078043f66ed405c4f2f973be2f12369da09fc5a33c",
+  "test_source_sha256": "1cc5e19743853a557ce8ba41da76ebd6c6a3a8e512b1157b3acdb696cd46d773",
+  "private_orchestrator_sha256": "67158beb6bdf38dcf9729c5c77f35e44ef9b24d54a97f3eb5d9cb37a274319b9",
+  "provenance_scope": "Post-run local evidence projection, not signed execution or a frozen dependency attestation.",
+  "synthetic_preview_sha256": "304b5a9e4e4c37bcff64111bf3b199b0179bd7d578e476882107fd239c24714a",
+  "new_model_provider_calls": 0
+}

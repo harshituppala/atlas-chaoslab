@@ -2,7 +2,12 @@ import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 const screenshotRoot = "../../var/ui-review/screenshots";
 const token = Object.keys(
-  JSON.parse(readFileSync("../../var/local-credentials.json", "utf8")),
+  JSON.parse(
+    readFileSync(
+      process.env.ATLAS_TEST_CREDENTIALS ?? "../../var/local-credentials.json",
+      "utf8",
+    ),
+  ),
 )[0];
 test("review a sourced requirement and inspect measured failures", async ({
   page,
@@ -235,6 +240,64 @@ test("upload PDF and DOCX, inspect a mapped page, and recover the original", asy
     path: `${screenshotRoot}/upload-source.png`,
     fullPage: false,
   });
+  await page.getByLabel("Close source").click();
+  await expect(
+    page.getByRole("button", { name: "Approve evidence review" }),
+  ).toBeDisabled();
+  await page
+    .getByLabel("Review note")
+    .fill(
+      "The uploaded supplier record promises eight hours against a four-hour limit.",
+    );
+  await page.getByRole("button", { name: "Reject", exact: true }).click();
+  await expect(page.getByText("v2 · rejected", { exact: true })).toBeVisible();
+  await page.reload();
+  await expect(page.getByLabel("Workspace token")).toBeVisible();
+  await page.getByLabel("Workspace token").fill(token);
+  await page.getByRole("button", { name: "Connect", exact: true }).click();
+  await page.locator(".history button").first().click();
+  await page
+    .locator("button.requirement")
+    .filter({ hasText: "Recovery time must be at most 4 hours." })
+    .click();
+  await expect(page.getByText("v2 · rejected", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Audit trail", exact: true }).click();
+  await expect(
+    page.locator(".audit-event").filter({
+      hasText:
+        "The uploaded supplier record promises eight hours against a four-hour limit.",
+    }),
+  ).toHaveCount(1);
+  const auditReview = page.locator(".audit-event").filter({
+    has: page.getByRole("heading", {
+      name: "Evidence review rejected",
+      exact: true,
+    }),
+  });
+  await expect(auditReview.locator(".audit-note")).toBeVisible();
+  await expect(auditReview.locator(".audit-subject")).toContainText(
+    "Recovery time must be at most 4 hours.",
+  );
+  await expect(
+    auditReview.getByText("Saved review version 2", { exact: true }),
+  ).toBeVisible();
+  await expect(auditReview.locator("pre")).not.toBeVisible();
+  await auditReview.getByText("Technical details", { exact: true }).click();
+  await expect(auditReview.locator("pre")).toContainText("review.rejected");
+  await auditReview.getByText("Technical details", { exact: true }).click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.screenshot({
+    path: `${screenshotRoot}/upload-review-audit.png`,
+    fullPage: false,
+  });
+  await page.getByRole("button", { name: "Disconnect", exact: true }).click();
+  await expect(page.locator(".audit-event")).toHaveCount(0);
 });
 
 test("source highlighting preserves Unicode character offsets after emoji", async ({
