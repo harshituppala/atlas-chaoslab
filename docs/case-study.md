@@ -32,12 +32,12 @@ CHAOSLAB checks extraction, evidence selection, citation integrity, review state
 
 The small fictional RFP datasets help explain specific failures, but they are too narrow for a general accuracy claim. A separate [ContractNLI evaluation](contractnli-evaluation.md) uses externally authored NDA annotations. On all 61 development contracts, the model reached 77.4% label accuracy and 48.7% correctness when both the label and complete evidence were required. Only 41 of 95 contradictions were labeled correctly. These are development results, not RFP accuracy or legal validation.
 
-Saved responses can be rescored without importing the adapter or making another model call. A fresh standalone CHAOSLAB installation reproduced the development scores with ATLAS and provider libraries absent. The next comparison uses a separate test split with the model and scoring rules frozen before that split was loaded.
+Saved responses can be rescored without importing the adapter or making another model call. A fresh standalone CHAOSLAB installation reproduced the development scores with ATLAS and provider libraries absent. A separate test comparison fixed the model and scoring rules before that split was loaded. Across 123 contracts and 2,091 claims, it reached 77.5% label accuracy and 49.4% joint label/evidence correctness. The standalone evaluator reproduced the complete result without model calls.
 
 ## Where the project stands
 
 The fictional public lab has HTTPS, browser and restart checks. Its temporary sessions reset as advertised. Real Cognito reviewer sign-in has also been verified locally, including workspace denial, saved review, logout and repeat sign-in. The full authenticated workbench still needs durable hosted storage and deployed recovery checks.
 
-The complete development evaluation and its independent replay are published. The separate test run and final demonstration recordings are not complete. [Current status](STATUS.md) records individual runs and remaining work without treating one successful check as proof of everything else.
+The complete development evaluation and its independent replay are published. The separate test run and independent replay are also published. Final demonstration recordings and durable managed hosting are not complete. [Current status](STATUS.md) records individual runs and remaining work without treating one successful check as proof of everything else.
 
 [Run locally](../README.md#run-atlas-locally) · [Architecture](architecture.md) · [Security assumptions](threat-model.md) · [Reviewer route](reviewer-guide.md)

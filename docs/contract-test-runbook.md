@@ -1,6 +1,6 @@
 # Run the separate contract test evaluation
 
-The development comparison is complete. The test run uses the same Claude Haiku 4.5 adapter on a separate split, with the rules fixed before test inputs were loaded. Its protocol and offline plan are recorded; no test score is published yet.
+The development comparison is complete. The test run uses the same Claude Haiku 4.5 adapter on a separate split, with the rules fixed before test inputs were loaded. Its [complete result](contractnli-evaluation.md#frozen-test-result--october-26), protocol and independent replay are recorded. The commands below reproduce the process; do not rerun paid inference just to inspect the saved result.
 
 ## What is fixed
 
@@ -67,3 +67,19 @@ chaoslab-contractnli-test \
 Replay checks the pinned protocol, scorer, dataset and complete journal before writing aggregate results. It neither imports the named adapter nor contacts a provider. Match its result object with the model run before publication. Keep raw contracts, annotations, predictions and provider records private.
 
 This is a public NDA dataset that may have appeared in pretraining. A frozen test result can measure this experiment without post-test tuning; it cannot establish performance on previously unseen private contracts, RFP accuracy or legal correctness.
+
+
+## Export the completed model run
+
+The reviewed aggregate export checks the complete live-run status, protocol/source identity, journal adapter, replay equality, all 123 usage receipts, model/region and token limits before writing a report:
+
+```sh
+PYTHONPATH=src .runtime/bin/python scripts/record_contract_test.py \
+  --archive var/external-data/contractnli/contract-nli.zip \
+  --protocol var/contract-model-runs/test-protocol-v1.json \
+  --protocol-sha256 CHECKSUM_FROM_FREEZE \
+  --run-dir var/contract-model-runs/test-v1 \
+  --output var/contract-model-test.json
+```
+
+Thirteen fictional controls reject partial or non-live runs, changed scores, source, protocol, receipt identity, call limits and cost arithmetic. They are [export checks](../reports/contract-test-export-controls.json), separate from the model-quality result. Preserve the frozen source revision or installed wheel for later replay; a newer scorer must not silently replace it.

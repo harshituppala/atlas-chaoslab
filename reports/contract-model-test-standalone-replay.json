@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-26T15:29:19.023551+00:00",
+  "documents": 123,
+  "claims": 2091,
+  "results_equal": true,
+  "reference_equal": true,
+  "separate_installed_wheel": true,
+  "atlas_boto3_fastapi_sqlalchemy_absent": true,
+  "provider_requests": 0,
+  "wheel_sha256": "9248700955ad939eaa04bc3bb3a4925a0dcc3e502fad9ef1c96a7cba363896e1",
+  "protocol_sha256": "c6ec791090c68628712cc573bf582850e52fb6c65ec5a6cb67def94dc5a044cf",
+  "observations_sha256": "cdee12b2c14156a860f9ee1f8d9507a14b40c0461a5e2ea21b6970e6e73be50e",
+  "scope": "Actual complete test observations independently replayed with the frozen scorer in a fresh standalone wheel outside the checkout. Both model and constant-reference result objects matched. No adapter import or provider call; not response authenticity or general contract accuracy."
+}

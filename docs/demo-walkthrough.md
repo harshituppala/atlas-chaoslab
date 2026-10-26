@@ -38,7 +38,7 @@ The runner starts its own API/worker on loopback port 8136, creates private temp
 
 The public browser acceptance covers both layouts, failure selection and the absence of API calls on the recorded-results page. The independent rehearsal executes all four CLI comparisons in a separate installed environment without ATLAS. See [hosted checks](../reports/public-evaluation-hosted.json) and [CLI rehearsal](../reports/demo-walkthrough.json).
 
-These checks establish the steps above, not audience comprehension or a finished video. No recording has been made. The complete external development-model evaluation and independent replay are now published. The separate frozen test comparison and durable managed hosting remain unfinished delivery gates. Do not substitute small synthetic scores for those results or describe them as representative contract accuracy.
+These checks establish the steps above, not audience comprehension or a finished video. No recording has been made. The complete external development-model evaluation and independent replay are now published. The separate frozen test comparison and standalone replay are now published too. Durable managed hosting remains unfinished. Do not substitute small synthetic scores for those results or describe them as representative contract accuracy.
 
 
 ## Recheck the private workbench

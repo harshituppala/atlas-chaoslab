@@ -1,0 +1,11 @@
+{
+  "recorded_at": "2026-10-26T15:31:45.268961+00:00",
+  "scope": "Controlled aggregate-export admission using fictional complete test observations; no external input or provider calls in these controls. Actual model results and independent wheel replay have separate reports.",
+  "export_controls_passed": 13,
+  "native_tests_passed": 911,
+  "optional_postgres_groups_skipped": 18,
+  "source_sha256": {
+    "scripts/record_contract_test.py": "130692fe2ab2debd66105d4cf38289e86c67dbdfef7ff157f80d247d9f2c1d89",
+    "tests/test_contract_test_export.py": "50a36a6a4ff7abae0d3a79743ab3cf0f412669d476fda54f21476ff122a1ccf0"
+  }
+}

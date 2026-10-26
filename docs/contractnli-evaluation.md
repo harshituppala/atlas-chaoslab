@@ -33,7 +33,7 @@ The public report contains aggregate results, dataset/source fingerprints and th
 
 ## What remains
 
-The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The completed development comparison below does not replace the separate test comparison. Its protocol was frozen before test JSON was first loaded for offline request validation and cost planning; no test predictions or scores are published yet.
+The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The completed development comparison below does not replace the separate test comparison. Its protocol was frozen before test JSON was first loaded for offline request validation and cost planning; the complete test result is recorded below.
 
 ## Save a run and rescore it
 
@@ -87,4 +87,27 @@ The aggregate exporter replayed the complete saved journal and matched the origi
 
 The 38 new calls used 276,623 input and 16,366 output tokens, with a recorded inference estimate of US$0.3942983. The reused prefix has a separate estimate of US$0.2406261. The continuation took about 374 seconds, including token preflight, ten-second pacing, responses, recording and scoring; saved-prefix generation time is excluded. These figures are neither invoices nor a complete account bill, and exclude other stopped attempts. All reservations remain retained.
 
-This is an NDA development task with externally authored annotations. It is not an untouched test, an RFP accuracy measurement, legal validation or a continuous 61-request run. The public corpus may have appeared in model training. Raw contracts, predictions and private provider records remain excluded from this repository. The [test protocol](contract-test-runbook.md) has since been frozen and its full input/cost plan admitted offline. Test-model results are still pending.
+This is an NDA development task with externally authored annotations. It is not an untouched test, an RFP accuracy measurement, legal validation or a continuous 61-request run. The public corpus may have appeared in model training. Raw contracts, predictions and private provider records remain excluded from this repository. The [test protocol](contract-test-runbook.md) has since been frozen and its full input/cost plan admitted offline. The complete test result is recorded below.
+
+
+## Frozen test result — October 26
+
+The [test report](../reports/contract-model-test.json) covers all 123 test contracts and 2,091 claims. The model, prompt, request/schema code, token limits, scorer and reporting rules were frozen before test JSON was first loaded. There was no selected subset, retry or post-test tuning.
+
+| Measure | Constant NotMentioned reference | Claude Haiku 4.5 |
+| --- | ---: | ---: |
+| Label accuracy, all 2,091 claims | 43.2% | 77.5% |
+| Macro label F1, the primary measure | 0.201 | 0.699 |
+| Correct label and exact evidence set | 43.2% | 49.4% |
+| Evidence precision, 1,188 evidence-bearing claims | Undefined; no spans selected | 84.7% |
+| Evidence recall, same claims | 0% | 49.1% |
+
+The model labeled 90 of 220 contradictions correctly. It called another 49 contradictions entailments and 81 not mentioned. It also labeled 211 not-mentioned claims as entailments. Seven omitted predictions remain in the denominator; no document response failed structurally. The model selected the complete expected evidence set for 398 of 1,188 evidence-bearing claims (33.5%). The joint measure also includes not-mentioned claims with an empty expected evidence set, so it must not be read as evidence extraction accuracy.
+
+These results reinforce the development finding: the model often finds relevant passages, but still misses contradictions and supporting detail. A review application should keep the original text and the human decision visible. This experiment does not justify approving requirements automatically.
+
+The aggregate exporter independently replayed the complete journal, checked the frozen recipe and reconciled every usage receipt. A [second replay](../reports/contract-model-test-standalone-replay.json) ran the installed CHAOSLAB wheel outside the checkout with ATLAS, boto3, FastAPI and SQLAlchemy absent. Both the model and constant-reference result objects matched exactly, without another provider call.
+
+The run made 123 requests, using 860,906 input and 52,483 output tokens. Its recorded inference estimate is US$1.2356531, not an invoice. The approximately 1,225-second wall time includes token preflight, ten-second pacing, model responses, recording and scoring; it is not per-request latency. All campaign reservations remain retained. Raw contracts, annotations, predictions and provider records stay private.
+
+This is a frozen experiment on a public NDA dataset. The split was not used by this project before the protocol was fixed, but the corpus may have appeared in model pretraining. The result does not establish legal correctness, end-to-end RFP accuracy, performance on private customer documents or an improvement over the paper's trained systems.

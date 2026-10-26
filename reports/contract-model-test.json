@@ -1,0 +1,150 @@
+{
+  "recorded_at": "2026-10-26T15:28:59.514273+00:00",
+  "task": "contractnli-test-v1",
+  "source": "https://stanfordnlp.github.io/contract-nli/",
+  "citation": "Yuta Koreeda and Christopher D. Manning. ContractNLI. Findings of EMNLP 2021.",
+  "license": "CC BY 4.0; notices retained with private archive",
+  "dataset": {
+    "archive_sha256": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b",
+    "member": "contract-nli/test.json",
+    "member_sha256": "460267b56052a2dc5aead98eb35eadef9e6734d5723d37b4a9790e410f812387"
+  },
+  "protocol_sha256": "c6ec791090c68628712cc573bf582850e52fb6c65ec5a6cb67def94dc5a044cf",
+  "protocol_created_at": "2026-10-26T14:54:36.630004+00:00",
+  "model_run_recorded_at": "2026-10-26T15:01:06.908785+00:00",
+  "private_run_sha256": "710574f95896e64229c883db0c3f04fcb21d1d828901f502d5b4bfa26c04a69f",
+  "model_run_source_sha256": "73738108cec2acb1a5464b85a5158d3fe2b8cca077bb78a25ea910148d83bdf0",
+  "scorer_sha256": "709a03c05ccfbbcd422a874d37a4dabb4124bad5fe885001552219d011714323",
+  "recorder_sha256": "130692fe2ab2debd66105d4cf38289e86c67dbdfef7ff157f80d247d9f2c1d89",
+  "observations": {
+    "sha256": "cdee12b2c14156a860f9ee1f8d9507a14b40c0461a5e2ea21b6970e6e73be50e",
+    "records": 123,
+    "origin_scorer_sha256": "709a03c05ccfbbcd422a874d37a4dabb4124bad5fe885001552219d011714323"
+  },
+  "replay_matches_recorded_results": true,
+  "results": {
+    "documents": 123,
+    "claims": 2091,
+    "failed_documents": 0,
+    "missing_predictions": 7,
+    "label_accuracy": 0.7752271640363463,
+    "macro_label_f1": 0.6994445839527875,
+    "joint_label_and_exact_evidence": 0.49402199904351984,
+    "per_class": {
+      "Entailment": {
+        "support": 968,
+        "correct": 876,
+        "f1": 0.8326996197718631
+      },
+      "Contradiction": {
+        "support": 220,
+        "correct": 90,
+        "f1": 0.5
+      },
+      "NotMentioned": {
+        "support": 903,
+        "correct": 655,
+        "f1": 0.7656341320864991
+      }
+    },
+    "confusion": {
+      "Entailment": {
+        "Entailment": 876,
+        "NotMentioned": 72,
+        "Contradiction": 17,
+        "missing": 3
+      },
+      "Contradiction": {
+        "Contradiction": 90,
+        "NotMentioned": 81,
+        "Entailment": 49
+      },
+      "NotMentioned": {
+        "NotMentioned": 655,
+        "Entailment": 211,
+        "Contradiction": 33,
+        "missing": 4
+      }
+    },
+    "evidence": {
+      "eligible_claims": 1188,
+      "exact_sets": 398,
+      "matched_spans": 1180,
+      "predicted_spans": 1393,
+      "expected_spans": 2404,
+      "micro_precision": 0.8470926058865758,
+      "micro_recall": 0.4908485856905158
+    }
+  },
+  "constant_not_mentioned_reference": {
+    "documents": 123,
+    "claims": 2091,
+    "failed_documents": 0,
+    "missing_predictions": 0,
+    "label_accuracy": 0.43185078909612623,
+    "macro_label_f1": 0.20106880427521712,
+    "joint_label_and_exact_evidence": 0.43185078909612623,
+    "per_class": {
+      "Entailment": {
+        "support": 968,
+        "correct": 0,
+        "f1": 0.0
+      },
+      "Contradiction": {
+        "support": 220,
+        "correct": 0,
+        "f1": 0.0
+      },
+      "NotMentioned": {
+        "support": 903,
+        "correct": 903,
+        "f1": 0.6032064128256514
+      }
+    },
+    "confusion": {
+      "Entailment": {
+        "NotMentioned": 968
+      },
+      "Contradiction": {
+        "NotMentioned": 220
+      },
+      "NotMentioned": {
+        "NotMentioned": 903
+      }
+    },
+    "evidence": {
+      "eligible_claims": 1188,
+      "exact_sets": 0,
+      "matched_spans": 0,
+      "predicted_spans": 0,
+      "expected_spans": 2404,
+      "micro_precision": null,
+      "micro_recall": 0.0
+    }
+  },
+  "usage": {
+    "provider": "bedrock",
+    "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "region": "us-east-1",
+    "calls": 123,
+    "receipt_statuses": {
+      "validated": 123
+    },
+    "input_tokens": 860906,
+    "output_tokens": 52483,
+    "estimated_inference_cost_usd": "1.2356531",
+    "cost_is_invoice": false,
+    "price_card": {
+      "model_id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+      "region": "us-east-1",
+      "input_usd_per_million": "1.10",
+      "output_usd_per_million": "5.50",
+      "verified_on": "2026-10-26",
+      "source": "https://aws.amazon.com/bedrock/pricing/"
+    }
+  },
+  "wall_seconds": 1224.7687392499993,
+  "timing_scope": "Sequential token preflight, model response, configured pacing, private recording and scoring. Excludes archive loading and credential setup; not per-request latency.",
+  "min_interval_seconds": 10,
+  "limits": "Public NDA annotations may be in pretraining. Not RFP accuracy, legal validation or evidence of unseen private-domain performance. Complete test cohort under rules frozen before test JSON was loaded. No post-test tuning or selected subset. Local files and SDK receipts are not signed provider attestations or invoices. Wall time includes token preflight, pacing, recording and scoring; it is not per-request latency. Raw contracts and predictions remain private."
+}

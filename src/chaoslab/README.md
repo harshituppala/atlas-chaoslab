@@ -53,7 +53,7 @@ The [ContractNLI task](../../docs/contractnli-evaluation.md) uses externally aut
 
 The complete model cohort combines 23 saved responses and 38 new requests. Both the aggregate exporter and a fresh standalone installation reproduced its scores from the saved observations. Raw contracts and predictions stay private. These are NDA development results, not RFP accuracy, legal validation or a measure of previously unseen private contracts.
 
-The separate test command requires a [frozen protocol](../../docs/contract-test-runbook.md). Its model, prompt, scorer and failure rules were locked before the test split was first loaded for offline planning. No test result is published yet. The installed evaluator can replay a complete test journal without ATLAS or a provider SDK.
+The separate test command requires a [frozen protocol](../../docs/contract-test-runbook.md). Its model, prompt, scorer and failure rules were locked before the test split was first loaded for offline planning. The complete test result is now published: 77.5% label accuracy and 49.4% joint label/evidence correctness across 123 contracts. Its confusion matrix and missing predictions remain in the report. The installed evaluator can replay a complete test journal without ATLAS or a provider SDK.
 
 ## Document ingestion
 
