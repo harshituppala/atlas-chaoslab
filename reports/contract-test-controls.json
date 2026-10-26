@@ -1,0 +1,37 @@
+{
+  "recorded_at": "2026-10-26T15:22:27.712880+00:00",
+  "scope": "Fictional protocol and split-boundary controls, full local native suite and fresh standalone wheel. Actual test inputs admitted offline only after protocol freeze; no test-model quality result in this record.",
+  "new_guard_cases_passed": 22,
+  "native_tests_passed": 898,
+  "optional_postgres_groups_skipped": 18,
+  "standalone_fictional_protocol_and_replay_passed": true,
+  "protocol_sha256": "c6ec791090c68628712cc573bf582850e52fb6c65ec5a6cb67def94dc5a044cf",
+  "offline_plan": {
+    "plan": {
+      "selected_cases": 123,
+      "call_cap": 123,
+      "per_call_reserved_usd": "0.048928",
+      "maximum_reserved_inference_usd": "6.018144",
+      "network_used": false,
+      "scope": "Configured inference-token reservation bound, not a provider quote, invoice or total AWS cost. Model/region compatibility and prices require independent verification."
+    },
+    "dataset": {
+      "archive_sha256": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b",
+      "member": "contract-nli/test.json",
+      "member_sha256": "460267b56052a2dc5aead98eb35eadef9e6734d5723d37b4a9790e410f812387"
+    },
+    "protocol_sha256": "c6ec791090c68628712cc573bf582850e52fb6c65ec5a6cb67def94dc5a044cf",
+    "provider_requests": 0
+  },
+  "source_sha256": {
+    "src/chaoslab/contract_holdout.py": "9a2f336bb7123fa4e1216b9e49f929ceb79ff35a5246131196dea6fa9daad87c",
+    "src/chaoslab/contractnli.py": "5a1108f672cbefbaea65dcf7341894889f5976f16fe82ec2ee714e53ce1727d7",
+    "src/chaoslab/contract_journal.py": "663515b53d70cda2f1d90bb7ee4dca76da7413636cbd20df7c69fcedd249d51a",
+    "src/atlas/models/contract_holdout.py": "83a051b4d2043d5e1de9f7e138e30af3322d634e3321a5f44c5aa12d16b733a7",
+    "src/atlas/models/contract_evaluation.py": "59f90dc15cd0ea5295360e5595e0faeeb7f5edd1f3331c691baea295468633c3",
+    "src/atlas/models/contracts.py": "4b3865768c85571640b38fe860234975752958880e22d72536c78129469ed95e",
+    "tests/test_contract_holdout.py": "89423db7453cdafd1ffcd58fe9e16273e443dd00bc2509d5dc794a23ac1e63ce",
+    "scripts/verify_chaoslab_package.py": "ffddd4bfdc65ab8a0339ce56020d2bc1d736eb80e25fb30a6386e9ff55749e3a"
+  },
+  "limits": "Checksums bind files, not loaded code or provider authenticity. No raw contracts or observations in this record. The separate paid test run and its replay need their own acceptance report."
+}

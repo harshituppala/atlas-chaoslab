@@ -44,7 +44,11 @@ def invalid_constant(_):
 class ObservationJournal:
     """Only the new run directory is writable; no raw observations enter reports."""
 
-    def __init__(self, directory, *, dataset, adapter, scorer_sha256):
+    def __init__(
+        self, directory, *, dataset, adapter, scorer_sha256, task="contractnli-development-v1"
+    ):
+        if task not in {"contractnli-development-v1", "contractnli-test-v1"}:
+            raise ValueError("Unsupported journal task")
         self.directory = Path(directory).resolve()
         if not self.directory.is_relative_to(Path("var").resolve()):
             raise ValueError("Observation directory must be new and under private var/")
@@ -62,7 +66,7 @@ class ObservationJournal:
         self.header = {
             "kind": "header",
             "schema_version": 1,
-            "task": "contractnli-development-v1",
+            "task": task,
             "dataset": dataset,
             "adapter": adapter,
             "scorer_sha256": scorer_sha256,
@@ -118,8 +122,10 @@ class ObservationJournal:
         self.stream.close()
 
 
-def read_observations(path, *, dataset, inputs):
+def read_observations(path, *, dataset, inputs, task="contractnli-development-v1"):
     """Admit a complete saved run without importing or calling its adapter."""
+    if task not in {"contractnli-development-v1", "contractnli-test-v1"}:
+        raise ValueError("Unsupported journal task")
     try:
         descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
         with os.fdopen(descriptor, "rb") as source:
@@ -163,7 +169,7 @@ def read_observations(path, *, dataset, inputs):
                         or value["kind"] != "header"
                         or type(value["schema_version"]) is not int
                         or value["schema_version"] != 1
-                        or value["task"] != "contractnli-development-v1"
+                        or value["task"] != task
                         or value["dataset"] != dataset
                     ):
                         raise ValueError

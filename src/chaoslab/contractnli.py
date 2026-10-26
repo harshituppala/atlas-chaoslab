@@ -94,7 +94,14 @@ def validate_development(data):
 
 
 def load_development(path, *, expected_sha256=ARCHIVE_SHA256):
-    """Read one fixed member in place; never extract archive-supplied paths."""
+    """The existing entry point remains development-only."""
+    return _load_split(path, MEMBER, expected_sha256=expected_sha256)
+
+
+def _load_split(path, member_name, *, expected_sha256=ARCHIVE_SHA256):
+    """Bounded fixed-member reader; test admission belongs to contract_holdout."""
+    if member_name not in {MEMBER, "contract-nli/test.json"}:
+        raise ValueError("Unsupported contract split")
     try:
         descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
         with os.fdopen(descriptor, "rb") as stream:
@@ -107,7 +114,7 @@ def load_development(path, *, expected_sha256=ARCHIVE_SHA256):
             stream.seek(0)
             with zipfile.ZipFile(stream) as archive:
                 members = archive.infolist()
-                selected = [member for member in members if member.filename == MEMBER]
+                selected = [member for member in members if member.filename == member_name]
                 if len(members) > 10000 or len(selected) != 1:
                     raise ValueError
                 member = selected[0]
@@ -138,14 +145,16 @@ def load_development(path, *, expected_sha256=ARCHIVE_SHA256):
         raise ValueError("ContractNLI archive or development split rejected") from None
     return data, {
         "archive_sha256": before,
-        "member": MEMBER,
+        "member": member_name,
         "member_sha256": hashlib.sha256(raw).hexdigest(),
     }
 
 
-def adapter_input(document, labels):
+def adapter_input(document, labels, *, task="contractnli-development-v1"):
+    if task not in {"contractnli-development-v1", "contractnli-test-v1"}:
+        raise ValueError("Unsupported contract task")
     return {
-        "task": "contractnli-development-v1",
+        "task": task,
         "document": {
             "id": document["id"],
             "text": document["text"],
@@ -195,14 +204,16 @@ def predictions(output, labels, span_count):
     return result
 
 
-def evaluate(data, adapter, *, invoke_adapter=invoke, observer=None):
+def evaluate(
+    data, adapter, *, invoke_adapter=invoke, observer=None, task="contractnli-development-v1"
+):
     validate_adapter(adapter)
     validate_development(data)
     labels = data["labels"]
     confusion = {choice: Counter() for choice in CHOICES}
     failures, missing, joint, exact, eligible, overlap, predicted_spans, expected_spans = (0,) * 8
     for document in data["documents"]:
-        inputs = adapter_input(document, labels)
+        inputs = adapter_input(document, labels, task=task)
         record = {
             "document_id": document["id"],
             "input_sha256": input_digest(inputs),

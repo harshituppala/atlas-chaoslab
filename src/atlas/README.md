@@ -1,6 +1,6 @@
 # ATLAS
 
-A workspace for reviewing RFP requirements against capability records.
+Compare an RFP with supplier records, inspect the evidence and save a review.
 
 The sample starts with a simple disagreement: the RFP asks for recovery within four hours, while the capability register guarantees eight. ATLAS puts the requirement, selected evidence and review decision together so someone can inspect that mismatch before drafting a response.
 
@@ -28,4 +28,4 @@ Local and hosted checks cover source spans, review conflicts, session isolation 
 
 The managed-sign-in path now has a real Cognito/Safari local acceptance check: reviewer access, a queued baseline review, saved decisions, workspace denial, logout and repeat sign-in. Synthetic TLS/browser checks cover additional failure cases. [The setup guide](../../docs/managed-login-development.md) keeps those scopes separate.
 
-Known model failures include a numeric-threshold mistake and hostile evidence selection. Durable hosting for the managed service, broader document evaluation and production operation remain unfinished. [CHAOSLAB](../chaoslab/README.md) keeps evaluation separate from the application's own validation logic.
+Known model failures include a numeric-threshold mistake and hostile evidence selection. The separate external contract comparison now covers the full development split; its [error analysis](../../docs/contractnli-evaluation.md) includes poor contradiction recall. Durable hosting for the managed service, the frozen test comparison and production operation remain unfinished. [CHAOSLAB](../chaoslab/README.md) keeps evaluation separate from the application's own validation logic.

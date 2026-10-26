@@ -15,7 +15,7 @@ PYTHONPATH=src .runtime/bin/python -m chaoslab.contractnli \
   --output var/contractnli-development.json
 ```
 
-The same task is available as `chaoslab-contractnli` in the separately installed evaluator, version 0.1.3. It uses the existing child-process deadline and artifact budgets. Adapters are trusted local code with filesystem and network permissions, not a sandbox. The recorded reference is a constant-label function: it runs no model and retrieves no evidence.
+The same task is available as `chaoslab-contractnli` in the separately installed evaluator, version 0.1.4. It uses the existing child-process deadline and artifact budgets. Adapters are trusted local code with filesystem and network permissions, not a sandbox. The recorded reference is a constant-label function: it runs no model and retrieves no evidence.
 
 ## Recorded result
 
@@ -33,7 +33,7 @@ The public report contains aggregate results, dataset/source fingerprints and th
 
 ## What remains
 
-The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The test split remains unused. The completed development comparison below does not replace a frozen test comparison, which remains unfinished.
+The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The completed development comparison below does not replace the separate test comparison. Its protocol was frozen before test JSON was first loaded for offline request validation and cost planning; no test predictions or scores are published yet.
 
 ## Save a run and rescore it
 
@@ -87,4 +87,4 @@ The aggregate exporter replayed the complete saved journal and matched the origi
 
 The 38 new calls used 276,623 input and 16,366 output tokens, with a recorded inference estimate of US$0.3942983. The reused prefix has a separate estimate of US$0.2406261. The continuation took about 374 seconds, including token preflight, ten-second pacing, responses, recording and scoring; saved-prefix generation time is excluded. These figures are neither invoices nor a complete account bill, and exclude other stopped attempts. All reservations remain retained.
 
-This is an NDA development task with externally authored annotations. It is not an untouched test, an RFP accuracy measurement, legal validation or a continuous 61-request run. The public corpus may have appeared in model training. Raw contracts, predictions and private provider records remain excluded from this repository. The next gate is to freeze the protocol before loading the untouched test split.
+This is an NDA development task with externally authored annotations. It is not an untouched test, an RFP accuracy measurement, legal validation or a continuous 61-request run. The public corpus may have appeared in model training. Raw contracts, predictions and private provider records remain excluded from this repository. The [test protocol](contract-test-runbook.md) has since been frozen and its full input/cost plan admitted offline. Test-model results are still pending.

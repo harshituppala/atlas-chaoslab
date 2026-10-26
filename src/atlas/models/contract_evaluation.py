@@ -64,7 +64,7 @@ class Hypothesis(StrictModel):
 
 
 class ContractInput(StrictModel):
-    task: Literal["contractnli-development-v1"]
+    task: Literal["contractnli-development-v1", "contractnli-test-v1"]
     document: SpanDocument
     hypotheses: list[Hypothesis] = Field(min_length=1, max_length=128)
 
@@ -166,13 +166,26 @@ def run_development(data, provenance, gateway, directory, *, min_interval_second
 
 
 def execute_development(
-    data, provenance, gateway, directory, adapter, *, min_interval_seconds=0, continuation=None
+    data,
+    provenance,
+    gateway,
+    directory,
+    adapter,
+    *,
+    min_interval_seconds=0,
+    continuation=None,
+    task="contractnli-development-v1",
+    protocol_sha256=None,
 ):
     """Record and score every input; admission and spending belong to the caller."""
+    if task not in {"contractnli-development-v1", "contractnli-test-v1"}:
+        raise ValueError("Unsupported contract execution task")
+    if task == "contractnli-test-v1" and (continuation is not None or protocol_sha256 is None):
+        raise ValueError("Test execution requires a frozen protocol and no continuation")
     before, scorer = source_manifest(), source_digest()
     # Journal creation reserves a new run directory, including on a failed run.
     journal = ObservationJournal(
-        directory, dataset=provenance, adapter=ADAPTER, scorer_sha256=scorer
+        directory, dataset=provenance, adapter=ADAPTER, scorer_sha256=scorer, task=task
     )
     directory = journal.directory
     report_path, ledger_path = directory / "run.json", directory / "usage.json"
@@ -182,7 +195,7 @@ def execute_development(
         "recorded_at": datetime.now(UTC).isoformat(),
         "status": "incomplete",
         "live_model": bool(gateway.live),
-        "task": "contractnli-development-v1",
+        "task": task,
         "dataset": provenance,
         "adapter": ADAPTER,
         "scorer_sha256": scorer,
@@ -193,6 +206,11 @@ def execute_development(
         "min_interval_seconds": min_interval_seconds,
         "timing_scope": "Sequential token preflight, model response, configured pacing, private recording and scoring. Excludes archive loading and credential setup; not per-request latency.",
     }
+    if task == "contractnli-test-v1":
+        report["protocol_sha256"] = protocol_sha256
+        report["scope"] = (
+            "Frozen complete test split; no case selection or automatic retries. Not RFP accuracy or legal validation."
+        )
     if continuation is not None:
         report["continuation"] = continuation
         report["scope"] = (
@@ -203,7 +221,7 @@ def execute_development(
     try:
         write_private_json(ledger_path, gateway.ledger.report())
         write_private_json(report_path, report)
-        result = evaluate(data, ADAPTER, invoke_adapter=adapter, observer=journal.record)
+        result = evaluate(data, ADAPTER, invoke_adapter=adapter, observer=journal.record, task=task)
         if (
             source_manifest()["source_sha256"] != before["source_sha256"]
             or source_digest() != scorer

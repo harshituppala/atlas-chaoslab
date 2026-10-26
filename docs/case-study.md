@@ -1,45 +1,43 @@
-# Reviewing a requirement is more than finding a matching sentence
+# Reviewing requirements without losing the source
 
-ATLAS starts with an ordinary procurement problem: an RFP asks for a capability, and a team needs to determine what its own records actually substantiate. A relevant excerpt can be incomplete, out of date or directly at odds with the obligation. Passing that excerpt through a fluent model does not resolve the disagreement.
+An RFP can contain hundreds of obligations. A supplier may have the information needed to answer them, spread across capability records and policy documents. A reviewer needs to find that information, decide whether it answers the requirement and retain a record of the decision.
 
-The seeded municipal example asks for recovery within four hours. The internal capability register guarantees eight. ATLAS puts the extracted obligation next to the selected excerpt, links each to its source and leaves the assessment pending. A reviewer can inspect the source before recording a decision. The tool does not make a legal-compliance determination.
+ATLAS handles that review. CHAOSLAB checks the systems that generate its findings. They share a repository so changes can be tested together, while the evaluator also runs on its own.
 
-## From upload to review
+## Start with a disagreement
 
-The browser submits a job to FastAPI and follows its status. A separate worker extracts requirements, retrieves evidence and checks source identity before publishing a result. The database stores the job and ownership lease; a worker crash can lead to another attempt, but the old owner cannot publish afterward. Result, initial review state and audit data commit together.
+The fictional RFP requires recovery within four hours. The capability register promises eight. ATLAS selects the relevant passage and puts it beside the requirement. A reviewer can open the source, inspect the highlight and record a decision with a note.
 
-This uses the existing database as a queue rather than introducing a broker. That choice keeps the transactional boundary small and lets the prototype run with fewer services. It does not establish unlimited queue throughput or fair scheduling across tenants.
+That example shapes the design: related text is not automatically supporting evidence. The extractive baseline finds passages using rules and retrieval. The optional model workflow assesses their relationship to the requirement. Neither can approve its own finding; the review remains a separate action.
 
-Uploads retain immutable originals. Extracted PDF/DOCX text maps back to pages or paragraphs; citation offsets count Unicode characters and include the document hash. The browser highlights the exact source span. Parsing is bounded and performs no OCR. Complex reading order and table associations still require source review.
+The [public lab](https://atlas-review-lab.onrender.com) demonstrates this on fixed fictional inputs. The private workbench also accepts text-bearing PDF and DOCX uploads. Scanned documents need OCR, which is not implemented.
 
-## Where the model helps, and where it fails
+## Keep the evidence checkable
 
-The default workbench uses an extractive baseline. The opt-in Bedrock path uses the same source/review boundaries and selects server-owned evidence choices rather than inventing offsets. Its drafts are still excerpts. An enabled API configuration and an explicitly opted-in worker are both required before paid jobs can run.
+Documents are stored as immutable snapshots. Each citation names a document, its content hash and a range of Unicode characters. The service verifies that the quoted text matches that range before publishing a result. Page and paragraph mappings let a reviewer find the same passage in an uploaded document, and the original file is available for comparison.
 
-Three multi-obligation development scenarios produced five of nine passing baseline contracts and nine of nine recorded v4 model contracts. That is a useful result for those fixtures, not evidence that the model handles arbitrary contracts. A separate twelve-case transfer set retains two failures.
+The model chooses among server-owned evidence options. It does not invent offsets or source text. This prevents one class of fabricated citation; it does not prove the selected passage supports the conclusion. The recorded experiments include a numeric-threshold mistake despite a valid citation, and a hostile appendix selected as evidence. [The failure analysis](adr/030-live-paired-injection-diagnostic.md) keeps those cases visible.
 
-The paired hostile-evidence test is more revealing. The recorded model run passed eight of twelve cases, but selected an instruction-bearing appendix in one hostile case. The source spans were valid. Its relation label was still the expected contradicted label, so the observation supports an evidence-contamination finding rather than a claim that it followed every malicious instruction.
+## Treat work and review as durable records
 
-There were also ordinary failures: a 15-day deletion policy was called contradictory to a within-30-day requirement, and a keyword filter suppressed legitimate annual training evidence mentioning system prompt handling. Blocking more text can make a system less useful while still failing to stop a hostile record. Those cases remain frozen in the reports for the next experiment.
+Analysis runs in a worker rather than holding an HTTP request open. Jobs use expiring leases. A replacement worker can recover abandoned work, while an old worker cannot publish after losing ownership. The result, initial review state and audit event commit together.
 
-## What CHAOSLAB contributes
+Reviews use version checks. If two reviewers act on the same version, the later stale update is rejected rather than silently replacing the earlier decision. The audit view shows the action, actor, requirement, note and saved version. [The queue decision](adr/003-durable-jobs.md) explains the failure cases behind these choices.
 
-CHAOSLAB reads an adapter's JSON outputs and scores them against authored fixtures. Its scorer checks expected obligations and relations, exact evidence records, citation integrity, extractive drafts and pending review. Fault tests distinguish operational failure from successful abstention. The paired comparator rescored two raw runs under one dataset/scorer instead of comparing incompatible headline percentages; missing cases remain visible and obligation regressions cannot hide inside an already-failed scenario.
+The PostgreSQL path uses separate API and worker logins with tenant row policies. Local integration checks exercise role boundaries, pooled connections, concurrent reviews and rollback; a separate recovery drill restored populated tables into an empty cluster. Those are different checks from a deployed backup service. The private SQLite launcher remains useful for a small local demonstration.
 
-The harness is independent of ATLAS's decision logic, but the fixtures are same-author synthetic development data. That is implementation separation, not blinded external evaluation. Timings include the documented execution boundary; no production service-level claim follows.
+## Measure answers separately from operations
 
-## Storage, access and operation
+CHAOSLAB checks extraction, evidence selection, citation integrity, review state and failures separately. A timeout stays a failed attempt. A missing prediction stays in the denominator. Paired reports show what changed between two runs, including new mistakes inside a case that already failed for another reason.
 
-The local default is SQLite. The PostgreSQL path has real restricted-role/row-policy and concurrency evidence, separately from the Linux Compose workflow. A logical recovery drill restored ten populated tables into a new empty cluster after deleting only the disposable source volume. Restored content and resumed work were checked; this was not an offsite or continuous backup test.
+The small fictional RFP datasets help explain specific failures, but they are too narrow for a general accuracy claim. A separate [ContractNLI evaluation](contractnli-evaluation.md) uses externally authored NDA annotations. On all 61 development contracts, the model reached 77.4% label accuracy and 48.7% correctness when both the label and complete evidence were required. Only 41 of 95 contradictions were labeled correctly. These are development results, not RFP accuracy or legal validation.
 
-Managed access-token verification resolves workspace membership on each request. Provider claims cannot assign an application role. The optional sign-in interface has joined synthetic TLS/browser checks. The real Cognito configuration passes public discovery and signing-key checks, but an actual user login and callback remain unverified. The local bearer-token launcher is deliberately private and must not be exposed as a public service.
+Saved responses can be rescored without importing the adapter or making another model call. A fresh standalone CHAOSLAB installation reproduced the development scores with ATLAS and provider libraries absent. The next comparison uses a separate test split with the model and scoring rules frozen before that split was loaded.
 
-Resource controls include request-body admission, parser limits, worker deadlines and bounded child pipes. These target concrete failure modes. They do not make trusted processes into hostile-code sandboxes or establish total-memory and distributed overload guarantees.
+## Where the project stands
 
-## Delivery status
+The fictional public lab has HTTPS, browser and restart checks. Its temporary sessions reset as advertised. Real Cognito reviewer sign-in has also been verified locally, including workspace denial, saved review, logout and repeat sign-in. The full authenticated workbench still needs durable hosted storage and deployed recovery checks.
 
-The native suite passes 460 tests, with eighteen optional PostgreSQL groups skipped in that run; the database groups have separate executed evidence. Historical image, browser, backup and live-model reports identify their own scope and source. None automatically becomes current when another suite passes.
+The complete development evaluation and its independent replay are published. The separate test run and final demonstration recordings are not complete. [Current status](STATUS.md) records individual runs and remaining work without treating one successful check as proof of everything else.
 
-The [fictional review lab](https://atlas-review-lab.onrender.com) runs on Render. Hosted checks cover source inspection, review conflicts, session isolation and a service restart. It uses temporary sessions and accepts no uploads or model credentials. The full workbench remains local until managed sign-in and durable hosted storage are ready.
-
-[Run locally](../README.md#run-atlas-locally) · [Architecture](architecture.md) · [Threat model](threat-model.md) · [Hosting decision](deployment-options.md) · [Measured history](STATUS.md) · [Paired failure evidence](../reports/injection-pairs-live-v4.json)
+[Run locally](../README.md#run-atlas-locally) · [Architecture](architecture.md) · [Security assumptions](threat-model.md) · [Reviewer route](reviewer-guide.md)

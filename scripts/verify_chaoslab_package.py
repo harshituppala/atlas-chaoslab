@@ -286,6 +286,56 @@ assert captured == replayed and receipt == saved and saved['records'] == 1
 """,
         ]
     )
+    run(
+        [
+            python,
+            "-c",
+            """
+import hashlib, json, sys, zipfile
+from pathlib import Path
+from chaoslab import contract_holdout as holdout, contractnli
+from chaoslab.contract_journal import ObservationJournal
+
+data = json.loads(Path('contract-control.json').read_text())
+archive = Path('fictional-contracts.zip')
+with zipfile.ZipFile(archive, 'w') as target:
+    for split in ['dev', 'test']:
+        target.writestr('contract-nli/' + split + '.json', json.dumps(data))
+fingerprint = hashlib.sha256(archive.read_bytes()).hexdigest()
+# This is an explicit fictional installation control, not admission of an external archive.
+holdout.ARCHIVE_SHA256 = fingerprint
+holdout.load_development = lambda path: contractnli.load_development(path, expected_sha256=fingerprint)
+_, provenance = holdout.load_development(archive)
+journal = ObservationJournal('var/protocol-dev', dataset=provenance,
+    adapter='unavailable.task:never_import', scorer_sha256='a' * 64)
+result = contractnli.evaluate(data, 'unavailable.task:never_import',
+    invoke_adapter=lambda *_: {'predictions': []}, observer=journal.record)
+receipt = journal.finish()
+report = Path('development-control.json')
+report.write_text(json.dumps({'dataset':provenance, 'results':result,
+    'observations':receipt, 'replay_matches_recorded_results':True}))
+protocol = Path('var/protocol.json')
+pin = holdout.freeze(archive, report, journal.final, {'fictional':True}, protocol)
+test, test_provenance = holdout.load_test(archive, protocol, pin)
+journal = ObservationJournal('var/protocol-test', dataset=test_provenance,
+    adapter='unavailable.task:never_import', scorer_sha256='a' * 64, task=holdout.TASK)
+expected = contractnli.evaluate(test, 'unavailable.task:never_import',
+    invoke_adapter=lambda *_: {'predictions': []}, observer=journal.record, task=holdout.TASK)
+journal.finish()
+sys.argv = ['test', '--archive', str(archive), '--protocol', str(protocol),
+    '--protocol-sha256', pin, '--replay', str(journal.final), '--output', 'test-replayed.json']
+holdout.main()
+assert json.loads(Path('test-replayed.json').read_text())['results'] == expected
+try:
+    holdout.load_test(archive, protocol, '0' * 64)
+except ValueError:
+    pass
+else:
+    raise AssertionError('Wrong protocol pin admitted')
+""",
+        ],
+    )
+    run([str(runtime / "bin/chaoslab-contractnli-test"), "--help"])
     run([str(runtime / "bin/chaoslab-contractnli"), "--help"])
     run(
         [sys.executable, str(ROOT / "scripts/verify_demo_walkthrough.py"), "--python", python],
@@ -305,6 +355,7 @@ assert captured == replayed and receipt == saved and saved['records'] == 1
         "outside_repository_execution": True,
         "external_trusted_adapter": True,
         "comparison_checks": results,
+        "frozen_test_installation": "Fictional archive freeze, test-task journal, independent CLI replay and wrong-pin refusal passed without ATLAS or provider libraries. No actual test data or model calls.",
         "contractnli_installation": "Fictional one-claim baseline, private capture/replay with an unavailable adapter, and CLI help passed without ATLAS; no external contract used in this installation check.",
         "limits": "POSIX process controls. ATLAS adapters and database/retrieval probes still require their own dependencies. External dataset results are separate from this installation check. Wheel hashes identify this build, not reproducible byte-for-byte builds or signed provenance.",
     }

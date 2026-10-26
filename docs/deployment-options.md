@@ -1,6 +1,6 @@
 # Hosting decision — October 20, 2026
 
-The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) runs on a free Render instance. The full review service remains local because it still needs managed sign-in and durable hosted storage.
+The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) runs on a free Render instance. The full workbench has verified local Cognito sign-in. It remains private while durable hosted storage and the deployed sign-in/recovery flow are unfinished.
 
 ## What a host must preserve
 

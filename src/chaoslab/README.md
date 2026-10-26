@@ -20,7 +20,7 @@ PYTHONPATH=src .runtime/bin/python -m chaoslab.recovery \
   --output var/recovery.json
 ```
 
-The first command evaluates the extractive contract. The second exercises recovery scenarios. An adapter receives JSON inputs without expected labels and returns observations for scoring. Select a trusted adapter explicitly; the child process retains the local user's filesystem and network permissions.
+The first command evaluates the extractive baseline. The second exercises recovery scenarios. An adapter receives JSON inputs without expected labels and returns observations for scoring. Select a trusted adapter explicitly; the child process retains the local user's filesystem and network permissions.
 
 The runner writes per-case outcomes and the configuration used. A timeout, malformed response or missing case stays distinguishable from an answer with insufficient evidence. Recovery failures are recorded before the command exits unsuccessfully.
 
@@ -49,7 +49,11 @@ The hostile-evidence cases pair an ordinary source with an instruction-bearing v
 
 ## External contract labels
 
-The separate [ContractNLI task](../../docs/contractnli-evaluation.md) evaluates fixed claims and evidence spans against externally authored NDA annotations. Its first report uses a constant-label reference on the complete development split: 40.8% label accuracy and zero evidence recall. That is a baseline for a future model comparison, not an AI performance claim. Raw contracts stay private and the test split remains unused. A run can now save private observations and replay them without importing the adapter or making another model request. The recorded constant-label capture and replay have identical scores; the task guide explains the file checks and their limits. An optional [Bedrock integration](../../docs/contract-model-runbook.md) is implemented in the full project environment. Its two partial live attempts do not establish complete-development model accuracy.
+The [ContractNLI task](../../docs/contractnli-evaluation.md) uses externally authored NDA claims and evidence spans. On all 61 development contracts, the constant-label reference reached 40.8% accuracy with no evidence. Claude Haiku 4.5 reached 77.4% label accuracy, but only 48.7% of claims had both the right label and complete evidence. Contradictions remained difficult: 41 of 95 were labeled correctly.
+
+The complete model cohort combines 23 saved responses and 38 new requests. Both the aggregate exporter and a fresh standalone installation reproduced its scores from the saved observations. Raw contracts and predictions stay private. These are NDA development results, not RFP accuracy, legal validation or a measure of previously unseen private contracts.
+
+The separate test command requires a [frozen protocol](../../docs/contract-test-runbook.md). Its model, prompt, scorer and failure rules were locked before the test split was first loaded for offline planning. No test result is published yet. The installed evaluator can replay a complete test journal without ATLAS or a provider SDK.
 
 ## Document ingestion
 

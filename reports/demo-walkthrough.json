@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-25T19:33:53.269190+00:00",
+  "recorded_at": "2026-10-26T14:52:24.417858+00:00",
   "scope": "Four actual installed evaluator CLI invocations outside the source checkout, using handwritten fictional answers. Not model execution, model accuracy, adapter sandboxing or hosted acceptance.",
   "atlas_installed": false,
   "input_sha256": {

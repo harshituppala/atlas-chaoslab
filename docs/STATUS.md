@@ -1,6 +1,6 @@
 # Project status
 
-Updated October 25, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
+Updated October 26, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
 
 ## ATLAS
 
@@ -18,7 +18,7 @@ The independent evaluator scores adapter output against synthetic golden cases. 
 
 A separate `chaoslab-eval` wheel now supports saved-run comparisons without installing ATLAS. A clean-environment check exercised unchanged, corrupt-citation and missing-attempt outcomes, plus an external trusted adapter. See the [installation guide](../src/chaoslab/README.md#install-the-evaluator-on-its-own) and [package decision](adr/037-portable-chaoslab-evaluator.md). The independent package job, backend checks and browser checks passed in [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/39515100079).
 
-The datasets are development fixtures written for these projects. They are useful for finding regressions, but do not establish accuracy on customer contracts or constitute an external evaluation.
+The RFP datasets are development fixtures written for these projects. A separate ContractNLI task now has a complete externally annotated development comparison and independent replay. Its separate test protocol was frozen before test JSON was loaded for offline planning; no test-model score is published yet.
 
 ## Verification
 
@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 874 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 898 passed locally; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -133,3 +133,6 @@ The external development model comparison is now complete across 61 contracts an
 The complete development-result publication passed all four [GitHub jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40334952501): backend, browser, standalone evaluator and PostgreSQL. This verifies the published source checks, not an untouched-test result.
 
 A focused workbench refactor moved document intake, source inspection and audit history into separate typed components. Access checks, uploads, job polling, downloads and review state remain in the existing application controller. No labels, styles, model settings or API contracts changed. The TypeScript/production build and all twelve existing connected Chromium cases passed in a fresh isolated local bearer/SQLite profile; [the report](../reports/workbench-components.json) binds source, test and build fingerprints. Those cases include real PDF/DOCX intake and controlled-response display checks; they do not establish new Cognito, deployed hosting or model acceptance. The reusable rehearsal runner now offers `--all-workflows` and a separate report destination while retaining its original single-intake default.
+
+
+The workbench component release passed all four [GitHub jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40335928737). A separate frozen-test runner now binds the contract model recipe, scorer and reporting rules before test-split access. Development commands keep their existing behavior; test inputs and journals use a distinct task identity. Twenty-two new fictional controls and the full native suite passed, and a fresh dependency-free CHAOSLAB 0.1.4 wheel passed fictional freeze/test/replay checks without ATLAS. The actual protocol was frozen before the offline plan admitted all 123 test contracts. See [the controls](../reports/contract-test-controls.json), [runbook](contract-test-runbook.md) and [decision](adr/057-frozen-contract-test.md). No test result is claimed by those controls; live execution and independent replay are separate gates.

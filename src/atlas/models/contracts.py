@@ -67,7 +67,7 @@ class Usage(StrictModel):
 
 
 class Limits(StrictModel):
-    max_calls: int = Field(default=12, ge=1, le=100)
+    max_calls: int = Field(default=12, ge=1, le=200)
     max_input_tokens: int = Field(default=12000, ge=100, le=100000)
     max_output_tokens: int = Field(default=2048, ge=16, le=8192)
     max_reserved_tokens: int = Field(default=200000, ge=1)
