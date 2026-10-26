@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 852 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 874 passed; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -113,3 +113,9 @@ A [demonstration walkthrough](demo-walkthrough.md) now connects the public revie
 The private document workflow now has a complete local browser rehearsal: upload the fictional PDF/DOCX, run a queued baseline analysis, inspect the exact page-two source, recover the original PDF bytes, reject a conflict, reload/reconnect and inspect the saved review and audit note. The audit view now presents readable actions, the requirement, actor, note and version, with raw event fields behind a disclosure. Phone overflow and disclosure checks are included. The [isolated runner](../scripts/verify_document_review.py) uses fresh local bearer credentials and a new SQLite database; [its report](../reports/document-review-rehearsal.json) makes no external sign-in, deployed hosting or new model claim. The earlier evaluator walkthrough release also passed all three [GitHub jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40226780037).
 
 Twelve connected-workbench Chromium cases also passed in a separate fresh local profile after the audit-screen change. Existing controlled-response cases retain that scope; they are not new model runs. The [regression record](../reports/document-review-regressions.json) and [fictional audit preview](../reports/document-review-audit.png) keep this separate from hosted acceptance.
+
+The source/audit follow-up now has a short [reviewer route](reviewer-guide.md) and a [finding tracker](review-findings.md). The PostgreSQL CI gap is confirmed: a new job builds pinned database/extension sources and runs the deterministic integration suite, including real restricted-role connections. Seventeen selected groups passed locally; the optional downloaded CPU encoder is excluded explicitly. Ten evidence-admission controls reject skipped, missing, duplicated and failing runs. The new remote database job has not yet been claimed executed. See [the CI guide](postgres-ci.md).
+
+The document-review release passed all three [GitHub jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40241998442). A fresh restricted SDK identity check still failed with an expired credential retrieval category; no inference or additional reservation followed. The earlier sign-in request remains pending rather than being repeatedly reissued.
+
+After the database gate addition, the full local offline suite passed 874 tests with eighteen optional database groups skipped; the seventeen deterministic PostgreSQL groups passed in their separate real database execution. Neither result changes the retained model-quality failures.

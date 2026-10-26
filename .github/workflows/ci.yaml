@@ -92,3 +92,41 @@ jobs:
         with:
           name: standalone-evaluator-evidence
           path: reports/chaoslab-package.json
+  postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: src
+      ATLAS_POSTGRES_CONFIG: var/postgresql/client.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.lock
+      - name: Prepare pinned PostgreSQL and pgvector
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y build-essential zlib1g-dev bison flex pkg-config
+          python scripts/prepare_postgres.py
+      - run: python scripts/local_postgres.py start
+      - name: Exercise migrations, concurrency and restricted runtime roles
+        run: python scripts/verify_postgres_ci.py
+      - name: Stop the disposable integration cluster
+        if: always()
+        run: python scripts/local_postgres.py stop
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: postgres-acceptance
+          path: reports/postgres-ci.json
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: postgres-build-diagnostic
+          path: |
+            .cache/postgresql/configure.log
+            .cache/postgresql/build.log
+            .cache/postgresql/pgvector-build.log
+          retention-days: 3
