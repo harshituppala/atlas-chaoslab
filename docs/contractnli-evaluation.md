@@ -33,7 +33,7 @@ The public report contains aggregate results, dataset/source fingerprints and th
 
 ## What remains
 
-The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The test split remains unused; the Bedrock integration is implemented, but a complete live development run and a frozen test comparison are still required.
+The labels were authored outside this project, which improves on the same-author synthetic fixtures. They concern an NDA inference task rather than end-to-end RFP review. They do not establish legal correctness or general contract accuracy. The public corpus may have appeared in a pretrained model's training data. The test split remains unused. The completed development comparison below does not replace a frozen test comparison, which remains unfinished.
 
 ## Save a run and rescore it
 
@@ -64,4 +64,27 @@ These controls detect incomplete or inconsistent local files. They are not signa
 
 ## Model integration
 
-The optional [Bedrock runner](contract-model-runbook.md) uses the full project environment and a shared spending ledger. It does not change the independent evaluator wheel. Two live development attempts stopped during preflight, after eighteen and twenty-three validated responses. Their overlapping prefixes are not a complete benchmark; no model accuracy score is published. [The stopped-run record](../reports/contract-model-stopped.json) retains the known costs, reservations and unresolved failure scope.
+The optional [Bedrock runner](contract-model-runbook.md) uses the full project environment and a shared spending ledger. It does not change the independent evaluator wheel. Two live development attempts stopped during preflight, after eighteen and twenty-three validated responses. Those historical overlapping prefixes were incomplete. [The stopped-run record](../reports/contract-model-stopped.json) retains their costs, reservations and unresolved failure scope. A later explicit continuation completed the development cohort without changing either original attempt.
+
+
+## Complete development model comparison — October 26
+
+The [model report](../reports/contract-model-development.json) covers all 61 development contracts and 1,037 claims. It combines 23 admitted saved responses with 38 new Bedrock responses from Claude Haiku 4.5. No answer was changed or selected based on its score. The original attempts and their full spending reservations remain intact.
+
+| Measure | Constant NotMentioned reference | Model |
+| --- | ---: | ---: |
+| Label accuracy, all 1,037 claims | 40.8% | 77.4% |
+| Macro label F1 | 0.193 | 0.692 |
+| Correct label and exact evidence set | 40.8% | 48.7% |
+| Evidence precision, 614 evidence-bearing claims | Undefined; no spans selected | 84.2% |
+| Evidence recall, same claims | 0% | 52.6% |
+
+The joint measure includes not-mentioned claims, whose expected evidence set is empty. It must not be read as evidence extraction accuracy. On the 614 claims that require evidence, the model selected the exact complete evidence set for 220 (35.8%). It omitted two claim predictions; both stay in the denominator. No document response failed structurally.
+
+The overall accuracy hides a substantial contradiction problem: only 41 of 95 contradictions received the correct label. Another 25 were labeled entailments and 29 not mentioned. The model also labeled 105 not-mentioned claims as entailments. These errors matter in a review application: a plausible passage can support an incorrect conclusion. The result supports mandatory source inspection and human review, not unattended contract decisions.
+
+The aggregate exporter replayed the complete saved journal and matched the original scores. A [second replay](../reports/contract-model-standalone-replay.json) built and installed a fresh CHAOSLAB wheel outside the checkout, with ATLAS, boto3, FastAPI and SQLAlchemy absent. It reproduced every result without calling a provider. This establishes independent rescoring, not provider authenticity of saved responses.
+
+The 38 new calls used 276,623 input and 16,366 output tokens, with a recorded inference estimate of US$0.3942983. The reused prefix has a separate estimate of US$0.2406261. The continuation took about 374 seconds, including token preflight, ten-second pacing, responses, recording and scoring; saved-prefix generation time is excluded. These figures are neither invoices nor a complete account bill, and exclude other stopped attempts. All reservations remain retained.
+
+This is an NDA development task with externally authored annotations. It is not an untouched test, an RFP accuracy measurement, legal validation or a continuous 61-request run. The public corpus may have appeared in model training. Raw contracts, predictions and private provider records remain excluded from this repository. The next gate is to freeze the protocol before loading the untouched test split.

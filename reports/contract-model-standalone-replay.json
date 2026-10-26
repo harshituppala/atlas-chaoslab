@@ -1,0 +1,12 @@
+{
+  "recorded_at": "2026-10-26T13:46:40.277746+00:00",
+  "documents": 61,
+  "claims": 1037,
+  "results_equal": true,
+  "separate_installed_wheel": true,
+  "atlas_boto3_fastapi_sqlalchemy_absent": true,
+  "provider_requests": 0,
+  "wheel_sha256": "0446285f7bc3790775e4ad40741e2dda1ea8f1dc1d00d138b1c4fb25285ae730",
+  "observations_sha256": "3738957cb2033232e63076a310b04c1c1a84e43cd507fe8644eab917234cd05f",
+  "scope": "Fresh standalone wheel replay outside the checkout, using private saved observations. Confirms score equality without ATLAS or a provider SDK; not response authenticity or untouched-test evaluation."
+}

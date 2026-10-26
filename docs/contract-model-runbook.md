@@ -95,3 +95,8 @@ PYTHONPATH=src python scripts/record_contract_model.py \
 ```
 
 Export independently replays the complete journal and refuses missing or changed original answers, lineage or reservations. Review aggregates before publishing. Describe the result as assembled from saved and new responses, with distinct usage/timing scopes. It remains a development-only ContractNLI task; it is not an RFP benchmark, a legal assessment or proof that the saved responses are authentic. See [the continuation decision](adr/055-continued-contract-evaluation.md).
+
+
+## Recorded continuation
+
+The October 26 continuation completed the development cohort and passed both aggregate-export replay and a fresh standalone-wheel replay. See [the result and error analysis](contractnli-evaluation.md#complete-development-model-comparison--october-26). Its private directory is already occupied and must not be reused. Do not run these example commands as a retry of the completed cohort. The original stopped attempts remain preserved; their original interruption cause is still unknown. Frozen test evaluation requires a separate protocol, cost review and new run directory.
