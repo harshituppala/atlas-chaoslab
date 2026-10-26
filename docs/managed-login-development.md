@@ -1,6 +1,6 @@
 # Managed login development
 
-The private API has an optional authorization-code and browser-session path. It is enabled only when an operator passes a configured `LoginExchange` into `create_app(..., login_exchange=exchange)`. Default launchers and the public fictional lab keep their existing profiles. The workbench has controlled interface checks and a joined local HTTPS check with a synthetic provider; real AWS/provider acceptance remains unfinished.
+The private API has an optional authorization-code and browser-session path. It is enabled only when an operator passes a configured `LoginExchange` into `create_app(..., login_exchange=exchange)`. Default launchers and the public fictional lab keep their existing profiles. The workbench has controlled interface checks, a joined local HTTPS check with a synthetic provider, and a real Cognito-to-review acceptance for one local user. The full service has not been deployed. See [the local acceptance](adr/053-real-cognito-local-acceptance.md) for the exact scope.
 
 ## Run the controlled checks
 
@@ -53,7 +53,7 @@ This binds a private upstream only. It does not install TLS or make an HTTPS cal
 
 Unset `ATLAS_DEMO`, `ATLAS_PRINCIPALS`, `ATLAS_TOKEN_TRUST` and `ATLAS_MODEL_JOB_SPEC` before using this profile; their presence is rejected. The entry point opens no provider connection during construction and assigns no membership. Use the separate trusted membership operator after verifying the user's real subject; never copy a role from provider claims. Model jobs remain disabled in this profile. Run a baseline worker against the same database when testing queued work.
 
-The joined synthetic browser check now exercises this factory and settings reader. Its transport overrides remain confined to the fixture. The real Cognito directory/client/domain and scope are configured, but real user sign-in is still pending. See [ADR 045](adr/045-managed-application-entry.md).
+The joined synthetic browser check now exercises this factory and settings reader. Its transport overrides remain confined to the fixture. The real Cognito directory/client/domain and scope are configured. A later [local acceptance](adr/053-real-cognito-local-acceptance.md) verified sign-in, a baseline review, persistence, wrong-workspace denial and logout for one identity over loopback TLS and SQLite. [ADR 045](adr/045-managed-application-entry.md) records the earlier entry-point decision; its original test counts describe that release.
 
 ## Check the provider before signing in
 
@@ -85,6 +85,8 @@ Application API writes use the session cookie plus `X-Atlas-CSRF`. API requests 
 The app closes session/exchange state on shutdown. An injected token verifier remains caller-owned. State is local to one process; a restart logs users out, and multiple instances need an explicit shared-session or routing design. Provider refresh tokens are discarded. Local application logout does not log the user out of Cognito.
 
 ## Before enabling a hosted flow
+
+Use the [hosted-workbench acceptance plan](hosted-workbench-plan.md) to keep new hosting separate from the already verified local sign-in. No provider selection, account creation or hosted access grant is implied by this guide.
 
 Register one reviewed HTTPS callback and confirm that the provider domain belongs to the intended pool. Configure a public client for authorization code with S256, the API scopes and resource audience expected by the verifier. Membership must be assigned by the application operator, not inferred from groups or roles in provider claims.
 

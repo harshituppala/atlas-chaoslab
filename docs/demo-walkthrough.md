@@ -31,12 +31,13 @@ The runner starts its own API/worker on loopback port 8136, creates private temp
 2. Compare the baseline and recorded model on the three review scenarios. Explain that all obligations must pass for a complete scenario to pass. Keep this separate from the twelve transfer cases; the denominators describe different experiments.
 3. Open the deletion-deadline failure. The supplier promises 24 hours against a 48-hour limit, yet the model recorded a contradiction. Its citation matched the source. This makes the distinction between source integrity and answer correctness concrete.
 4. Switch to the availability case. Here extraction failed, so there is no usable citation. Neither failure is hidden from the saved report.
-5. Run the [independent comparison example](../examples/review-regression/README.md). First compare the reference with itself, then select the wrong-decision, broken-citation and missing-answer fixtures. These are deliberately authored answers, not additional model experiments. Show the reports and expected exit codes.
-6. Explain that the evaluator can be installed without ATLAS. Its adapter process controls are not a sandbox for hostile code.
+5. Open **A separate test on 123 contracts**. Explain the task before the percentages: each claim needs a label and, where required, the complete supporting passages. Compare 77.5% correct labels with 49.4% correct labels plus complete evidence. Only 90 of 220 contradictions received the right label. Expand **How the contract test was run** and explain that the rules were fixed before test loading and the saved responses were independently rescored. These NDA results are not RFP accuracy or legal advice.
+6. Run the [independent comparison example](../examples/review-regression/README.md). First compare the reference with itself, then select the wrong-decision, broken-citation and missing-answer fixtures. These are deliberately authored answers, not additional model experiments. Show the reports and expected exit codes.
+7. Explain that the evaluator can be installed without ATLAS. Its adapter process controls are not a sandbox for hostile code.
 
 ## Evidence and limits
 
-The public browser acceptance covers both layouts, failure selection and the absence of API calls on the recorded-results page. The independent rehearsal executes all four CLI comparisons in a separate installed environment without ATLAS. See [hosted checks](../reports/public-evaluation-hosted.json) and [CLI rehearsal](../reports/demo-walkthrough.json).
+The public browser acceptance covers both layouts, failure selection and the absence of API calls on the recorded-results page. The independent rehearsal executes all four CLI comparisons in a separate installed environment without ATLAS. See [the latest hosted checks](../reports/contract-test-hosted.json) and [CLI rehearsal](../reports/demo-walkthrough.json).
 
 These checks establish the steps above, not audience comprehension or a finished video. No recording has been made. The complete external development-model evaluation and independent replay are now published. The separate frozen test comparison and standalone replay are now published too. Durable managed hosting remains unfinished. Do not substitute small synthetic scores for those results or describe them as representative contract accuracy.
 
