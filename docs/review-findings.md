@@ -4,7 +4,7 @@ This tracks the findings relevant to ATLAS and CHAOSLAB. The assessment was chec
 
 | Finding | Status | Evidence and remaining gate |
 | --- | --- | --- |
-| PostgreSQL is outside ordinary CI | Verified; correction prepared | A new CI job runs the deterministic groups with real restricted-role connections. Seventeen groups passed locally. Remote execution is still required; see [the database guide](postgres-ci.md). |
+| PostgreSQL is outside ordinary CI | Fixed; remote gate passed | The new [Linux CI job](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40256025026) passed all seventeen selected groups with real restricted-role connections. Subsequent commits now run that gate; see [the database guide](postgres-ci.md). |
 | The external model comparison is incomplete | Verified; blocked on credential refresh | Both stopped prefixes remain preserved. The independent reference is complete; a complete model cohort and replay are not. The [continuation runner](contract-model-runbook.md#continue-an-admitted-prefix) can request only the missing inputs after identity, price and retained-budget checks. |
 | A frozen untouched-test comparison is missing | Verified; unfinished | The test split remains unused. Freeze the protocol and model settings before evaluating it; development results cannot substitute for that acceptance gate. |
 | The full authenticated service has no durable hosted acceptance | Verified; unfinished | Real local Cognito review and separate PostgreSQL/container tests exist. The public lab is temporary and fictional. Prepare an explicit hosted-service cost/access choice before provisioning anything new. See [deployment gates](deployment.md). |

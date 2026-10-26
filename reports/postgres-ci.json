@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-26T01:45:28.092176+00:00",
+  "recorded_at": "2026-10-26T01:51:42.235355+00:00",
   "status": "passed",
   "scope": "Deterministic PostgreSQL integration groups on a dedicated loopback database with disposable schemas. Runtime-boundary groups use real restricted API/worker logins; other fixture/migration groups use an administrator. The trusted worker intentionally has BYPASSRLS. Not hosted acceptance, comprehensive security proof, model quality or an application latency benchmark.",
   "server_version": "18.6",
@@ -79,13 +79,13 @@
     "id": "test_postgres_real_cpu_encoder_retrieval_and_new_process_cache_reuse",
     "reason": "Optional downloaded CPU encoder; excluded explicitly rather than silently skipped. Synthetic vectors still exercise pgvector persistence and isolation."
   },
-  "test_wall_seconds": 3.011440499999935,
+  "test_wall_seconds": 8.762552019999987,
   "source_sha256": "957615a48a93554a15e1807a09cd458d56c7dc9fb48ac7bafdc7b71d321a8c13",
   "test_file_sha256": "09ef68e1c3811d66adaf1ab48e9e1b94a3a2c91073eadc6b12e96b0eab6562c9",
   "verification_script_sha256": "303f16cba1754ca4832c3cf2b9bfbe75ebb9e3d226898a2aa6164741afc1b4af",
-  "junit_sha256": "1075d724cd3ba5928c46e26a4309bd7f5c385630409de107cc9344cc6df400c9",
-  "github_run_id": null,
-  "github_source_revision": null,
+  "junit_sha256": "950f69670906932d2f6d39dc1be7d3dc06df3278dd7f339fa6ce70935a2e88d7",
+  "github_run_id": "40256025026",
+  "github_source_revision": "2a386d999817ba8b550a6e1c2e0fd7eafabf6270",
   "privacy": "Only authored test identifiers, counts, versions and fingerprints are exported. Connection configuration, passwords, raw JUnit, logs and database contents remain private.",
   "new_model_provider_calls": 0
 }

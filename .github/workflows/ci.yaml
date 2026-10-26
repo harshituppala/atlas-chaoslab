@@ -103,6 +103,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Remove historical database acceptance
+        run: rm -f reports/postgres-ci.json
       - run: pip install -r requirements.lock
       - name: Prepare pinned PostgreSQL and pgvector
         run: |
