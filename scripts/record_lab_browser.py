@@ -9,6 +9,7 @@ from atlas.models.provenance import source_manifest
 from chaoslab.artifacts import publish_report
 
 EXPECTED = {
+    "an external portfolio link opens the public lab in a new tab",
     "real analysis, exact sources, review conflicts across tabs, reload and logout",
     "mobile conflict review and a controlled capacity message recover without automatic retries",
     "client expiry clears a restored workspace using controlled lifetime metadata",
@@ -76,7 +77,7 @@ def main():
     report = {
         "schema_version": 1,
         "recorded_at": datetime.now(UTC).isoformat(),
-        "scope": "Five Chromium workflows against the built React lab. Three exercise the actual loopback API; two inspect saved evaluation results with no API requests or cookies. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
+        "scope": "Six Chromium workflows against the built React lab. Three exercise the actual loopback API; two inspect saved evaluation results with no API requests or cookies; one follows a controlled external portfolio link in a new tab. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
         "browser_cases_passed": len(specs),
         "workflows": [s["title"] for s in specs],
         "privacy_scope": "Projects only authored test names, counts and hashes. No cookies, headers, session identifiers, source payloads, stderr, attachments or trace content are exported.",

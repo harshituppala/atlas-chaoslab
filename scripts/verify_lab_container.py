@@ -201,10 +201,10 @@ def main():
         ).stdout
         (private / "linux-tests.xml").write_bytes(junit)
         cases = list(ET.fromstring(junit).iter("testcase"))
-        if len(cases) != 39 or any(
+        if len(cases) != 41 or any(
             c.find(t) is not None for c in cases for t in ("failure", "error", "skipped")
         ):
-            raise ValueError("Expected all 39 focused Linux tests to pass")
+            raise ValueError("Expected all 41 focused Linux tests to pass")
         before = json.loads(
             docker(
                 "exec",
@@ -252,7 +252,7 @@ def main():
         report = {
             "schema_version": 1,
             "recorded_at": datetime.now(UTC).isoformat(),
-            "scope": "Actual local Docker Linux image, 39 focused lab/config tests, real HTTP/baseline/review and intentional ephemeral restart under isolated networking/resource flags. Not the full suite inside Linux, a hosted provider, TLS/browser-in-image or durable customer service.",
+            "scope": "Actual local Docker Linux image, 41 focused lab/config tests, real HTTP/baseline/review and intentional ephemeral restart under isolated networking/resource flags. Not the full suite inside Linux, a hosted provider, TLS/browser-in-image or durable customer service.",
             "image_id": identity,
             "image_architecture": image["Architecture"],
             "image_python_version": installed["python_version"],

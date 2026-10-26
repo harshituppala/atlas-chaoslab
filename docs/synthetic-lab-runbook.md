@@ -74,3 +74,7 @@ Open `/?view=evaluation` or choose **Evaluation results** in the header. This pa
 For a short walkthrough, start with the three-scenario comparison, then inspect the deletion deadline failure: a 24-hour supplier promise was judged as contradicting a 48-hour requirement despite a valid citation. Switch to the availability case to see an extraction failure. Return to **Review sample** for the independently runnable baseline and human review. Recorded model results do not describe the engine used by the public review sample.
 
 The lab image explicitly includes only the named public reports and authored transfer inputs. After changing these files, rebuild the frontend and container and rerun browser acceptance. The browser recorder reads current private test screenshots rather than historical, owner-edited report images.
+
+## Opening the lab from another website
+
+The public HTML entry accepts top-level browser navigation from the portfolio or another website. Cross-site API calls and writes remain forbidden. A prior policy applied the cross-site denial to the HTML entry as well, causing “Same-origin request required” when a visitor followed the portfolio link. The corrected policy distinguishes document navigation from API access; the browser regression follows an external link into a new tab. This is separate from a free-host cold start.

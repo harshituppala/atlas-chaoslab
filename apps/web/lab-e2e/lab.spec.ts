@@ -356,3 +356,30 @@ for (const width of [1440, 390]) {
     ).toBeEnabled();
   });
 }
+
+test("an external portfolio link opens the public lab in a new tab", async ({
+  page,
+  context,
+}) => {
+  await page.route("https://portfolio.example.test/", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body: '<a href="http://127.0.0.1:8134/" target="_blank" rel="noreferrer">Open ATLAS demo</a>',
+    }),
+  );
+  await page.goto("https://portfolio.example.test/");
+  const popup = context.waitForEvent("page");
+  await page
+    .getByRole("link", { name: "Open ATLAS demo", exact: true })
+    .click();
+  const demo = await popup;
+  await expect(
+    demo.getByRole("heading", {
+      name: "Can this supplier meet the buyer’s requirements?",
+    }),
+  ).toBeVisible();
+  await expect(
+    demo.getByRole("button", { name: "Run sample analysis" }),
+  ).toBeEnabled();
+  await demo.close();
+});

@@ -375,3 +375,52 @@ def test_operator_deadline_and_timeout_release_preserve_private_errors(monkeypat
             == 200
         )
         assert calls == [20, 20]
+
+
+def test_cross_site_top_level_navigation_can_open_only_public_html(tmp_path):
+    frontend = tmp_path / "dist-lab"
+    frontend.mkdir()
+    (frontend / "index.html").write_text(
+        '<meta name="atlas-profile" content="temporary-synthetic-lab"><h1>Public lab</h1>'
+    )
+    app = create_lab(ORIGIN, web_root=frontend)
+    headers = {
+        "Sec-Fetch-Site": "cross-site",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Dest": "document",
+    }
+    with TestClient(app, base_url=ORIGIN) as client:
+        for path in ["/", "/index.html", "/?view=evaluation"]:
+            assert client.get(path, headers=headers).status_code == 200
+            assert client.head(path, headers=headers).status_code == 200
+        assert not app.state.sessions.items
+
+
+def test_public_navigation_exception_does_not_admit_cross_site_api_or_embedding(tmp_path):
+    frontend = tmp_path / "dist-lab"
+    frontend.mkdir()
+    (frontend / "index.html").write_text(
+        '<meta name="atlas-profile" content="temporary-synthetic-lab">'
+    )
+    app = create_lab(ORIGIN, web_root=frontend)
+    nav = {
+        "Sec-Fetch-Site": "cross-site",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Dest": "document",
+        "Origin": ORIGIN,
+    }
+    with TestClient(app, base_url=ORIGIN) as client:
+        for method, path, headers in [
+            ("GET", "/api/lab/session", nav),
+            ("GET", "/api/lab/run", nav),
+            ("POST", "/api/lab/session", nav),
+            ("DELETE", "/api/lab/session", nav),
+            ("POST", "/", nav),
+            ("GET", "/", {**nav, "Sec-Fetch-Dest": "iframe"}),
+            ("GET", "/", {**nav, "Sec-Fetch-Mode": "cors"}),
+            ("GET", "/assets/example.js", nav),
+        ]:
+            response = client.request(method, path, headers=headers)
+            assert response.status_code == 403
+            assert "access-control-allow-origin" not in response.headers
+        assert not app.state.sessions.items

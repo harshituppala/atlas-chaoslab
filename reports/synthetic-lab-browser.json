@@ -1,17 +1,18 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-25T14:51:52.200483+00:00",
-  "scope": "Five Chromium workflows against the built React lab. Three exercise the actual loopback API; two inspect saved evaluation results with no API requests or cookies. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
-  "browser_cases_passed": 5,
+  "recorded_at": "2026-10-26T03:00:47.623843+00:00",
+  "scope": "Six Chromium workflows against the built React lab. Three exercise the actual loopback API; two inspect saved evaluation results with no API requests or cookies; one follows a controlled external portfolio link in a new tab. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
+  "browser_cases_passed": 6,
   "workflows": [
     "real analysis, exact sources, review conflicts across tabs, reload and logout",
     "mobile conflict review and a controlled capacity message recover without automatic retries",
     "client expiry clears a restored workspace using controlled lifetime metadata",
     "recorded evaluation at 1440px explains comparisons and failures without API calls",
-    "recorded evaluation at 390px explains comparisons and failures without API calls"
+    "recorded evaluation at 390px explains comparisons and failures without API calls",
+    "an external portfolio link opens the public lab in a new tab"
   ],
   "privacy_scope": "Projects only authored test names, counts and hashes. No cookies, headers, session identifiers, source payloads, stderr, attachments or trace content are exported.",
-  "browser_evidence_sha256": "582f59f8e30073708d868e764af5b7c5fd9f510678e792c3cdc577d6db335b7d",
+  "browser_evidence_sha256": "87f8643347b36d607f710697e3e68adf062c67d423d770a5ff51e2baec1c4529",
   "frontend_sha256": {
     "apps/web/src/lab.tsx": "3ae5b84b09087b6f74cca751eadc1b23e89bdae208a1b07b83573c27f6e6a3bc",
     "apps/web/src/lab.css": "9054caa1652402245d9bbb5172f1667c5b5dc0347a515b055df83b1027b16393",
@@ -27,11 +28,11 @@
     "apps/web/lab/index.html": "30d4bd3be1e022d6ea6992c9a33b8e3a7cf77a6a9e251c23324317088d112d74",
     "apps/web/vite.lab.config.ts": "fa7939c5fdd22e067115ada51e07b978076033c52c898bb885640d746bb87e0a",
     "apps/web/playwright.lab.config.ts": "f9743da01992ccf4457c066e0ec1136cc7d712c5a108cee01851e8a9c0fcf781",
-    "apps/web/lab-e2e/lab.spec.ts": "0786eec3ff1a17a39800ad70de4db06ed0f067e18c93ddc310839786c5138ad7",
+    "apps/web/lab-e2e/lab.spec.ts": "e35c77edcb15853cc74a2992dffbad2e3b443c48cc7d95062e8e96a2fff0b56d",
     "apps/web/package.json": "67a1cc9b4e4f718313671c26026a9c11e0204d53c7e4c34c4c208eac48bc5cfb",
-    "scripts/record_lab_browser.py": "b9ca0cdd213eabf7f0337db0f51138e39c62a0e56dd1713116194f323f392aee"
+    "scripts/record_lab_browser.py": "c98b10e011129085b098279bd6c1f71aca91b5292cdb0cb8bb7e6393d3df9ea2"
   },
-  "backend_source_sha256": "957615a48a93554a15e1807a09cd458d56c7dc9fb48ac7bafdc7b71d321a8c13",
+  "backend_source_sha256": "f38928b9388e21a619d83094ab99d156d9711852d8f49088e1572fc9b5dc7443",
   "build_sha256": {
     "assets/index-C_dZAoTl.js": "fb79d061216524229b318a03f3b982b40f7f2eb46e29614a53b59c5454cb8d73",
     "assets/index-DhMdjUiH.css": "175d048153eca2e86302bdb68eae6709cdf84208b27a31887491fc86d5207c3b",

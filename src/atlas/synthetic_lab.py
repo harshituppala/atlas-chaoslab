@@ -153,7 +153,13 @@ class OriginPolicy:
     async def __call__(self, scope, receive, send):
         if scope["type"] == "http":
             headers = {k.lower(): v for k, v in scope["headers"]}
-            if headers.get(b"sec-fetch-site") == b"cross-site" or (
+            public_navigation = (
+                scope["method"] in {"GET", "HEAD"}
+                and scope["path"] in {"/", "/index.html"}
+                and headers.get(b"sec-fetch-mode") == b"navigate"
+                and headers.get(b"sec-fetch-dest") == b"document"
+            )
+            if (headers.get(b"sec-fetch-site") == b"cross-site" and not public_navigation) or (
                 scope["method"] in {"POST", "PUT", "PATCH", "DELETE"}
                 and headers.get(b"origin") != self.origin.encode()
             ):
