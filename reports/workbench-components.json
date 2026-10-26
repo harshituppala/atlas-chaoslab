@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-26T14:01:25.973187+00:00",
+  "scope": "All connected-workbench cases in the fingerprinted browser test file, through an isolated loopback API/worker/SQLite profile. Includes real intake/source/review persistence and controlled-response quality, execution-mode and identity display cases. Controlled cases are not new model calls, identity-provider acceptance or deployed hosting.",
+  "browser_workflows_passed": 12,
+  "authentication": "fresh private local bearer; not external sign-in",
+  "database": "new isolated SQLite database; no existing workspace changed",
+  "input_sha256": {
+    "apps/web/e2e/workbench.spec.ts": "1cc5e19743853a557ce8ba41da76ebd6c6a3a8e512b1157b3acdb696cd46d773",
+    "datasets/documents/municipal-rfp.pdf": "ee3d55d69e92de8fa7efc88e5fb5acf79f859812b2f0728ab8eb2beb335b96ae",
+    "datasets/documents/capability-register.docx": "78a6846f9a24d1def4e6de3b6eadba8ae38a695ad28818e7c13e3ca612d19c07",
+    "scripts/verify_document_review.py": "8df15a6c6f448c5cfc6afa22215f29fe5579a849e8baa1d562e49a44054cae2d"
+  },
+  "source_and_build_manifest_sha256": "f9633a18ba465abf19f5e34a2171a85a154dd9d21ef67454e0c7416183aa13bb",
+  "manifest_files": 103,
+  "provenance_scope": "Source and built artifact hashes checked before and after the rehearsal. Not signed execution provenance or an attestation of every loaded dependency.",
+  "browser_evidence_sha256": "3910cd7cff3b42d09132ba05e7f963195c6ed9655ad701491a4edcb338643850",
+  "new_model_provider_calls": 0
+}

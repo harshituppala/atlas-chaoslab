@@ -39,3 +39,15 @@ The runner starts its own API/worker on loopback port 8136, creates private temp
 The public browser acceptance covers both layouts, failure selection and the absence of API calls on the recorded-results page. The independent rehearsal executes all four CLI comparisons in a separate installed environment without ATLAS. See [hosted checks](../reports/public-evaluation-hosted.json) and [CLI rehearsal](../reports/demo-walkthrough.json).
 
 These checks establish the steps above, not audience comprehension or a finished video. No recording has been made. The complete external contract-model evaluation, untouched-test comparison and durable managed hosting are still separate unfinished delivery gates. Do not substitute small synthetic scores for those results or describe them as representative contract accuracy.
+
+
+## Recheck the private workbench
+
+After building `apps/web`, an operator can run the connected browser file against a fresh isolated local API, worker and SQLite database:
+
+```sh
+PYTHONPATH=src .runtime/bin/python scripts/verify_document_review.py \
+  --all-workflows --output reports/workbench-components.json
+```
+
+Node and pnpm must be on the operator's path, or supplied with the runner's `--node` and `--pnpm` options. This includes controlled-response cases as well as the real fictional-document flow. It makes no model call and does not replace the separate real Cognito or hosted acceptance checks. Without `--all-workflows`, the runner keeps its original single-intake rehearsal.

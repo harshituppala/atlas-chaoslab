@@ -7,7 +7,16 @@ import {
   type LiveReasoningReport,
 } from "./LiveReasoningPanel";
 import { ScenarioPanel, type ScenarioReport } from "./ScenarioPanel";
-import { Dialog } from "./Dialog";
+import { AnalysisDialog } from "./AnalysisDialog";
+import { SourceDialog } from "./SourceDialog";
+import { AuditPanel } from "./AuditPanel";
+import {
+  sourceLocation,
+  type Citation,
+  type Assessment,
+  type Document,
+  type ExecutionOptions,
+} from "./workbench";
 import { ReasoningPanel, type ReasoningReport } from "./ReasoningPanel";
 import {
   AdversarialPanel,
@@ -16,60 +25,6 @@ import {
 } from "./AdversarialPanel";
 import { RetrievalPanel, type RetrievalReport } from "./RetrievalPanel";
 
-type Citation = {
-  document_id: string;
-  digest: string;
-  start: number;
-  end: number;
-  quote: string;
-};
-type Assessment = {
-  requirement: { id: string; text: string; category: string; source: Citation };
-  status: string;
-  evidence: Citation[];
-  draft: string;
-  review_state: string;
-  version: number;
-  review_note?: string;
-};
-type SourceMap = {
-  format: "pdf" | "docx";
-  raw_sha256: string;
-  segments: Array<{
-    unit: "page" | "paragraph";
-    number: number;
-    start: number;
-    end: number;
-  }>;
-  warnings: string[];
-};
-type Document = {
-  id: string;
-  title: string;
-  text: string;
-  kind: "rfp" | "knowledge";
-  source_map?: SourceMap | null;
-};
-function unicodeSlice(text: string, start: number, end?: number) {
-  return Array.from(text).slice(start, end).join("");
-}
-function sourceLocation(document: Document | undefined, citation: Citation) {
-  return (
-    document?.source_map?.segments
-      .filter((s) => s.start < citation.end && s.end > citation.start)
-      .map((s) => (s.unit === "page" ? "Page " : "Paragraph ") + s.number)
-      .join(" · ") || "Pasted source"
-  );
-}
-type ExecutionOptions = {
-  model: {
-    enabled: boolean;
-    model_id?: string;
-    region?: string;
-    model_config_sha256?: string;
-    maximum_reserved_inference_usd?: string;
-  };
-};
 type Run = {
   provider?: string;
   pipeline_version?: string;
@@ -1393,69 +1348,7 @@ function App({ access }: { access: BrowserAccess | null }) {
                 </p>
               </section>
             ))}
-          {page === "audit" && (
-            <section className="benchmark-panel">
-              <h2>Review history</h2>
-              {audit.map((event) => {
-                const action = String(event.action);
-                const label =
-                  (
-                    {
-                      "analysis.created": "Analysis created",
-                      "review.approved": "Evidence review approved",
-                      "review.rejected": "Evidence review rejected",
-                      "review.pending": "Review returned to pending",
-                    } as Record<string, string>
-                  )[action] ?? "Recorded event";
-                const details =
-                  event.details &&
-                  typeof event.details === "object" &&
-                  !Array.isArray(event.details)
-                    ? (event.details as Record<string, unknown>)
-                    : {};
-                const subject = items.find(
-                  (assessment) =>
-                    assessment.requirement.id === details.requirement_id,
-                );
-                return (
-                  <article className="audit-event" key={String(event.id)}>
-                    <div className="audit-heading">
-                      <h3>{label}</h3>
-                      <small>
-                        {new Date(String(event.time)).toLocaleString()}
-                      </small>
-                    </div>
-                    <p className="audit-actor">By {String(event.actor)}</p>
-                    {subject && (
-                      <p className="audit-subject">
-                        {subject.requirement.text}
-                      </p>
-                    )}
-                    {typeof details.note === "string" && (
-                      <blockquote className="audit-note">
-                        {details.note}
-                      </blockquote>
-                    )}
-                    {typeof details.version === "number" && (
-                      <p className="fine">
-                        Saved review version {details.version}
-                      </p>
-                    )}
-                    <details>
-                      <summary>Technical details</summary>
-                      <pre>{JSON.stringify({ action, details }, null, 2)}</pre>
-                    </details>
-                  </article>
-                );
-              })}
-              {!audit.length && (
-                <p>
-                  No events loaded. Open an analysis before viewing its audit
-                  trail.
-                </p>
-              )}
-            </section>
-          )}
+          {page === "audit" && <AuditPanel audit={audit} items={items} />}
           <footer>
             <span>ATLAS · Requirements review</span>
             <span>CHAOSLAB · Evaluation</span>
@@ -1463,197 +1356,41 @@ function App({ access }: { access: BrowserAccess | null }) {
         </div>
       </main>
       {compose && (
-        <Dialog
-          name="New analysis"
-          className="modal compose-modal"
-          canClose={!busy}
+        <AnalysisDialog
+          busy={busy}
+          error={error}
+          executionMode={executionMode}
+          executionOptions={executionOptions}
+          rfp={rfp}
+          knowledge={knowledge}
+          uploadedRfp={uploadedRfp}
+          uploadedKnowledge={uploadedKnowledge}
           onClose={() => setCompose(false)}
-        >
-          <button
-            className="close"
-            aria-label="Close"
-            disabled={busy}
-            onClick={() => setCompose(false)}
-          >
-            ×
-          </button>
-          <p className="eyebrow">NEW ANALYSIS</p>
-          <h2>Bring your requirements and evidence.</h2>
-          <p>
-            Upload text-bearing PDF or DOCX files up to 1 MB, or paste text.
-            Keep confidential material out of the demonstration.
-          </p>
-          {error && (
-            <div role="alert" className="error">
-              {error}
-            </div>
-          )}
-          {busy && <p role="status">Preparing your documents…</p>}
-          <label>
-            Analysis mode
-            <select
-              aria-label="Analysis mode"
-              value={executionMode}
-              disabled={busy}
-              onChange={(event) => setExecutionMode(event.target.value)}
-            >
-              <option value="baseline">
-                Extractive baseline · no model calls
-              </option>
-              {executionOptions.model.enabled && (
-                <option value="bedrock">
-                  AI-assisted review · AWS Bedrock
-                </option>
-              )}
-            </select>
-          </label>
-          {executionMode === "bedrock" ? (
-            <p role="note">
-              Source text will be sent to AWS Bedrock for provisional
-              assessment. Model: {executionOptions.model.model_id} ·{" "}
-              {executionOptions.model.region}. Up to US$
-              {Number(
-                executionOptions.model.maximum_reserved_inference_usd,
-              ).toFixed(4)}{" "}
-              is reserved from the configured test allowance for this job.
-              Actual token cost may be lower or unknown; this is not an invoice.
-              A configured model worker and valid credentials are required.
-              Human review remains mandatory.
-            </p>
-          ) : (
-            <p className="fine">
-              Local extraction and retrieval. No source text is sent to a model.
-            </p>
-          )}
-          <div className="upload-grid">
-            {(
-              [
-                ["rfp", "RFP / requirements", uploadedRfp, rfp],
-                [
-                  "knowledge",
-                  "Capability register",
-                  uploadedKnowledge,
-                  knowledge,
-                ],
-              ] as const
-            ).map(([kind, title, uploaded, text]) => (
-              <section className="upload-card" key={kind}>
-                <h3>{title}</h3>
-                <label className="file-label">
-                  {kind === "rfp" ? "RFP file" : "Knowledge file"}
-                  <input
-                    type="file"
-                    accept=".pdf,.docx"
-                    disabled={busy}
-                    onChange={(e) => {
-                      void upload(e.target.files?.[0], kind);
-                      e.target.value = "";
-                    }}
-                  />
-                </label>
-                {uploaded && (
-                  <div className="upload-summary">
-                    <strong>{uploaded.title}</strong>
-                    <small>
-                      {uploaded.source_map?.segments.length} mapped{" "}
-                      {uploaded.source_map?.format === "pdf"
-                        ? "pages"
-                        : "paragraphs"}{" "}
-                      · Immutable source
-                    </small>
-                    {uploaded.source_map?.warnings.map((w) => (
-                      <p className="fine" key={w}>
-                        {w}
-                      </p>
-                    ))}
-                    <button
-                      className="secondary"
-                      disabled={busy}
-                      onClick={() => {
-                        if (kind === "rfp") {
-                          setUploadedRfp(null);
-                          setRfp("");
-                        } else {
-                          setUploadedKnowledge(null);
-                          setKnowledge("");
-                        }
-                      }}
-                    >
-                      Remove {kind === "rfp" ? "RFP" : "knowledge"} file
-                    </button>
-                  </div>
-                )}
-                <label>
-                  {uploaded
-                    ? "Extracted text preview"
-                    : kind === "rfp"
-                      ? "RFP text"
-                      : "Knowledge text"}
-                  <textarea
-                    readOnly={!!uploaded}
-                    disabled={busy}
-                    value={text}
-                    onChange={(e) =>
-                      kind === "rfp"
-                        ? setRfp(e.target.value)
-                        : setKnowledge(e.target.value)
-                    }
-                    rows={5}
-                  />
-                </label>
-              </section>
-            ))}
-          </div>
-          <button
-            className="primary"
-            disabled={!rfp.trim() || !knowledge.trim() || busy}
-            onClick={analyze}
-          >
-            Analyze documents
-          </button>
-        </Dialog>
+          onExecutionModeChange={setExecutionMode}
+          onUpload={upload}
+          onAnalyze={analyze}
+          onRemoveFile={(kind) => {
+            if (kind === "rfp") {
+              setUploadedRfp(null);
+              setRfp("");
+            } else {
+              setUploadedKnowledge(null);
+              setKnowledge("");
+            }
+          }}
+          onTextChange={(kind, text) =>
+            kind === "rfp" ? setRfp(text) : setKnowledge(text)
+          }
+        />
       )}
       {citation && sourceDoc && (
-        <Dialog
-          name="Source document"
-          className="modal source-modal"
+        <SourceDialog
+          citation={citation}
+          sourceDoc={sourceDoc}
+          busy={busy}
           onClose={() => setCitation(null)}
-        >
-          <button
-            className="close"
-            aria-label="Close source"
-            onClick={() => setCitation(null)}
-          >
-            ×
-          </button>
-          <p className="eyebrow">IMMUTABLE SOURCE</p>
-          <h2>{sourceDoc.title}</h2>
-          <p className="source-location">
-            {sourceLocation(sourceDoc, citation)}
-          </p>
-          {sourceDoc.source_map && (
-            <button
-              className="secondary"
-              disabled={busy}
-              onClick={() => downloadOriginal(sourceDoc)}
-            >
-              Download original source
-            </button>
-          )}
-          <p className="fine">Text identity: {citation.digest}</p>
-          {sourceDoc.source_map?.warnings.map((w) => (
-            <p className="fine" key={w}>
-              {w}
-            </p>
-          ))}
-          <pre className="source-text">
-            {unicodeSlice(sourceDoc.text, 0, citation.start)}
-            <mark>
-              {unicodeSlice(sourceDoc.text, citation.start, citation.end)}
-            </mark>
-            {unicodeSlice(sourceDoc.text, citation.end)}
-          </pre>
-        </Dialog>
+          onDownload={downloadOriginal}
+        />
       )}
     </div>
   );

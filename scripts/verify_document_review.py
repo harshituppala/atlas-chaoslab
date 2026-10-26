@@ -40,7 +40,19 @@ def main():
     parser.add_argument(
         "--pnpm", default=shutil.which("pnpm"), help="pnpm executable or .cjs script"
     )
+    parser.add_argument(
+        "--all-workflows",
+        action="store_true",
+        help="Run the full connected-workbench file, including controlled-response cases",
+    )
+    parser.add_argument(
+        "--output", type=Path, default=ROOT / "reports/document-review-rehearsal.json"
+    )
     args = parser.parse_args()
+    if not args.output.resolve().is_relative_to(
+        ROOT / "reports"
+    ) and not args.output.resolve().is_relative_to(ROOT / "var"):
+        parser.error("Keep the report inside portfolio reports or var")
     if not args.node or not args.pnpm:
         parser.error("Install Node/pnpm or provide their paths")
     frozen = fingerprints()
@@ -124,8 +136,7 @@ def main():
                     "playwright",
                     "test",
                     "e2e/workbench.spec.ts",
-                    "--grep",
-                    "upload PDF and DOCX",
+                    *([] if args.all_workflows else ["--grep", "upload PDF and DOCX"]),
                     "--workers=1",
                     "--retries=0",
                     "--reporter=json",
@@ -141,7 +152,8 @@ def main():
         stats = browser["stats"]
         if (
             result.returncode
-            or stats["expected"] != 1
+            or stats["expected"] < 1
+            or (not args.all_workflows and stats["expected"] != 1)
             or browser.get("errors")
             or any(stats[key] for key in ("unexpected", "flaky", "skipped"))
         ):
@@ -151,7 +163,7 @@ def main():
         report = {
             "recorded_at": datetime.now(UTC).isoformat(),
             "scope": "One real Chromium workflow through an isolated loopback API, worker and SQLite database using fresh synthetic bearer credentials. PDF/DOCX upload, queued baseline, exact page mapping and original bytes, conflict approval blocked, rejection saved, reconnect/reload persistence, audit note and disconnect checked. No Cognito, deployed identity, TLS, PostgreSQL, cross-tenant or restart acceptance claim.",
-            "browser_workflows_passed": 1,
+            "browser_workflows_passed": stats["expected"],
             "authentication": "fresh private local bearer; not external sign-in",
             "database": "new isolated SQLite database; no existing workspace changed",
             "input_sha256": {name: frozen[name] for name in INPUTS},
@@ -163,10 +175,14 @@ def main():
             "browser_evidence_sha256": hashlib.sha256(evidence).hexdigest(),
             "new_model_provider_calls": 0,
         }
-        (ROOT / "reports/document-review-rehearsal.json").write_text(
-            json.dumps(report, indent=2) + "\n"
+        if args.all_workflows:
+            report["scope"] = (
+                "All connected-workbench cases in the fingerprinted browser test file, through an isolated loopback API/worker/SQLite profile. Includes real intake/source/review persistence and controlled-response quality, execution-mode and identity display cases. Controlled cases are not new model calls, identity-provider acceptance or deployed hosting."
+            )
+        args.output.write_text(json.dumps(report, indent=2) + "\n")
+        print(
+            json.dumps({"passed": True, "browser_workflows": stats["expected"], "model_calls": 0})
         )
-        print(json.dumps({"passed": True, "browser_workflows": 1, "model_calls": 0}))
     finally:
         for process in reversed(processes):
             if process.poll() is None:
