@@ -32,6 +32,18 @@ def main():
         assert health.status_code == 200
         assert health.json()["profile"] == "temporary-synthetic-lab"
         assert health.json()["production_validated"] is False
+        navigation = {
+            "Sec-Fetch-Site": "cross-site",
+            "Sec-Fetch-Mode": "navigate",
+            "Sec-Fetch-Dest": "document",
+        }
+        entry = client.get("/", headers=navigation)
+        assert entry.status_code == 200 and "set-cookie" not in entry.headers
+        assert client.get("/api/lab/session", headers=navigation).status_code == 403
+        assert (
+            client.post("/api/lab/session", json={}, headers={**headers, **navigation}).status_code
+            == 403
+        )
         page = client.get("/")
         assert page.status_code == 200
         assert 'name="atlas-profile" content="temporary-synthetic-lab"' in page.text
@@ -104,6 +116,8 @@ def main():
                     assert other.delete("/api/lab/session", headers=headers).status_code == 204
             observations = {
                 "https_workflow": True,
+                "cross_site_document_navigation": True,
+                "cross_site_api_and_write_refused": True,
                 "requirements": len(run["assessments"]),
                 "independently_checked_source_spans": len(citations),
                 "all_initial_reviews_pending": True,

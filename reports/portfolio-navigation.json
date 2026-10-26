@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-26T03:08:17.414963+00:00",
+  "scope": "Actual in-app Chromium navigation from the public portfolio ATLAS dialog, followed by Open demo in a new tab. Earlier request showed Same-origin request required; after the deployed fix, the review heading and Run sample analysis button rendered. No model call or new evaluation.",
+  "portfolio": "https://harshit-uppala-portfolio.vercel.app/",
+  "destination": "https://atlas-review-lab.onrender.com/",
+  "deployment_source": "a3d7b3bd58f2aa4178281b808a85d5e4ef8f6fdd",
+  "deployment_id": "dep-dbfc6pu7bikc73cvdqqg",
+  "ci_run": 40261992102,
+  "all_four_ci_jobs_passed": true,
+  "actual_portfolio_link_opened": true,
+  "screenshot_sha256": "7fe03c03d0fd8de694a142b0fc61b99d34f9e9c8e3491b05d03dca4cec1f7971",
+  "new_model_provider_calls": 0
+}
