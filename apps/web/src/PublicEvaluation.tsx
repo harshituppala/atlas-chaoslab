@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ContractTestPanel } from "./ContractTestPanel";
 import { PublicHeader } from "./PublicHeader";
 import { ScenarioPanel } from "./ScenarioPanel";
 import scenarioBaseline from "../../../reports/scenarios-baseline.json";
@@ -43,9 +44,9 @@ export function PublicEvaluation() {
           <aside>
             <strong>Saved results, available to inspect</strong>
             <p>
-              These reports come from earlier executions on fictional documents.
-              Opening this page makes no model request and starts no evaluation.
-              The interactive review sample runs separately.
+              The worked examples come from earlier executions on fictional
+              documents. Opening this page makes no model request and starts no
+              evaluation. The interactive review sample runs separately.
             </p>
           </aside>
         </section>
@@ -163,14 +164,16 @@ export function PublicEvaluation() {
             </p>
           )}
         </section>
+        <ContractTestPanel />
         <details className="limits">
           <summary>What these results do and do not establish</summary>
           <p>
-            These are small authored development sets. Their counts cannot be
-            combined into one accuracy score, and passing them does not prove
-            general reliability or legal compliance. The first comparison has
-            three scenarios and nine requirements; the second has twelve
-            single-requirement cases. Human approval remains a separate step.
+            The fictional examples use small authored development sets. Their
+            counts cannot be combined into one accuracy score, and passing them
+            does not prove general reliability or legal compliance. The first
+            comparison has three scenarios and nine requirements; the second has
+            twelve single-requirement cases. Human approval remains a separate
+            step.
           </p>
           <p>
             CHAOSLAB also has failure-injection, recovery and independently

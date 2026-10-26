@@ -320,6 +320,30 @@ for (const width of [1440, 390]) {
     await expect(failure).toContainText(
       "Not available for this failed extraction",
     );
+    const contracts = page.getByRole("region", {
+      name: "External contract test",
+    });
+    await expect(
+      contracts.getByRole("heading", {
+        name: "A separate test on 123 contracts",
+      }),
+    ).toBeVisible();
+    await expect(
+      contracts.getByRole("cell", { name: "77.5%", exact: true }),
+    ).toBeVisible();
+    await expect(
+      contracts.getByRole("cell", { name: "49.4%", exact: true }),
+    ).toBeVisible();
+    await expect(contracts).toContainText("Only 90 of 220 contradictions");
+    await contracts
+      .getByText("How the contract test was run", { exact: true })
+      .click();
+    await expect(contracts).toContainText("0.699");
+    await expect(contracts).toContainText("49.1%");
+    await expect(contracts).toContainText("84.7%");
+    await contracts.screenshot({
+      path: `${screenshotRoot}/contract-test-${width}.png`,
+    });
     await page
       .getByText("Inspect recorded model scenarios", { exact: true })
       .click();

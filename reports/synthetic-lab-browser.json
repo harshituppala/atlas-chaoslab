@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-26T03:00:47.623843+00:00",
+  "recorded_at": "2026-10-26T15:38:23.352475+00:00",
   "scope": "Six Chromium workflows against the built React lab. Three exercise the actual loopback API; two inspect saved evaluation results with no API requests or cookies; one follows a controlled external portfolio link in a new tab. Baseline computation is real. Capacity feedback uses a controlled 503; client expiry uses a shortened metadata lifetime while server state remains valid. No hosted TLS/provider or ten-minute wall-clock expiry claim.",
   "browser_cases_passed": 6,
   "workflows": [
@@ -12,37 +12,42 @@
     "an external portfolio link opens the public lab in a new tab"
   ],
   "privacy_scope": "Projects only authored test names, counts and hashes. No cookies, headers, session identifiers, source payloads, stderr, attachments or trace content are exported.",
-  "browser_evidence_sha256": "87f8643347b36d607f710697e3e68adf062c67d423d770a5ff51e2baec1c4529",
+  "browser_evidence_sha256": "7c2d250eb094291e07c0c6b49c0cfc7deda392c52d9bdf7063891bfe2dfaa4c7",
   "frontend_sha256": {
     "apps/web/src/lab.tsx": "3ae5b84b09087b6f74cca751eadc1b23e89bdae208a1b07b83573c27f6e6a3bc",
     "apps/web/src/lab.css": "9054caa1652402245d9bbb5172f1667c5b5dc0347a515b055df83b1027b16393",
     "apps/web/src/Dialog.tsx": "e3bc3463b46673c1ee53a65bc0ad73989815209cce7f7b1f6d6af2b92e8da1eb",
     "apps/web/src/PublicHeader.tsx": "1fb34ec82af7d5e29d73a4bbfa5a0616be73a2459d0c3a67108770c94f5dcae2",
-    "apps/web/src/PublicEvaluation.tsx": "619944573bf2d3147c6b161ad42ea818f451c72b9aee37f1a6a98e892878fc75",
+    "apps/web/src/PublicEvaluation.tsx": "ad4cf94abdd03a56802593768a87c492729c22fdcc57b775f8505d895c606d20",
+    "apps/web/src/ContractTestPanel.tsx": "be4119bed6b3797394007427a01148c60dca0fdcc461d9f2a38d2708aad94563",
     "apps/web/src/ScenarioPanel.tsx": "0a1ba2b0feb2489ff7d48256a908945d1f0211b845493bc071e3b324a4f490cd",
     "reports/scenarios-baseline.json": "87e91ed56bd6520187d99d1b6bc781653f50b79cf6db548e9be16bb9aaeaa6fb",
     "reports/scenarios-live-v4.json": "d7d6a05637cdd951bcecbe5612bbd04f291e6d573614eedf66d1a8ed3e41cb4d",
     "reports/reasoning-transfer-baseline.json": "ac984949a2ad49a6c7c629b2e217b5f30b32c25ef7be297d417ec2615e72abe7",
     "reports/reasoning-transfer-live-v4.json": "5a90f77a126e5e34cf5b1467b0b6f37f06b93f1354d13faf853516874108f8cd",
+    "reports/contract-model-test.json": "8bcb0a2ecc190f7c97eea6b6ef90d5fd04891a7cbfc1eaa57fe57e2fee08f027",
+    "reports/contract-model-test-standalone-replay.json": "f36717a8c94e843d3e112ac0b069ade60e3d6278881f65683fa4d0f7460b7ea9",
     "datasets/reasoning-transfer.json": "7454b41b4c1a32a3808b6e9a699fd799110040adaed590d346069d153fa0146c",
     "apps/web/lab/index.html": "30d4bd3be1e022d6ea6992c9a33b8e3a7cf77a6a9e251c23324317088d112d74",
     "apps/web/vite.lab.config.ts": "fa7939c5fdd22e067115ada51e07b978076033c52c898bb885640d746bb87e0a",
     "apps/web/playwright.lab.config.ts": "f9743da01992ccf4457c066e0ec1136cc7d712c5a108cee01851e8a9c0fcf781",
-    "apps/web/lab-e2e/lab.spec.ts": "e35c77edcb15853cc74a2992dffbad2e3b443c48cc7d95062e8e96a2fff0b56d",
+    "apps/web/lab-e2e/lab.spec.ts": "0c8730bf03dae8b8e56e1caad0e32f4f24a0d2affc3a81ecfa88c8f77037d58f",
     "apps/web/package.json": "67a1cc9b4e4f718313671c26026a9c11e0204d53c7e4c34c4c208eac48bc5cfb",
-    "scripts/record_lab_browser.py": "c98b10e011129085b098279bd6c1f71aca91b5292cdb0cb8bb7e6393d3df9ea2"
+    "scripts/record_lab_browser.py": "ef56334a4d9acf69a1f43981b481f0b6a38fb43593175a73fe004e6dbe9be053"
   },
-  "backend_source_sha256": "f38928b9388e21a619d83094ab99d156d9711852d8f49088e1572fc9b5dc7443",
+  "backend_source_sha256": "73738108cec2acb1a5464b85a5158d3fe2b8cca077bb78a25ea910148d83bdf0",
   "build_sha256": {
-    "assets/index-C_dZAoTl.js": "fb79d061216524229b318a03f3b982b40f7f2eb46e29614a53b59c5454cb8d73",
+    "assets/index-D7V2ofmX.js": "83aa2b10dddd5052ba12c6a4c0d564645f47dd901e3969c3cbefbe1355224c41",
     "assets/index-DhMdjUiH.css": "175d048153eca2e86302bdb68eae6709cdf84208b27a31887491fc86d5207c3b",
-    "index.html": "9cf9eb13c0703c666e9b48a1511e352f633fbfb31158a8fec3b8375778464d05"
+    "index.html": "fd23d72e6cbab7e3023e56f1fc6ba26db7475263d6026108cbb5d36326544017"
   },
   "screenshots_sha256": {
     "var/ui-review/screenshots/synthetic-workbench.png": "49bfa88559715682666461029f7c29d6c6c161941cb09396bc505ca0aad69c2b",
     "var/ui-review/screenshots/synthetic-workbench-mobile.png": "e7e0845d472450d9e4281d6d1bcd08d3073413025eb9d1dc838a33618da157e4",
-    "var/ui-review/screenshots/public-evaluation-1440.png": "24a1df3dd5e1425afcce06b23c8dd6276f715f5ec0b323e2cfda9b0c641be120",
-    "var/ui-review/screenshots/public-evaluation-390.png": "f1f970fcb1af9d82a283e44d06d6f6280ba31a6b9919372997b1d76ccd7e35ab"
+    "var/ui-review/screenshots/public-evaluation-1440.png": "21b14c2d1334f7af555c7f8a7e7571811b2f751eff97013311e9bb90653f74f6",
+    "var/ui-review/screenshots/public-evaluation-390.png": "47284715107576160cd466ef78ea51e40b4635d62f5cc9fe28347310cbe15a25",
+    "var/ui-review/screenshots/contract-test-1440.png": "e5f891f24f4ba6eb5eb22820f9b77c0f21c85c6084ac611ea926d4dbd2413447",
+    "var/ui-review/screenshots/contract-test-390.png": "acad7afad3644cc8c5db27f871d78baeef9387da28da454e4d4d79a291e1381f"
   },
   "identity_scope": "Source/build/screenshot hashes captured after the actual browser run; no frozen-run, signed execution or full loaded-dependency attestation. Separate ASGI evidence checks its own source before/after.",
   "new_model_provider_calls": 0

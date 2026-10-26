@@ -5,8 +5,8 @@ COPY apps/web/package.json apps/web/pnpm-lock.yaml apps/web/pnpm-workspace.yaml 
 RUN pnpm install --frozen-lockfile
 COPY apps/web/tsconfig.json apps/web/vite.lab.config.ts ./
 COPY apps/web/lab/index.html lab/index.html
-COPY apps/web/src/lab.tsx apps/web/src/lab.css apps/web/src/Dialog.tsx apps/web/src/PublicHeader.tsx apps/web/src/PublicEvaluation.tsx apps/web/src/ScenarioPanel.tsx src/
-COPY reports/scenarios-baseline.json reports/scenarios-live-v4.json reports/reasoning-transfer-baseline.json reports/reasoning-transfer-live-v4.json /build/reports/
+COPY apps/web/src/lab.tsx apps/web/src/lab.css apps/web/src/Dialog.tsx apps/web/src/PublicHeader.tsx apps/web/src/PublicEvaluation.tsx apps/web/src/ContractTestPanel.tsx apps/web/src/ScenarioPanel.tsx src/
+COPY reports/scenarios-baseline.json reports/scenarios-live-v4.json reports/reasoning-transfer-baseline.json reports/reasoning-transfer-live-v4.json reports/contract-model-test.json reports/contract-model-test-standalone-replay.json /build/reports/
 COPY datasets/reasoning-transfer.json /build/datasets/
 RUN pnpm build:lab
 

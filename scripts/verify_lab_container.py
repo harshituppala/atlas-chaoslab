@@ -25,11 +25,14 @@ FRONTEND = [
     "apps/web/src/Dialog.tsx",
     "apps/web/src/PublicHeader.tsx",
     "apps/web/src/PublicEvaluation.tsx",
+    "apps/web/src/ContractTestPanel.tsx",
     "apps/web/src/ScenarioPanel.tsx",
     "reports/scenarios-baseline.json",
     "reports/scenarios-live-v4.json",
     "reports/reasoning-transfer-baseline.json",
     "reports/reasoning-transfer-live-v4.json",
+    "reports/contract-model-test.json",
+    "reports/contract-model-test-standalone-replay.json",
     "datasets/reasoning-transfer.json",
 ]
 

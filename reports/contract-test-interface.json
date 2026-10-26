@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-10-26T15:40:51.575921+00:00",
+  "scope": "Saved frozen contract results added to the public evaluation view; separate from the fictional examples and the live extractive review. Two expanded desktop/phone evaluation cases assert model/reference counts, contradiction errors, metric definitions and no API calls, cookies or browser storage. The complete six-workflow lab gate passed.",
+  "browser_workflows_passed": 6,
+  "recorded_contract_layout_widths": [
+    1440,
+    390
+  ],
+  "linux_lab_cases_passed": 41,
+  "container_http_review_and_restart_passed": true,
+  "new_provider_requests": 0,
+  "new_hosted_deployment": false,
+  "source_sha256": {
+    "apps/web/src/ContractTestPanel.tsx": "be4119bed6b3797394007427a01148c60dca0fdcc461d9f2a38d2708aad94563",
+    "apps/web/src/PublicEvaluation.tsx": "ad4cf94abdd03a56802593768a87c492729c22fdcc57b775f8505d895c606d20",
+    "apps/web/lab-e2e/lab.spec.ts": "0c8730bf03dae8b8e56e1caad0e32f4f24a0d2affc3a81ecfa88c8f77037d58f",
+    "Dockerfile.lab": "85a849b9431c9f20528a32c5033c301018766274a51f05017e5f2b71df47b718",
+    "scripts/record_lab_browser.py": "ef56334a4d9acf69a1f43981b481f0b6a38fb43593175a73fe004e6dbe9be053",
+    "scripts/verify_lab_container.py": "c0a6edac0d5103276d009bda7b86d40d4925c6880b20401ed150409afa29a83f",
+    "reports/contract-model-test.json": "8bcb0a2ecc190f7c97eea6b6ef90d5fd04891a7cbfc1eaa57fe57e2fee08f027",
+    "reports/contract-model-test-standalone-replay.json": "f36717a8c94e843d3e112ac0b069ade60e3d6278881f65683fa4d0f7460b7ea9"
+  }
+}
