@@ -58,3 +58,9 @@ A [local Docker exercise](../reports/supervisor-container.json) now tests the bo
 The verifier uses an existing local image with current source mounted read-only, no network, no credentials, no Docker socket and only a synthetic writable proof directory. It removes its own container afterward. Reproduce it with `scripts/verify_supervisor_container.py --image <existing-local-image>`, using the project Python environment and `PYTHONPATH=src`. It does not build or pull an image.
 
 This establishes the local container boundary for these controls. It does not establish a built managed application image, real API/queue recovery, a live PostgreSQL role or backup restore, hung-worker detection or hosted sign-in. Those remain the next acceptance gates.
+
+## Queue and separate-worker integration
+
+The [joined local HTTPS workflow](../reports/browser-login-separate-worker.json) now uses the actual managed API, database-backed queue, separate baseline worker and isolated analysis child. A job submitted while the worker is stopped stays queued; a new worker then completes it, after which the browser opens the source and records a review. Manual fixture processing is disabled for this mode. The identity provider is synthetic and storage is SQLite.
+
+This closes the gap between manual in-process fixture execution and a real queue consumer for that local setup. It does not establish API restart persistence, the supervisor's combined hosted image, PostgreSQL TLS/roles, separate backup restore or real deployed identity acceptance. Keep those gates open.

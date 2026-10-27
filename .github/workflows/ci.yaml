@@ -69,6 +69,7 @@ jobs:
       - run: pnpm exec prettier --check ../../scripts/browser_login_https.mjs
         working-directory: apps/web
       - run: PYTHONPATH=src python scripts/verify_browser_login_https.py
+      - run: PYTHONPATH=src python scripts/verify_browser_login_https.py --separate-worker
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -78,7 +79,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: composed-login-evidence
-          path: reports/browser-login-https.json
+          path: |
+            reports/browser-login-https.json
+            reports/browser-login-separate-worker.json
   standalone-evaluator:
     runs-on: ubuntu-latest
     steps:

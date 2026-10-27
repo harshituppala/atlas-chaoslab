@@ -12,8 +12,10 @@ import ipaddress
 import json
 import os
 import select
+import signal
 import socket
 import subprocess
+import sys
 import threading
 import time
 from datetime import UTC, datetime, timedelta
@@ -27,6 +29,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509.oid import NameOID
 from login_browser_fixture import create_fixture
+from run_managed_workbench import environments
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -37,6 +40,7 @@ def fingerprints():
         + [
             ROOT / "scripts/login_browser_fixture.py",
             ROOT / "scripts/browser_login_https.mjs",
+            ROOT / "scripts/run_managed_workbench.py",
             Path(__file__).resolve(),
         ]
         + sorted((ROOT / "apps/web/src").glob("*.tsx"))
@@ -118,6 +122,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--node", default="node")
     parser.add_argument("--pnpm-script")
+    parser.add_argument(
+        "--separate-worker",
+        action="store_true",
+        help="Run the real baseline worker in a separate process; fixture processing is disabled",
+    )
     args = parser.parse_args()
     frozen = fingerprints()
     work = ROOT / "var/browser-login-https" / uuid4().hex[:12]
@@ -162,9 +171,58 @@ def main():
     # Paid inference profiles cannot be enabled by an inherited local environment.
     for name in ("ATLAS_MODEL_JOB_SPEC", "ATLAS_ENABLE_BEDROCK_JOBS", "ATLAS_TOKEN_TRUST"):
         os.environ.pop(name, None)
+    worker = None
+    worker_log = None
+    worker_events = []
+
+    def worker_control(action):
+        nonlocal worker, worker_log
+        if action == "pause-worker":
+            if worker is not None:
+                worker.send_signal(signal.SIGTERM)
+                try:
+                    worker.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    os.killpg(worker.pid, signal.SIGKILL)
+                    worker.wait()
+                worker_events.append({"event": "stopped", "exit_code": worker.returncode})
+                if worker.returncode != 0:
+                    raise RuntimeError("Fixture worker did not stop cleanly")
+                worker = None
+            if worker_log is not None:
+                worker_log.close()
+                worker_log = None
+        elif action == "resume-worker":
+            if worker is not None:
+                raise RuntimeError("Fixture worker already running")
+            worker_log = (work / "worker.log").open("ab")
+            _, worker_env = environments(
+                {
+                    "api_database": "unused",
+                    "worker_database": "sqlite:///" + str(work / "atlas.db"),
+                    "login_settings": "unused",
+                },
+                {**environment, "PYTHONPATH": str(ROOT / "src")},
+            )
+            worker = subprocess.Popen(
+                [sys.executable, "-m", "atlas.worker"],
+                cwd=ROOT,
+                env=worker_env,
+                stdout=worker_log,
+                stderr=worker_log,
+                start_new_session=True,
+            )
+            worker_events.append({"event": "started"})
+
     app, metrics, close = create_fixture(
-        work, proxy_url, cert, rsa.generate_private_key(public_exponent=65537, key_size=2048)
+        work,
+        proxy_url,
+        cert,
+        rsa.generate_private_key(public_exponent=65537, key_size=2048),
+        worker_control=worker_control if args.separate_worker else None,
     )
+    if args.separate_worker:
+        worker_control("resume-worker")
     server = uvicorn.Server(
         uvicorn.Config(
             app,
@@ -194,6 +252,7 @@ def main():
                 "ATLAS_FIXTURE_PROXY": proxy_url,
                 "ATLAS_FIXTURE_SPKI": spki,
                 "ATLAS_FIXTURE_SCREENSHOT": str(work / "workbench.png"),
+                "ATLAS_FIXTURE_SEPARATE_WORKER": "1" if args.separate_worker else "0",
             },
             capture_output=True,
             timeout=120,
@@ -218,7 +277,9 @@ def main():
                 f"inspect {work.relative_to(ROOT)}"
             )
         observed = json.loads(result.stdout)
-        if len(observed["checks"]) != 12 or not all(observed["checks"].values()):
+        if len(observed["checks"]) != (13 if args.separate_worker else 12) or not all(
+            observed["checks"].values()
+        ):
             raise RuntimeError("Incomplete browser acceptance")
         if not (
             metrics["token_exchanges"] == metrics["authorized"] == 2
@@ -229,19 +290,34 @@ def main():
         ):
             raise RuntimeError("Unexpected synthetic provider observations")
     finally:
-        server.should_exit = True
-        thread.join(timeout=10)
-        close()
-        listener.close()
-        proxy.shutdown()
-        proxy.server_close()
-        proxy_thread.join(timeout=5)
-        private.unlink(missing_ok=True)
+        try:
+            if args.separate_worker:
+                worker_control("pause-worker")
+        finally:
+            server.should_exit = True
+            thread.join(timeout=10)
+            close()
+            listener.close()
+            proxy.shutdown()
+            proxy.server_close()
+            proxy_thread.join(timeout=5)
+            private.unlink(missing_ok=True)
+    if args.separate_worker and worker_events != [
+        {"event": "started"},
+        {"event": "stopped", "exit_code": 0},
+        {"event": "started"},
+        {"event": "stopped", "exit_code": 0},
+    ]:
+        raise RuntimeError("Unexpected worker lifecycle")
     if frozen != fingerprints():
         raise RuntimeError("Source changed during acceptance; publication refused")
     report = {
         "recorded_at": datetime.now(UTC).isoformat(),
         "scope": "Chromium through a loopback-only CONNECT proxy to a real TLS server, ATLAS UI/API and a synthetic passwordless provider with real S256, token exchange, JWKS and RSA signature verification. Not AWS/Cognito or a real user login.",
+        "worker_mode": "real separate baseline process; paused before submit, queued job processed after restart; fixture process route refused"
+        if args.separate_worker
+        else "in-process fixture control",
+        "worker_lifecycle": worker_events,
         "browser": observed["browser"],
         "checks": observed["checks"],
         "fixture_counts": metrics,
@@ -261,7 +337,15 @@ def main():
     }
     temporary = work / "report.json"
     temporary.write_text(json.dumps(report, indent=2) + "\n")
-    os.replace(temporary, ROOT / "reports/browser-login-https.json")
+    os.replace(
+        temporary,
+        ROOT
+        / (
+            "reports/browser-login-separate-worker.json"
+            if args.separate_worker
+            else "reports/browser-login-https.json"
+        ),
+    )
     print(json.dumps({"checks_passed": len(observed["checks"]), "fixture_counts": metrics}))
 
 

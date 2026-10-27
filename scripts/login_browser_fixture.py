@@ -25,7 +25,7 @@ PROVIDER = "https://localhost"
 SCOPE = APP + "/api/review"
 
 
-def create_fixture(work, proxy, certificate, key):
+def create_fixture(work, proxy, certificate, key, *, worker_control=None):
     context = ssl.create_default_context(cafile=str(certificate))
     trust = TokenTrust(
         issuer=PROVIDER,
@@ -173,7 +173,11 @@ def create_fixture(work, proxy, certificate, key):
             app.state.browser_login._clock = lambda: time.monotonic() + 901
         elif action == "reset-clock":
             app.state.browser_login._clock = time.monotonic
+        elif action in {"pause-worker", "resume-worker"} and worker_control is not None:
+            worker_control(action)
         elif action == "process":
+            if worker_control is not None:
+                return JSONResponse({"error": "manual processing disabled"}, status_code=409)
             process_once(app.state.queue)
         else:
             return JSONResponse({"error": "unknown fixture control"}, status_code=404)

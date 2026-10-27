@@ -28,9 +28,12 @@ page.on("console", (message) => {
     diagnostics.push(message.text().split("?")[0]);
 });
 page.on("pageerror", (error) => failures.push(error.message));
-async function probe(action) {
+async function probe(action, expectedStatus = 200) {
   const control = await context.newPage();
-  await control.goto(PROVIDER + "/probe/" + action);
+  assert.equal(
+    (await control.goto(PROVIDER + "/probe/" + action)).status(),
+    expectedStatus,
+  );
   await control.close();
 }
 async function signIn() {
@@ -139,12 +142,26 @@ try {
     403,
   );
   checks.browser_write_requires_csrf = true;
+  if (process.env.ATLAS_FIXTURE_SEPARATE_WORKER === "1")
+    await probe("pause-worker");
   const accepted = page.waitForResponse(
     (r) => r.url().endsWith("/api/jobs") && r.request().method() === "POST",
   );
   await page.getByRole("button", { name: "Run seeded demonstration" }).click();
-  assert.equal((await accepted).status(), 202);
-  await probe("process");
+  const acceptedResponse = await accepted;
+  assert.equal(acceptedResponse.status(), 202);
+  if (process.env.ATLAS_FIXTURE_SEPARATE_WORKER === "1") {
+    await probe("process", 409);
+    const job = await acceptedResponse.json();
+    const state = await page.evaluate(
+      async (id) => (await fetch("/api/jobs/" + id)).json(),
+      job.id,
+    );
+    assert.equal(state.status, "queued");
+    await probe("resume-worker");
+  } else {
+    await probe("process");
+  }
   await page.getByText("Analysis complete", { exact: true }).waitFor();
   await page
     .getByRole("button", { name: "Inspect requirement source" })
@@ -160,6 +177,8 @@ try {
   await page.getByRole("button", { name: "Approve evidence review" }).click();
   assert.equal((await review).status(), 200);
   checks.signed_identity_job_source_review = true;
+  if (process.env.ATLAS_FIXTURE_SEPARATE_WORKER === "1")
+    checks.separate_worker_restart_processed_queued_job = true;
   await page.screenshot({ path: process.env.ATLAS_FIXTURE_SCREENSHOT });
   await probe("revoke");
   assert.equal(await api("/api/me"), 403);
