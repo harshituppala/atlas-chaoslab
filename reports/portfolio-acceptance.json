@@ -18,8 +18,8 @@
     "reports/hosted-lab.json": "8b64629d4ea8398eaac61a2edd5c962a8e7d197bd39c10eda12c0c3d6b5ec234",
     "reports/chaoslab-package.json": "5f4548d04e7efcade32374240617682fbf6305065e0235aeb5205224bfebdd10",
     "reports/demo-walkthrough.json": "f8e01b15febb1de72d9279cd6ec0a7d390277b732e707a354352e66adc56716d",
-    "reports/managed-image-tls.json": "70bfaef6db34a2da5dc435df110f97b0216520313c85e9ce53f9b292cc770c95",
-    "reports/postgres-tls.json": "4bbf8986c46d4b25e2b237cef6be9e6fdb9b0d1e93ea257a2a9199d0f7b66953",
+    "reports/managed-image-tls.json": "9276be840a117e7a6dd1b78ead338068db3d4f1e9652cde1da97af90c8940673",
+    "reports/postgres-tls.json": "dcec4adc9db58de1887606bd8d22d54297b464b601893643ff06e780b3375dab",
     "reports/contract-model-test.json": "8bcb0a2ecc190f7c97eea6b6ef90d5fd04891a7cbfc1eaa57fe57e2fee08f027",
     "reports/contract-model-test-standalone-replay.json": "f36717a8c94e843d3e112ac0b069ade60e3d6278881f65683fa4d0f7460b7ea9",
     "reports/managed-postgres-restart.json": "46b8e02899c38f2b3b1ad0ddac6e3a4150b90f42090b2303ef6b93d1dee07965",
@@ -27,7 +27,7 @@
     "reports/managed-postgres-restore.json": "142326b9acf6750c26b58966dc45483b483f0bf07c0d0bb7bf6b752adfefd5a3"
   },
   "presentation": "Walkthrough and recording checklist prepared; no video recording claimed.",
-  "ci": "The new managed-runtime job must be observed after this source publication. Prior TLS publication 598c9ee passed all four existing jobs in run40594354412.",
+  "ci": "The quality-gates workflow includes backend, browser, standalone-evaluator, postgres and managed-runtime jobs. Read their actual GitHub Actions results separately; this index records local and existing-hosted acceptance.",
   "limitations": [
     "Public lab history is temporary; full uploads and durable reviews run locally.",
     "Real Cognito, PostgreSQL browser recovery, database TLS and packaged-worker checks are separately scoped records.",

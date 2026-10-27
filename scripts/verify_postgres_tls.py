@@ -37,7 +37,7 @@ from chaoslab.artifacts import publish_report
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def certificates(work):
+def certificates(materials):
     now = datetime.now(UTC)
     authority_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
     authority_name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "ATLAS fixture CA")])
@@ -78,11 +78,11 @@ def certificates(work):
             .add_extension(x509.ExtendedKeyUsage([ExtendedKeyUsageOID.SERVER_AUTH]), critical=False)
             .sign(authority_key, hashes.SHA256())
         )
-        (work / (name + ".crt")).write_bytes(cert.public_bytes(serialization.Encoding.PEM))
-    (work / "root.crt").write_bytes(authority.public_bytes(serialization.Encoding.PEM))
+        (materials / (name + ".crt")).write_bytes(cert.public_bytes(serialization.Encoding.PEM))
+    (materials / "root.crt").write_bytes(authority.public_bytes(serialization.Encoding.PEM))
     # Only the server key is persisted. Readable within a private 0700 fixture
     # directory so the non-root container can copy it to its own 0600 data file.
-    (work / "server.key").write_bytes(
+    (materials / "server.key").write_bytes(
         server_key.private_bytes(
             serialization.Encoding.PEM,
             serialization.PrivateFormat.PKCS8,
@@ -102,7 +102,7 @@ def certificates(work):
         .add_extension(x509.BasicConstraints(ca=True, path_length=0), critical=True)
         .sign(server_key, hashes.SHA256())
     )
-    (work / "wrong-root.crt").write_bytes(wrong.public_bytes(serialization.Encoding.PEM))
+    (materials / "wrong-root.crt").write_bytes(wrong.public_bytes(serialization.Encoding.PEM))
 
 
 def main():
@@ -117,13 +117,15 @@ def main():
     name = "atlastls" + uuid4().hex[:12]
     work = ROOT / "var/postgres-tls" / name
     work.mkdir(parents=True, mode=0o700)
-    certificates(work)
+    materials = work / "database-material"
+    materials.mkdir(mode=0o755)
+    certificates(materials)
     passwords = {role: secrets.token_urlsafe(36) for role in ("owner", "api", "worker")}
-    (work / "password").write_text(passwords["owner"])
-    (work / "pg_hba.conf").write_text(
+    (materials / "password").write_text(passwords["owner"])
+    (materials / "pg_hba.conf").write_text(
         "local all all trust\nhostnossl all all all reject\nhostssl all all all scram-sha-256\n"
     )
-    for path in work.iterdir():
+    for path in materials.iterdir():
         path.chmod(0o644)
     log = (work / "execution.log").open("w")
     environment = {key: os.environ[key] for key in ("PATH", "HOME", "LANG") if key in os.environ}
@@ -150,6 +152,25 @@ def main():
             "run", "--rm", "--network", "none", "--pull=never", image, "id", "-u", "postgres"
         )
         assert uid.isdigit()
+        readable = docker(
+            "run",
+            "--rm",
+            "--network",
+            "none",
+            "--pull=never",
+            "--user",
+            uid + ":" + uid,
+            "--cap-drop",
+            "ALL",
+            "--mount",
+            f"type=bind,src={materials},dst=/fixture,readonly",
+            "--entrypoint",
+            "sh",
+            image,
+            "-c",
+            "test -r /fixture/password && test -r /fixture/server.key && echo readable",
+        )
+        assert readable == "readable"
         docker("network", "create", name)
         docker(
             "run",
@@ -181,7 +202,7 @@ def main():
             "--tmpfs",
             "/tmp:rw,mode=1777",
             "--mount",
-            f"type=bind,src={work},dst=/fixture,readonly",
+            f"type=bind,src={materials},dst=/fixture,readonly",
             "--env",
             "POSTGRES_USER=atlas_owner",
             "--env",
@@ -221,7 +242,7 @@ def main():
             user="atlas_owner",
             password=passwords["owner"],
             sslmode="verify-full",
-            sslrootcert=str(work / "root.crt"),
+            sslrootcert=str(materials / "root.crt"),
             connect_timeout=2,
         )
         for _ in range(100):
@@ -308,7 +329,7 @@ def main():
         for label, changes, fragment in (
             (
                 "wrong_authority",
-                {"sslrootcert": str(work / "wrong-root.crt")},
+                {"sslrootcert": str(materials / "wrong-root.crt")},
                 "certificate verify failed",
             ),
             (
@@ -316,7 +337,7 @@ def main():
                 {"host": "mismatch.invalid", "hostaddr": "127.0.0.1"},
                 "does not match",
             ),
-            ("missing_authority", {"sslrootcert": str(work / "absent.crt")}, "does not exist"),
+            ("missing_authority", {"sslrootcert": str(materials / "absent.crt")}, "does not exist"),
             ("plaintext", {"sslmode": "disable"}, "no encryption"),
         ):
             try:
@@ -336,7 +357,7 @@ def main():
             managed_image = docker("image", "inspect", args.managed_image, "--format", "{{.Id}}")
             private = work / "managed"
             private.mkdir(mode=0o755)
-            (private / "root.crt").write_bytes((work / "root.crt").read_bytes())
+            (private / "root.crt").write_bytes((materials / "root.crt").read_bytes())
             login = json.loads((ROOT / "deployment/login-settings.example.json").read_text())
             (private / "login.json").write_text(json.dumps(login))
             managed_urls = {
@@ -511,7 +532,7 @@ def main():
                 assert persisted.json()["assessments"][0]["review_state"] == "approved"
             managed_checks["saved_review_survived_worker_watchdog_shutdown"] = True
         # Swap only the disposable server leaf; a newly created client must reject expiry.
-        (work / "server.crt").write_bytes((work / "expired.crt").read_bytes())
+        (materials / "server.crt").write_bytes((materials / "expired.crt").read_bytes())
         with psycopg.connect(**base, autocommit=True) as connection:
             connection.execute("SELECT pg_reload_conf()")
         time.sleep(0.5)
@@ -586,8 +607,9 @@ def main():
         docker("rm", "--force", name, check=False)
         docker("network", "rm", name, check=False)
         log.close()
-        for filename in ("password", "server.key", "managed/runtime.json"):
-            (work / filename).unlink(missing_ok=True)
+        for filename in ("password", "server.key"):
+            (materials / filename).unlink(missing_ok=True)
+        (work / "managed/runtime.json").unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

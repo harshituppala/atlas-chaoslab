@@ -10,7 +10,7 @@ A request for proposal (RFP) asks for recovery within four hours. The supplier's
 
 ## What you can try
 
-The public ATLAS lab uses fictional documents and an offline extractive baseline. You can run the sample, open its citations and record a review. It accepts no uploads or model credentials. Its history is temporary and resets after expiry or restart.
+The public ATLAS lab uses fictional documents and an offline extractive baseline. You can run the sample, open its citations and record a review. It accepts no uploads or model credentials. Its history is temporary and resets after expiry or restart. If the free host has been idle, allow time for it to wake up.
 
 The private workbench adds document uploads, saved reviews, job history, audit events and an optional Bedrock model workflow. Real Cognito sign-in has been checked locally. The full workbench runs locally; the public lab is a separate, restricted application profile. This release uses free hosting and requires no paid cloud service.
 

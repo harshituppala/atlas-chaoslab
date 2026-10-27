@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-27T22:35:07.658294+00:00",
+  "recorded_at": "2026-10-27T22:47:27.031918+00:00",
   "scope": "Local PostgreSQL TLS transport and restricted ATLAS API/queue/separate baseline worker. In-process HTTP client with synthetic bearer identities; no browser, Cognito, hosted service or recovery acceptance.",
   "image_id": "sha256:ac08538c6f8b9904c33c8224c5e5706dbe760aca29db1d096972b4052c22a75d",
   "database_version": "postgres (PostgreSQL) 17.11 (Debian 17.11-1.pgdg12+2)",
@@ -53,7 +53,7 @@
     "Dockerfile": "fee29de94787eb68a05f9073ba6561113209a2eaead7f5fbcf59682f49d7e648",
     "scripts/run_managed_workbench.py": "4d76cd7f275204375b3912cd76806e48cbb8059f40d900c3041a768fead88579",
     "scripts/run_managed_worker.py": "bd717d04708fa01ab6142fb03e6dabcff925535992189c29befd137a68d3b07f",
-    "scripts/verify_postgres_tls.py": "92de7226e039e4e28860919701762b1ea5e741214906b04010b4ebae8c23a91d",
+    "scripts/verify_postgres_tls.py": "c97c51968d019afc8e5e0135a911684132fee2584e76ffba9f421bea59147807",
     "deployment/postgres-runtime-roles.sql": "63a3997de6dcaac336667fcf8e8055e27578875fc9afc1e02f9ece02dffc8e1f",
     "src/atlas/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/atlas/__main__.py": "b249955ef5c09c6214468a6e201d54f4e455b1e0fc25917aa1bc9d91067f81f8",
