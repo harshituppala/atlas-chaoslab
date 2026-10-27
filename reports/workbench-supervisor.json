@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-10-27T00:06:44.589049+00:00",
+  "scope": "Local managed API/worker supervision preparation. Real stand-in processes exercise paired exit and signal behavior; application API, database connections, Cognito and hosted runtime are not executed by these controls.",
+  "focused_native_controls_passed": 15,
+  "focused_linux_controls_passed": 15,
+  "native_suite_passed": 926,
+  "native_optional_postgres_groups_skipped": 18,
+  "linux_environment": {
+    "image_id": "sha256:a8e8502f4360eee2f84fe4ea64a46e76801c46b4dad1266d55a9865c6057897a",
+    "current_source_readonly_mount": true,
+    "new_production_image_built": false,
+    "network": "none",
+    "root_filesystem": "read-only",
+    "capabilities": "all dropped",
+    "host_credentials_or_docker_socket_mounted": false
+  },
+  "controls": [
+    "Separate API/worker credential environments; no inherited model, AWS, demo or proxy settings",
+    "Private bounded settings, no symlink; distinct PostgreSQL logins on same database with verify-full",
+    "Unexpected zero/nonzero child exit stops sibling and returns failure",
+    "SIGTERM and SIGINT stop both services",
+    "Second-child spawn failure cleans up first child and restores signal handler"
+  ],
+  "limitations": [
+    "Process-group signaling is not containment of descendants that create their own session. Actual worker analysis uses a separate session; whole-container cleanup must be verified before hosted use.",
+    "No hung-process detection, external watchdog, shared sessions or automatic restart.",
+    "Role strings and TLS options are preflight checks, not live database privilege or certificate acceptance.",
+    "Default CLI binds loopback with proxy headers disabled; not a public hosting entry point.",
+    "Initial Linux collection used an old image without managed-sign-in source and failed. Repeated with explicit current read-only source; that run passed."
+  ],
+  "new_provider_calls": 0,
+  "new_services": 0,
+  "hosted_deployment": false,
+  "source_sha256": {
+    "scripts/run_managed_workbench.py": "14669a37d96461ebd1cd0f71eb38c7f99824df8108610a38cc23dd3b48af3ede",
+    "tests/test_workbench_supervisor.py": "b3ac8762b3375004ab014f1c6956f2e878d5e069d943fd1e190c78b4b3bb33df",
+    "src/atlas/managed.py": "9194b52b24db031adff3efe84b24275a7186b9ad0555682890af0eecef1793cd",
+    "src/atlas/security/login.py": "be89cb48a5347e8c69b995afe0d793c776723708bab2d321faedf1cd296d2639",
+    "src/atlas/security/tokens.py": "8610eed39b746948e6caf4fb9f958fb90a6e8c49c4de2eb532e619482598bcd4",
+    "src/atlas/worker.py": "09da76fa3a5b616099bbf3caa58ddff07741ef38e3958dad875856e8e8e1da21",
+    "src/atlas/child_process.py": "423df4b53d26688fa144164a5c55cb2f3d4a36d0bb26cf62ac71469a02c3ccbe"
+  }
+}

@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 911 passed locally; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 926 passed locally; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -147,3 +147,6 @@ The frozen-test result publication passed [GitHub CI](https://github.com/harshit
 
 
 With the owner’s specific approval, Render deployed the results-page update to the existing free lab. [Hosted desktop and phone checks](../reports/contract-test-hosted.json) passed the contract comparison, error counts, expanded methodology and earlier saved-failure inspection at 1440/390 widths, with no evaluation API requests, cookies, browser storage or runtime errors. Separate [HTTPS acceptance](../reports/hosted-lab.json) matched both built assets and passed the eight-requirement/fourteen-span review workflow, stale conflicts and session boundaries. No new services or model calls were used. Durable authenticated hosting remains unfinished.
+
+
+Managed-hosting preparation now includes a loopback-only API/worker supervisor with separate child credential environments and paired shutdown. Fifteen configuration/lifecycle controls passed natively and on Linux; four use real stand-in processes. The full native suite passed 926 tests with eighteen optional database groups skipped. [The report](../reports/workbench-supervisor.json) distinguishes these controls from the actual joined application and hosted acceptance, which remain unfinished. Detached analysis cleanup and hung-worker detection remain explicit gaps; no new host, permission or model call was used.

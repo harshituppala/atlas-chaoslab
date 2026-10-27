@@ -29,7 +29,7 @@ The existing free Render lab is not approval for a new service. If the chosen pr
 ## Prepare locally, then test the hosted combination
 
 1. Prepare separate operator, API and worker configuration. The runtime receives no migration-owner credential. Reject inherited demo credentials and model settings, as the managed factory already does. Keep settings private and out of images, reports and logs.
-2. Exercise the exact image and process entry points locally, including worker failure, API shutdown, termination forwarding and restart. Prove that a stopped worker cannot leave the service apparently healthy indefinitely. This process arrangement still needs implementation and verification.
+2. Exercise the exact image and process entry points locally, including worker failure, API shutdown, termination forwarding and restart. Prove that a stopped worker cannot leave the service apparently healthy indefinitely. A loopback-only [supervisor prototype](../scripts/run_managed_workbench.py) now has [local lifecycle controls](../reports/workbench-supervisor.json). The actual joined API/worker image, worker analysis descendants and hosted teardown still need acceptance.
 3. Configure HTTPS and the exact trusted proxy boundary. Keep callback query strings, cookies and tokens out of application and proxy logs. Check actual host behavior; disabling application access logs alone does not prove proxy redaction.
 4. Start with fictional PDF/DOCX sources. Complete real browser sign-in, upload, queued baseline analysis, citation inspection, original-byte download, review conflict and audit inspection. Record the execution mode before running analysis.
 5. Restart the deployed API and worker. Sign back in, reopen the same analysis and verify originals, review versions and audit history. An expired session must not be mistaken for lost data.
@@ -40,3 +40,13 @@ The existing free Render lab is not approval for a new service. If the chosen pr
 ## What completion means
 
 A reachable page is insufficient. Completion requires a known deployed revision, real identity-to-review acceptance, persistence across restart, a successful separate restore and a useful explanation of remaining limits. Final recordings should show those verified steps and distinguish live baseline execution from saved model results.
+
+## Local supervisor preparation
+
+The prototype reads a private JSON file with exactly `api_database`, `worker_database` and an absolute `login_settings` path. Database URLs require separate PostgreSQL logins on the same endpoint/database and `sslmode=verify-full`; live role checks remain the application’s responsibility. It forwards each credential only to its intended process, leaves model jobs disabled and inherits no AWS, demo or proxy settings. The parent is trusted and holds both credentials; this is not isolation from a compromised same-user process.
+
+The API binds loopback, uses one process and disables access logs and proxy-header trust. Unexpected API or worker exit, including exit zero, stops its sibling and returns failure. Operator SIGTERM/SIGINT requests paired shutdown. No automatic restart hides a crash or replays paid work. The supervisor does not detect a hung process.
+
+Fifteen controls passed natively and in a non-root, network-disabled Linux container with current source mounted read-only. Four cases use real stand-in processes; the others check configuration, environments and construction failure. They do not run the real API, worker, database or provider. The full native suite passed 926 tests, with eighteen optional PostgreSQL groups skipped.
+
+Process-group cleanup has a deliberate limit: a descendant that starts a new session is outside its group. The current analysis worker does that for bounded analysis. Before this becomes a hosted entry point, verify whole-container teardown and in-flight-job recovery using the actual worker; do not mistake the stand-in tests for that proof. No public bind, provider configuration or deployment was added here.
