@@ -133,3 +133,12 @@ Run `scripts/verify_managed_restart.py --postgres-bin .runtime/postgresql/bin` w
 After a review is saved, the API process stops and a new process takes over. The old session fails, a fresh sign-in succeeds, and the saved run and audit history match exactly. Restoring the old cookie fails again. Membership bootstrap reuses an active grant without changing its version and refuses a revoked grant. [The decision and limits](adr/058-application-process-restart.md) explain the two-second connection-drain deadline and the fourteen-group result.
 
 This is a local process-restart check, not a PostgreSQL restart, backup restore or hosted acceptance. The controller and synthetic provider routes must never be deployed. The test is optional locally; remote CI acceptance is not claimed for this native PostgreSQL mode.
+
+## Restart PostgreSQL or restore separately
+
+The restart runner accepts `--storage restart` and `--storage restore`. Both stop the API and worker before changing storage, then reopen the workbench and require a fresh sign-in.
+
+- `restart` replaces the database process on the same storage and checks every application table before reconnecting.
+- `restore` writes a trusted private archive, rejects a truncated copy and restores into a separate fresh cluster with new runtime credentials. The source files remain intact. It checks all application table digests and restricted roles before reconnecting.
+
+Both modes passed fifteen browser groups locally. [ADR 059](adr/059-local-database-recovery.md) records the missing pgvector dependency found on the first attempt, the successful correction and the precise scope. The archive, raw database contents and credentials stay under the private run directory. Database traffic is still loopback without TLS, and these optional native checks are not hosted or remote CI recovery acceptance.

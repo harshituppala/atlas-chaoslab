@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-27T19:20:09.513747+00:00",
+  "recorded_at": "2026-10-27T20:13:11.909976+00:00",
   "scope": "Real API operating-system process replacement, actual managed factory/queue/separate worker and local restricted PostgreSQL, with a synthetic identity provider and loopback browser TLS.",
   "checks": {
     "browser_profile_inside_workspace": true,
@@ -75,6 +75,9 @@
       "forbidden_operations_refused": 2
     }
   },
+  "storage_recovery": {
+    "mode": "keep"
+  },
   "database_transport": "Authenticated local loopback TCP without TLS",
   "source_sha256": {
     "src/atlas/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -138,9 +141,9 @@
     "src/atlas/worker_task.py": "f3cd4dd151963e23f38f5a53caeacaeacf5bd66193c039f41c823f8dc6269a3d",
     "src/atlas/workflow.py": "ad73634d058f55d22be42457ee1a7ec41038c2d79adeea6af42050b1319a85e2",
     "scripts/login_browser_fixture.py": "5cd32b39fe0bf03557fadd6e0ba3f50f0a25777daf855110ada7d58ff5c920a5",
-    "scripts/browser_login_https.mjs": "f8cfb934d282c0c2b9ecd1687149c1f3f065c7c73233ad5bb80bd5f678ba9955",
+    "scripts/browser_login_https.mjs": "f0189c2a327c34109f0a1c311034136ac57b22f6a3ec4f45ed7ac49bb81a1a5d",
     "scripts/run_managed_workbench.py": "14669a37d96461ebd1cd0f71eb38c7f99824df8108610a38cc23dd3b48af3ede",
-    "scripts/login_postgres_fixture.py": "8532d857d066c9da46ad3790b210a0cfd3dcc65761f70b8b300cf89448b22729",
+    "scripts/login_postgres_fixture.py": "72ce728238d84b9c4507f8ae01daf228d32c82618e3bac74d28183dd68c7bcbd",
     "deployment/postgres-runtime-roles.sql": "63a3997de6dcaac336667fcf8e8055e27578875fc9afc1e02f9ece02dffc8e1f",
     "scripts/verify_browser_login_https.py": "5b495578b9d09b7d026a97766d1a88f802224d5fa98a1c5822f72370cc5b5f93",
     "apps/web/src/AdversarialPanel.tsx": "bb96cd67f6ecc12f28f00b2cddfa90206852e57df92918cb6d876960681a4c20",
@@ -160,14 +163,16 @@
     "apps/web/src/main.tsx": "df649cccf9232eb30bacaee6add9ec618afa272856da55b28210ece8f79000be",
     "apps/web/src/replay.tsx": "f5838a520b7009c4842afdd36855a75817cce277a154dcb1c1ade238b13011ea",
     "scripts/login_restart_server.py": "fa1e674885598885498ed2cb0737ec26866cb713f3bc6026f7d322538cc5828b",
-    "scripts/verify_managed_restart.py": "80bf5a17051eb1cf7fcf0a56d1f4b4f5885847e9f347d8c6ffaf80fbfc9b8754"
+    "scripts/verify_managed_restart.py": "7e8bf188e91ebabab01f10ef59ed7c0a78547cb6a494bb8437d9f931e3346987",
+    "scripts/backup_fixture.py": "e2c33be89b1f3e5b4124ff4afc06fdcfd2434844abd0ce399f760576adf2840e"
   },
   "external_provider_calls": 0,
   "new_cloud_services": 0,
   "new_model_calls": 0,
   "limits": [
     "Synthetic identities/control routes must never be deployed. This is not real Cognito or hosted proxy/TLS acceptance.",
-    "Application process restarted; database process stayed running. No backup restore, provider database TLS, supervised production image or hung-worker acceptance.",
+    "Read storage_recovery.mode for database restart versus separate restore. No provider database TLS, supervised production image or hung-worker acceptance.",
+    "Restoration uses only this fixture-created trusted logical archive. It is not a safe loader for untrusted backups or a cloud backup policy.",
     "Fixture API shutdown uses a two-second connection-drain deadline; deadline hits and running-task cancellation counts are retained. This is not an uninterrupted-request or fully drained-connection claim.",
     "Browser trust uses only the generated fixture certificate SPKI for this test subprocess; system trust is unchanged."
   ]

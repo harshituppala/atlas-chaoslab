@@ -20,6 +20,7 @@ from pathlib import Path
 from uuid import uuid4
 
 import httpx
+from backup_fixture import canonical_tables
 from login_postgres_fixture import PostgresFixture
 from run_managed_workbench import environments
 from verify_browser_login_https import certificate, fingerprints, proxy_for
@@ -34,9 +35,14 @@ def main():
     parser.add_argument("--postgres-bin", required=True)
     parser.add_argument("--node", default="node")
     parser.add_argument("--pnpm-script")
+    parser.add_argument("--storage", choices=["keep", "restart", "restore"], default="keep")
     args = parser.parse_args()
     sources = fingerprints()
-    for name in ("scripts/login_restart_server.py", "scripts/verify_managed_restart.py"):
+    for name in (
+        "scripts/login_restart_server.py",
+        "scripts/verify_managed_restart.py",
+        "scripts/backup_fixture.py",
+    ):
         sources[name] = hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
     work = ROOT / "var/managed-restart" / uuid4().hex[:12]
     work.mkdir(parents=True, mode=0o700)
@@ -70,7 +76,7 @@ def main():
     with ExitStack() as cleanup:
         cleanup.callback(key.unlink, missing_ok=True)
         database = PostgresFixture(work, args.postgres_bin)
-        cleanup.callback(database.close)
+        cleanup.callback(lambda: database.close())
         listener = socket.socket()
         listener.bind(("127.0.0.1", 0))
         listener.listen(128)
@@ -92,6 +98,7 @@ def main():
         )
         api_env = {k: env[k] for k in ("PATH", "PYTHONPATH", "LANG") if k in env}
         generation = 0
+        storage_evidence = {"mode": "keep"}
 
         def stop(role):
             child = children[role]
@@ -173,6 +180,60 @@ def main():
                     raise RuntimeError("Fixture API readiness timed out")
             events.append({"service": "api", "event": "started"})
 
+        def recover_storage():
+            nonlocal database, worker_env, storage_evidence
+            stop("worker")
+            with database.owner.engine.connect() as connection:
+                before = canonical_tables(connection)
+            if args.storage == "restart":
+                storage_evidence = {"mode": "restart", **database.restart()}
+            else:
+                archive = work / "application.dump"
+                database.dump(archive)
+                archive_hash = hashlib.sha256(archive.read_bytes()).hexdigest()
+                assert archive.stat().st_size > 0
+                broken = work / "truncated.dump"
+                broken.write_bytes(archive.read_bytes()[:32])
+                broken.chmod(0o600)
+                with (work / "corrupt-archive.log").open("w") as diagnostic:
+                    rejected = subprocess.run(
+                        [str(database.binaries / "pg_restore"), "--list", str(broken)],
+                        stdout=diagnostic,
+                        stderr=diagnostic,
+                        env=database.command_environment,
+                        timeout=10,
+                    )
+                assert rejected.returncode != 0
+                old_identity = database.identity()[0]
+                database.close()
+                destination = work / "restore-target"
+                destination.mkdir(mode=0o700)
+                assert hashlib.sha256(archive.read_bytes()).hexdigest() == archive_hash
+                database = PostgresFixture(destination, args.postgres_bin, restore_archive=archive)
+                assert database.identity()[0] != old_identity
+                assert hashlib.sha256(archive.read_bytes()).hexdigest() == archive_hash
+                storage_evidence = {
+                    "mode": "restore",
+                    "fresh_cluster_identifier": True,
+                    "truncated_archive_refused": True,
+                    "archive_sha256": archive_hash,
+                    "archive_bytes": archive.stat().st_size,
+                }
+            with database.owner.engine.connect() as connection:
+                after = canonical_tables(connection)
+            assert after == before
+            storage_evidence["all_application_tables_equal"] = True
+            storage_evidence["table_count"] = len(before)
+            _, worker_env = environments(
+                {
+                    "api_database": "unused",
+                    "worker_database": database.urls["worker"],
+                    "login_settings": "unused",
+                },
+                env,
+            )
+            start_worker()
+
         class Control(BaseHTTPRequestHandler):
             def log_message(self, *_):
                 pass
@@ -187,6 +248,8 @@ def main():
                     start_worker()
                 elif self.path == "/restart-app":
                     stop("api")
+                    if args.storage != "keep":
+                        recover_storage()
                     start_api()
                 else:
                     self.send_error(404)
@@ -216,6 +279,7 @@ def main():
                 "ATLAS_FIXTURE_SEPARATE_WORKER": "1",
                 "ATLAS_FIXTURE_RESTART_ORIGIN": control_origin,
                 "ATLAS_FIXTURE_RESTART_SECRET": secret,
+                "ATLAS_FIXTURE_STORAGE": args.storage,
                 "ATLAS_FIXTURE_SCREENSHOT": str(work / "workbench.png"),
             },
             capture_output=True,
@@ -226,7 +290,9 @@ def main():
         if result.returncode:
             raise RuntimeError("Managed restart browser workflow failed; inspect private run logs")
         observed = json.loads(result.stdout)
-        if len(observed["checks"]) != 14 or not all(observed["checks"].values()):
+        if len(observed["checks"]) != (14 if args.storage == "keep" else 15) or not all(
+            observed["checks"].values()
+        ):
             raise RuntimeError("Incomplete restart checks")
     assert generation == 2 and len(snapshots) == 2
     assert (
@@ -236,7 +302,9 @@ def main():
         m["pkce_rejections"] == 0 and m["same_origin_form_post"] and m["external_referrer_absent"]
         for m in snapshots
     )
-    assert len([e for e in events if e["event"] == "stopped"]) == 4
+    assert len([e for e in events if e["event"] == "stopped"]) == (
+        4 if args.storage == "keep" else 5
+    )
     for name, digest in sources.items():
         assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == digest
     shutdown_logs = [(work / f"api-{n}.log").read_text() for n in (1, 2)]
@@ -245,7 +313,14 @@ def main():
         int(n) for s in shutdown_logs for n in re.findall(r"Cancel (\d+) running task", s)
     )
     publish_report(
-        ROOT / "reports/managed-postgres-restart.json",
+        ROOT
+        / (
+            "reports/managed-postgres-restart.json"
+            if args.storage == "keep"
+            else "reports/managed-postgres-database-restart.json"
+            if args.storage == "restart"
+            else "reports/managed-postgres-restore.json"
+        ),
         {
             "recorded_at": datetime.now(UTC).isoformat(),
             "scope": "Real API operating-system process replacement, actual managed factory/queue/separate worker and local restricted PostgreSQL, with a synthetic identity provider and loopback browser TLS.",
@@ -258,6 +333,7 @@ def main():
                 "reported_running_tasks_cancelled": cancelled_tasks,
             },
             "database_roles": database.observations,
+            "storage_recovery": storage_evidence,
             "database_transport": "Authenticated local loopback TCP without TLS",
             "source_sha256": sources,
             "external_provider_calls": 0,
@@ -265,7 +341,8 @@ def main():
             "new_model_calls": 0,
             "limits": [
                 "Synthetic identities/control routes must never be deployed. This is not real Cognito or hosted proxy/TLS acceptance.",
-                "Application process restarted; database process stayed running. No backup restore, provider database TLS, supervised production image or hung-worker acceptance.",
+                "Read storage_recovery.mode for database restart versus separate restore. No provider database TLS, supervised production image or hung-worker acceptance.",
+                "Restoration uses only this fixture-created trusted logical archive. It is not a safe loader for untrusted backups or a cloud backup policy.",
                 "Fixture API shutdown uses a two-second connection-drain deadline; deadline hits and running-task cancellation counts are retained. This is not an uninterrupted-request or fully drained-connection claim.",
                 "Browser trust uses only the generated fixture certificate SPKI for this test subprocess; system trust is unchanged.",
             ],
@@ -275,9 +352,9 @@ def main():
         json.dumps(
             {
                 "status": "passed",
-                "browser_groups": 14,
+                "browser_groups": len(observed["checks"]),
                 "api_generations": generation,
-                "clean_service_exits": 4,
+                "clean_service_exits": len([e for e in events if e["event"] == "stopped"]),
             }
         )
     )

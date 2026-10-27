@@ -1,5 +1,6 @@
 """Disposable loopback PostgreSQL for synthetic browser acceptance, never a cloud target."""
 
+import os
 import secrets
 import socket
 import subprocess
@@ -16,9 +17,10 @@ from atlas.store import Store
 
 
 class PostgresFixture:
-    def __init__(self, work, binaries):
+    def __init__(self, work, binaries, *, restore_archive=None):
         self.binaries = Path(binaries).resolve()
         self.data = work / "postgres-data"
+        self.work = work
         self.running = False
         self.owner = None
         self.log = (work / "postgres-bootstrap.log").open("w")
@@ -29,6 +31,17 @@ class PostgresFixture:
         with socket.socket() as probe:
             probe.bind(("127.0.0.1", 0))
             port = probe.getsockname()[1]
+        self.command_environment = {k: os.environ[k] for k in ("PATH", "LANG") if k in os.environ}
+        self.command_environment.update(
+            {
+                "PGPASSWORD": passwords["owner"],
+                "PGHOST": "127.0.0.1",
+                "PGPORT": str(port),
+                "PGUSER": "atlas_owner",
+                "PGDATABASE": "postgres",
+                "PGSSLMODE": "disable",
+            }
+        )
         self.urls = {
             role: URL.create(
                 "postgresql+psycopg",
@@ -70,10 +83,36 @@ class PostgresFixture:
             engine = create_engine(self.urls["owner"])
             try:
                 with engine.begin() as conn:
-                    conn.exec_driver_sql("CREATE SCHEMA atlas AUTHORIZATION atlas_owner")
+                    if restore_archive is None:
+                        conn.exec_driver_sql("CREATE SCHEMA atlas AUTHORIZATION atlas_owner")
                     conn.exec_driver_sql("REVOKE CREATE ON SCHEMA public FROM PUBLIC")
                     conn.exec_driver_sql("REVOKE ALL ON DATABASE postgres FROM PUBLIC")
-                upgrade(engine)
+                if restore_archive is None:
+                    upgrade(engine)
+                else:
+                    # A schema-only archive does not include dependencies in public.
+                    # Provision the reviewed pgvector dependency before its columns.
+                    with engine.begin() as connection:
+                        connection.exec_driver_sql(
+                            "CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public"
+                        )
+                    with engine.connect() as connection:
+                        assert (
+                            connection.execute(
+                                text(
+                                    "SELECT count(*) FROM information_schema.tables WHERE table_schema='atlas'"
+                                )
+                            ).scalar_one()
+                            == 0
+                        )
+                    self.command(
+                        "pg_restore",
+                        "--exit-on-error",
+                        "--no-owner",
+                        "--no-acl",
+                        "--dbname=postgres",
+                        str(restore_archive),
+                    )
                 with engine.begin() as conn:
                     conn.exec_driver_sql(Path("deployment/postgres-runtime-roles.sql").read_text())
                     for role in ("api", "worker"):
@@ -144,7 +183,39 @@ class PostgresFixture:
             stdout=self.log,
             stderr=self.log,
             timeout=45,
+            env=self.command_environment,
         )
+
+    def identity(self):
+        with self.owner.engine.connect() as connection:
+            return tuple(
+                connection.execute(
+                    text(
+                        "SELECT (SELECT system_identifier FROM pg_control_system()), pg_postmaster_start_time()"
+                    )
+                ).one()
+            )
+
+    def restart(self):
+        before = self.identity()
+        self.owner.engine.dispose()
+        self.command("pg_ctl", "-D", str(self.data), "-m", "fast", "-w", "restart")
+        self.owner = Store(self.urls["owner"])
+        self.memberships = MembershipRegistry(self.owner)
+        after = self.identity()
+        assert before[0] == after[0] and before[1] != after[1]
+        return {"same_cluster_identifier": True, "postmaster_start_changed": True}
+
+    def dump(self, path):
+        self.command(
+            "pg_dump",
+            "--format=custom",
+            "--schema=atlas",
+            "--no-owner",
+            "--no-acl",
+            "--file=" + str(path),
+        )
+        path.chmod(0o600)
 
     def close(self):
         if self.owner is not None:

@@ -219,6 +219,10 @@ try {
     assert.equal(await api("/api/me"), 200);
     cookie = currentCookie;
     checks.application_process_restart_preserves_review_and_rejects_old_session = true;
+    if (process.env.ATLAS_FIXTURE_STORAGE === "restart")
+      checks.database_process_restart_preserves_review_and_audit = true;
+    if (process.env.ATLAS_FIXTURE_STORAGE === "restore")
+      checks.fresh_database_restore_preserves_review_and_audit = true;
   }
   await page.screenshot({ path: process.env.ATLAS_FIXTURE_SCREENSHOT });
   await probe("revoke");
