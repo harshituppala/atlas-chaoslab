@@ -150,3 +150,6 @@ With the owner’s specific approval, Render deployed the results-page update to
 
 
 Managed-hosting preparation now includes a loopback-only API/worker supervisor with separate child credential environments and paired shutdown. Fifteen configuration/lifecycle controls passed natively and on Linux; four use real stand-in processes. The full native suite passed 926 tests with eighteen optional database groups skipped. [The report](../reports/workbench-supervisor.json) distinguishes these controls from the actual joined application and hosted acceptance, which remain unfinished. Detached analysis cleanup and hung-worker detection remain explicit gaps; no new host, permission or model call was used.
+
+
+The supervisor-preparation release passed all four [GitHub jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40424319927). A separate [local container exercise](../reports/supervisor-container.json) now verifies operator shutdown, restart and unexpected-worker-exit cleanup of a detached analysis heartbeat using the actual supervisor and bounded-child primitive. These controls use stand-in services; the joined API/queue/database and hosted recovery gates remain unfinished. No provider or model calls, new image build or cloud service were involved.

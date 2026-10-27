@@ -50,3 +50,11 @@ The API binds loopback, uses one process and disables access logs and proxy-head
 Fifteen controls passed natively and in a non-root, network-disabled Linux container with current source mounted read-only. Four cases use real stand-in processes; the others check configuration, environments and construction failure. They do not run the real API, worker, database or provider. The full native suite passed 926 tests, with eighteen optional PostgreSQL groups skipped.
 
 Process-group cleanup has a deliberate limit: a descendant that starts a new session is outside its group. The current analysis worker does that for bounded analysis. Before this becomes a hosted entry point, verify whole-container teardown and in-flight-job recovery using the actual worker; do not mistake the stand-in tests for that proof. No public bind, provider configuration or deployment was added here.
+
+## Container cleanup check
+
+A [local Docker exercise](../reports/supervisor-container.json) now tests the boundary that process-group signals alone cannot cover. It runs the actual supervisor as PID1 and the actual bounded-child primitive, with stand-ins for the API and worker. The analysis stand-in starts a separate session and writes an atomic heartbeat. Operator shutdown stops the container and heartbeat; restarting creates a fresh heartbeat without resuming the old one. An unexpected worker exit also stops the container, returns failure and ends its detached analysis heartbeat.
+
+The verifier uses an existing local image with current source mounted read-only, no network, no credentials, no Docker socket and only a synthetic writable proof directory. It removes its own container afterward. Reproduce it with `scripts/verify_supervisor_container.py --image <existing-local-image>`, using the project Python environment and `PYTHONPATH=src`. It does not build or pull an image.
+
+This establishes the local container boundary for these controls. It does not establish a built managed application image, real API/queue recovery, a live PostgreSQL role or backup restore, hung-worker detection or hosted sign-in. Those remain the next acceptance gates.

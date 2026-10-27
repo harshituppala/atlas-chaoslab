@@ -1,0 +1,37 @@
+{
+  "recorded_at": "2026-10-27T13:56:21.012957+00:00",
+  "image_id": "sha256:a8e8502f4360eee2f84fe4ea64a46e76801c46b4dad1266d55a9865c6057897a",
+  "scope": "Real local Docker lifecycle using actual supervisor and bounded analysis-child primitive, with stand-in API/worker. Not actual API/queue/database/provider or hosted acceptance.",
+  "observations": {
+    "operator_shutdown": {
+      "container_stopped": true,
+      "exit_code": 0,
+      "detached_heartbeat_stopped": true
+    },
+    "restart": {
+      "fresh_analysis_session": true,
+      "old_heartbeat_not_resumed": true
+    },
+    "worker_failure": {
+      "container_stopped": true,
+      "exit_code": 1,
+      "detached_heartbeat_stopped": true
+    }
+  },
+  "network": "none",
+  "root_filesystem": "read-only",
+  "current_source_mounted_readonly": true,
+  "new_image_built": false,
+  "new_model_calls": 0,
+  "new_services": 0,
+  "source_sha256": {
+    "scripts/run_managed_workbench.py": "14669a37d96461ebd1cd0f71eb38c7f99824df8108610a38cc23dd3b48af3ede",
+    "scripts/verify_supervisor_container.py": "d86ad447e525e86bb547a5364890d7f4fbd03bf5d23d43d4eb65b18b2ef4b219",
+    "src/atlas/child_process.py": "423df4b53d26688fa144164a5c55cb2f3d4a36d0bb26cf62ac71469a02c3ccbe"
+  },
+  "limits": [
+    "Evidence applies to whole-container teardown with this supervisor as PID1. Process-group cleanup alone remains insufficient outside that boundary.",
+    "No hung-worker detection, real queue lease recovery, PostgreSQL persistence/restore or hosted proxy/sign-in validation.",
+    "An explicitly mounted synthetic heartbeat directory was writable; no credentials, Docker socket or other owner files entered the container."
+  ]
+}
