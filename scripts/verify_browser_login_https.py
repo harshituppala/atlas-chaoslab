@@ -29,6 +29,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509.oid import NameOID
 from login_browser_fixture import create_fixture
+from login_postgres_fixture import PostgresFixture
 from run_managed_workbench import environments
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,6 +42,8 @@ def fingerprints():
             ROOT / "scripts/login_browser_fixture.py",
             ROOT / "scripts/browser_login_https.mjs",
             ROOT / "scripts/run_managed_workbench.py",
+            ROOT / "scripts/login_postgres_fixture.py",
+            ROOT / "deployment/postgres-runtime-roles.sql",
             Path(__file__).resolve(),
         ]
         + sorted((ROOT / "apps/web/src").glob("*.tsx"))
@@ -127,7 +130,12 @@ def main():
         action="store_true",
         help="Run the real baseline worker in a separate process; fixture processing is disabled",
     )
+    parser.add_argument(
+        "--postgres-bin", help="Disposable local PostgreSQL binaries; requires --separate-worker"
+    )
     args = parser.parse_args()
+    if args.postgres_bin and not args.separate_worker:
+        parser.error("PostgreSQL acceptance requires the separate worker")
     frozen = fingerprints()
     work = ROOT / "var/browser-login-https" / uuid4().hex[:12]
     work.mkdir(parents=True, mode=0o700)
@@ -171,6 +179,9 @@ def main():
     # Paid inference profiles cannot be enabled by an inherited local environment.
     for name in ("ATLAS_MODEL_JOB_SPEC", "ATLAS_ENABLE_BEDROCK_JOBS", "ATLAS_TOKEN_TRUST"):
         os.environ.pop(name, None)
+    database = PostgresFixture(work, args.postgres_bin) if args.postgres_bin else None
+    if database is not None:
+        atexit.register(database.close)
     worker = None
     worker_log = None
     worker_events = []
@@ -199,7 +210,9 @@ def main():
             _, worker_env = environments(
                 {
                     "api_database": "unused",
-                    "worker_database": "sqlite:///" + str(work / "atlas.db"),
+                    "worker_database": database.urls["worker"]
+                    if database
+                    else "sqlite:///" + str(work / "atlas.db"),
                     "login_settings": "unused",
                 },
                 {**environment, "PYTHONPATH": str(ROOT / "src")},
@@ -220,6 +233,8 @@ def main():
         cert,
         rsa.generate_private_key(public_exponent=65537, key_size=2048),
         worker_control=worker_control if args.separate_worker else None,
+        database_url=database.urls["api"] if database else None,
+        membership_operator=database.memberships if database else None,
     )
     if args.separate_worker:
         worker_control("resume-worker")
@@ -301,6 +316,8 @@ def main():
             proxy.shutdown()
             proxy.server_close()
             proxy_thread.join(timeout=5)
+            if database is not None:
+                database.close()
             private.unlink(missing_ok=True)
     if args.separate_worker and worker_events != [
         {"event": "started"},
@@ -314,6 +331,12 @@ def main():
     report = {
         "recorded_at": datetime.now(UTC).isoformat(),
         "scope": "Chromium through a loopback-only CONNECT proxy to a real TLS server, ATLAS UI/API and a synthetic passwordless provider with real S256, token exchange, JWKS and RSA signature verification. Not AWS/Cognito or a real user login.",
+        "database": {
+            "engine": "postgresql" if database else "sqlite",
+            "transport": "local loopback without TLS" if database else "local file",
+            "roles": database.observations if database else {},
+            "membership_changes": "separate trusted operator" if database else "local fixture",
+        },
         "worker_mode": "real separate baseline process; paused before submit, queued job processed after restart; fixture process route refused"
         if args.separate_worker
         else "in-process fixture control",
@@ -333,7 +356,7 @@ def main():
         "browser_temporary_profile": "Verified inside this run's private var/browser-login-https directory via Chromium command-line inspection.",
         "external_provider_calls": 0,
         "cloud_resources_created": 0,
-        "limits": "Synthetic identity and local SQLite only. Provider includes local control routes that must never be deployed. Server expiry uses a controlled monotonic-clock offset. No real provider configuration, public CA trust, deployed proxy, durable hosting, refresh or distributed-session acceptance.",
+        "limits": "Synthetic identity and isolated local database only. PostgreSQL mode uses loopback without database TLS. Provider includes local control routes that must never be deployed. Server expiry uses a controlled monotonic-clock offset. No real provider configuration, public CA trust, deployed proxy, durable hosting, refresh or distributed-session acceptance.",
     }
     temporary = work / "report.json"
     temporary.write_text(json.dumps(report, indent=2) + "\n")
@@ -341,7 +364,9 @@ def main():
         temporary,
         ROOT
         / (
-            "reports/browser-login-separate-worker.json"
+            "reports/browser-login-postgres-worker.json"
+            if args.postgres_bin
+            else "reports/browser-login-separate-worker.json"
             if args.separate_worker
             else "reports/browser-login-https.json"
         ),

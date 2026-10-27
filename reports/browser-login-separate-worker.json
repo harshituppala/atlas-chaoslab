@@ -1,6 +1,12 @@
 {
-  "recorded_at": "2026-10-27T14:03:35.143353+00:00",
+  "recorded_at": "2026-10-27T16:05:28.361207+00:00",
   "scope": "Chromium through a loopback-only CONNECT proxy to a real TLS server, ATLAS UI/API and a synthetic passwordless provider with real S256, token exchange, JWKS and RSA signature verification. Not AWS/Cognito or a real user login.",
+  "database": {
+    "engine": "sqlite",
+    "transport": "local file",
+    "roles": {},
+    "membership_changes": "local fixture"
+  },
   "worker_mode": "real separate baseline process; paused before submit, queued job processed after restart; fixture process route refused",
   "worker_lifecycle": [
     {
@@ -103,10 +109,12 @@
     "src/atlas/worker.py": "09da76fa3a5b616099bbf3caa58ddff07741ef38e3958dad875856e8e8e1da21",
     "src/atlas/worker_task.py": "f3cd4dd151963e23f38f5a53caeacaeacf5bd66193c039f41c823f8dc6269a3d",
     "src/atlas/workflow.py": "ad73634d058f55d22be42457ee1a7ec41038c2d79adeea6af42050b1319a85e2",
-    "scripts/login_browser_fixture.py": "34e207617b84ceff4915a83aa64bcdd52e608014337c0ac71d6b961be30673c2",
+    "scripts/login_browser_fixture.py": "f87817aa9a7073ab381703bab5e368424b318e8b32cff9da68b59d53309ec0ac",
     "scripts/browser_login_https.mjs": "e77015f1ac26d569bb37fc94ed8c14fbdabaa62c3982aef4cf70f31769a08742",
     "scripts/run_managed_workbench.py": "14669a37d96461ebd1cd0f71eb38c7f99824df8108610a38cc23dd3b48af3ede",
-    "scripts/verify_browser_login_https.py": "61fd81db9c3778e4ce9969d043149706004bff76e717f256a8114bedc013d397",
+    "scripts/login_postgres_fixture.py": "8532d857d066c9da46ad3790b210a0cfd3dcc65761f70b8b300cf89448b22729",
+    "deployment/postgres-runtime-roles.sql": "63a3997de6dcaac336667fcf8e8055e27578875fc9afc1e02f9ece02dffc8e1f",
+    "scripts/verify_browser_login_https.py": "5b495578b9d09b7d026a97766d1a88f802224d5fa98a1c5822f72370cc5b5f93",
     "apps/web/src/AdversarialPanel.tsx": "bb96cd67f6ecc12f28f00b2cddfa90206852e57df92918cb6d876960681a4c20",
     "apps/web/src/AnalysisDialog.tsx": "9bccde5af095b9dcb4ec34fa0d9ae3c138cc676f2407b285a2efb08efb48eaa4",
     "apps/web/src/AuditPanel.tsx": "e40715398706054dc27085d87a53200c70e57f5ebc9fc05bd8e20387b08a14bd",
@@ -139,5 +147,5 @@
   "browser_temporary_profile": "Verified inside this run's private var/browser-login-https directory via Chromium command-line inspection.",
   "external_provider_calls": 0,
   "cloud_resources_created": 0,
-  "limits": "Synthetic identity and local SQLite only. Provider includes local control routes that must never be deployed. Server expiry uses a controlled monotonic-clock offset. No real provider configuration, public CA trust, deployed proxy, durable hosting, refresh or distributed-session acceptance."
+  "limits": "Synthetic identity and isolated local database only. PostgreSQL mode uses loopback without database TLS. Provider includes local control routes that must never be deployed. Server expiry uses a controlled monotonic-clock offset. No real provider configuration, public CA trust, deployed proxy, durable hosting, refresh or distributed-session acceptance."
 }

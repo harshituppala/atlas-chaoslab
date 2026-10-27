@@ -25,7 +25,16 @@ PROVIDER = "https://localhost"
 SCOPE = APP + "/api/review"
 
 
-def create_fixture(work, proxy, certificate, key, *, worker_control=None):
+def create_fixture(
+    work,
+    proxy,
+    certificate,
+    key,
+    *,
+    worker_control=None,
+    database_url=None,
+    membership_operator=None,
+):
     context = ssl.create_default_context(cafile=str(certificate))
     trust = TokenTrust(
         issuer=PROVIDER,
@@ -40,7 +49,7 @@ def create_fixture(work, proxy, certificate, key, *, worker_control=None):
     settings.chmod(0o600)
     app = create_managed_app(
         read_settings(settings),
-        "sqlite:///" + str(work / "atlas.db"),
+        database_url or "sqlite:///" + str(work / "atlas.db"),
         key_transport=httpx.HTTPTransport(verify=context, proxy=proxy),
         token_transport=httpx.HTTPTransport(verify=context, proxy=proxy),
     )
@@ -50,7 +59,7 @@ def create_fixture(work, proxy, certificate, key, *, worker_control=None):
 
     def membership(active):
         nonlocal version
-        version = app.state.memberships.change(
+        version = (membership_operator or app.state.memberships).change(
             MembershipChange(
                 issuer=PROVIDER,
                 subject="synthetic-reviewer",
