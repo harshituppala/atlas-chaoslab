@@ -22,13 +22,15 @@ def test_progress_pipe_detects_stalls_and_preserves_operator_shutdown(tmp_path, 
     worker = tmp_path / "worker"
     api_code = (
         "import signal,time;from pathlib import Path;"
-        f"p=Path({str(api)!r});p.write_text('ready');"
+        f"p=Path({str(api)!r});"
         "signal.signal(signal.SIGTERM,lambda *_:(p.with_suffix('.stopped').write_text('yes'),exit(0)));"
-        "time.sleep(60)"
+        "p.write_text('ready');time.sleep(60)"
     )
     worker_code = (
         "import os,sys,time;from pathlib import Path;"
         "fd=int(sys.argv[-1]);"
+        f"p=Path({str(api)!r});"
+        "\nwhile not p.exists():time.sleep(.01)\n"
         f"Path({str(worker)!r}).write_text(str(os.getpid()));"
     )
     if mode == "frozen":

@@ -8,7 +8,7 @@ The workspace keeps its SQLite database and reviewer token across restarts. Exis
 
 ## Verification
 
-Eight new native controls passed: repeated startup retains credentials and the populated database, inherited privileges are absent, a second workspace lock is refused, invalid/public/linked/duplicate-key credentials remain untouched, workspaces stay private and inside `var`, and linked database/scratch paths are refused.
+[Nine new native controls](../../reports/local-workbench-controls.json) passed: repeated startup retains credentials and the populated database, inherited privileges are absent, a second workspace lock is refused, invalid/public/linked/duplicate-key credentials remain untouched, workspaces stay private and inside `var`, and linked database/scratch paths are refused. An additional live-process check interrupts an actual claimed queue job during a controlled bounded analysis, verifies the child is reaped and the claim remains unpublished, then recovers it after lease expiry.
 
 The actual launcher then passed a real Chromium PDF/DOCX upload and source-backed review. Both API and worker stopped and were reaped. After reopening the same workspace, the credential, full analysis, audit events, uploaded-document records and both original byte hashes matched. The listener was released after each stop. A competing launch on its occupied port failed before creating a workspace. [The record](../../reports/local-workbench-launcher.json) binds the source and browser evidence.
 
@@ -25,3 +25,7 @@ make local
 Open http://127.0.0.1:8000 and connect with the long key in `var/local-workbench/credentials.json`. Keep it out of recordings. Ctrl+C stops both processes; starting again reopens saved work.
 
 For isolated verification, run `PYTHONPATH=src .runtime/bin/python scripts/verify_local_workbench.py`. Node, pnpm and Chromium must already be available. The verifier creates its own private workspace, starts the real launcher twice and stops its own processes. It does not modify the normal local workspace or call a model.
+
+During Linux CI, the earlier progress-pipe test could fail before its stand-in API installed its signal handler. The test now signals readiness only after handler installation and waits for that readiness before closing or corrupting the progress pipe. The expected shutdown and process-reaping assertions remain unchanged.
+
+Normal worker shutdown now unwinds the bounded-child cleanup instead of waiting for analysis to finish. The interrupted queue claim is left unpublished and can be reclaimed after its lease expires. Local API parsing gets a twenty-second shutdown grace, covering its existing fifteen-second parse deadline. Forced shutdown of arbitrary escaped descendants is still outside this local process-group boundary; the earlier container containment proof has its own scope.

@@ -87,7 +87,7 @@ def main():
         ]
         assert len(descendants) == 2
         child.send_signal(signal.SIGTERM)
-        assert child.wait(timeout=15) == 0
+        assert child.wait(timeout=25) == 0
         for pid in descendants:
             try:
                 os.kill(pid, 0)
@@ -219,7 +219,7 @@ def main():
         if child is not None and child.poll() is None:
             child.terminate()
             try:
-                child.wait(timeout=15)
+                child.wait(timeout=25)
             except subprocess.TimeoutExpired:
                 child.kill()
                 child.wait()

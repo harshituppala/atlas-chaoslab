@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-27T23:36:58.975019+00:00",
+  "scope": "Executed native local-startup file, environment, locking and interruption controls, including a real claimed queue job with a controlled bounded sleeping analysis. Not a model-quality or hosted claim.",
+  "checks_passed": 9,
+  "checks": [
+    "test_restart_reuses_credentials_and_does_not_leak_privilege",
+    "test_same_workspace_cannot_have_two_launchers",
+    "test_invalid_credentials_are_retained_and_refused[public]",
+    "test_invalid_credentials_are_retained_and_refused[symlink]",
+    "test_invalid_credentials_are_retained_and_refused[invalid]",
+    "test_invalid_credentials_are_retained_and_refused[duplicate]",
+    "test_workspace_must_stay_private_and_inside_var",
+    "test_database_and_temp_symlinks_are_refused",
+    "test_stopping_worker_kills_bounded_analysis_and_leaves_recoverable_claim"
+  ],
+  "native_suite": {
+    "passed": 949,
+    "optional_postgres_groups_skipped": 18
+  },
+  "interruption": "Worker SIGTERM reaped its bounded analysis child, left its running claim unpublished, then a controlled clock advance allowed successful second-attempt recovery.",
+  "junit_sha256": "061ce18a7f1b453fe6e1ed8e53534b22436bce5f104e266f23bc752153c1dde0",
+  "files_sha256": {
+    "scripts/run_local_workbench.py": "980c0585fec2fbd97768cb299001f690d58c9f380eda6aa4b063bbd0c86578ef",
+    "scripts/run_managed_workbench.py": "7eb103d91d80424a37683ac2a8096bfb152eb68fb2340e7b187c14b687a95533",
+    "scripts/run_managed_worker.py": "0bc391e3270630b122008388f92a82ec6c4409055d5162c18f1a0cc6aea33037",
+    "tests/test_local_workbench.py": "c8e2062e78287280851e29aae5e2ab6191629a5a4c647a52ee12003109531551",
+    "tests/test_managed_worker_progress.py": "022daa83525301f4c40c8441dd5a9ce5b4ac3e31c12f6e3eb5a1a527da7ab665"
+  },
+  "new_model_provider_calls": 0
+}

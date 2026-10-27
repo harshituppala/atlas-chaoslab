@@ -150,7 +150,11 @@ def main():
                     flush=True,
                 )
                 return supervise(
-                    commands, envs, worker_progress_timeout=150, api_pass_fds=(listener.fileno(),)
+                    commands,
+                    envs,
+                    grace=20,
+                    worker_progress_timeout=150,
+                    api_pass_fds=(listener.fileno(),),
                 )
     except (LocalSetupError, OSError, ValueError):
         print(

@@ -107,3 +107,68 @@ def test_database_and_temp_symlinks_are_refused(workspace):
         with local.prepare(workspace):
             pytest.fail("Linked scratch directory admitted")
     assert os.stat(original if original.exists() else database).st_mode & 0o077 == 0
+
+
+def test_stopping_worker_kills_bounded_analysis_and_leaves_recoverable_claim(workspace):
+    import signal
+    import subprocess
+    import time
+    from datetime import timedelta
+
+    from atlas.jobs import JobQueue, utcnow
+    from atlas.store import Store
+    from atlas.worker import process_once
+
+    workspace.mkdir(parents=True, mode=0o700)
+    database = "sqlite:///" + str(workspace / "interrupted.db")
+    store = Store(database)
+    queue = JobQueue(store)
+    job = queue.submit(
+        "a", "fixture", "local-stop-001", json.loads((ROOT / "datasets/demo.json").read_text())
+    )
+    marker = workspace / "analysis.pid"
+    # Use the actual queue/lease and bounded-child primitive with a controlled
+    # sleeping analysis. The application analysis recipe is not patched.
+    harness = workspace / "interrupt.py"
+    child_code = f"import os,time;from pathlib import Path;Path({str(marker)!r}).write_text(str(os.getpid()));time.sleep(60)"
+    harness.write_text(
+        f"import sys;sys.path.insert(0,{str(ROOT / 'scripts')!r});"
+        "from run_managed_worker import run;from atlas.worker import process_once;"
+        "from atlas.child_process import run_bounded;"
+        f"\ndef execute(_):return run_bounded([sys.executable,'-c',{child_code!r}],b'',timeout_seconds=120)"
+        f"\nraise SystemExit(run({database!r},int(sys.argv[1]),step=lambda queue:process_once(queue,executor=execute)))"
+    )
+    read_fd, write_fd = os.pipe()
+    worker = subprocess.Popen(
+        [sys.executable, str(harness), str(write_fd)],
+        pass_fds=(write_fd,),
+        env={"PYTHONPATH": str(ROOT / "src")},
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+    )
+    os.close(write_fd)
+    try:
+        deadline = time.monotonic() + 10
+        while not marker.exists() and time.monotonic() < deadline:
+            assert worker.poll() is None
+            time.sleep(0.02)
+        assert marker.exists()
+        analysis_pid = int(marker.read_text())
+        worker.send_signal(signal.SIGTERM)
+        assert worker.wait(timeout=5) == 0
+        with pytest.raises(ProcessLookupError):
+            os.kill(analysis_pid, 0)
+        interrupted = queue.get("a", job["id"])
+        assert interrupted["status"] == "running" and interrupted["result_id"] is None
+        assert interrupted["attempts"] == 1
+        queue.clock = lambda: utcnow() + timedelta(seconds=61)
+        assert process_once(queue)
+        recovered = queue.get("a", job["id"])
+        assert recovered["status"] == "succeeded" and recovered["attempts"] == 2
+    finally:
+        if worker.poll() is None:
+            worker.kill()
+            worker.wait()
+        worker.stderr.close()
+        os.close(read_fd)
+        store.engine.dispose()

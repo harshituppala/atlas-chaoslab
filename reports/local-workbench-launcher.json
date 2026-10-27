@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-27T23:25:48.020910+00:00",
+  "recorded_at": "2026-10-27T23:36:37.208258+00:00",
   "scope": "Actual local paired launcher on loopback HTTP/SQLite with a synthetic static reviewer. One real Chromium PDF/DOCX intake/source/review workflow, then paired API/worker stop and restart. Not browser-session/Cognito, TLS, PostgreSQL or hosted acceptance.",
   "checks": {
     "browser_intake_review_passed": true,
@@ -28,12 +28,12 @@
       "exit_code": 0
     }
   ],
-  "browser_evidence_sha256": "2d32fa67f30e781ac6aefc92a39108c6184c1ed31b46ffd432e9e71037087c0c",
+  "browser_evidence_sha256": "ca190409079543acee35f9ba68d15b3a68dc11888d10289a9fdafd9bb3697563",
   "files_sha256": {
-    "scripts/run_local_workbench.py": "44fd24b244574d606b9cc42a2c4527f2af1dbabf4c8b5c55622d66a1cff3f699",
+    "scripts/run_local_workbench.py": "980c0585fec2fbd97768cb299001f690d58c9f380eda6aa4b063bbd0c86578ef",
     "scripts/run_managed_workbench.py": "7eb103d91d80424a37683ac2a8096bfb152eb68fb2340e7b187c14b687a95533",
-    "scripts/run_managed_worker.py": "bd717d04708fa01ab6142fb03e6dabcff925535992189c29befd137a68d3b07f",
-    "scripts/verify_local_workbench.py": "a1fc818aa039086dfa85c072bf7ff3859382f180f5660d5576da1a5547c2eb11",
+    "scripts/run_managed_worker.py": "0bc391e3270630b122008388f92a82ec6c4409055d5162c18f1a0cc6aea33037",
+    "scripts/verify_local_workbench.py": "328c592c5351236958dddf2f95d4abd95f235e6804801cb1d0d7725ff5ed24cb",
     "apps/web/e2e/workbench.spec.ts": "1cc5e19743853a557ce8ba41da76ebd6c6a3a8e512b1157b3acdb696cd46d773",
     "src/atlas/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/atlas/__main__.py": "b249955ef5c09c6214468a6e201d54f4e455b1e0fc25917aa1bc9d91067f81f8",
