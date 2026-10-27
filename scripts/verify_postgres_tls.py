@@ -66,7 +66,12 @@ def certificates(work):
             .not_valid_before(start)
             .not_valid_after(end)
             .add_extension(
-                x509.SubjectAlternativeName([x509.IPAddress(ipaddress.ip_address("127.0.0.1"))]),
+                x509.SubjectAlternativeName(
+                    [
+                        x509.IPAddress(ipaddress.ip_address("127.0.0.1")),
+                        x509.DNSName("atlas-postgres"),
+                    ]
+                ),
                 critical=False,
             )
             .add_extension(x509.BasicConstraints(ca=False, path_length=None), critical=True)
@@ -104,6 +109,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--docker", default="docker")
     parser.add_argument("--image", default="pgvector/pgvector:pg17")
+    parser.add_argument(
+        "--managed-image",
+        help="Also exercise an already built managed image and its production 150-second watchdog",
+    )
     args = parser.parse_args()
     name = "atlastls" + uuid4().hex[:12]
     work = ROOT / "var/postgres-tls" / name
@@ -119,19 +128,22 @@ def main():
     log = (work / "execution.log").open("w")
     environment = {key: os.environ[key] for key in ("PATH", "HOME", "LANG") if key in os.environ}
 
-    def docker(*command, check=True):
+    def docker(*command, check=True, timeout=90):
         return subprocess.run(
             [args.docker, *command],
             env=environment,
             stdout=subprocess.PIPE,
             stderr=log,
             text=True,
-            timeout=90,
+            timeout=timeout,
             check=check,
         ).stdout.strip()
 
     stores = []
     engine = None
+    managed = None
+    managed_image = None
+    managed_checks = {}
     try:
         image = docker("image", "inspect", args.image, "--format", "{{.Id}}")
         uid = docker(
@@ -147,6 +159,8 @@ def main():
             "--pull=never",
             "--network",
             name,
+            "--network-alias",
+            "atlas-postgres",
             "--publish",
             "127.0.0.1::5432",
             "--user",
@@ -318,29 +332,133 @@ def main():
         }
         app = create_app(urls["api"], principals)
         stores.append(app.state.store)
+        if args.managed_image:
+            managed_image = docker("image", "inspect", args.managed_image, "--format", "{{.Id}}")
+            private = work / "managed"
+            private.mkdir(mode=0o755)
+            (private / "root.crt").write_bytes((work / "root.crt").read_bytes())
+            login = json.loads((ROOT / "deployment/login-settings.example.json").read_text())
+            (private / "login.json").write_text(json.dumps(login))
+            managed_urls = {
+                role: URL.create(
+                    "postgresql+psycopg",
+                    username="atlas_" + role,
+                    password=passwords[role],
+                    host="atlas-postgres",
+                    port=5432,
+                    database="postgres",
+                    query={
+                        "sslmode": "verify-full",
+                        "sslrootcert": "/run/atlas/root.crt",
+                        "options": "-csearch_path=atlas,public",
+                    },
+                ).render_as_string(hide_password=False)
+                for role in ("api", "worker")
+            }
+            (private / "runtime.json").write_text(
+                json.dumps(
+                    {
+                        "api_database": managed_urls["api"],
+                        "worker_database": managed_urls["worker"],
+                        "login_settings": "/run/atlas/login.json",
+                    }
+                )
+            )
+            for filename in ("login.json", "runtime.json"):
+                (private / filename).chmod(0o600)
+            managed = name + "managed"
+            docker(
+                "run",
+                "--detach",
+                "--name",
+                managed,
+                "--pull=never",
+                "--network",
+                name,
+                "--user",
+                f"{os.getuid()}:{os.getgid()}",
+                "--read-only",
+                "--cap-drop",
+                "ALL",
+                "--security-opt",
+                "no-new-privileges",
+                "--pids-limit",
+                "128",
+                "--memory",
+                "768m",
+                "--tmpfs",
+                f"/app/var:rw,uid={os.getuid()},gid={os.getgid()},mode=0700",
+                "--tmpfs",
+                "/tmp:rw,mode=1777",
+                "--mount",
+                f"type=bind,src={private},dst=/run/atlas,readonly",
+                managed_image,
+            )
+
+            def ready():
+                return (
+                    docker(
+                        "exec",
+                        managed,
+                        "python",
+                        "-c",
+                        "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:8080/readyz',timeout=2).status)",
+                        check=False,
+                    )
+                    == "200"
+                )
+
+            for _ in range(30):
+                if ready():
+                    break
+                time.sleep(0.2)
+            else:
+                raise RuntimeError("Actual managed image did not become ready")
+            actual_uid = docker("exec", managed, "id", "-u")
+            assert actual_uid != "0"
+            managed_checks["nonroot_uid"] = int(actual_uid)
+            managed_checks["actual_api_database_readiness"] = True
+            denied = docker(
+                "exec",
+                managed,
+                "python",
+                "-c",
+                "import urllib.request,urllib.error;\ntry:urllib.request.urlopen('http://127.0.0.1:8080/api/runs')\nexcept urllib.error.HTTPError as e:print(e.code)",
+            )
+            assert denied == "401"
+            managed_checks["unsigned_api_refused"] = True
         headers = {"Authorization": "Bearer fixture-reviewer", "Idempotency-Key": "tls-job-001"}
         body = json.loads((ROOT / "datasets/demo.json").read_text())
         with TestClient(app) as client:
             submitted = client.post("/api/jobs", json=body, headers=headers)
             assert submitted.status_code == 202 and submitted.json()["status"] == "queued"
             job_id = submitted.json()["id"]
-            worker_environment = {
-                key: os.environ[key] for key in ("PATH", "LANG") if key in os.environ
-            }
-            worker_environment.update(
-                PYTHONPATH=str(ROOT / "src"),
-                ATLAS_DATABASE_URL=urls["worker"],
-                ATLAS_BEDROCK_ENABLED="false",
-            )
-            subprocess.run(
-                [sys.executable, "-m", "atlas.worker", "--once"],
-                env=worker_environment,
-                cwd=ROOT,
-                check=True,
-                stdout=log,
-                stderr=log,
-                timeout=45,
-            )
+            if not managed:
+                worker_environment = {
+                    key: os.environ[key] for key in ("PATH", "LANG") if key in os.environ
+                }
+                worker_environment.update(
+                    PYTHONPATH=str(ROOT / "src"),
+                    ATLAS_DATABASE_URL=urls["worker"],
+                    ATLAS_BEDROCK_ENABLED="false",
+                )
+                subprocess.run(
+                    [sys.executable, "-m", "atlas.worker", "--once"],
+                    env=worker_environment,
+                    cwd=ROOT,
+                    check=True,
+                    stdout=log,
+                    stderr=log,
+                    timeout=45,
+                )
+            else:
+                for _ in range(150):
+                    if client.get("/api/jobs/" + job_id, headers=headers).json()["status"] in {
+                        "succeeded",
+                        "failed",
+                    }:
+                        break
+                    time.sleep(0.2)
             job = client.get("/api/jobs/" + job_id, headers=headers).json()
             assert job["status"] == "succeeded"
             run = client.get("/api/runs/" + job["result_id"], headers=headers).json()
@@ -366,6 +484,32 @@ def main():
                 ).status_code
                 == 404
             )
+        if managed:
+            # Stop the actual queue loop, not a stand-in heartbeat or its lease thread.
+            frozen_pid = docker(
+                "exec",
+                managed,
+                "python",
+                "-c",
+                "import os,signal;from pathlib import Path;\nfor p in Path('/proc').iterdir():\n try:\n  args=(p/'cmdline').read_bytes().split(bytes([0]))\n  if any(a.endswith(b'/run_managed_worker.py') for a in args):os.kill(int(p.name),signal.SIGSTOP);print(p.name);break\n except (OSError,ValueError):pass",
+            )
+            assert frozen_pid.isdigit()
+            began = time.monotonic()
+            assert docker("wait", managed, timeout=190) == "1"
+            elapsed = time.monotonic() - began
+            assert 130 <= elapsed < 180
+            managed_checks.update(
+                actual_worker_processed_job=True,
+                frozen_worker_stopped_container=True,
+                watchdog_seconds=150,
+                observed_shutdown_seconds=round(elapsed, 2),
+            )
+            # The database is independent of container teardown.
+            with TestClient(app) as client:
+                persisted = client.get("/api/runs/" + run["id"], headers=headers)
+                assert persisted.status_code == 200
+                assert persisted.json()["assessments"][0]["review_state"] == "approved"
+            managed_checks["saved_review_survived_worker_watchdog_shutdown"] = True
         # Swap only the disposable server leaf; a newly created client must reject expiry.
         (work / "server.crt").write_bytes((work / "expired.crt").read_bytes())
         with psycopg.connect(**base, autocommit=True) as connection:
@@ -379,6 +523,9 @@ def main():
         else:
             raise AssertionError("Expired leaf certificate unexpectedly admitted")
         sources = [
+            ROOT / "Dockerfile",
+            ROOT / "scripts/run_managed_workbench.py",
+            ROOT / "scripts/run_managed_worker.py",
             Path(__file__),
             ROOT / "deployment/postgres-runtime-roles.sql",
             *sorted((ROOT / "src/atlas").rglob("*.py")),
@@ -389,6 +536,8 @@ def main():
             image_id=image,
             database_version=docker("exec", name, "postgres", "--version"),
             client_libpq_version=psycopg.pq.version(),
+            managed_image_id=managed_image,
+            managed_image_checks=managed_checks,
             roles=observed,
             refused_connections=refusals,
             workflow={
@@ -412,7 +561,10 @@ def main():
                 for p in sources
             },
         )
-        publish_report(ROOT / "reports/postgres-tls.json", report)
+        publish_report(
+            ROOT / ("reports/managed-image-tls.json" if managed else "reports/postgres-tls.json"),
+            report,
+        )
         print(
             json.dumps(
                 {
@@ -428,10 +580,13 @@ def main():
         if engine is not None:
             engine.dispose()
         log.write(docker("logs", name, check=False))
+        if managed:
+            log.write(docker("logs", managed, check=False))
+            docker("rm", "--force", managed, check=False)
         docker("rm", "--force", name, check=False)
         docker("network", "rm", name, check=False)
         log.close()
-        for filename in ("password", "server.key"):
+        for filename in ("password", "server.key", "managed/runtime.json"):
             (work / filename).unlink(missing_ok=True)
 
 

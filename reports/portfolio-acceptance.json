@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-10-27T22:40:20.713155+00:00",
+  "scope": "Owner-selected free public sample and full local private workbench, plus independent CHAOSLAB evaluation and recording preparation. Paid always-online private hosting is outside this release.",
+  "status": "local_and_existing_public_acceptance_passed",
+  "native_suite": {
+    "passed": 940,
+    "optional_postgres_groups_skipped": 18
+  },
+  "local_workbench_browser_cases": 12,
+  "packaged_worker_watchdog": {
+    "deadline_seconds": 150,
+    "measured_failure_exit_seconds": 160.2,
+    "saved_review_retained": true
+  },
+  "external_frozen_test": "Previously completed 123-contract / 2091-claim test and independent replay retained unchanged; no new provider calls.",
+  "report_sha256": {
+    "reports/final-workbench-rehearsal.json": "864c355ae3b1510a0129ddda91182034f94efb68e3c24ad4790737039fa35055",
+    "reports/hosted-lab.json": "8b64629d4ea8398eaac61a2edd5c962a8e7d197bd39c10eda12c0c3d6b5ec234",
+    "reports/chaoslab-package.json": "5f4548d04e7efcade32374240617682fbf6305065e0235aeb5205224bfebdd10",
+    "reports/demo-walkthrough.json": "f8e01b15febb1de72d9279cd6ec0a7d390277b732e707a354352e66adc56716d",
+    "reports/managed-image-tls.json": "70bfaef6db34a2da5dc435df110f97b0216520313c85e9ce53f9b292cc770c95",
+    "reports/postgres-tls.json": "4bbf8986c46d4b25e2b237cef6be9e6fdb9b0d1e93ea257a2a9199d0f7b66953",
+    "reports/contract-model-test.json": "8bcb0a2ecc190f7c97eea6b6ef90d5fd04891a7cbfc1eaa57fe57e2fee08f027",
+    "reports/contract-model-test-standalone-replay.json": "f36717a8c94e843d3e112ac0b069ade60e3d6278881f65683fa4d0f7460b7ea9",
+    "reports/managed-postgres-restart.json": "46b8e02899c38f2b3b1ad0ddac6e3a4150b90f42090b2303ef6b93d1dee07965",
+    "reports/managed-postgres-database-restart.json": "5589f6621c8a81aa5e18027a57d2b40169af25dcba5e2389a9ede0c0d88c7190",
+    "reports/managed-postgres-restore.json": "142326b9acf6750c26b58966dc45483b483f0bf07c0d0bb7bf6b752adfefd5a3"
+  },
+  "presentation": "Walkthrough and recording checklist prepared; no video recording claimed.",
+  "ci": "The new managed-runtime job must be observed after this source publication. Prior TLS publication 598c9ee passed all four existing jobs in run40594354412.",
+  "limitations": [
+    "Public lab history is temporary; full uploads and durable reviews run locally.",
+    "Real Cognito, PostgreSQL browser recovery, database TLS and packaged-worker checks are separately scoped records.",
+    "Model failures and missing predictions remain counted; NDA task accuracy is not end-to-end RFP accuracy.",
+    "The packaged image acceptance did not create a Cognito session or complete a signed browser review inside the image.",
+    "No new cloud resources, recurring charges or model calls."
+  ]
+}

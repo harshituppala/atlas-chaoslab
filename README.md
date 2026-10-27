@@ -12,7 +12,7 @@ A request for proposal (RFP) asks for recovery within four hours. The supplier's
 
 The public ATLAS lab uses fictional documents and an offline extractive baseline. You can run the sample, open its citations and record a review. It accepts no uploads or model credentials. Its history is temporary and resets after expiry or restart.
 
-The private workbench adds document uploads, saved reviews, job history, audit events and an optional Bedrock model workflow. Real Cognito sign-in has been checked locally. Durable authenticated hosting is still unfinished; the public lab is a separate, restricted application profile.
+The private workbench adds document uploads, saved reviews, job history, audit events and an optional Bedrock model workflow. Real Cognito sign-in has been checked locally. The full workbench runs locally; the public lab is a separate, restricted application profile. This release uses free hosting and requires no paid cloud service.
 
 The [external contract evaluation](docs/contractnli-evaluation.md) covers 61 development contracts and 1,037 claims. Claude Haiku 4.5 reached 77.4% label accuracy, but only 48.7% of claims had both the correct label and complete evidence. Contradictions were a particular weakness. The report preserves those mistakes, separates saved responses from new calls and can be replayed without a model. The separate [frozen test evaluation](docs/contractnli-evaluation.md#frozen-test-result--october-26) covers 123 contracts: 77.5% label accuracy and 49.4% correctness when complete evidence is required. These NDA results do not measure end-to-end RFP accuracy.
 

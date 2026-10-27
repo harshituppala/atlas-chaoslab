@@ -2,7 +2,7 @@
 
 The public lab is a temporary fictional exercise. It is not the place to add real uploads or reuse the private workbench database. The next deployment must preserve the private application's identity and data boundaries.
 
-This is an acceptance plan, not a provisioned service or a hosting approval. No additional account, database, public callback or workspace grant has been created for it.
+The owner chose free hosting for this release: the public sample stays online, and the full private workbench runs locally. The paid always-online service described here is optional future work. This is an acceptance plan, not a provisioned service or a hosting approval. No additional account, database, public callback or workspace grant has been created for it.
 
 ## What already works
 
@@ -45,7 +45,7 @@ A reachable page is insufficient. Completion requires a known deployed revision,
 
 The prototype reads a private JSON file with exactly `api_database`, `worker_database` and an absolute `login_settings` path. Database URLs require separate PostgreSQL logins on the same endpoint/database and `sslmode=verify-full`; live role checks remain the application’s responsibility. It forwards each credential only to its intended process, leaves model jobs disabled and inherits no AWS, demo or proxy settings. The parent is trusted and holds both credentials; this is not isolation from a compromised same-user process.
 
-The API binds loopback, uses one process and disables access logs and proxy-header trust. Unexpected API or worker exit, including exit zero, stops its sibling and returns failure. Operator SIGTERM/SIGINT requests paired shutdown. No automatic restart hides a crash or replays paid work. The supervisor does not detect a hung process.
+The API binds loopback, uses one process and disables access logs and proxy-header trust. Unexpected API or worker exit, including exit zero, stops its sibling and returns failure. Operator SIGTERM/SIGINT requests paired shutdown. No automatic restart hides a crash or replays paid work. The current managed entry point also stops both services if the actual queue loop stops reporting progress for 150 seconds; see [ADR 061](adr/061-managed-worker-progress.md).
 
 Fifteen controls passed natively and in a non-root, network-disabled Linux container with current source mounted read-only. Four cases use real stand-in processes; the others check configuration, environments and construction failure. They do not run the real API, worker, database or provider. The full native suite passed 926 tests, with eighteen optional PostgreSQL groups skipped.
 
@@ -74,3 +74,5 @@ Local joined recovery now includes a PostgreSQL process restart and a separate f
 ## Verified local database transport
 
 A separate [TLS exercise](../reports/postgres-tls.json) now runs the restricted API and worker roles against PostgreSQL with explicit certificate and hostname verification. A fictional queued analysis, source inspection and saved review pass; five invalid transport attempts and three forbidden role operations are refused. The API client is in process and the worker is a separate process. This is not the supervised image or deployed browser flow. The native recovery checks above still use their original non-TLS transport. The remaining host decision must include certificate distribution/renewal, the actual supervisor image, hung-worker handling and joined hosted recovery. See [ADR 060](adr/060-local-database-tls.md).
+
+The built managed image now has separate local acceptance for actual API readiness, verified database TLS, baseline queue processing and a frozen worker at the production watchdog deadline. [ADR 061](adr/061-managed-worker-progress.md) retains the exact scope: the signed browser review and Cognito were not exercised inside that image. Paid hosted deployment is optional under the owner’s final free-hosting decision.

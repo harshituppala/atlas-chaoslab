@@ -58,3 +58,7 @@ The access-token profile was tested with real signatures and controlled JWKS; [t
 The [TLS runner](../scripts/verify_postgres_tls.py) exercises verified database connections using a cached PostgreSQL container, the real API and a separate baseline worker. It requires the exact fixture authority with `sslmode=verify-full`, checks the negotiated transport in `pg_stat_ssl`, and refuses wrong-authority, wrong-hostname, missing-authority, plaintext and expired-certificate connections. Runtime role restrictions still apply. Run it only against its own disposable local database; it has no option for targeting an existing service.
 
 [ADR 060](adr/060-local-database-tls.md) gives the command, cleanup behavior and limits. This is separate from the native PostgreSQL restart/restore checks. It does not establish hosted certificate renewal, proxy behavior or a deployed identity flow.
+
+## Optional managed image
+
+Build with `docker build --target managed -t atlas-managed:local .`. Ordinary builds retain the bearer API profile. The explicit managed target reads private runtime settings, starts one loopback API and one baseline worker, and fails the pair after 150 seconds without queue-loop progress. Keep the database separate and persistent. [ADR 061](adr/061-managed-worker-progress.md) explains the local image acceptance, mount permissions and remaining identity/ingress limits. This image is local preparation; the owner chose the free public lab plus local private workbench for this release.

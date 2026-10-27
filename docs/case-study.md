@@ -36,8 +36,8 @@ Saved responses can be rescored without importing the adapter or making another 
 
 ## Where the project stands
 
-The fictional public lab has HTTPS, browser and restart checks. Its temporary sessions reset as advertised. Real Cognito reviewer sign-in has also been verified locally, including workspace denial, saved review, logout and repeat sign-in. The full authenticated workbench still needs durable hosted storage and deployed recovery checks.
+The fictional public lab has HTTPS, browser and restart checks. Its temporary sessions reset as advertised. Real Cognito reviewer sign-in has also been verified locally, including workspace denial, saved review, logout and repeat sign-in. The full authenticated workbench runs locally; the free public sample intentionally keeps temporary history.
 
-The complete development evaluation and its independent replay are published. The separate test run and independent replay are also published. Final demonstration recordings and durable managed hosting are not complete. [Current status](STATUS.md) records individual runs and remaining work without treating one successful check as proof of everything else.
+The complete development evaluation and its independent replay are published. The separate test run and independent replay are also published. The owner chose free hosting and a local private workflow. Recordings are the next presentation step; paid managed hosting is optional future work. [Current status](STATUS.md) records individual runs and remaining work without treating one successful check as proof of everything else.
 
 [Run locally](../README.md#run-atlas-locally) · [Architecture](architecture.md) · [Security assumptions](threat-model.md) · [Reviewer route](reviewer-guide.md)

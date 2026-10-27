@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-26T14:52:24.422436+00:00",
+  "recorded_at": "2026-10-27T22:38:32.644401+00:00",
   "status": "passed",
   "scope": "Local wheel installation and controlled regression checks, not agent quality or model inference.",
   "python": "3.12.14",
@@ -31,7 +31,7 @@
     "examples/review-regression/reference.json": "9cdb5f98f46d5bfdb4a217a13216762ba484920a95b52c124507f4fb326b5807",
     "examples/review-regression/wrong-decision.json": "1e7ba6b3748ff596fedd618ed8c72075b4c2e255007bb69200dc95a8dd7214d9"
   },
-  "wheel_sha256": "9248700955ad939eaa04bc3bb3a4925a0dcc3e502fad9ef1c96a7cba363896e1",
+  "wheel_sha256": "99a2ef303d703c82398319e1ec6a6bbe4ccc621867cc5328f25ab7781f4c9978",
   "wheel_name": "chaoslab_eval-0.1.4-py3-none-any.whl",
   "runtime_dependencies": [],
   "atlas_installed": false,

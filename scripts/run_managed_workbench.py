@@ -108,10 +108,17 @@ def terminate_groups(children, grace):
         child.wait()
 
 
-def supervise(commands, envs, *, grace=10, poll_interval=0.1):
+def supervise(commands, envs, *, grace=10, poll_interval=0.1, worker_progress_timeout=None):
     """Either child exit is terminal; no hidden automatic restart or paid replay."""
     stopping = False
     children = []
+    progress_read = progress_write = None
+    if worker_progress_timeout is not None:
+        if not 0 < worker_progress_timeout <= 600 or len(commands) != 2:
+            raise ValueError("Invalid worker progress deadline")
+        progress_read, progress_write = os.pipe()
+        os.set_blocking(progress_read, False)
+    last_progress = time.monotonic()
 
     def stop(*_):
         nonlocal stopping
@@ -119,19 +126,41 @@ def supervise(commands, envs, *, grace=10, poll_interval=0.1):
 
     previous = {sig: signal.signal(sig, stop) for sig in (signal.SIGTERM, signal.SIGINT)}
     try:
-        for command, env in zip(commands, envs, strict=True):
+        for index, (command, env) in enumerate(zip(commands, envs, strict=True)):
             if stopping:
                 return 0
-            children.append(subprocess.Popen(command, env=env, start_new_session=True))
+            kwargs = {}
+            if index == 1 and progress_write is not None:
+                command = [*command, "--progress-fd", str(progress_write)]
+                kwargs["pass_fds"] = (progress_write,)
+            children.append(subprocess.Popen(command, env=env, start_new_session=True, **kwargs))
+            if index == 1 and progress_write is not None:
+                os.close(progress_write)
+                progress_write = None
         while not stopping:
             if any(child.poll() is not None for child in children):
                 return 1
+            if progress_read is not None:
+                try:
+                    progress = os.read(progress_read, 4096)
+                except BlockingIOError:
+                    progress = None
+                if progress is not None:
+                    if not progress or any(value != ord(".") for value in progress):
+                        return 1
+                    last_progress = time.monotonic()
+                if time.monotonic() - last_progress > worker_progress_timeout:
+                    print("Worker stopped making progress; stopping the workbench", file=sys.stderr)
+                    return 1
             time.sleep(poll_interval)
         return 0
     finally:
         try:
             terminate_groups(children, grace)
         finally:
+            for descriptor in (progress_read, progress_write):
+                if descriptor is not None:
+                    os.close(descriptor)
             for sig, handler in previous.items():
                 signal.signal(sig, handler)
 
@@ -160,9 +189,9 @@ def main():
                 "--no-access-log",
                 "--no-proxy-headers",
             ],
-            [sys.executable, "-m", "atlas.worker"],
+            [sys.executable, str(Path(__file__).with_name("run_managed_worker.py"))],
         ]
-        return supervise(commands, envs)
+        return supervise(commands, envs, worker_progress_timeout=150)
     except (ConfigurationError, OSError):
         print(
             "Managed workbench failed to start; check private operator configuration",
