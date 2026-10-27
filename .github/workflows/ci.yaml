@@ -60,6 +60,8 @@ jobs:
       - run: python scripts/wait_ready.py
       - run: pnpm test
         working-directory: apps/web
+      - name: Verify paired local startup and saved originals across restart
+        run: PYTHONPATH=src python scripts/verify_local_workbench.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:

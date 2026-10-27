@@ -108,7 +108,9 @@ def terminate_groups(children, grace):
         child.wait()
 
 
-def supervise(commands, envs, *, grace=10, poll_interval=0.1, worker_progress_timeout=None):
+def supervise(
+    commands, envs, *, grace=10, poll_interval=0.1, worker_progress_timeout=None, api_pass_fds=()
+):
     """Either child exit is terminal; no hidden automatic restart or paid replay."""
     stopping = False
     children = []
@@ -130,6 +132,8 @@ def supervise(commands, envs, *, grace=10, poll_interval=0.1, worker_progress_ti
             if stopping:
                 return 0
             kwargs = {}
+            if index == 0 and api_pass_fds:
+                kwargs["pass_fds"] = api_pass_fds
             if index == 1 and progress_write is not None:
                 command = [*command, "--progress-fd", str(progress_write)]
                 kwargs["pass_fds"] = (progress_write,)

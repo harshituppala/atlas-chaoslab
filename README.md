@@ -25,12 +25,10 @@ python3.12 -m venv .runtime
 .runtime/bin/python -m pip install -r requirements.lock
 pnpm --dir apps/web install --frozen-lockfile
 pnpm --dir apps/web build
-make serve
-# In a second terminal, from the repository root:
-make worker
+make local
 ```
 
-Open http://127.0.0.1:8000 and use the generated reviewer token in `var/local-credentials.json`. This launcher binds to loopback for private use. The [operator guide](docs/deployment.md) covers PostgreSQL and its separate API, worker and migration roles.
+Open http://127.0.0.1:8000. Copy the long key from `var/local-workbench/credentials.json` into **Workspace token**, then connect. Keep that file off camera. The launcher starts the API and baseline worker together on loopback. Ctrl+C stops both; uploaded originals, reviews and audit history stay in this local workspace for the next launch. No AWS, Docker or model access is needed. The [operator guide](docs/deployment.md) covers PostgreSQL and its separate API, worker and migration roles.
 
 ## Run CHAOSLAB
 

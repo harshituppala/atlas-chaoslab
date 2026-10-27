@@ -62,3 +62,11 @@ The [TLS runner](../scripts/verify_postgres_tls.py) exercises verified database 
 ## Optional managed image
 
 Build with `docker build --target managed -t atlas-managed:local .`. Ordinary builds retain the bearer API profile. The explicit managed target reads private runtime settings, starts one loopback API and one baseline worker, and fails the pair after 150 seconds without queue-loop progress. Keep the database separate and persistent. [ADR 061](adr/061-managed-worker-progress.md) explains the local image acceptance, mount permissions and remaining identity/ingress limits. This image is local preparation; the owner chose the free public lab plus local private workbench for this release.
+
+## Start the full local workbench
+
+After installing the locked dependencies and building the interface, run `make local`. The paired launcher binds only to loopback and keeps the listener reserved while starting the API. It uses a separate persistent SQLite workspace under `var/local-workbench`; it does not reuse the older demo database or inherit AWS, proxy, managed-login or model configuration. The API receives the private reviewer credential; the baseline worker does not.
+
+Copy the long key from `var/local-workbench/credentials.json` into **Workspace token** before recording. The key is never printed by the launcher. Ctrl+C stops both services, while saved originals, analyses, reviews and audit history remain. A workspace lock refuses a second launcher; public, malformed or symlinked settings are refused without resetting them.
+
+For another local workspace or port, run `PYTHONPATH=src .runtime/bin/python scripts/run_local_workbench.py --workspace var/another-review --port 8001`. Workspaces must remain inside this repository’s `var` directory and private to the current OS user. This is static bearer authentication over loopback HTTP, not Cognito or hosted TLS. [ADR 062](adr/062-paired-local-startup.md) records the actual browser/restart checks and limits.

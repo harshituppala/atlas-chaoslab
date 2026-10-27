@@ -1,5 +1,5 @@
 PYTHON ?= .runtime/bin/python
-.PHONY: test benchmark serve worker web
+.PHONY: test benchmark serve worker web local
 
 test:
 	PYTHONPATH=src $(PYTHON) -m pytest -q
@@ -14,3 +14,6 @@ web:
 
 worker:
 	PYTHONPATH=src $(PYTHON) -m atlas.worker
+
+local:
+	PYTHONPATH=src $(PYTHON) scripts/run_local_workbench.py

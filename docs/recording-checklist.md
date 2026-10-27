@@ -4,7 +4,7 @@ The release has two entry points: a free public sample and the full local workbe
 
 ## Before opening the recorder
 
-Use only the fictional files in `datasets/documents`. Close AWS, account settings and private contract tabs. Connect to the local workbench off camera; do not record a token, login form, password manager, terminal environment or private configuration file. Keep the browser at a readable zoom with enough space to show a requirement and its evidence together.
+Build the interface and run `make local` from the repository root. The reviewer token is the long key in `var/local-workbench/credentials.json`; connect before recording. Ctrl+C stops both services without clearing saved work. Use only the fictional files in `datasets/documents`. Close AWS, account settings and private contract tabs. Connect to the local workbench off camera; do not record a token, login form, password manager, terminal environment or private configuration file. Keep the browser at a readable zoom with enough space to show a requirement and its evidence together.
 
 ## ATLAS — about three minutes
 
