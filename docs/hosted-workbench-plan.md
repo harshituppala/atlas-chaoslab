@@ -16,13 +16,13 @@ The current process-local session registry rules out an unplanned multi-instance
 
 ## Decide before provisioning
 
-| Decision | Required evidence before approval |
-| --- | --- |
-| Compute and database provider | Written cost/usage limits, sleep/expiry behavior, regional availability and an exit/cleanup path. A model-testing allowance does not pay for recurring infrastructure. |
-| Database permissions | A dedicated migration owner, restricted API role and dedicated worker role can be created on that actual provider. The worker needs BYPASSRLS; the API must not have it. Neither runtime identity may own tables, create schemas or inherit elevated roles. |
-| Browser entry point | Exact HTTPS origin, callback, audience and API scope are prepared for review. Existing loopback callbacks are not public-host approval. |
-| Workspace access | Intended identity, workspace, role and revocation path are explicit. Provider login alone must grant no membership. |
-| Original documents | Existing database-backed originals remain retained; local container storage cannot be the only copy. Limits and restore coverage are known before uploads are enabled. |
+| Decision                      | Required evidence before approval                                                                                                                                                                                                                           |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Compute and database provider | Written cost/usage limits, sleep/expiry behavior, regional availability and an exit/cleanup path. A model-testing allowance does not pay for recurring infrastructure.                                                                                      |
+| Database permissions          | A dedicated migration owner, restricted API role and dedicated worker role can be created on that actual provider. The worker needs BYPASSRLS; the API must not have it. Neither runtime identity may own tables, create schemas or inherit elevated roles. |
+| Browser entry point           | Exact HTTPS origin, callback, audience and API scope are prepared for review. Existing loopback callbacks are not public-host approval.                                                                                                                     |
+| Workspace access              | Intended identity, workspace, role and revocation path are explicit. Provider login alone must grant no membership.                                                                                                                                         |
+| Original documents            | Existing database-backed originals remain retained; local container storage cannot be the only copy. Limits and restore coverage are known before uploads are enabled.                                                                                      |
 
 The existing free Render lab is not approval for a new service. If the chosen provider cannot satisfy a role or recovery boundary, choose another arrangement; do not relax the boundary silently. Provider compatibility and cost remain unverified until checked against that provider's current documentation and actual account.
 
@@ -70,3 +70,7 @@ The joined synthetic-login workflow also now passes against a fresh local Postgr
 The [application-process restart exercise](adr/058-application-process-restart.md) now verifies saved-run/review/audit persistence and refusal of old sessions after replacement of the actual API process on local PostgreSQL. A new sign-in reopens the same stored records. Database-process restart, separate backup restoration, verified database TLS, the supervised production image and hosted identity/proxy acceptance remain open. The fixture’s connection-drain deadline is recorded rather than presented as uninterrupted service.
 
 Local joined recovery now includes a PostgreSQL process restart and a separate fresh-cluster logical restore. Both compare all ten application tables before reopening, then verify the stored review/audit through a fresh signed browser session. [ADR 059](adr/059-local-database-recovery.md) records the measured scope and pgvector restore prerequisite. Verified database transport, the supervised production image, hung-worker handling, provider cost/access selection and actual hosted identity/recovery remain unfinished.
+
+## Verified local database transport
+
+A separate [TLS exercise](../reports/postgres-tls.json) now runs the restricted API and worker roles against PostgreSQL with explicit certificate and hostname verification. A fictional queued analysis, source inspection and saved review pass; five invalid transport attempts and three forbidden role operations are refused. The API client is in process and the worker is a separate process. This is not the supervised image or deployed browser flow. The native recovery checks above still use their original non-TLS transport. The remaining host decision must include certificate distribution/renewal, the actual supervisor image, hung-worker handling and joined hosted recovery. See [ADR 060](adr/060-local-database-tls.md).

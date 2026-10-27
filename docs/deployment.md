@@ -34,7 +34,6 @@ The API refuses superusers, BYPASSRLS, table ownership, schema creation and elev
 
 Migration 0005 installs forced policies for tenant data and issuer/subject membership visibility. Runtime transactions use local identity settings that reset on commit/rollback. Startup detects policy drift. These policies protect against omitted filters and pooled-context leakage, not a compromised trusted service that can choose arbitrary SQL settings. See ADR 012 for executed evidence and remaining deployment limits.
 
-
 ### Optional resource-bound Cognito profile
 
 An operator can set ATLAS_TOKEN_TRUST to the following credential-free configuration shape, replacing every example with the actual approved provider/resource configuration:
@@ -53,3 +52,9 @@ An operator can set ATLAS_TOKEN_TRUST to the following credential-free configura
 This requires an access token whose signed token_use is access, client_id matches, aud is the exact resource, and scope contains each configured API scope. Resource binding is mandatory for this integration; an ordinary access token with no aud is rejected. An ID token's audience cannot substitute for resource access. Cognito typ may be absent or JWT; those headers remain rejected by the unchanged default profile. Provider keys must be at the exact pinned issuer JWKS path. Workspace membership still determines every role; groups and token role/tenant claims grant nothing.
 
 The access-token profile was tested with real signatures and controlled JWKS; [the original report](../reports/cognito-profile.json) retains that scope. The separate browser/session factory has joined synthetic TLS/Chromium checks. An approved real Cognito directory, public client, domain and scope have also been configured, and [public discovery/key checks](../reports/provider-check.json) now pass. A real local reviewer sign-in, authenticated callback, baseline review, wrong-workspace denial and sign-out were subsequently verified in [ADR 053](adr/053-real-cognito-local-acceptance.md). That evidence covers one identity over private loopback TLS and SQLite. It does not establish a deployed identity flow or durable hosted service. Refresh tokens remain discarded.
+
+## Local database TLS check
+
+The [TLS runner](../scripts/verify_postgres_tls.py) exercises verified database connections using a cached PostgreSQL container, the real API and a separate baseline worker. It requires the exact fixture authority with `sslmode=verify-full`, checks the negotiated transport in `pg_stat_ssl`, and refuses wrong-authority, wrong-hostname, missing-authority, plaintext and expired-certificate connections. Runtime role restrictions still apply. Run it only against its own disposable local database; it has no option for targeting an existing service.
+
+[ADR 060](adr/060-local-database-tls.md) gives the command, cleanup behavior and limits. This is separate from the native PostgreSQL restart/restore checks. It does not establish hosted certificate renewal, proxy behavior or a deployed identity flow.
