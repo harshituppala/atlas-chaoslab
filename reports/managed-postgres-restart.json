@@ -1,0 +1,174 @@
+{
+  "recorded_at": "2026-10-27T19:20:09.513747+00:00",
+  "scope": "Real API operating-system process replacement, actual managed factory/queue/separate worker and local restricted PostgreSQL, with a synthetic identity provider and loopback browser TLS.",
+  "checks": {
+    "browser_profile_inside_workspace": true,
+    "cross_site_code_callback": true,
+    "secure_httponly_strict_cookie": true,
+    "cross_site_navigation_withholds_strict_cookie": true,
+    "consumed_callback_replay_refused": true,
+    "browser_write_requires_csrf": true,
+    "signed_identity_job_source_review": true,
+    "separate_worker_restart_processed_queued_job": true,
+    "application_process_restart_preserves_review_and_rejects_old_session": true,
+    "membership_revocation_hides_workspace": true,
+    "logout_invalidates_captured_cookie": true,
+    "controlled_server_expiry_hides_workspace": true,
+    "provider_denial_keeps_workspace_closed": true,
+    "no_browser_storage_or_runtime_errors": true
+  },
+  "service_lifecycle": [
+    {
+      "service": "api",
+      "event": "started"
+    },
+    {
+      "service": "worker",
+      "event": "started"
+    },
+    {
+      "service": "worker",
+      "event": "stopped",
+      "exit_code": 0
+    },
+    {
+      "service": "worker",
+      "event": "started"
+    },
+    {
+      "service": "api",
+      "event": "stopped",
+      "exit_code": 0
+    },
+    {
+      "service": "api",
+      "event": "started"
+    },
+    {
+      "service": "worker",
+      "event": "stopped",
+      "exit_code": 0
+    },
+    {
+      "service": "api",
+      "event": "stopped",
+      "exit_code": 0
+    }
+  ],
+  "provider_generations": 2,
+  "fixture_shutdown": {
+    "connection_drain_deadline_seconds": 2,
+    "deadline_hits": 2,
+    "reported_running_tasks_cancelled": 0
+  },
+  "database_roles": {
+    "api": {
+      "role": "atlas_api",
+      "superuser": false,
+      "bypass": false,
+      "forbidden_operations_refused": 1
+    },
+    "worker": {
+      "role": "atlas_worker",
+      "superuser": false,
+      "bypass": true,
+      "forbidden_operations_refused": 2
+    }
+  },
+  "database_transport": "Authenticated local loopback TCP without TLS",
+  "source_sha256": {
+    "src/atlas/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/atlas/__main__.py": "b249955ef5c09c6214468a6e201d54f4e455b1e0fc25917aa1bc9d91067f81f8",
+    "src/atlas/api.py": "e088cc5429e5269201674aab2969ad23cbc1b5a26db717a782a63dfba7967825",
+    "src/atlas/artifacts.py": "1feeee9a3bf81acc9fbf9d3cabe85676c669667d5be7900849ac7c710f3e9391",
+    "src/atlas/chaos_adapter.py": "a6688917cba0d01bab0d8a846fe70fc53e970ec318e901d8b274846e3d816658",
+    "src/atlas/child_process.py": "423df4b53d26688fa144164a5c55cb2f3d4a36d0bb26cf62ac71469a02c3ccbe",
+    "src/atlas/db_scope.py": "ffaa7ace6db3ba797d558a31ae8e68ec7f1f5314611379074fb75ff35038caf6",
+    "src/atlas/documents.py": "d7a114fe283eb9ce61ba190c4f6ec272156c72e287d270c1b46a5cf02cacd46e",
+    "src/atlas/domain.py": "816b2d3e44c969922a5a7ab4f10c52953bdb0399c17aa179e2bcf73e7af30a03",
+    "src/atlas/execution.py": "c66768da685deb282102af0c76ff646ea5a99f781a140cc8fc46c15fc2bc988c",
+    "src/atlas/http_privacy.py": "49415a6b6c962e87eb81a3fcd933072886b5c0df3f4e89468d0a03b8644068fa",
+    "src/atlas/ingestion.py": "569014c341879acf361038adbbc3fc76fe6d72c09484a8b273b44329b11e6623",
+    "src/atlas/ingestion_adapter.py": "5c0ce6cc75b2b76d2bab46131218be8d1345bf92f0948222ccdf4a0079dda21d",
+    "src/atlas/ingestion_task.py": "0d1a747a058aaa7ae56a8b31ffd3c5b8e0ca4e14b9a541690789c04185bfd737",
+    "src/atlas/jobs.py": "0516c32cc9f976a1fcb22cb8e5157e0f45b29ce53f12403c2a124c908a545d09",
+    "src/atlas/lab_container.py": "b0d8b020b49541c6975d3f3ec742a77f0cd349145d1733b61b37cef48ebb4776",
+    "src/atlas/limits.py": "70c0756d515b8795e7e25854d8d40c774725a194c850ffb4e86eefef1dcb7cda",
+    "src/atlas/local_service.py": "affea438d7febed963513c0b52c34f15c00e1e64987a75ea4c25323db49ce290",
+    "src/atlas/local_stack.py": "4584150512f066301bb907220d1b139c314976a9e2fb138db2d461350a58d923",
+    "src/atlas/managed.py": "9194b52b24db031adff3efe84b24275a7186b9ad0555682890af0eecef1793cd",
+    "src/atlas/migration_scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/atlas/migration_scripts/env.py": "737a405d2114e44a5c26fe88554246def6be7bbade4db90576527790989576f8",
+    "src/atlas/migration_scripts/versions/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/atlas/migration_scripts/versions/r0001_baseline.py": "7de5e5fc0052481f1e588ffc07db8b54755d5f3027f08680d60b012816c73498",
+    "src/atlas/migration_scripts/versions/r0002_query_indexes.py": "3bdf06d76c32599799cc8ed4b4662982feb1d8a000f5ccf4e1047b703fecf359",
+    "src/atlas/migration_scripts/versions/r0003_retrieval_cache.py": "4f80dcd2504f36c2808d58217c723549182874812bb288abb7dfe05364b3e5b4",
+    "src/atlas/migration_scripts/versions/r0004_memberships.py": "eaaa46e1a51e7a223178cd9505a8d120db5ef176ba973bddbd258fb1bb69e928",
+    "src/atlas/migration_scripts/versions/r0005_row_security.py": "8959cb8fcbf21bfee70f00a1542a7985839b63faf2f9223cf5c45be7ad42d706",
+    "src/atlas/migrations.py": "11141a4b3d5758fcd22f702ae70c1c045190b510e0c04ba8ba685b49b6d39593",
+    "src/atlas/models/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/atlas/models/__main__.py": "80b534dfbcbd74116d6096a1514cccd53b82d814dbcc45fffb60e309369bb5ee",
+    "src/atlas/models/bedrock.py": "4dfb8a59ceb8bc50164d837e355097633aeb951afd952e64c81f95b0066f9110",
+    "src/atlas/models/benchmark.py": "611d267b8f299d287a474eab255e9d4188c49f870dac72988cb2722b819bbb5f",
+    "src/atlas/models/contract_checkpoint.py": "adc6af12d3edfc556144e08cfd5f1492c6cbea8f89fe6051cd9929d2b03e7d9f",
+    "src/atlas/models/contract_continuation.py": "da65a70587ac747763e5b6ae7507c32cf610a0d2c20b415afb7b6046ccd7c8cb",
+    "src/atlas/models/contract_evaluation.py": "59f90dc15cd0ea5295360e5595e0faeeb7f5edd1f3331c691baea295468633c3",
+    "src/atlas/models/contract_holdout.py": "83a051b4d2043d5e1de9f7e138e30af3322d634e3321a5f44c5aa12d16b733a7",
+    "src/atlas/models/contracts.py": "4b3865768c85571640b38fe860234975752958880e22d72536c78129469ed95e",
+    "src/atlas/models/intelligence.py": "8219af474b9c7b9eecd080409948657d0c7e217dd208e9f42c55ac09b8db935b",
+    "src/atlas/models/job_spec.py": "9a3b1b551792d74114d48abeadd93c05e2447bb97fe7917fc0bfc235e8793164",
+    "src/atlas/models/job_task.py": "e9a78a101a5347549e6123b6cefd3ddda900fd65ff037554aa87b93daec0abdf",
+    "src/atlas/models/provenance.py": "59a951245c6f6af1116c530cfad2116c5ca19808d1388c485f5184e1a9730e21",
+    "src/atlas/models/session_budget.py": "b7fc69bb938dfdb269e68df620bb671551c5b3d519bc13b537c3c4cc6e4c3e78",
+    "src/atlas/observability.py": "720c6d28f258cfec30b6bb994648cd1046cbdc7552dc6c17f9f51136a5791500",
+    "src/atlas/pg_retrieval.py": "e9c058fcc3f531c23408f476e5263ba41505ff7e07d4f87cc383490cfc805236",
+    "src/atlas/recovery_adapter.py": "7ff52aeb826aebff19d592b1a570ec443626d103b713ff5f147f8cdbb570c943",
+    "src/atlas/replay.py": "65255940849100977a0e72721ec365c11ea735669e3a34543baf494caf64b27f",
+    "src/atlas/retrieval.py": "c6a8914c05c4dc5c78d07538a1ade3bd78430bdd2c1b1468e44fa0e4c5df7086",
+    "src/atlas/security/__init__.py": "85c096954f770e9f6f11f4836f9b74152088cbd976395d22fc0a77b56fd36a76",
+    "src/atlas/security/browser.py": "c3e0b6bcb8d16ef6eb1c8e43c7537efff682bbe0db43804bd8a039852ed403ff",
+    "src/atlas/security/login.py": "be89cb48a5347e8c69b995afe0d793c776723708bab2d321faedf1cd296d2639",
+    "src/atlas/security/memberships.py": "1eb0f0189ab31a8cdc75f881b6c3520387636210f2f2805428d7d16710d5b9b2",
+    "src/atlas/security/provider.py": "760a171cefd89e28884182b97e39431ffef9f2bc286557059d00e8da74e58e10",
+    "src/atlas/security/tokens.py": "8610eed39b746948e6caf4fb9f958fb90a6e8c49c4de2eb532e619482598bcd4",
+    "src/atlas/semantic.py": "2a70ff606a0f167d66b609170da1ea14129ec5dce0bfa008ccea652dac4b2e54",
+    "src/atlas/store.py": "f62c981b5070dbc392246789fbdce335c272e5324cb128486571a30624ecf9f2",
+    "src/atlas/synthetic_lab.py": "5fec8d0e41aca5eae5895e82bba4af39b9f173a82a7ba2010c8be4b9d57d59fc",
+    "src/atlas/worker.py": "09da76fa3a5b616099bbf3caa58ddff07741ef38e3958dad875856e8e8e1da21",
+    "src/atlas/worker_task.py": "f3cd4dd151963e23f38f5a53caeacaeacf5bd66193c039f41c823f8dc6269a3d",
+    "src/atlas/workflow.py": "ad73634d058f55d22be42457ee1a7ec41038c2d79adeea6af42050b1319a85e2",
+    "scripts/login_browser_fixture.py": "5cd32b39fe0bf03557fadd6e0ba3f50f0a25777daf855110ada7d58ff5c920a5",
+    "scripts/browser_login_https.mjs": "f8cfb934d282c0c2b9ecd1687149c1f3f065c7c73233ad5bb80bd5f678ba9955",
+    "scripts/run_managed_workbench.py": "14669a37d96461ebd1cd0f71eb38c7f99824df8108610a38cc23dd3b48af3ede",
+    "scripts/login_postgres_fixture.py": "8532d857d066c9da46ad3790b210a0cfd3dcc65761f70b8b300cf89448b22729",
+    "deployment/postgres-runtime-roles.sql": "63a3997de6dcaac336667fcf8e8055e27578875fc9afc1e02f9ece02dffc8e1f",
+    "scripts/verify_browser_login_https.py": "5b495578b9d09b7d026a97766d1a88f802224d5fa98a1c5822f72370cc5b5f93",
+    "apps/web/src/AdversarialPanel.tsx": "bb96cd67f6ecc12f28f00b2cddfa90206852e57df92918cb6d876960681a4c20",
+    "apps/web/src/AnalysisDialog.tsx": "9bccde5af095b9dcb4ec34fa0d9ae3c138cc676f2407b285a2efb08efb48eaa4",
+    "apps/web/src/AuditPanel.tsx": "e40715398706054dc27085d87a53200c70e57f5ebc9fc05bd8e20387b08a14bd",
+    "apps/web/src/AuthBoundary.tsx": "2567606514f3aa877a017c45971a0b94f966710e27c3b628a89052eb36246cb2",
+    "apps/web/src/ContractTestPanel.tsx": "be4119bed6b3797394007427a01148c60dca0fdcc461d9f2a38d2708aad94563",
+    "apps/web/src/Dialog.tsx": "e3bc3463b46673c1ee53a65bc0ad73989815209cce7f7b1f6d6af2b92e8da1eb",
+    "apps/web/src/LiveReasoningPanel.tsx": "f0455b5ffa98cb4304621ef0834b87a202274c182403260447b7ccf703bfb19e",
+    "apps/web/src/PublicEvaluation.tsx": "ad4cf94abdd03a56802593768a87c492729c22fdcc57b775f8505d895c606d20",
+    "apps/web/src/PublicHeader.tsx": "1fb34ec82af7d5e29d73a4bbfa5a0616be73a2459d0c3a67108770c94f5dcae2",
+    "apps/web/src/ReasoningPanel.tsx": "76d5296f4759842fe73ffb65de5992e769b2c87a28178c26a60137a6d47fe781",
+    "apps/web/src/RetrievalPanel.tsx": "eb775dc5bb37290617fadfca71c8026bf4a853887db3defaffbc1668c6ee4006",
+    "apps/web/src/ScenarioPanel.tsx": "0a1ba2b0feb2489ff7d48256a908945d1f0211b845493bc071e3b324a4f490cd",
+    "apps/web/src/SourceDialog.tsx": "2ed1061e177f2bc33bcb7d9c28b47850372c797692ccdba3207470c381ed6b91",
+    "apps/web/src/lab.tsx": "3ae5b84b09087b6f74cca751eadc1b23e89bdae208a1b07b83573c27f6e6a3bc",
+    "apps/web/src/main.tsx": "df649cccf9232eb30bacaee6add9ec618afa272856da55b28210ece8f79000be",
+    "apps/web/src/replay.tsx": "f5838a520b7009c4842afdd36855a75817cce277a154dcb1c1ade238b13011ea",
+    "scripts/login_restart_server.py": "fa1e674885598885498ed2cb0737ec26866cb713f3bc6026f7d322538cc5828b",
+    "scripts/verify_managed_restart.py": "80bf5a17051eb1cf7fcf0a56d1f4b4f5885847e9f347d8c6ffaf80fbfc9b8754"
+  },
+  "external_provider_calls": 0,
+  "new_cloud_services": 0,
+  "new_model_calls": 0,
+  "limits": [
+    "Synthetic identities/control routes must never be deployed. This is not real Cognito or hosted proxy/TLS acceptance.",
+    "Application process restarted; database process stayed running. No backup restore, provider database TLS, supervised production image or hung-worker acceptance.",
+    "Fixture API shutdown uses a two-second connection-drain deadline; deadline hits and running-task cancellation counts are retained. This is not an uninterrupted-request or fully drained-connection claim.",
+    "Browser trust uses only the generated fixture certificate SPKI for this test subprocess; system trust is unchanged."
+  ]
+}

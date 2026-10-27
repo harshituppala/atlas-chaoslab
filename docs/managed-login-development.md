@@ -125,3 +125,11 @@ Use `--separate-worker --postgres-bin .runtime/postgresql/bin` with the same run
 The [local PostgreSQL browser record](../reports/browser-login-postgres-worker.json) passed thirteen groups, including queued-job processing after worker restart, source inspection, review, signed browser sessions and membership revocation. Live database checks confirmed a nonsuperuser API without BYPASSRLS and a nonsuperuser worker with its dedicated BYPASSRLS attribute. The API could not update memberships; the worker could neither read memberships nor update reviews. These three privilege refusals are separate from the thirteen browser groups.
 
 Browser traffic uses the fixture’s loopback HTTPS certificate; database traffic uses authenticated loopback TCP **without database TLS**. Do not copy that transport into a hosted configuration, whose runtime preflight requires verified database TLS. The cluster stops after the run; logs, credentials and database contents remain private. This optional native mode is not yet a remote CI gate, a real Cognito-to-PostgreSQL run, an API/database restart or a separate restore test. Both existing SQLite modes still passed after adding it.
+
+## Replace the application process
+
+Run `scripts/verify_managed_restart.py --postgres-bin .runtime/postgresql/bin` with the project Python environment and `PYTHONPATH=src`. Like the other browser runner, it accepts explicit `--node` and `--pnpm-script` paths. It creates its own private PostgreSQL cluster, starts real API/worker processes and uses a synthetic provider over loopback HTTPS. It accepts no existing database target.
+
+After a review is saved, the API process stops and a new process takes over. The old session fails, a fresh sign-in succeeds, and the saved run and audit history match exactly. Restoring the old cookie fails again. Membership bootstrap reuses an active grant without changing its version and refuses a revoked grant. [The decision and limits](adr/058-application-process-restart.md) explain the two-second connection-drain deadline and the fourteen-group result.
+
+This is a local process-restart check, not a PostgreSQL restart, backup restore or hosted acceptance. The controller and synthetic provider routes must never be deployed. The test is optional locally; remote CI acceptance is not claimed for this native PostgreSQL mode.

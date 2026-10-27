@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-10-27T16:04:27.729604+00:00",
+  "recorded_at": "2026-10-27T19:20:25.803536+00:00",
   "scope": "Chromium through a loopback-only CONNECT proxy to a real TLS server, ATLAS UI/API and a synthetic passwordless provider with real S256, token exchange, JWKS and RSA signature verification. Not AWS/Cognito or a real user login.",
   "database": {
     "engine": "postgresql",
@@ -122,8 +122,8 @@
     "src/atlas/worker.py": "09da76fa3a5b616099bbf3caa58ddff07741ef38e3958dad875856e8e8e1da21",
     "src/atlas/worker_task.py": "f3cd4dd151963e23f38f5a53caeacaeacf5bd66193c039f41c823f8dc6269a3d",
     "src/atlas/workflow.py": "ad73634d058f55d22be42457ee1a7ec41038c2d79adeea6af42050b1319a85e2",
-    "scripts/login_browser_fixture.py": "f87817aa9a7073ab381703bab5e368424b318e8b32cff9da68b59d53309ec0ac",
-    "scripts/browser_login_https.mjs": "e77015f1ac26d569bb37fc94ed8c14fbdabaa62c3982aef4cf70f31769a08742",
+    "scripts/login_browser_fixture.py": "5cd32b39fe0bf03557fadd6e0ba3f50f0a25777daf855110ada7d58ff5c920a5",
+    "scripts/browser_login_https.mjs": "f8cfb934d282c0c2b9ecd1687149c1f3f065c7c73233ad5bb80bd5f678ba9955",
     "scripts/run_managed_workbench.py": "14669a37d96461ebd1cd0f71eb38c7f99824df8108610a38cc23dd3b48af3ede",
     "scripts/login_postgres_fixture.py": "8532d857d066c9da46ad3790b210a0cfd3dcc65761f70b8b300cf89448b22729",
     "deployment/postgres-runtime-roles.sql": "63a3997de6dcaac336667fcf8e8055e27578875fc9afc1e02f9ece02dffc8e1f",

@@ -1,6 +1,6 @@
 # Project status
 
-Updated October 26, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
+Updated October 27, 2026. ATLAS and CHAOSLAB work locally, and their [source release](https://github.com/harshituppala/atlas-chaoslab) is public. The [fictional ATLAS review lab](https://atlas-review-lab.onrender.com) is live on free hosting; the full managed review service remains local.
 
 ## ATLAS
 
@@ -26,7 +26,7 @@ These results come from separate runs. Each report records its own inputs and ex
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Latest native Python suite | 926 passed locally; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
+| Latest native Python suite | 929 passed locally; 18 optional PostgreSQL groups skipped | Run locally with the commands in the README. |
 | Document-layout ingestion | Three new cases passed; original four unchanged and passing | [Layout report](../reports/ingestion-layout.json) and [scorer correction](adr/038-repeated-source-locations.md) |
 | Native PostgreSQL integration | 18 groups passed | [Database report](../reports/postgres.json) |
 | Retrieval on ten synthetic queries | Lexical recall@3 0.70; hybrid 1.00 | [Retrieval decision](adr/009-persistent-retrieval.md) |
@@ -159,3 +159,6 @@ A new optional joined-login route now runs the actual baseline worker as a separ
 
 
 The separate-worker release passed all four [GitHub jobs](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40517751061). An additional native [PostgreSQL browser mode](../reports/browser-login-postgres-worker.json) now passes all thirteen joined groups on a fresh isolated cluster. It uses real restricted API/worker connections, a separate membership operator and three measured privilege refusals. Both SQLite routes still pass, and the native suite remains 926 passed with eighteen optional database groups skipped. Database transport is authenticated loopback without TLS; this is not hosted TLS, real Cognito on PostgreSQL, API/database restart or restore acceptance. No cloud service, permission or paid call was added.
+
+
+The PostgreSQL workflow release passed [GitHub CI](https://github.com/harshituppala/atlas-chaoslab/actions/runs/40537767880). A new [local process-restart check](../reports/managed-postgres-restart.json) passed fourteen browser groups: saved run/review/audit values survived actual API-process replacement, old sessions were refused and a new sign-in could reopen the same records. Three membership-bootstrap controls passed; both prior SQLite routes and the PostgreSQL worker route still passed. The native suite passed 929 tests with eighteen optional database groups skipped. The fixture hit its two-second connection-drain deadline on both API stops, with zero running tasks reported cancelled. Database-process restart, separate restore, database TLS, production supervisor/image and hosted acceptance remain unverified. No paid call, cloud service or deployment was used.

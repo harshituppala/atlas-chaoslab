@@ -16,7 +16,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
 from atlas.managed import create_managed_app, read_settings
 from atlas.security.login import LoginConfig
-from atlas.security.memberships import MembershipChange
+from atlas.security.memberships import MembershipChange, memberships
 from atlas.security.tokens import TokenTrust
 from atlas.worker import process_once
 
@@ -34,7 +34,10 @@ def create_fixture(
     worker_control=None,
     database_url=None,
     membership_operator=None,
+    reuse_membership=False,
 ):
+    if reuse_membership and membership_operator is None:
+        raise ValueError("Restart fixture requires a separate membership operator")
     context = ssl.create_default_context(cafile=str(certificate))
     trust = TokenTrust(
         issuer=PROVIDER,
@@ -54,6 +57,12 @@ def create_fixture(
         token_transport=httpx.HTTPTransport(verify=context, proxy=proxy),
     )
     exchange = app.state.browser_login.exchange
+
+    def close():
+        app.state.browser_login.close()
+        exchange.verifier.close()
+        app.state.store.engine.dispose()
+
     version = 0
     metrics = {"authorized": 0, "token_exchanges": 0, "jwks_requests": 0, "pkce_rejections": 0}
 
@@ -70,7 +79,26 @@ def create_fixture(
             )
         )
 
-    membership(True)
+    if reuse_membership:
+        from sqlalchemy import select
+
+        with membership_operator.engine.connect() as connection:
+            existing = connection.execute(
+                select(memberships.c.version, memberships.c.active).where(
+                    (memberships.c.issuer == PROVIDER)
+                    & (memberships.c.subject == "synthetic-reviewer")
+                    & (memberships.c.tenant == "fictional-team")
+                )
+            ).first()
+        if existing is not None:
+            version, active = existing
+            if not active:
+                close()
+                raise ValueError("Restart must not restore revoked membership")
+        else:
+            membership(True)
+    else:
+        membership(True)
     provider = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
     attempts, codes = {}, {}
     public_key = {
@@ -199,10 +227,5 @@ def create_fixture(
             metrics["same_origin_form_post"] = headers.get(b"origin") == APP.encode()
         target = provider if host == "localhost" else app
         await target(scope, receive, send)
-
-    def close():
-        app.state.browser_login.close()
-        exchange.verifier.close()
-        app.state.store.engine.dispose()
 
     return routing, metrics, close

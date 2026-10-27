@@ -85,7 +85,7 @@ try {
   checks.browser_profile_inside_workspace = true;
   const first = await signIn();
   checks.cross_site_code_callback = true;
-  const cookie = (await context.cookies(APP)).find(
+  let cookie = (await context.cookies(APP)).find(
     (c) => c.name === "__Host-atlas-session",
   );
   assert(cookie?.secure && cookie.httpOnly && cookie.sameSite === "Strict");
@@ -179,6 +179,47 @@ try {
   checks.signed_identity_job_source_review = true;
   if (process.env.ATLAS_FIXTURE_SEPARATE_WORKER === "1")
     checks.separate_worker_restart_processed_queued_job = true;
+  if (process.env.ATLAS_FIXTURE_RESTART_ORIGIN) {
+    const reviewUrl = (await review).url();
+    const runPath = new URL(reviewUrl).pathname.split("/reviews/")[0];
+    const before = await page.evaluate(
+      async (p) => ({
+        run: await (await fetch(p)).json(),
+        audit: await (await fetch(p + "/audit")).json(),
+      }),
+      runPath,
+    );
+    const response = await fetch(
+      process.env.ATLAS_FIXTURE_RESTART_ORIGIN + "/restart-app",
+      {
+        method: "POST",
+        headers: {
+          "X-Fixture-Control": process.env.ATLAS_FIXTURE_RESTART_SECRET,
+        },
+      },
+    );
+    assert.equal(response.status, 200);
+    assert.equal(await api("/api/me"), 401);
+    await signIn();
+    await connect();
+    const after = await page.evaluate(
+      async (p) => ({
+        run: await (await fetch(p)).json(),
+        audit: await (await fetch(p + "/audit")).json(),
+      }),
+      runPath,
+    );
+    assert.deepEqual(after, before);
+    const currentCookie = (await context.cookies(APP)).find(
+      (c) => c.name === "__Host-atlas-session",
+    );
+    await context.addCookies([cookie]);
+    assert.equal(await api("/api/me"), 401);
+    await context.addCookies([currentCookie]);
+    assert.equal(await api("/api/me"), 200);
+    cookie = currentCookie;
+    checks.application_process_restart_preserves_review_and_rejects_old_session = true;
+  }
   await page.screenshot({ path: process.env.ATLAS_FIXTURE_SCREENSHOT });
   await probe("revoke");
   assert.equal(await api("/api/me"), 403);
