@@ -21,6 +21,7 @@ FRONTEND = [
     "apps/web/vite.lab.config.ts",
     "apps/web/lab/index.html",
     "apps/web/src/lab.tsx",
+    "apps/web/src/SavedReviewExample.tsx",
     "apps/web/src/lab.css",
     "apps/web/src/Dialog.tsx",
     "apps/web/src/PublicHeader.tsx",

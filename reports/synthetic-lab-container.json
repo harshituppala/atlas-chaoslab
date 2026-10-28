@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "recorded_at": "2026-10-26T15:38:28.058479+00:00",
+  "recorded_at": "2026-10-28T14:47:57.310875+00:00",
   "scope": "Actual local Docker Linux image, 41 focused lab/config tests, real HTTP/baseline/review and intentional ephemeral restart under isolated networking/resource flags. Not the full suite inside Linux, a hosted provider, TLS/browser-in-image or durable customer service.",
-  "image_id": "sha256:99487a60aa5b1d85ecb4493f99386ed847714a3e13a2c5b68074cd61c3fe7271",
+  "image_id": "sha256:c518018ad16842678eeeb4478fef0952c16f493378441668840e3f6fb77edbdc",
   "image_architecture": "arm64",
   "image_python_version": "3.12.15",
   "image_os": "linux",
-  "source_sha256": "73738108cec2acb1a5464b85a5158d3fe2b8cca077bb78a25ea910148d83bdf0",
+  "source_sha256": "2a5f2e1848eea4c1741a219d8fe71d4e1e9d375d872ce4546b5e59dd2ad2b136",
   "source_unchanged": true,
-  "build_context_files": 102,
+  "build_context_files": 104,
   "context_scope": "Allowlisted Python source/locks, two synthetic fixtures, four named public reports and dedicated lab frontend only. No repository history, credentials, private observations, external contracts, owner documents or host runtime/cache copied into build context. Engine-managed image/build caches remain in Docker storage.",
   "input_sha256": {
-    "Dockerfile.lab": "85a849b9431c9f20528a32c5033c301018766274a51f05017e5f2b71df47b718",
+    "Dockerfile.lab": "8847b4f28b1affa549e9936a7d1f0e67438f7e7e3afb06d6ee7ca5eceeb7eabe",
     "apps/web/lab/index.html": "30d4bd3be1e022d6ea6992c9a33b8e3a7cf77a6a9e251c23324317088d112d74",
     "apps/web/package.json": "67a1cc9b4e4f718313671c26026a9c11e0204d53c7e4c34c4c208eac48bc5cfb",
     "apps/web/pnpm-lock.yaml": "f2078bf59fe6a18714450c4747dca7c5b67c8fa12f4a6b53b06ad1210c48478a",
@@ -20,9 +20,10 @@
     "apps/web/src/Dialog.tsx": "e3bc3463b46673c1ee53a65bc0ad73989815209cce7f7b1f6d6af2b92e8da1eb",
     "apps/web/src/PublicEvaluation.tsx": "ad4cf94abdd03a56802593768a87c492729c22fdcc57b775f8505d895c606d20",
     "apps/web/src/PublicHeader.tsx": "1fb34ec82af7d5e29d73a4bbfa5a0616be73a2459d0c3a67108770c94f5dcae2",
+    "apps/web/src/SavedReviewExample.tsx": "c866bb0c7d4bdc5bba00f91354d3dc8159b72373061ff94dd2d1f69cf7e422d9",
     "apps/web/src/ScenarioPanel.tsx": "0a1ba2b0feb2489ff7d48256a908945d1f0211b845493bc071e3b324a4f490cd",
-    "apps/web/src/lab.css": "9054caa1652402245d9bbb5172f1667c5b5dc0347a515b055df83b1027b16393",
-    "apps/web/src/lab.tsx": "3ae5b84b09087b6f74cca751eadc1b23e89bdae208a1b07b83573c27f6e6a3bc",
+    "apps/web/src/lab.css": "3527b5db04c5099350835f1042a434d54087ace527330e08e644c9fe815e3977",
+    "apps/web/src/lab.tsx": "376d44c23e67cdd8747c9b8efebd91132d24f2c6aeb984ea3a276ea49cb83c7f",
     "apps/web/tsconfig.json": "7a3a51a2a976147c8304f57a02cf538c8b3bfbea90161d3077ce30ba062f117c",
     "apps/web/vite.lab.config.ts": "fa7939c5fdd22e067115ada51e07b978076033c52c898bb885640d746bb87e0a",
     "datasets/demo.json": "11a0330cabcb9a3b576bc26b22312f4112d2437ec5ca327e3b3c6a5a0cce2c3d",
@@ -36,7 +37,7 @@
     "reports/scenarios-live-v4.json": "d7d6a05637cdd951bcecbe5612bbd04f291e6d573614eedf66d1a8ed3e41cb4d",
     "requirements.lock": "4d3b48b1b350d7b135aec9eb386e071b2f4269dd654f7cbf2fb0d93a7d9540d6",
     "scripts/lab_container_workflow.py": "801dfacd09ec96de2fb171cc2a05bfec2cd25cf7dc30deb5de9b9258c8856f35",
-    "scripts/verify_lab_container.py": "c0a6edac0d5103276d009bda7b86d40d4925c6880b20401ed150409afa29a83f",
+    "scripts/verify_lab_container.py": "5f4ed3f0b038a6ec3a8f212c5106d6981962cedaea4b75c9c94d809aa09bafc4",
     "src/atlas/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "src/atlas/__main__.py": "b249955ef5c09c6214468a6e201d54f4e455b1e0fc25917aa1bc9d91067f81f8",
     "src/atlas/api.py": "e088cc5429e5269201674aab2969ad23cbc1b5a26db717a782a63dfba7967825",
@@ -110,6 +111,7 @@
     "src/chaoslab/ingestion.py": "dd2c204aa83c335c0613bd48fd27c22a814c81af48cc6fbcb1a0c2cede0594d6",
     "src/chaoslab/injection.py": "24586474caf5fb8c685cbc5ae35b0416c17d96a388e86e68c5125189f61f893e",
     "src/chaoslab/pg_retrieval.py": "5b590263a2500512923fc6e1043520ccc718082f175e3ef8dabcc647da092cf0",
+    "src/chaoslab/qa.py": "48a46f0a8084b8997955cbb7c4fe6d6e0b03b538910567fc90f7d61036939c9e",
     "src/chaoslab/reasoning.py": "822452f347e4b5e18b26df6aac8a97184b010df85d4e488aff3bc5713c58bc0a",
     "src/chaoslab/recovery.py": "ad69c80617c9110b7ab220d7f913500ae1e576f3ece1f9f960b6409daee140ab",
     "src/chaoslab/retrieval.py": "ca2bc5ecba29d4e62bd8d0008aea8d61850ba402984861a4237c2b6022703b94",
@@ -119,7 +121,7 @@
     "tests/test_synthetic_lab.py": "d4ac235d54a6d04cc83311f1e937b9116beb3a82b13e8317e6ecc030e515f9ba"
   },
   "linux_tests_passed": 41,
-  "linux_junit_sha256": "9581854e127748bc960ab174114b3903ad02bb7b35a34a099dacd2248c32cbd3",
+  "linux_junit_sha256": "c46ab29bdce3cf7aa424b7f74a3a281294b79878877a05c9e4aed494f8460195",
   "runtime_constraints": {
     "uid": 10001,
     "network": "none",
@@ -132,7 +134,7 @@
     "capabilities_dropped": "ALL",
     "no_new_privileges": true
   },
-  "observed_cgroup_memory_peak_bytes_before_restart": 335560704,
+  "observed_cgroup_memory_peak_bytes_before_restart": 335581184,
   "memory_scope": "Cgroup peak after focused tests and first HTTP exercise, when available; includes accounted memory/cache, not process RSS or a representative peak under load. Does not cover build memory or all future workloads.",
   "before_restart": {
     "requirements": 8,
@@ -145,8 +147,8 @@
     "origin_host_body_checks_passed": true,
     "root_write_refused": true,
     "served_assets_sha256": {
-      "/assets/index-D7V2ofmX.js": "83aa2b10dddd5052ba12c6a4c0d564645f47dd901e3969c3cbefbe1355224c41",
-      "/assets/index-DhMdjUiH.css": "175d048153eca2e86302bdb68eae6709cdf84208b27a31887491fc86d5207c3b"
+      "/assets/index-mze3JMtX.js": "a09847db155f5fa9e80d41d7de6bbc9d38846d5d3cfc6ee3c8e55535ed958d5a",
+      "/assets/index-Cd0MKExD.css": "f80185e7d294e27db7364ebb0aa0dca8763e5ce328c93841c11016b197877bfc"
     }
   },
   "after_restart": {

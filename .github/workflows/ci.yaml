@@ -152,6 +152,8 @@ jobs:
         run: |
           docker build --target managed -t atlas-managed:ci .
           docker build --target default -t atlas-default:ci .
+      - name: Verify the exact public lab container and restart boundary
+        run: python scripts/verify_lab_container.py
       - name: Prepare a disposable TLS database image
         run: docker pull pgvector/pgvector:pg17
       - name: Check the actual managed worker and its frozen-process deadline
@@ -159,4 +161,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: managed-runtime-evidence
-          path: reports/managed-image-tls.json
+          path: |
+            reports/managed-image-tls.json
+            reports/synthetic-lab-container.json
