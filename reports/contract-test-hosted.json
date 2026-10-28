@@ -1,6 +1,6 @@
 {
-  "recorded_at": "2026-10-26T16:13:35.968Z",
-  "deployment_source": "5c60b5049556ec081f60023dc46c0d722d31e578",
+  "recorded_at": "2026-10-28T14:59:40.409Z",
+  "deployment_source": "39203a4f0b3945c0b38c619169bc34de6686d318",
   "scope": "Real Chromium against hosted HTTPS. Read-only saved evaluation view, not a new model/evaluator execution or review-session acceptance.",
   "observations": [
     {
@@ -29,12 +29,8 @@
     }
   ],
   "new_model_provider_calls": 0,
-  "verification_source_sha256": "c51f83882d700f239d01979a542b68ab88c245a4daad6f70344b1ac994e2e2e4",
-  "provider_deployment_id": "dep-dbfnnpd9el5s73fgm51g",
-  "provider_deploy_duration_seconds": 41.9,
-  "deployment_identity_scope": "Operator-observed Render deployment record, not runtime attestation.",
-  "limits": [
-    "Read-only saved evaluation view; no new inference or scorer execution.",
-    "No cold-start, load, expiry or durable authenticated-hosting acceptance."
-  ]
+  "provider_deployment_id": "dep-dbh0p8ks728c73chq5p0",
+  "provider_deploy_duration_seconds": 42.6,
+  "deployment_identity_scope": "Operator-observed Render record, not runtime attestation.",
+  "verification_source_sha256": "2b7996f9ee0265d06a131583f92f5000ab311a49690f7c2a35ebb0b4e54f5469"
 }

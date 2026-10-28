@@ -1,0 +1,65 @@
+{
+  "recorded_at": "2026-10-28T14:59:04.981Z",
+  "url": "https://atlas-review-lab.onrender.com",
+  "status": "passed",
+  "scope": "Real HTTPS/Chromium, four owned fictional sessions and actual 503. Browser clock alone advanced for advisory countdown; server capacity was restored by deleting an owned session. Not a server-time, load, expiry or participant test.",
+  "checks": {
+    "actual_session_capacity_503": true,
+    "retry_header_displayed": true,
+    "no_automatic_post": true,
+    "saved_example_no_post": true,
+    "read_only_label_and_sources": true,
+    "escape_focus_return": true,
+    "viewport_widths": [
+      1440,
+      390
+    ],
+    "manual_recovery_after_owned_slot_release": true,
+    "analysis_requirements": 8,
+    "human_review_saved": true,
+    "logout_cleared": true,
+    "runtime_errors": 0
+  },
+  "responses": [
+    {
+      "path": "/api/lab/session",
+      "status": 401
+    },
+    {
+      "path": "/api/lab/session",
+      "status": 503
+    },
+    {
+      "path": "/api/lab/session",
+      "status": 200
+    },
+    {
+      "path": "/api/lab/run",
+      "status": 200
+    },
+    {
+      "path": "/api/lab/reviews/58e79951e5ea21db221b",
+      "status": 200
+    },
+    {
+      "path": "/api/lab/session",
+      "status": 204
+    }
+  ],
+  "verification_source_sha256": "2ac5efc18778a8d1ae984e846eacc50cefba2afc14d4d25d3169d230b516db7d",
+  "new_model_calls": 0,
+  "deployment_source": "39203a4f0b3945c0b38c619169bc34de6686d318",
+  "provider_deployment_id": "dep-dbh0p8ks728c73chq5p0",
+  "provider_deploy_duration_seconds": 42.6,
+  "deployment_identity_scope": "Operator-observed Render deployment record; exact served assets separately checked, not signed runtime attestation.",
+  "retained_failures": [
+    "Original live overlapping capacity refusal and successful serial run remain retained privately.",
+    "Approved b3cd53d image failed before replacement due omitted fallback component; corrected explicit file list and new exact-public-image CI gate.",
+    "Initial hosted checker waited for network-idle after the page and session response had loaded; it timed out before capacity action. Corrected to visible-control readiness with a paused browser clock. Failure JSON/screenshot retained."
+  ],
+  "limits": [
+    "Only owned fictional sessions were created and cleared; other visitor sessions were not modified.",
+    "Advisory retry timer advanced with browser clock; actual server capacity recovered by releasing an owned slot.",
+    "No load, real-time wait duration, cold-start, hosted restart, paid inference or participant comprehension claim."
+  ]
+}
