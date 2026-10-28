@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Dialog } from "./Dialog";
+import { SavedReviewExample } from "./SavedReviewExample";
 import { PublicHeader } from "./PublicHeader";
 import { PublicEvaluation } from "./PublicEvaluation";
 import "./lab.css";
@@ -40,7 +41,10 @@ const labels = {
   missing_evidence: "Evidence gap",
 };
 class ApiError extends Error {
-  constructor(public status: number) {
+  constructor(
+    public status: number,
+    public retrySeconds: number | null = null,
+  ) {
     super("Synthetic request failed");
   }
 }
@@ -58,7 +62,15 @@ async function api<T>(
     headers: body ? { "Content-Type": "application/json" } : undefined,
     body: body ? JSON.stringify(body) : undefined,
   });
-  if (!response.ok) throw new ApiError(response.status);
+  if (!response.ok) {
+    const retry = response.headers.get("Retry-After");
+    const seconds =
+      retry !== null && /^\d{1,5}$/.test(retry) ? Number(retry) : NaN;
+    throw new ApiError(
+      response.status,
+      Number.isFinite(seconds) && seconds <= 3600 ? seconds : null,
+    );
+  }
   return response.status === 204 ? (undefined as T) : response.json();
 }
 const chars = (text: string, start: number, end?: number) =>
@@ -70,6 +82,10 @@ function Lab() {
   const [progress, setProgress] = useState("Checking for a saved session…");
   const [deadline, setDeadline] = useState<number | null>(null);
   const [notice, setNotice] = useState("");
+  const [capacityHelp, setCapacityHelp] = useState(false);
+  const [retryAt, setRetryAt] = useState<number | null>(null);
+  const [retrySeconds, setRetrySeconds] = useState(0);
+  const [savedExample, setSavedExample] = useState(false);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<string | null>(null);
@@ -89,8 +105,14 @@ function Lab() {
       clear();
       setNotice("Your temporary session ended. Run the sample to start again.");
     } else if (error instanceof ApiError && [429, 503].includes(error.status)) {
+      setCapacityHelp(true);
+      const seconds = error.retrySeconds;
+      setRetryAt(seconds !== null ? Date.now() + seconds * 1000 : null);
+      setRetrySeconds(seconds ?? 0);
       setNotice(
-        "The lab is at its temporary capacity or activity limit. Please try again later.",
+        seconds !== null
+          ? `The lab is busy or at its activity limit. Please wait ${seconds} seconds before trying again. Nothing will retry automatically.`
+          : "The lab cannot start or finish this request right now. No retry time was supplied. You can try again manually or open the saved example.",
       );
     } else if (error instanceof ApiError && error.status === 409) {
       setNotice(
@@ -100,6 +122,14 @@ function Lab() {
       setNotice("The request could not complete. Please try again.");
     }
   };
+  useEffect(() => {
+    if (retryAt === null) return;
+    const update = () =>
+      setRetrySeconds(Math.max(0, Math.ceil((retryAt - Date.now()) / 1000)));
+    update();
+    const timer = window.setInterval(update, 1000);
+    return () => window.clearInterval(timer);
+  }, [retryAt]);
   useEffect(() => {
     const controller = new AbortController();
     void (async () => {
@@ -157,6 +187,9 @@ function Lab() {
       setDeadline(Date.now() + session.expires_in_seconds * 1000);
       setRun(await api<Run>("run", "POST", { case_id: "municipal" }));
       setSelected(null);
+      setCapacityHelp(false);
+      setRetryAt(null);
+      setRetrySeconds(0);
     } catch (e) {
       failure(e);
     } finally {
@@ -269,9 +302,16 @@ function Lab() {
               <button
                 className="primary"
                 onClick={() => void analyze()}
-                disabled={busy}
+                disabled={busy || retrySeconds > 0}
+                aria-describedby={capacityHelp ? "capacity-help" : undefined}
               >
-                {busy ? "Preparing…" : "Run sample analysis"}
+                {busy
+                  ? "Preparing…"
+                  : retrySeconds > 0
+                    ? `Try again in ${retrySeconds}s`
+                    : capacityHelp
+                      ? "Try sample again"
+                      : "Run sample analysis"}
               </button>
             )}
           </div>
@@ -279,6 +319,31 @@ function Lab() {
         <p className="notice" role="status" aria-live="polite">
           {notice || (busy ? progress : "")}
         </p>
+        {capacityHelp && (
+          <section
+            id="capacity-help"
+            className="capacity-help"
+            aria-label="While the lab is busy"
+          >
+            <h2>You can still walk through the example</h2>
+            <p>
+              The free lab limits simultaneous work. Your existing review stays
+              in its temporary session until it expires. A retry is a new
+              request, not a guarantee of space.
+            </p>
+            <button onClick={() => setSavedExample(true)}>
+              View saved worked example
+            </button>{" "}
+            <a href="?view=evaluation">Read recorded evaluation results</a>
+            <p>
+              The saved example is read-only. It does not run an analysis or
+              save a decision.
+            </p>
+          </section>
+        )}
+        {savedExample && (
+          <SavedReviewExample close={() => setSavedExample(false)} />
+        )}
         <section className="case-guide" aria-label="How to use this demo">
           <div className="case-example">
             <h2>Start with the recovery-time mismatch</h2>
@@ -492,7 +557,10 @@ function Lab() {
                     <button
                       className="primary save"
                       onClick={() => void save()}
-                      disabled={busy}
+                      disabled={busy || retrySeconds > 0}
+                      aria-describedby={
+                        capacityHelp ? "capacity-help" : undefined
+                      }
                     >
                       Save review
                     </button>

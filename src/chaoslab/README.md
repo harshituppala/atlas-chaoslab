@@ -47,6 +47,12 @@ Paired comparisons rescore two saved raw runs against the same dataset and score
 
 The hostile-evidence cases pair an ordinary source with an instruction-bearing variant. Citation contamination, relation errors and unauthorized review states are separate findings. The recorded v4 run passed eight of twelve cases and cited a forbidden appendix in one hostile case. That is a result on those fixtures, not a general attack-success estimate.
 
+## Saved answers from another task
+
+The [reading-comprehension example](../../examples/reading-qa/README.md) accepts SQuAD-style questions and saved answer dictionaries, independently of ATLAS's review schema. `chaoslab-qa` reports exact match, token overlap, omissions and paired regressions. An optional CHAOSLAB citation sidecar checks declared source spans separately. Its fresh standalone installation is exercised in the package check.
+
+The examples are authored controls. No SQuAD corpus download, model benchmark, outside adoption or official leaderboard result is claimed. Genuine use by a second team remains unverified.
+
 ## External contract labels
 
 The [ContractNLI task](../../docs/contractnli-evaluation.md) uses externally authored NDA claims and evidence spans. On all 61 development contracts, the constant-label reference reached 40.8% accuracy with no evidence. Claude Haiku 4.5 reached 77.4% label accuracy, but only 48.7% of claims had both the right label and complete evidence. Contradictions remained difficult: 41 of 95 were labeled correctly.

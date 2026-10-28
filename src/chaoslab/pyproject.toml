@@ -4,13 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chaoslab-eval"
-version = "0.1.4"
+version = "0.1.5"
 description = "Evaluation of requirement reviews and contract claims"
 requires-python = ">=3.12"
 dependencies = []
 classifiers = ["Operating System :: POSIX", "Programming Language :: Python :: 3"]
 
 [project.scripts]
+chaoslab-qa = "chaoslab.qa:main"
 chaoslab-compare = "chaoslab.comparison:main"
 chaoslab-contractnli = "chaoslab.contractnli:main"
 chaoslab-contractnli-test = "chaoslab.contract_holdout:main"

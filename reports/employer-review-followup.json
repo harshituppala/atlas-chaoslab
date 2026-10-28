@@ -1,0 +1,119 @@
+{
+  "recorded_at": "2026-10-28T08:27:55.328580+00:00",
+  "scope": "Local source follow-up: independent saved-reading-QA installation, backend regressions and all connected-workbench browser cases after evaluation-view extraction. No new inference, external benchmark, hosted deployment, participant observations or owner certification.",
+  "native_suite": {
+    "passed": 961,
+    "optional_postgres_groups_skipped": 18
+  },
+  "reading_qa_controls": 12,
+  "standalone_reading_qa_cli_checks": {
+    "correct": {
+      "exit_code": 0,
+      "transitions": {
+        "both_passed": [
+          "opening",
+          "access",
+          "limit",
+          "parking"
+        ],
+        "both_failed": [],
+        "improved": [],
+        "regressed": [],
+        "unpaired": []
+      },
+      "candidate_exact": 1.0,
+      "candidate_missing": 0
+    },
+    "wrong-answer": {
+      "exit_code": 1,
+      "transitions": {
+        "both_passed": [
+          "opening",
+          "access",
+          "parking"
+        ],
+        "both_failed": [],
+        "improved": [],
+        "regressed": [
+          "limit"
+        ],
+        "unpaired": []
+      },
+      "candidate_exact": 0.75,
+      "candidate_missing": 0
+    },
+    "missing-answer": {
+      "exit_code": 1,
+      "transitions": {
+        "both_passed": [
+          "opening",
+          "access",
+          "limit"
+        ],
+        "both_failed": [],
+        "improved": [],
+        "regressed": [],
+        "unpaired": [
+          "parking"
+        ]
+      },
+      "candidate_exact": 0.75,
+      "candidate_missing": 1
+    },
+    "broken-citation": {
+      "exit_code": 1,
+      "transitions": {
+        "both_passed": [
+          "access",
+          "limit",
+          "parking"
+        ],
+        "both_failed": [],
+        "improved": [],
+        "regressed": [
+          "opening"
+        ],
+        "unpaired": []
+      },
+      "candidate_exact": 1.0,
+      "candidate_missing": 0
+    }
+  },
+  "workbench_browser": {
+    "recorded_at": "2026-10-28T08:22:52.727889+00:00",
+    "scope": "All connected-workbench cases in the fingerprinted browser test file, through an isolated loopback API/worker/SQLite profile. Includes real intake/source/review persistence and controlled-response quality, execution-mode and identity display cases. Controlled cases are not new model calls, identity-provider acceptance or deployed hosting.",
+    "browser_workflows_passed": 12,
+    "authentication": "fresh private local bearer; not external sign-in",
+    "database": "new isolated SQLite database; no existing workspace changed",
+    "input_sha256": {
+      "apps/web/e2e/workbench.spec.ts": "1cc5e19743853a557ce8ba41da76ebd6c6a3a8e512b1157b3acdb696cd46d773",
+      "datasets/documents/municipal-rfp.pdf": "ee3d55d69e92de8fa7efc88e5fb5acf79f859812b2f0728ab8eb2beb335b96ae",
+      "datasets/documents/capability-register.docx": "78a6846f9a24d1def4e6de3b6eadba8ae38a695ad28818e7c13e3ca612d19c07",
+      "scripts/verify_document_review.py": "8df15a6c6f448c5cfc6afa22215f29fe5579a849e8baa1d562e49a44054cae2d"
+    },
+    "source_and_build_manifest_sha256": "b21696595daffa61bd74085496e0de481eb91f0c7ca0997889ab61d39a73083c",
+    "manifest_files": 109,
+    "provenance_scope": "Source and built artifact hashes checked before and after the rehearsal. Not signed execution provenance or an attestation of every loaded dependency.",
+    "browser_evidence_sha256": "37450591924be2ced3566969f3bbd2d2915a6e6980c593a06b936b21d2101a0f",
+    "new_model_provider_calls": 0
+  },
+  "controller_lines": 1002,
+  "evaluation_component_lines": 375,
+  "source_sha256": {
+    "apps/web/src/main.tsx": "6c3428095794cc53b82354b00ed768ba4c8c2ef953906e4513fc1f827d8b436e",
+    "apps/web/src/EvaluationView.tsx": "429fd7ff50828eabb27340104e7576b778e6cd7ef804b1e2be6504bbc045a5c8",
+    "src/chaoslab/qa.py": "48a46f0a8084b8997955cbb7c4fe6d6e0b03b538910567fc90f7d61036939c9e",
+    "src/chaoslab/pyproject.toml": "4e81b25ac2899ef6c6bae0cc4128e76eeeddf6cd39255cddcba7586f850390e0",
+    "tests/test_reading_qa.py": "a3502501209b0ebd6720324caf866dff5295e2ad1122db49f76f47573594b597",
+    "scripts/verify_chaoslab_package.py": "2ebe3c25c612b433def6484a7f37b8c41a36c8a68ec433984374831143452254"
+  },
+  "frozen_contractnli_result_changed": false,
+  "new_model_calls": 0,
+  "pending": [
+    "specific hosted deployment approval and hosted acceptance",
+    "genuine consented participant sessions",
+    "independent RFP annotations and frozen execution",
+    "owner walkthrough, narrated recordings and uploads",
+    "independent adoption or second application use beyond the added saved-artifact format"
+  ]
+}

@@ -40,6 +40,8 @@ PYTHONPATH=src .runtime/bin/python -m chaoslab.recovery --output var/recovery.js
 PYTHONPATH=src .runtime/bin/python -m pytest -q --basetemp=var/pytest-local
 ```
 
+For saved reading-comprehension outputs outside the ATLAS review schema, use the [SQuAD-style example](examples/reading-qa/README.md). It includes optional source-span checks and needs no ATLAS service or model access.
+
 For a smaller starting point, the [four-answer example](examples/review-regression/README.md) compares deliberately written answers: one correct, one with a wrong decision, one with a broken citation and one missing an attempt. These are test fixtures, not model results.
 
 ## Why one repository?

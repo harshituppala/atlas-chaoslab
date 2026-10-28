@@ -72,6 +72,18 @@ def allowed(name):
             and path.parts[0] in ROOT_DIRS
             or path.parts[:2] == ("examples", "review-regression")
             and len(path.parts) > 2
+            or path.parts[:2] == ("examples", "reading-qa")
+            and len(path.parts) == 3
+            and path.name
+            in {
+                "README.md",
+                "dataset.json",
+                "reference.json",
+                "reference-citations.json",
+                "wrong-answer.json",
+                "missing-answer.json",
+                "broken-citations.json",
+            }
         )
     )
 

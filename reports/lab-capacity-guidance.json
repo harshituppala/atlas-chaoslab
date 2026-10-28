@@ -1,0 +1,31 @@
+{
+  "recorded_at": "2026-10-28T08:18:43.804037+00:00",
+  "scope": "Actual local lab HTTP/Chromium workflow on loopback. Real four-session saturation and release, controlled activity-limit and missing-header responses. Not hosted deployment, model execution, load testing or participant feedback.",
+  "status": "passed",
+  "browser_cases_passed": 8,
+  "native_suite": {
+    "passed": 949,
+    "optional_postgres_groups_skipped": 18
+  },
+  "checks": [
+    "actual 503 session capacity with Retry-After 60",
+    "saved authored example at 1440/390px with no extra POSTs",
+    "Escape and focus return",
+    "explicit retry after browser clock advance and real session release",
+    "controlled 429 Retry-After 600 without automatic requests",
+    "missing-header manual retry",
+    "existing source/review/conflict/expiry/results routes"
+  ],
+  "browser_report_sha256": "5a7c03b685859aa09b3cb3811f71f05deb24843e1b4c56ac0b1c43a6d10322ee",
+  "files_sha256": {
+    "apps/web/src/lab.tsx": "376d44c23e67cdd8747c9b8efebd91132d24f2c6aeb984ea3a276ea49cb83c7f",
+    "apps/web/src/SavedReviewExample.tsx": "c866bb0c7d4bdc5bba00f91354d3dc8159b72373061ff94dd2d1f69cf7e422d9",
+    "apps/web/src/lab.css": "3527b5db04c5099350835f1042a434d54087ace527330e08e644c9fe815e3977",
+    "apps/web/lab-e2e/lab.spec.ts": "93a0ea862c09f19f276d57b2f465055df182d3b51f91c433a0d9f45a8e566608",
+    "src/atlas/synthetic_lab.py": "5fec8d0e41aca5eae5895e82bba4af39b9f173a82a7ba2010c8be4b9d57d59fc",
+    "datasets/demo.json": "11a0330cabcb9a3b576bc26b22312f4112d2437ec5ca327e3b3c6a5a0cce2c3d"
+  },
+  "retained_failures": "Original live overlapping refusal and successful serial run remain in var/employer-review. An intermediate local run stalled on an in-flight analysis and caused subsequent capacity refusal; its raw JSON/log remain there. Fresh owned-server suite passed all eight; no limit was relaxed.",
+  "new_model_calls": 0,
+  "hosted_deployment_changed": false
+}

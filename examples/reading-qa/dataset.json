@@ -1,0 +1,54 @@
+{
+  "version": "v2.0",
+  "data": [
+    {
+      "title": "Fictional archive handbook",
+      "paragraphs": [
+        {
+          "context": "The archive opens at 09:00 on weekdays. Weekend access requires an appointment. Visitors may borrow two reference boxes.",
+          "qas": [
+            {
+              "id": "opening",
+              "question": "When does the archive open on weekdays?",
+              "is_impossible": false,
+              "answers": [
+                {
+                  "text": "09:00",
+                  "answer_start": 21
+                }
+              ]
+            },
+            {
+              "id": "access",
+              "question": "What is required for weekend access?",
+              "is_impossible": false,
+              "answers": [
+                {
+                  "text": "an appointment",
+                  "answer_start": 64
+                }
+              ]
+            },
+            {
+              "id": "limit",
+              "question": "How many reference boxes may visitors borrow?",
+              "is_impossible": false,
+              "answers": [
+                {
+                  "text": "two",
+                  "answer_start": 100
+                }
+              ]
+            },
+            {
+              "id": "parking",
+              "question": "How much does parking cost?",
+              "is_impossible": true,
+              "answers": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

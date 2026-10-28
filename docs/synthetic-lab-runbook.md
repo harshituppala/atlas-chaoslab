@@ -78,3 +78,7 @@ The lab image explicitly includes only the named public reports and authored tra
 ## Opening the lab from another website
 
 The public HTML entry accepts top-level browser navigation from the portfolio or another website. Cross-site API calls and writes remain forbidden. A prior policy applied the cross-site denial to the HTML entry as well, causing “Same-origin request required” when a visitor followed the portfolio link. The corrected policy distinguishes document navigation from API access; the browser regression follows an external link into a new tab. This is separate from a free-host cold start.
+
+## When the lab is busy
+
+The interface shows the server's retry delay when supplied and never retries automatically. After waiting, the visitor chooses whether to send another request; space is not reserved. The saved worked example remains available without analysis or a review write, and is explicitly fictional and read-only. The existing capacity and activity budgets still apply. See [the capacity decision](adr/063-public-lab-capacity-guidance.md) and [local checks](../reports/lab-capacity-guidance.json). This source update requires a separately approved deployment before it describes the live host.

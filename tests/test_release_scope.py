@@ -14,6 +14,8 @@ allowed = runpy.run_path(str(Path(__file__).parents[1] / "scripts/prepare_releas
         "examples/review-regression/dataset.json",
         "examples/review-regression/reference.json",
         "examples/review-regression/README.md",
+        "examples/reading-qa/README.md",
+        "examples/reading-qa/broken-citations.json",
     ],
 )
 def test_named_public_example_is_included(name):
@@ -24,6 +26,9 @@ def test_named_public_example_is_included(name):
     "name",
     [
         "examples/unreviewed/observations.json",
+        "examples/reading-qa/observations.json",
+        "examples/reading-qa/private/answers.json",
+        "examples/reading-qa/provider-journal.jsonl",
         "examples/review-regression/.env",
         "examples/review-regression/var/observations.jsonl",
         "examples/review-regression/private.key",

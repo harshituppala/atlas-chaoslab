@@ -1,0 +1,114 @@
+{
+  "recorded_at": "2026-10-28T08:26:24.489376+00:00",
+  "scope": "Four actual standalone CLI invocations on authored fictional SQuAD-style saved artifacts. No external dataset download, model execution or third-party adoption.",
+  "atlas_installed": false,
+  "checks": {
+    "correct": {
+      "exit_code": 0,
+      "transitions": {
+        "both_passed": [
+          "opening",
+          "access",
+          "limit",
+          "parking"
+        ],
+        "both_failed": [],
+        "improved": [],
+        "regressed": [],
+        "unpaired": []
+      },
+      "candidate_exact": 1.0,
+      "candidate_missing": 0
+    },
+    "wrong-answer": {
+      "exit_code": 1,
+      "transitions": {
+        "both_passed": [
+          "opening",
+          "access",
+          "parking"
+        ],
+        "both_failed": [],
+        "improved": [],
+        "regressed": [
+          "limit"
+        ],
+        "unpaired": []
+      },
+      "candidate_exact": 0.75,
+      "candidate_missing": 0
+    },
+    "missing-answer": {
+      "exit_code": 1,
+      "transitions": {
+        "both_passed": [
+          "opening",
+          "access",
+          "limit"
+        ],
+        "both_failed": [],
+        "improved": [],
+        "regressed": [],
+        "unpaired": [
+          "parking"
+        ]
+      },
+      "candidate_exact": 0.75,
+      "candidate_missing": 1
+    },
+    "broken-citation": {
+      "exit_code": 1,
+      "transitions": {
+        "both_passed": [
+          "access",
+          "limit",
+          "parking"
+        ],
+        "both_failed": [],
+        "improved": [],
+        "regressed": [
+          "opening"
+        ],
+        "unpaired": []
+      },
+      "candidate_exact": 1.0,
+      "candidate_missing": 0
+    }
+  },
+  "source_sha256": {
+    "src/chaoslab/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/chaoslab/__main__.py": "aee991a075d26936e2c3b17ed15faac2925419b167268c9f0def8eb9166ee4c5",
+    "src/chaoslab/artifacts.py": "4bfb33a59b70a24e655b7888904b6f3cde7c624813fa707f21cd08d30c01c400",
+    "src/chaoslab/comparison.py": "3a85792793b3f859ab0d882692436cad272ee2cd43191ce62b7d10754c42ee80",
+    "src/chaoslab/contract_holdout.py": "9a2f336bb7123fa4e1216b9e49f929ceb79ff35a5246131196dea6fa9daad87c",
+    "src/chaoslab/contract_journal.py": "663515b53d70cda2f1d90bb7ee4dca76da7413636cbd20df7c69fcedd249d51a",
+    "src/chaoslab/contractnli.py": "5a1108f672cbefbaea65dcf7341894889f5976f16fe82ec2ee714e53ce1727d7",
+    "src/chaoslab/datasets.py": "21cd9f476efa0bd2aefc9472092b2d5bed1406e81b87d7cf0946ef5b723940eb",
+    "src/chaoslab/execution.py": "ad6ad913eed3c826c07228814ddf1d44e339153b0c62ce04357a4de71e78a831",
+    "src/chaoslab/execution_child.py": "8ef1c7e561112e55254f73afc604a8c0c8875a50bfb8254775e635bbdae62d8c",
+    "src/chaoslab/ingestion.py": "dd2c204aa83c335c0613bd48fd27c22a814c81af48cc6fbcb1a0c2cede0594d6",
+    "src/chaoslab/injection.py": "24586474caf5fb8c685cbc5ae35b0416c17d96a388e86e68c5125189f61f893e",
+    "src/chaoslab/pg_retrieval.py": "5b590263a2500512923fc6e1043520ccc718082f175e3ef8dabcc647da092cf0",
+    "src/chaoslab/qa.py": "48a46f0a8084b8997955cbb7c4fe6d6e0b03b538910567fc90f7d61036939c9e",
+    "src/chaoslab/reasoning.py": "822452f347e4b5e18b26df6aac8a97184b010df85d4e488aff3bc5713c58bc0a",
+    "src/chaoslab/recovery.py": "ad69c80617c9110b7ab220d7f913500ae1e576f3ece1f9f960b6409daee140ab",
+    "src/chaoslab/retrieval.py": "ca2bc5ecba29d4e62bd8d0008aea8d61850ba402984861a4237c2b6022703b94",
+    "src/chaoslab/scenario_artifacts.py": "8d50a1be7e1377e2e193b6e3f5d935884becafa30cf00ed567f93f8c54a26178",
+    "src/chaoslab/scenarios.py": "18e3fb577e00e91844c3692bd7e3071f4007439ac8101471c96d620377f0f73f",
+    "src/chaoslab/pyproject.toml": "4e81b25ac2899ef6c6bae0cc4128e76eeeddf6cd39255cddcba7586f850390e0",
+    "scripts/verify_chaoslab_package.py": "2ebe3c25c612b433def6484a7f37b8c41a36c8a68ec433984374831143452254",
+    "scripts/verify_demo_walkthrough.py": "144c3f796931126014a096b8e33d14756c37ccbca8e2ea1a1c3ce83deb8b3ce8",
+    "examples/review-regression/broken-citation.json": "e5bfa6bf99741b5a7db2b001070ab4935b409d102e08886f3458751917361ef5",
+    "examples/review-regression/dataset.json": "8d5eacaa133ad34e6171c354671376ea943facf8b84d4b9f93f847a7f0decaf3",
+    "examples/review-regression/missing-answer.json": "74364780c65931d91320f30a514472315f9e4e876964f22214c84f4a47b5250c",
+    "examples/review-regression/reference.json": "9cdb5f98f46d5bfdb4a217a13216762ba484920a95b52c124507f4fb326b5807",
+    "examples/review-regression/wrong-decision.json": "1e7ba6b3748ff596fedd618ed8c72075b4c2e255007bb69200dc95a8dd7214d9",
+    "examples/reading-qa/broken-citations.json": "d5b643eff77091fbddf2f77a19989a5945287925497573745d07bccd9ac558c4",
+    "examples/reading-qa/dataset.json": "ef4681863a465458e73713bd2ccf23ee220a243678f195007701f90503a3480e",
+    "examples/reading-qa/missing-answer.json": "fe8809aa8b3a76e082376c8247ed0261fff52ba76975e609b29bd1eeff718644",
+    "examples/reading-qa/reference-citations.json": "918d5293223e267c1708f4b15c8d607fbb71442bee8e693caa265b3a3fd02a54",
+    "examples/reading-qa/reference.json": "819fd16298143ae41b7fa5cd5e44e7fa30bca5ad271c38174487ba58389efb09",
+    "examples/reading-qa/wrong-answer.json": "42dcf1e90d91ad950b9e623b3668c60ef3dcc0897842fc3df6e218158257c97b"
+  },
+  "new_model_calls": 0
+}

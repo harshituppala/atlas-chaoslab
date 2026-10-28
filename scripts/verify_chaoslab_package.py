@@ -25,6 +25,7 @@ def fingerprints():
         Path(__file__).resolve(),
         ROOT / "scripts/verify_demo_walkthrough.py",
         *sorted((ROOT / "examples/review-regression").glob("*.json")),
+        *sorted((ROOT / "examples/reading-qa").glob("*.json")),
     ]
     return {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
 
@@ -341,6 +342,56 @@ else:
         [sys.executable, str(ROOT / "scripts/verify_demo_walkthrough.py"), "--python", python],
         cwd=ROOT,
     )
+    qa_checks = {}
+    qa = ROOT / "examples/reading-qa"
+    for name, answer, citations, expected_exit in (
+        ("correct", "reference", "reference-citations", 0),
+        ("wrong-answer", "wrong-answer", "reference-citations", 1),
+        ("missing-answer", "missing-answer", "reference-citations", 1),
+        ("broken-citation", "reference", "broken-citations", 1),
+    ):
+        destination = outside / ("qa-" + name + ".json")
+        run(
+            [
+                str(runtime / "bin/chaoslab-qa"),
+                "--dataset",
+                str(qa / "dataset.json"),
+                "--reference",
+                str(qa / "reference.json"),
+                "--candidate",
+                str(qa / (answer + ".json")),
+                "--reference-citations",
+                str(qa / "reference-citations.json"),
+                "--candidate-citations",
+                str(qa / (citations + ".json")),
+                "--output",
+                str(destination),
+                "--require-fixture-gate",
+            ],
+            expected=expected_exit,
+        )
+        result = json.loads(destination.read_text())
+        assert result["fixture_gate_passed"] == (expected_exit == 0)
+        qa_checks[name] = {
+            "exit_code": expected_exit,
+            "transitions": result["transitions"],
+            "candidate_exact": result["candidate"]["exact"],
+            "candidate_missing": result["candidate"]["missing"],
+        }
+    (ROOT / "reports/reading-qa-installation.json").write_text(
+        json.dumps(
+            {
+                "recorded_at": datetime.now(UTC).isoformat(),
+                "scope": "Four actual standalone CLI invocations on authored fictional SQuAD-style saved artifacts. No external dataset download, model execution or third-party adoption.",
+                "atlas_installed": False,
+                "checks": qa_checks,
+                "source_sha256": frozen,
+                "new_model_calls": 0,
+            },
+            indent=2,
+        )
+        + "\n"
+    )
     assert fingerprints() == frozen, "Package source changed during verification"
     report = {
         "recorded_at": datetime.now(UTC).isoformat(),
@@ -354,6 +405,7 @@ else:
         "atlas_installed": False,
         "outside_repository_execution": True,
         "external_trusted_adapter": True,
+        "reading_qa_checks": qa_checks,
         "comparison_checks": results,
         "frozen_test_installation": "Fictional archive freeze, test-task journal, independent CLI replay and wrong-pin refusal passed without ATLAS or provider libraries. No actual test data or model calls.",
         "contractnli_installation": "Fictional one-claim baseline, private capture/replay with an unavailable adapter, and CLI help passed without ATLAS; no external contract used in this installation check.",

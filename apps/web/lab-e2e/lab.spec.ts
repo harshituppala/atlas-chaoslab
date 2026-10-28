@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 const screenshotRoot = "../../var/ui-review/screenshots";
 
 test("real analysis, exact sources, review conflicts across tabs, reload and logout", async ({
@@ -187,11 +187,11 @@ test("mobile conflict review and a controlled capacity message recover without a
   });
   await page.getByRole("button", { name: "Run sample analysis" }).click();
   await expect(page.getByRole("status")).toContainText(
-    "temporary capacity or activity limit",
+    "No retry time was supplied",
   );
   expect(attempts).toBe(1);
   await page.unroute("**/api/lab/session");
-  await page.getByRole("button", { name: "Run sample analysis" }).click();
+  await page.getByRole("button", { name: "Try sample again" }).click();
   await expect(page.locator("article.requirement")).toHaveCount(8);
   await page
     .getByRole("combobox", { name: "Finding", exact: true })
@@ -406,4 +406,112 @@ test("an external portfolio link opens the public lab in a new tab", async ({
     demo.getByRole("button", { name: "Run sample analysis" }),
   ).toBeEnabled();
   await demo.close();
+});
+
+test("actual session capacity offers a saved example and an explicit delayed recovery", async ({
+  page,
+}) => {
+  const headers = { Origin: "http://127.0.0.1:8134" };
+  const holders = [];
+  let posts = 0;
+  page.on("request", (r) => {
+    if (r.method() === "POST") posts++;
+  });
+  try {
+    for (let i = 0; i < 4; i++) {
+      const holder = await request.newContext({ baseURL: headers.Origin });
+      holders.push(holder);
+      expect(
+        (await holder.post("/api/lab/session", { headers, data: {} })).status(),
+      ).toBe(200);
+    }
+    await page.clock.install();
+    await page.goto("/");
+    await page.getByRole("button", { name: "Run sample analysis" }).click();
+    await expect(page.getByRole("status")).toContainText("wait 60 seconds");
+    await expect(
+      page.getByRole("button", { name: "Try again in 60s" }),
+    ).toBeDisabled();
+    expect(posts).toBe(1);
+    for (const width of [1440, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      const opener = page.getByRole("button", {
+        name: "View saved worked example",
+      });
+      await opener.click();
+      const dialog = page.getByRole("dialog", { name: "Saved worked example" });
+      await expect(dialog).toContainText("fictional · read-only");
+      await expect(dialog).toContainText(
+        "runs no analysis and saves no review",
+      );
+      await expect(dialog.getByRole("blockquote")).toHaveCount(2);
+      await expect(dialog).toContainText(
+        "Recovery time is only guaranteed within 8 hours.",
+      );
+      await expect(
+        dialog.getByRole("button", { name: "Close saved example" }),
+      ).toBeFocused();
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+      await page.screenshot({
+        path: `${screenshotRoot}/capacity-saved-${width}.png`,
+        fullPage: true,
+      });
+      await page.keyboard.press("Escape");
+      await expect(opener).toBeFocused();
+    }
+    expect(posts).toBe(1); // Opening/closing the saved example uses no API.
+    await page.clock.fastForward(59000);
+    await expect(
+      page.getByRole("button", { name: "Try again in 1s" }),
+    ).toBeDisabled();
+    expect(posts).toBe(1); // Waiting does not send a request.
+    expect(
+      (await holders[0].delete("/api/lab/session", { headers })).status(),
+    ).toBe(204);
+    await page.clock.fastForward(1000);
+    const retry = page.getByRole("button", { name: "Try sample again" });
+    await expect(retry).toBeEnabled();
+    expect(posts).toBe(1);
+    await retry.click();
+    await expect(page.locator("article.requirement")).toHaveCount(8);
+    expect(posts).toBe(3); // One explicit session start and one analysis.
+    await expect(
+      page.getByRole("region", { name: "While the lab is busy" }),
+    ).toHaveCount(0);
+    await page.getByRole("button", { name: "End session" }).click();
+  } finally {
+    for (const holder of holders) {
+      await holder.delete("/api/lab/session", { headers });
+      await holder.dispose();
+    }
+  }
+});
+
+test("controlled activity-limit response respects Retry-After without background retries", async ({
+  page,
+}) => {
+  await page.clock.install();
+  let posts = 0;
+  await page.route("**/api/lab/session", async (route) => {
+    if (route.request().method() === "POST") {
+      posts++;
+      await route.fulfill({
+        status: 429,
+        headers: { "Retry-After": "600" },
+        json: { detail: "Controlled activity limit" },
+      });
+    } else await route.continue();
+  });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Run sample analysis" }).click();
+  await expect(page.getByRole("status")).toContainText("wait 600 seconds");
+  await page.clock.fastForward(600000);
+  await expect(
+    page.getByRole("button", { name: "Try sample again" }),
+  ).toBeEnabled();
+  expect(posts).toBe(1);
 });

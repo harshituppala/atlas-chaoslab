@@ -758,3 +758,49 @@ h1 em {
     padding: 18px;
   }
 }
+
+.capacity-help {
+  border-left: 3px solid #8a6741;
+  background: #f7f4eb;
+  padding: 20px 24px;
+  margin: 12px 0 24px;
+}
+.capacity-help h2 {
+  font-size: 22px;
+  margin-top: 0;
+}
+.capacity-help p {
+  max-width: 72ch;
+}
+.capacity-help a {
+  display: inline-block;
+  margin: 8px;
+}
+
+.saved-example {
+  width: min(680px, 92vw);
+}
+.saved-example h2 {
+  font:
+    28px/1.2 Georgia,
+    serif;
+}
+.saved-example h3 {
+  font-size: 16px;
+  margin-top: 24px;
+}
+.saved-example blockquote {
+  margin: 12px 0;
+  padding-left: 16px;
+  border-left: 3px solid #b3c8b1;
+  font:
+    20px/1.45 Georgia,
+    serif;
+}
+.saved-example > button {
+  display: block;
+  margin-bottom: 18px;
+}
+.saved-example .eyebrow {
+  line-height: 1.6;
+}
